@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { LESSONS } from '../../constants/lessons';
+import { getLessonById } from '../../constants/modules';
 import { generateQuiz } from '../../lib/api';
 import useUserStore from '../../store/userStore';
 import { doc, updateDoc, getDoc, setDoc, increment } from 'firebase/firestore';
@@ -12,7 +12,7 @@ export default function QuizScreen() {
   const router = useRouter();
   const profile = useUserStore((state) => state.profile);
   const setProfile = useUserStore((state) => state.setProfile);
-  const lesson = LESSONS.find((l) => l.id === id);
+  const lesson = getLessonById(id);
 
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
