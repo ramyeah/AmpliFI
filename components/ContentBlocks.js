@@ -571,6 +571,7 @@ function TopicCard({ card, isOpen, onToggle }) {
 // ─── App Cards ────────────────────────────────────────
 export function AppCards({ title, apps }) {
   const [expanded, setExpanded] = useState(null);
+  const scrollRef = useRef(null);
   const SW = Dimensions.get('window').width - 48;
 
   return (
@@ -578,9 +579,14 @@ export function AppCards({ title, apps }) {
       {title && <Text style={ac.title}>{title}</Text>}
       <Text style={ac.hint}>Tap an app to learn more · Swipe for next</Text>
       <ScrollView
+        ref={scrollRef}
         horizontal pagingEnabled showsHorizontalScrollIndicator={false}
         snapToInterval={SW + 12} decelerationRate="fast"
         contentContainerStyle={{ gap: 12 }}
+        onMomentumScrollEnd={(e) => {
+          const index = Math.round(e.nativeEvent.contentOffset.x / (SW + 12));
+          setExpanded(index);
+        }}
       >
         {apps.map((app, i) => {
           const isOpen = expanded === i;
