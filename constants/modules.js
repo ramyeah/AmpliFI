@@ -1360,220 +1360,354 @@ export const MODULES = [
             icon: '📋',
             topic: 'Budgeting fundamentals and why it changes financial outcomes',
             duration: '5 min',
-            fincoins: 60,
+            fincoins: 55,
             sections: [
-              { key: 'what', heading: 'What a Budget Actually Is' },
-              { key: 'why', heading: 'Why Most Students Don\'t Budget' },
-              { key: 'benefits', heading: 'What Changes When You Budget' },
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'what',
+                title: 'What a Budget Actually Is',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What a Budget Actually Is',
+                  },
+                  {
+                    type: 'text',
+                    text: 'A budget is simply a plan for your money — telling each dollar where to go before the month starts, rather than wondering where it went after.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Budget',
+                    definition: 'A forward-looking plan that allocates your income across spending categories, savings, and debt repayment for a set time period.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Budgeting vs. Tracking',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Many students confuse budgeting with expense tracking. Tracking is looking back — recording what you already spent. Budgeting is looking forward — deciding where money goes before you spend it. Both matter, but only budgeting changes outcomes.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'A NUS study found that 68% of students in Singapore exceed their monthly budget regularly — but fewer than 20% actively track their spending.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What are the biggest spending categories for students in Singapore?',
+                    prompt: 'biggest spending categories monthly expenses university students Singapore 2024',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '2-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'Budget Basics',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'A budget is a record of what you already spent this month.',
+                        isTrue: false,
+                        explanation: 'A budget is forward-looking — it allocates money before you spend it. Reviewing past spending is tracking, not budgeting.',
+                      },
+                      {
+                        text: 'Most Singapore students actively track their monthly spending.',
+                        isTrue: false,
+                        explanation: 'Fewer than 20% track spending — despite 68% regularly exceeding their budget. Awareness is the first gap to close.',
+                      },
+                      {
+                        text: 'Budgeting and expense tracking are the same thing.',
+                        isTrue: false,
+                        explanation: 'Tracking looks back; budgeting looks forward. You need both, but only budgeting lets you plan before you overspend.',
+                      },
+                      {
+                        text: 'Simply tracking spending — without a formal budget — can reduce expenses by 15–20%.',
+                        isTrue: true,
+                        explanation: 'Seeing your spending in one place creates accountability. Awareness alone shifts behaviour, even without strict limits.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'why',
+                title: 'Why Most Students Don\'t Budget',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Why Most Students Don\'t Budget',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Most students avoid budgeting — but the reasons they give don\'t hold up. Every excuse has a practical reframe. Swipe through each one.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'reframe',
+                    title: 'Budgeting Excuses → Reality',
+                    cards: [
+                      {
+                        frontLabel: '❌ Excuse',
+                        backLabel: '✅ Reality',
+                        front: '"My income is irregular — budgeting won\'t work for me."',
+                        back: 'Budget based on your lowest expected income month. Any extra becomes bonus savings.',
+                      },
+                      {
+                        frontLabel: '❌ Excuse',
+                        backLabel: '✅ Reality',
+                        front: '"Budgeting is too restrictive — I\'ll feel deprived."',
+                        back: 'A budget includes a Wants category. It gives you guilt-free permission to spend — within a set amount.',
+                      },
+                      {
+                        frontLabel: '❌ Excuse',
+                        backLabel: '✅ Reality',
+                        front: '"I don\'t earn enough to need a budget."',
+                        back: 'Budgeting is most important when money is tight — it makes every dollar work harder.',
+                      },
+                      {
+                        frontLabel: '❌ Excuse',
+                        backLabel: '✅ Reality',
+                        front: '"I\'ll start budgeting when I have a real job."',
+                        back: 'Habits form now. Students who budget in university carry the habit into their careers.',
+                      },
+                      {
+                        frontLabel: '❌ Excuse',
+                        backLabel: '✅ Reality',
+                        front: '"It takes too much time."',
+                        back: 'A weekly 5-minute review is all it takes. Apps like Planner Bee or Seedly make it nearly automatic.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore tip: GrabFood, Shopee, and Lazada purchases are the biggest budget-busters for students here. Seeing the monthly total in one place is often a wake-up call.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What budgeting apps are popular among students in Singapore?',
+                    prompt: 'best budgeting apps Singapore students Planner Bee Seedly 2024',
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'benefits',
+                title: 'What Changes When You Budget',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What Changes When You Budget',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The difference between budgeting and not budgeting isn\'t just about money — it\'s about control, clarity, and confidence. Tap each item below to see what shifts.',
+                  },
+                  {
+                    type: 'checklist',
+                    title: 'What changes when you budget:',
+                    items: [
+                      '🛑 You stop running out of money before month-end',
+                      '🔍 You find "hidden" spending you didn\'t notice',
+                      '⚖️ You make intentional trade-offs instead of impulse decisions',
+                      '💰 You build savings consistently instead of saving "whatever is left"',
+                      '😌 You feel less financial anxiety — you know your numbers',
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Budgeting in Real Life',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Knowing the theory is one thing — applying it in the moment is another. See which of these real-life scenarios you recognise.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How does budgeting reduce financial stress for students?',
+                    prompt: 'budgeting reduce financial anxiety stress university students research',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '2-1-s3-scenarios',
+                    fincoins: 10,
+                    title: 'Budgeting in Real Life',
+                    scenarios: [
+                      {
+                        icon: '🛒',
+                        situation: 'It\'s the 25th of the month and you have $80 left. Your friend invites you to a $60 dinner. What do you do?',
+                        options: [
+                          {
+                            text: 'Go — you only live once, you\'ll figure it out.',
+                            biasLabel: 'Present Bias',
+                            biasExplanation: 'Spending without knowing if you can cover essentials for the remaining week is a classic present-bias decision.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Check your budget — can essentials for the rest of the month be covered with $20?',
+                            biasLabel: 'Rational choice ✓',
+                            biasExplanation: 'Knowing your numbers lets you make an informed yes or no — guilt-free either way.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Decline without checking — you assume you can\'t afford it.',
+                            biasLabel: 'Overcautious',
+                            biasExplanation: 'Not tracking spending means you can\'t make confident decisions — you miss out unnecessarily.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📱',
+                        situation: 'Your Shopee cart has $120 of items. It\'s the end of a 12.12 sale. You haven\'t checked your spending this month.',
+                        options: [
+                          {
+                            text: 'Checkout — it\'s a sale, prices won\'t be this low again.',
+                            biasLabel: 'Scarcity Bias',
+                            biasExplanation: 'Sales create artificial urgency. Without knowing your monthly total, this could push you into deficit.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Check your Wants budget first — if there\'s room, buy guiltlessly.',
+                            biasLabel: 'Rational choice ✓',
+                            biasExplanation: 'A budget tells you exactly how much discretionary spending you have left — so you can say yes confidently.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Put it on credit card — pay later.',
+                            biasLabel: 'Payment Decoupling',
+                            biasExplanation: 'Credit cards decouple the pain of payment — making it easy to overspend and pay interest later.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💸',
+                        situation: 'Your allowance just came in — $1,500 for the month. You feel rich. What\'s your first move?',
+                        options: [
+                          {
+                            text: 'Treat yourself — you\'ve been waiting for this.',
+                            biasLabel: 'Windfall Effect',
+                            biasExplanation: 'Lump sum income feels like "extra" money — but it needs to cover the entire month.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Transfer savings first, then allocate the rest across categories.',
+                            biasLabel: 'Rational choice ✓',
+                            biasExplanation: 'Pay yourself first before discretionary spending — this is the core habit of effective budgeters.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Wait and see how much is left at the end of the month.',
+                            biasLabel: 'Passive approach',
+                            biasExplanation: '"Save what\'s left" rarely works — there\'s usually nothing left. Planning forward changes outcomes.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Budgeting Fundamentals',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions covering what a budget is, why students avoid it, and what changes when you use one.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Any last tips before I take the challenge?',
+                    prompt: 'key budgeting habits for university students Singapore summary tips',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '2-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Budgeting Fundamentals',
+                    questions: [
+                      {
+                        concept: 'What a budget is',
+                        question: 'Which of these best describes a budget?',
+                        options: [
+                          'A record of everything you spent last month',
+                          'A plan that tells your money where to go before the month begins',
+                          'A savings account with a fixed monthly deposit',
+                          'An app that automatically blocks overspending',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'A budget is forward-looking — it allocates income across categories before you spend, not after.',
+                      },
+                      {
+                        concept: 'Common excuses',
+                        question: 'A student says "I\'ll start budgeting once I have a stable income." What\'s the best reframe?',
+                        options: [
+                          'They\'re right — budgeting only works with consistent income',
+                          'They should wait until graduation to build the habit',
+                          'Habits form now — students who budget carry the habit into their careers',
+                          'Irregular income makes budgeting impossible',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Budgeting habits built during university are the ones that stick. Waiting for "the right time" means the habit never forms.',
+                      },
+                      {
+                        concept: 'Benefits of budgeting',
+                        question: 'Which outcome is most directly linked to having a budget?',
+                        options: [
+                          'Earning a higher income',
+                          'Automatically investing every month',
+                          'Making intentional trade-offs instead of impulse decisions',
+                          'Never having unexpected expenses',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'A budget replaces reactive spending with intentional decisions — you choose trade-offs consciously rather than discovering you overspent.',
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
-            content: [
-              {
-                type: 'text',
-                text: 'A budget is simply a plan for your money — telling each dollar where to go before the month starts, rather than wondering where it went after.',
-              },
-              {
-                type: 'keyterm',
-                term: 'Budget',
-                definition: 'A forward-looking plan that allocates your income across spending categories, savings, and debt repayment for a set time period.',
-              },
-              {
-                type: 'text',
-                text: 'Most students avoid budgeting — but the reasons they give don\'t hold up. Swipe through to see each excuse reframed.',
-              },
-              {
-                type: 'flipcards',
-                title: 'Budgeting Excuses → Reality',
-                cards: [
-                  {
-                    frontLabel: '❌ Excuse',
-                    backLabel: '✅ Reality',
-                    front: '"My income is irregular — budgeting won\'t work for me."',
-                    back: '"Budget based on your lowest expected income month. Any extra is a bonus to save."',
-              
-                  },
-                  {
-                    frontLabel: '❌ Excuse',
-                    backLabel: '✅ Reality',
-                    front: '"Budgeting is too restrictive — I\'ll feel deprived."',
-                    back: '"A budget includes a Wants category. It gives you guilt-free permission to spend — within a set amount."',
-                  },
-                  {
-                    frontLabel: '❌ Excuse',
-                    backLabel: '✅ Reality',
-                    front: '"I don\'t earn enough to need a budget."',
-                    back: '"Budgeting is most important when money is tight — it makes every dollar work harder."',
-                  },
-                  {
-                    frontLabel: '❌ Excuse',
-                    backLabel: '✅ Reality',
-                    front: '"I\'ll start budgeting when I have a real job."',
-                    back: '"Habits form now. Students who budget in university carry the habit into their careers."',
-                  },
-                  {
-                    frontLabel: '❌ Excuse',
-                    backLabel: '✅ Reality',
-                    front: '"It takes too much time."',
-                    back: '"A weekly 5-minute review is all it takes. Modern apps like Planner Bee make it automatic."',
-                  },
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'A NUS study found that 68% of students in Singapore exceed their monthly budget regularly — but fewer than 20% track their spending.',
-              },
-              {
-                type: 'text',
-                text: 'The difference between budgeting and not budgeting isn\'t just about money — it\'s about control, clarity, and confidence. Tap each item below to unlock what changes.',
-              },
-              {
-                type: 'checklist',
-                title: 'What changes when you budget:',
-                items: [
-                  '🛑 You stop running out of money before month-end',
-                  '🔍 You find "hidden" spending you didn\'t notice',
-                  '⚖️ You make intentional trade-offs instead of impulse decisions',
-                  '💰 You build savings consistently instead of saving "whatever is left"',
-                  '😌 You feel less financial anxiety — you know your numbers',
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: GrabFood, Shopee, and Lazada purchases are the biggest budget-busters for students here. Seeing the monthly total in one place is a wake-up call.',
-              },
-              {
-                type: 'bot',
-                label: '💬 What are the biggest spending categories for students in Singapore?',
-                prompt: 'biggest spending categories monthly expenses university students Singapore 2024',
-              },
-              {
-                type: 'text',
-                text: 'Budgeting looks different in practice for everyone. See which of these real-life scenarios you recognise.',
-              },
-              {
-                type: 'scenarios',
-                title: 'Budgeting in real life',
-                scenarios: [
-                  {
-                    icon: '🛒',
-                    situation: 'It\'s the 25th of the month and you have $80 left. Your friend invites you to a $60 dinner. What do you do?',
-                    options: [
-                      {
-                        text: 'Go — you only live once, you\'ll figure it out.',
-                        biasLabel: 'Present Bias',
-                        biasExplanation: 'Spending without knowing if you can cover essentials for the remaining week is a classic present-bias decision.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Check your budget — can essentials for the rest of the month be covered with $20?',
-                        biasLabel: 'Rational choice ✓',
-                        biasExplanation: 'Knowing your numbers lets you make an informed yes or no — guilt-free either way.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Decline without checking — you assume you can\'t afford it.',
-                        biasLabel: 'Overcautious',
-                        biasExplanation: 'Not tracking spending means you can\'t make confident decisions — you miss out unnecessarily.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '📱',
-                    situation: 'Your Shopee cart has $120 of items. It\'s the end of a 12.12 sale. You haven\'t checked your spending this month.',
-                    options: [
-                      {
-                        text: 'Checkout — it\'s a sale, prices won\'t be this low again.',
-                        biasLabel: 'Scarcity Bias + Impulse Spend',
-                        biasExplanation: 'Sales create artificial urgency. Without knowing your monthly total, this could push you into deficit.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Check your Wants budget first — if there\'s room, buy guiltlessly.',
-                        biasLabel: 'Rational choice ✓',
-                        biasExplanation: 'A budget tells you exactly how much discretionary spending you have left — so you can say yes confidently.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Put it on credit card — pay later.',
-                        biasLabel: 'Payment Decoupling',
-                        biasExplanation: 'Credit cards decouple the pain of payment — making it easy to overspend and pay interest later.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '💸',
-                    situation: 'Your tuition allowance just came in — $1,500 for the month. You feel rich. What\'s your first move?',
-                    options: [
-                      {
-                        text: 'Treat yourself — you\'ve been waiting for this.',
-                        biasLabel: 'Windfall Effect',
-                        biasExplanation: 'Lump sum income feels like "extra" money — but it needs to cover the entire month.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Transfer savings first, then allocate the rest across categories.',
-                        biasLabel: 'Rational choice ✓',
-                        biasExplanation: 'Pay yourself first before discretionary spending — this is the core habit of effective budgeters.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Wait and see how much is left at the end of the month.',
-                        biasLabel: 'Passive approach',
-                        biasExplanation: '"Save what\'s left" rarely works — there\'s usually nothing left. Planning forward changes outcomes.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Finally, test your understanding — swipe right for True, left for False.',
-              },
-              {
-                type: 'tindertruefalse',
-                title: 'Budgeting Myths',
-                instruction: 'Swipe right for True · Swipe left for False',
-                statements: [
-                  {
-                    text: 'A budget restricts you from enjoying life.',
-                    isTrue: false,
-                    explanation: 'A budget includes a Wants category — it gives you guilt-free permission to spend within a set amount.',
-                  },
-                  {
-                    text: 'Tracking spending alone can reduce discretionary expenses by 15–20%.',
-                    isTrue: true,
-                    explanation: 'Simply seeing your spending in one place creates accountability that changes behaviour — no willpower required.',
-                  },
-                  {
-                    text: 'You should only start budgeting when you have a full-time job.',
-                    isTrue: false,
-                    explanation: 'Student budgets are small but habits formed now last a lifetime — earlier is always better.',
-                  },
-                  {
-                    text: 'Budgeting on an irregular income is possible by planning for your lowest expected month.',
-                    isTrue: true,
-                    explanation: 'Budget for the floor — any income above that becomes bonus savings.',
-                  },
-                  {
-                    text: 'Most Singapore students actively track their monthly spending.',
-                    isTrue: false,
-                    explanation: 'Fewer than 20% track spending — despite 68% regularly exceeding their budget.',
-                  },
-                ],
-              },
-            ],
+
             flashcards: [
-              { q: 'What is the core purpose of a budget?', a: 'To tell your money where to go before the month starts — not to track where it went after.' },
-              { q: 'What percentage of Singapore students regularly exceed their monthly budget?', a: 'Around 68% — but fewer than 20% actively track their spending.' },
-              { q: 'What is the biggest myth about budgeting?', a: 'That you need to earn enough to need one. Budgeting is most important when income is limited.' },
-              { q: 'Name two common budget-busters for Singapore students.', a: 'Food delivery (GrabFood) and online shopping (Shopee/Lazada).' },
-              { q: 'What is the difference between budgeting and tracking expenses?', a: 'Tracking is looking back at spending. Budgeting is planning forward — allocating money before you spend it.' },
+              {
+                q: 'What is the core purpose of a budget?',
+                a: 'To tell your money where to go before the month starts — not to track where it went after.',
+              },
+              {
+                q: 'What percentage of Singapore students regularly exceed their monthly budget?',
+                a: 'Around 68% — but fewer than 20% actively track their spending.',
+              },
+              {
+                q: 'What is the biggest myth about budgeting?',
+                a: 'That you need to earn enough to need one. Budgeting is most important when income is limited.',
+              },
+              {
+                q: 'Name two common budget-busters for Singapore students.',
+                a: 'Food delivery (GrabFood) and online shopping (Shopee/Lazada).',
+              },
+              {
+                q: 'What is the difference between budgeting and tracking expenses?',
+                a: 'Tracking is looking back at spending. Budgeting is planning forward — allocating money before you spend it.',
+              },
             ],
           },
+
 
           // ── LESSON 2-2 ──────────────────────────────
           {
@@ -1582,111 +1716,448 @@ export const MODULES = [
             icon: '🥧',
             topic: 'The 50/30/20 budgeting framework applied to Singapore student life',
             duration: '6 min',
-            fincoins: 60,
+            fincoins: 45,
             sections: [
-              { key: 'rule', heading: 'The 50/30/20 Framework' },
-              { key: 'singapore', heading: 'Applying It in Singapore' },
-              { key: 'adapt', heading: 'Adapting the Rule to Your Situation' },
+
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'rule',
+                title: 'The 50/30/20 Framework',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'The 50/30/20 Framework',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Most budgeting systems are complicated — dozens of categories, endless tracking, and easy to abandon. The 50/30/20 rule cuts through all of that with just three buckets: Needs, Wants, and Savings.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: '50/30/20 Rule',
+                    definition: 'A budgeting framework that splits after-tax income into three categories: 50% for Needs, 30% for Wants, and 20% for Savings or debt repayment.',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Tap a slice or card below to see exactly what goes into each bucket.',
+                  },
+                  {
+                    type: 'piechart',
+                    title: 'The 50/30/20 rule — your income split:',
+                    slices: [
+                      {
+                        label: 'Needs',
+                        icon: '🏠',
+                        percentage: 50,
+                        color: '#4F46E5',
+                        amount: '$750',
+                        description: 'Rent, groceries, transport, phone bill, tuition fees. These are non-negotiable essentials — if this exceeds 50%, reduce Wants first.',
+                      },
+                      {
+                        label: 'Wants',
+                        icon: '🎉',
+                        percentage: 30,
+                        color: '#F59E0B',
+                        amount: '$450',
+                        description: 'Dining out, streaming, travel, hobbies, Shopee. Enjoyable but cuttable — this is the first bucket to reduce when money is tight.',
+                      },
+                      {
+                        label: 'Savings',
+                        icon: '💰',
+                        percentage: 20,
+                        color: '#059669',
+                        amount: '$300',
+                        description: 'Emergency fund, investments, loan repayments. Transfer this first on income day — never save "whatever is left over".',
+                      },
+                    ],
+                    note: 'Amounts shown based on $1,500/month. Tap a slice or card to explore.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'On a $1,500/month student allowance: Needs = $750, Wants = $450, Savings = $300. That\'s $3,600 saved per year without a full-time job.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What is the average student allowance in Singapore?',
+                    prompt: 'average monthly allowance stipend international student Singapore university 2024',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '2-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'The 50/30/20 Framework',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Under the 50/30/20 rule, half your income goes towards things you need to live.',
+                        isTrue: true,
+                        explanation: '50% covers non-negotiables like rent, transport, groceries, and phone — essentials you can\'t cut without impacting daily life.',
+                      },
+                      {
+                        text: 'Savings should only be set aside after you\'ve covered Needs and Wants.',
+                        isTrue: false,
+                        explanation: 'Savings should be transferred first on income day — not last. Waiting to "save what\'s left" usually means nothing is left.',
+                      },
+                      {
+                        text: 'GrabFood delivery counts as a Need under the 50/30/20 rule.',
+                        isTrue: false,
+                        explanation: 'Food delivery is a Want — it\'s convenient but cuttable. Buying groceries or eating at a hawker centre is the Need equivalent.',
+                      },
+                      {
+                        text: 'On a $2,000/month income, the savings target under 50/30/20 is $400.',
+                        isTrue: true,
+                        explanation: '20% of $2,000 = $400. That\'s $4,800 saved per year — a meaningful emergency fund built entirely on a student income.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'singapore',
+                title: 'Applying It in Singapore',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Applying It in Singapore',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The 50/30/20 rule is a global framework — but Singapore has its own cost realities. Knowing what fits in each bucket here makes it immediately actionable.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'What Counts as a Need Here?',
+                  },
+                  {
+                    type: 'bullets',
+                    title: 'Singapore-specific Needs to account for:',
+                    items: [
+                      '🚌 MRT/bus transport: $80–$150/month (cheaper with student concession card)',
+                      '🏠 Hall/HDB rent: $300–$900/month depending on campus and room type',
+                      '🍜 Hawker centre meals average $4–$6 (vs $12–$18 at restaurants)',
+                      '📱 SIM-only mobile plans: $10–$25/month with Circles.Life or Giga',
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: If your rent is high (e.g. private housing), your Needs may exceed 50%. In that case, reduce Wants to 20% and protect Savings at 20% minimum.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Needs vs. Wants — Singapore Edition',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Is it a Need or a Want?',
+                    cards: [
+                      {
+                        frontLabel: '🤔 Category',
+                        backLabel: '📋 Answer',
+                        front: 'MRT/bus fare to campus every day',
+                        back: 'NEED — essential transport with no cheaper alternative for most students.',
+                        tag: '🏠 Needs (50%)',
+                      },
+                      {
+                        frontLabel: '🤔 Category',
+                        backLabel: '📋 Answer',
+                        front: 'GrabFood delivery instead of cooking or eating at the hawker centre',
+                        back: 'WANT — convenient but cuttable. Switching to hawker meals saves $8–$12 per meal.',
+                        tag: '🎉 Wants (30%)',
+                      },
+                      {
+                        frontLabel: '🤔 Category',
+                        backLabel: '📋 Answer',
+                        front: 'Netflix, Spotify, Disney+ subscriptions',
+                        back: 'WANT — enjoyable but optional. Share plans with friends or use free tiers to cut costs.',
+                        tag: '🎉 Wants (30%)',
+                      },
+                      {
+                        frontLabel: '🤔 Category',
+                        backLabel: '📋 Answer',
+                        front: 'Phone bill — SIM-only plan at $15/month',
+                        back: 'NEED — communication is essential. But upgrade plans (e.g. $60+ unlimited) push into Want territory.',
+                        tag: '🏠 Needs (50%)',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How much does it cost to live in a university hall in Singapore?',
+                    prompt: 'NTU NUS SMU university hall accommodation cost per month Singapore 2024',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '2-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Needs or Wants?',
+                    scenarios: [
+                      {
+                        icon: '🍜',
+                        situation: 'You usually eat at the campus hawker centre ($5/meal) but lately you\'ve been ordering GrabFood ($15/meal) every day. Your Needs are over 60% of income. What do you do?',
+                        options: [
+                          {
+                            text: 'Keep ordering GrabFood — it saves time.',
+                            biasLabel: 'Convenience Bias',
+                            biasExplanation: 'Delivery convenience is a Want, not a Need. At $15/meal vs $5, you\'re spending $300 extra per month just on food delivery.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Switch back to hawker meals — reclassify delivery as a Want with a weekly cap.',
+                            biasLabel: 'Rational choice ✓',
+                            biasExplanation: 'Hawker meals are a Need; delivery is a Want. Capping delivery to 1–2x per week saves $200+ and fixes your Needs ratio.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Reduce your Savings to compensate.',
+                            biasLabel: 'Wrong lever',
+                            biasExplanation: 'Savings should be the last thing you cut, not the first. Trim Wants before touching your financial safety net.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📱',
+                        situation: 'Your phone plan is $65/month (unlimited data + roaming). A SIM-only plan costs $18/month. You\'re exceeding your Needs budget every month.',
+                        options: [
+                          {
+                            text: 'Keep the expensive plan — data is essential.',
+                            biasLabel: 'Creeping Need',
+                            biasExplanation: 'Basic connectivity is a Need; premium features like unlimited data or roaming are Wants. The $47 difference belongs in Wants.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Switch to the $18 plan and count the difference as freed-up Wants budget.',
+                            biasLabel: 'Rational choice ✓',
+                            biasExplanation: 'The $18 plan covers the Need. The $47 saved can fund other Wants or top up Savings — a much better allocation.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Ask your parents to pay for it.',
+                            biasLabel: 'Avoidance',
+                            biasExplanation: 'Offloading costs doesn\'t help you build budgeting skills. The goal is to work within your own income — even if you could ask for help.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏠',
+                        situation: 'Your hall rent is $750/month on a $1,500 allowance — already 50% of income. A friend offers you a cheaper off-campus room at $500/month. What do you consider?',
+                        options: [
+                          {
+                            text: 'Stay in hall — campus convenience is worth it.',
+                            biasLabel: 'Status Quo Bias',
+                            biasExplanation: 'Comfort and familiarity are real, but $250/month difference = $3,000/year. That\'s a meaningful trade-off worth evaluating consciously.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Evaluate total cost: rent + added transport vs. current hall cost.',
+                            biasLabel: 'Rational choice ✓',
+                            biasExplanation: 'Off-campus may add $50–$80/month in transport but still net $170+ savings. Running the real numbers is always the right move.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Move immediately — cheaper is always better.',
+                            biasLabel: 'Oversimplification',
+                            biasExplanation: 'Cheaper rent isn\'t automatically better — added transport, food costs, and time matter. Always calculate the full picture.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'adapt',
+                title: 'Adapting the Rule to Your Situation',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Adapting the Rule to Your Situation',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The 50/30/20 rule is a starting point — not a rigid law. Real student budgets in Singapore often need adjustments. Here\'s how to flex the framework without breaking its logic.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'How to Apply It Step by Step',
+                  },
+                  {
+                    type: 'steps',
+                    title: 'Setting up 50/30/20 for the first time:',
+                    steps: [
+                      'Calculate your monthly after-tax income (allowance + part-time earnings)',
+                      'Multiply by 0.5 — this is your Needs ceiling',
+                      'Multiply by 0.3 — this is your Wants allowance',
+                      'Multiply by 0.2 — transfer this to savings on the day income arrives',
+                      'Track spending across categories using Seedly, Planner Bee, or a spreadsheet',
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'When the Rule Needs Adjusting',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Common adjustments — and how to handle them',
+                    cards: [
+                      {
+                        frontLabel: '⚠️ Situation',
+                        backLabel: '✅ Adjustment',
+                        front: 'Your rent takes up 55–60% of income on its own.',
+                        back: 'Use a 60/20/20 split: Needs = 60%, Wants = 20%, Savings = 20%. Keep savings sacred.',
+                        tag: 'High-rent adaptation',
+                      },
+                      {
+                        frontLabel: '⚠️ Situation',
+                        backLabel: '✅ Adjustment',
+                        front: 'You have a student loan or bursary repayment.',
+                        back: 'Debt repayment counts as Savings (20%). Prioritise it above investments — guaranteed return equals the interest rate.',
+                        tag: 'Debt-first adaptation',
+                      },
+                      {
+                        frontLabel: '⚠️ Situation',
+                        backLabel: '✅ Adjustment',
+                        front: 'Your income is irregular — part-time gigs, tutoring, freelance.',
+                        back: 'Budget on your lowest expected month. Any income above that is bonus — split 50% to savings, 50% to Wants.',
+                        tag: 'Irregular income adaptation',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Your Personal Calculator',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '🥧',
+                    title: '50/30/20 Calculator',
+                    description: 'Drag to your monthly income and see your three buckets update in real time.',
+                    min: 500,
+                    max: 5000,
+                    step: 100,
+                    initialValue: 1500,
+                    prefix: '$',
+                    calculateResult: (income) => [
+                      { label: '🏠 Needs (50%)', value: `$${(income * 0.5).toLocaleString()}`, color: '#4F46E5' },
+                      { label: '🎉 Wants (30%)', value: `$${(income * 0.3).toLocaleString()}`, color: '#F59E0B' },
+                      { label: '💰 Savings (20%)', value: `$${(income * 0.2).toLocaleString()}`, color: '#059669' },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'The one rule that shouldn\'t flex: always transfer Savings first. Reduce Wants before touching your 20% savings target.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How should I adjust 50/30/20 if I have a student loan in Singapore?',
+                    prompt: '50/30/20 budgeting adaptation student loan debt repayment Singapore university',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: The 50/30/20 Rule',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on the framework, how it applies in Singapore, and how to adapt it when life doesn\'t fit neatly into 50/30/20.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — what are the key 50/30/20 rules to remember?',
+                    prompt: '50/30/20 budgeting rule key principles summary Singapore students',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '2-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'The 50/30/20 Rule',
+                    questions: [
+                      {
+                        concept: 'The framework',
+                        question: 'Under the 50/30/20 rule, which category should you transfer first when your income arrives?',
+                        options: [
+                          'Needs — pay rent and bills immediately',
+                          'Wants — reward yourself before budgeting',
+                          'Savings — pay yourself first before any spending',
+                          'Split equally and spend as needed',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Savings should always be transferred first. Waiting to "save what\'s left" means there\'s usually nothing left at month-end.',
+                      },
+                      {
+                        concept: 'Singapore context',
+                        question: 'A student pays $750/month in hall rent on a $1,500 allowance. Which statement is correct?',
+                        options: [
+                          'Their budget is fine — rent is a Need so it doesn\'t count against the 50% limit',
+                          'Their Needs are already at 50% from rent alone — other essentials must fit in the remaining 0%',
+                          'They should immediately move off-campus without evaluating total costs',
+                          'They should reduce Savings to 10% to free up space in their budget',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Rent alone consuming the full 50% means transport, food, and phone must come from Wants. The fix is either reducing rent or shifting to a 60/20/20 split — not cutting Savings.',
+                      },
+                      {
+                        concept: 'Adapting the rule',
+                        question: 'A student\'s income is irregular — some months $800, others $2,000. What\'s the best 50/30/20 approach?',
+                        options: [
+                          'Skip budgeting until income stabilises',
+                          'Budget based on the highest income month to stay motivated',
+                          'Budget based on the lowest expected income month; save any extra as bonus',
+                          'Spend freely in high-income months and restrict in low-income months',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Budgeting for the floor prevents shortfalls in low months. Any income above the baseline is a bonus — direct it to savings before discretionary spending.',
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
-            content: [
-              {
-                type: 'text',
-                text: 'Most budgeting systems are complicated — dozens of categories, endless tracking, and easy to abandon. The 50/30/20 rule cuts through all of that with just three buckets: Needs, Wants, and Savings.',
-              },
-              {
-                type: 'text',
-                text: 'Tap a slice or card below to see exactly what goes into each bucket.',
-              },
-              {
-                type: 'piechart',
-                title: 'The 50/30/20 rule — your income split:',
-                slices: [
-                  {
-                    label: 'Needs',
-                    icon: '🏠',
-                    percentage: 50,
-                    color: '#4F46E5',
-                    amount: '$750',
-                    description: 'Rent, groceries, transport, phone bill, tuition fees. These are non-negotiable essentials — if this exceeds 50%, reduce Wants first.',
-                  },
-                  {
-                    label: 'Wants',
-                    icon: '🎉',
-                    percentage: 30,
-                    color: '#F59E0B',
-                    amount: '$450',
-                    description: 'Dining out, streaming, travel, hobbies, Shopee. Enjoyable but cuttable — this is the first bucket to reduce when money is tight.',
-                  },
-                  {
-                    label: 'Savings',
-                    icon: '💰',
-                    percentage: 20,
-                    color: '#059669',
-                    amount: '$300',
-                    description: 'Emergency fund, investments, loan repayments. Transfer this first on income day — never save "whatever is left over".',
-                  },
-                ],
-                note: 'Amounts shown based on $1,500/month. Tap a slice or card to explore.',
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'On a $1,500/month student allowance: Needs = $750, Wants = $450, Savings = $300. That\'s $3,600 saved per year without a full-time job.',
-              },
-              {
-                type: 'steps',
-                title: 'How to apply 50/30/20 in Singapore:',
-                steps: [
-                  'Calculate your monthly after-tax income (allowance + part-time earnings)',
-                  'Multiply by 0.5 — this is your Needs budget',
-                  'Multiply by 0.3 — this is your Wants budget',
-                  'Multiply by 0.2 — transfer this to savings on the day you receive income',
-                  'Track spending in each category using Seedly or a spreadsheet',
-                ],
-              },
-              {
-                type: 'slider',
-                icon: '🥧',
-                title: '50/30/20 Calculator',
-                description: 'Drag to your monthly income and see your three buckets update in real time.',
-                min: 500,
-                max: 5000,
-                step: 100,
-                initialValue: 1500,
-                prefix: '$',
-                calculateResult: (income) => [
-                  { label: '🏠 Needs (50%)', value: `$${(income * 0.5).toLocaleString()}`, color: '#4F46E5' },
-                  { label: '🎉 Wants (30%)', value: `$${(income * 0.3).toLocaleString()}`, color: '#F59E0B' },
-                  { label: '💰 Savings (20%)', value: `$${(income * 0.2).toLocaleString()}`, color: '#059669' },
-                ],
-              },
-              {
-                type: 'bullets',
-                title: 'Singapore-specific needs to account for:',
-                items: [
-                  '🚌 MRT/bus transport: $80–$150/month',
-                  '🏠 Hall/HDB rent: $300–$900/month depending on campus',
-                  '🍜 Hawker centre meals average $4–$6 (vs $12–$18 at restaurants)',
-                  '📱 SIM-only mobile plans: $10–$25/month with Circles.Life or Giga',
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: If your rent is high (e.g. private housing), your Needs may exceed 50%. Adjust Wants to 20% and keep Savings at 20% minimum.',
-              },
-              {
-                type: 'bot',
-                label: '💬 What is the average student allowance in Singapore?',
-                prompt: 'average monthly allowance stipend international student Singapore university 2024',
-              },
-            ],
+
             flashcards: [
-              { q: 'What are the three buckets of the 50/30/20 rule?', a: '50% Needs (essentials), 30% Wants (lifestyle), 20% Savings/debt repayment.' },
-              { q: 'On a $2,000/month income, how much goes to savings under 50/30/20?', a: '$400/month — transferred immediately when income arrives.' },
-              { q: 'What counts as a "Need" vs a "Want" in Singapore?', a: 'Need: rent, MRT, groceries, tuition. Want: GrabFood delivery, Shopee, Netflix, dining out.' },
-              { q: 'Why should you transfer savings first, before spending?', a: 'Waiting to "save what\'s left" means nothing is usually left — pay yourself first.' },
-              { q: 'What should you do if rent takes up more than 50% of income?', a: 'Reduce Wants to 10–15% and keep Savings at 20% minimum. Needs can flex, savings shouldn\'t.' },
+              {
+                q: 'What are the three buckets of the 50/30/20 rule?',
+                a: '50% Needs (essentials), 30% Wants (lifestyle), 20% Savings or debt repayment.',
+              },
+              {
+                q: 'On a $2,000/month income, how much goes to savings under 50/30/20?',
+                a: '$400/month — transferred immediately when income arrives.',
+              },
+              {
+                q: 'What counts as a "Need" vs a "Want" in Singapore?',
+                a: 'Need: rent, MRT, groceries, tuition. Want: GrabFood delivery, Shopee, Netflix, dining out.',
+              },
+              {
+                q: 'Why should you transfer savings first, before spending?',
+                a: 'Waiting to "save what\'s left" means nothing is usually left — pay yourself first.',
+              },
+              {
+                q: 'What should you do if rent takes up more than 50% of income?',
+                a: 'Shift to a 60/20/20 split — reduce Wants to 20% and keep Savings at 20% minimum.',
+              },
             ],
           },
 
@@ -1697,190 +2168,453 @@ export const MODULES = [
             icon: '🔍',
             topic: 'Expense tracking methods and tools for students in Singapore',
             duration: '5 min',
-            fincoins: 60,
+            fincoins: 45,
             sections: [
-              { key: 'why', heading: 'Why Tracking Is Powerful' },
-              { key: 'methods', heading: 'Three Ways to Track' },
-              { key: 'tools', heading: 'Best Tools for Singapore Students' },
+
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'why',
+                title: 'Why Tracking Is Powerful',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Why Tracking Is Powerful',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You cannot manage what you don\'t measure. Expense tracking turns vague feelings about money into concrete data — and data is what drives change.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Expense Tracking',
+                    definition: 'The habit of recording every transaction — what you spent, how much, and which category it belongs to — so you can compare actual spending against your budget.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Studies show that people who track their spending reduce discretionary expenses by an average of 15–20% in the first month — just from awareness alone.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Tracking vs. Budgeting — What\'s the Difference?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Budgeting plans where money goes before you spend. Tracking records where it actually went. You need both — a budget without tracking is just a wish list, and tracking without a budget is just data with no direction.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'The tracking habit loop',
+                    nodes: [
+                      {
+                        icon: '📥',
+                        label: 'Income arrives',
+                        sublabel: 'Start of the month',
+                        color: '#4F46E5',
+                        details: [
+                          'Transfer your 20% savings immediately',
+                          'Set your Needs and Wants ceilings for the month',
+                        ],
+                        tip: 'Do this within 24 hours of receiving your allowance or pay.',
+                      },
+                      {
+                        icon: '📝',
+                        label: 'Log transactions',
+                        sublabel: 'Throughout the month',
+                        color: '#F59E0B',
+                        details: [
+                          'Record each spend in your app or spreadsheet',
+                          'Categorise as Need, Want, or Savings',
+                        ],
+                        tip: 'Enable bank transaction notifications — each ping is a built-in reminder to log.',
+                      },
+                      {
+                        icon: '🔍',
+                        label: 'Weekly review',
+                        sublabel: 'Every Sunday, 5 minutes',
+                        color: '#059669',
+                        details: [
+                          'Compare actual vs. planned spending per category',
+                          'Identify the one category that went over',
+                          'Decide one adjustment for the coming week',
+                        ],
+                        tip: 'Sunday evening works well — you\'re planning the week ahead anyway.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How does expense tracking change financial behaviour?',
+                    prompt: 'expense tracking behaviour change spending reduction research students',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '2-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'Tracking — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Tracking your spending can reduce expenses by 15–20% without changing your budget.',
+                        isTrue: true,
+                        explanation: 'Awareness alone shifts behaviour. Seeing the total in one place creates accountability — no willpower or budget change required.',
+                      },
+                      {
+                        text: 'A budget is all you need — tracking is unnecessary if you have a plan.',
+                        isTrue: false,
+                        explanation: 'A budget without tracking is just a plan — tracking closes the feedback loop and tells you whether you\'re sticking to it.',
+                      },
+                      {
+                        text: 'The best time to do a weekly spending review is Sunday.',
+                        isTrue: true,
+                        explanation: 'Sunday sits at the end of one week and the start of another — perfect for reviewing what happened and adjusting for the week ahead.',
+                      },
+                      {
+                        text: 'You should wait until month-end to review your spending.',
+                        isTrue: false,
+                        explanation: 'Monthly reviews catch problems too late — you\'ve already overspent by the time you check. Weekly reviews let you course-correct mid-month.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'methods',
+                title: 'Three Ways to Track',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Three Ways to Track',
+                  },
+                  {
+                    type: 'text',
+                    text: 'There\'s no single best way to track spending — the best method is the one you\'ll actually stick to. Each approach has different trade-offs depending on your habits.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The Three Main Methods',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '📊',
+                        label: 'Spreadsheet',
+                        description: 'Build your own tracking system in Google Sheets or Excel.',
+                        color: '#4F46E5',
+                        details: [
+                          'Fully customisable — your categories, your layout',
+                          'Free and works offline',
+                          'Requires manual entry — takes 5–10 minutes a week',
+                          'Best for detail-oriented people who want full control',
+                        ],
+                        example: 'Create columns for Date, Description, Category (Need/Want/Savings), Amount. Use SUMIF to total each category automatically.',
+                      },
+                      {
+                        icon: '📱',
+                        label: 'Tracking App',
+                        description: 'Link your Singapore bank account for automatic transaction import.',
+                        color: '#059669',
+                        details: [
+                          'Auto-pulls transactions from DBS, OCBC, UOB, Maybank',
+                          'Categorises spending with minimal manual effort',
+                          'Sends alerts when you approach your budget limit',
+                          'Best for students who want low-friction, automatic tracking',
+                        ],
+                        example: 'Seedly links to your bank and automatically sorts each transaction into categories — review takes under 2 minutes a week.',
+                      },
+                      {
+                        icon: '✉️',
+                        label: 'Cash Envelopes',
+                        description: 'Divide physical cash into labelled envelopes for each category.',
+                        color: '#F59E0B',
+                        details: [
+                          'Creates a hard stop — when the envelope is empty, spending stops',
+                          'The physical act of handing over cash reduces impulse spending',
+                          'Less practical in Singapore\'s cashless environment',
+                          'Best for students who consistently overspend on food or shopping',
+                        ],
+                        example: 'Withdraw your weekly food budget in cash ($70). When it\'s gone, hawker meals only — no GrabFood until next week.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: Enable transaction notifications on your DBS, OCBC, or UOB app. Each ping is a micro-reminder of your spending — far more effective than reviewing at month-end.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Is the cash envelope system practical in cashless Singapore?',
+                    prompt: 'cash envelope budgeting system Singapore cashless PayNow practical 2024',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '2-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Which tracking method fits you?',
+                    scenarios: [
+                      {
+                        icon: '📊',
+                        situation: 'You want full control over your categories and love custom breakdowns. You don\'t mind spending 10 minutes a week on it.',
+                        options: [
+                          {
+                            text: 'Google Sheets spreadsheet — build your own system.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Full customisation, free, and works offline. Best for detail-oriented people who want exactly the categories they need.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Cash envelope system — divide cash into labelled envelopes.',
+                            biasLabel: 'Overkill for this need',
+                            biasExplanation: 'Envelopes enforce hard limits but don\'t give analytics or custom reports — and Singapore is largely cashless.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Just check your bank app at month-end.',
+                            biasLabel: 'Too infrequent',
+                            biasExplanation: 'Monthly reviews catch problems too late — you\'ve already overspent by the time you check.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏧',
+                        situation: 'You keep overspending on food delivery and online shopping. You need something that physically stops you when the budget runs out.',
+                        options: [
+                          {
+                            text: 'Cash envelope system — when the envelope is empty, stop spending.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Physical cash creates a hard stop that digital payments can\'t replicate. The pain of handing over cash reduces impulse spending.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Seedly app — track digitally with bank integration.',
+                            biasLabel: 'Good but softer limit',
+                            biasExplanation: 'Seedly shows you when you\'ve overspent but doesn\'t physically prevent it — requires more self-discipline.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Ignore it — I\'ll do better next month.',
+                            biasLabel: 'Ostrich Effect',
+                            biasExplanation: 'Avoidance reinforces the pattern. Without a system change, next month will look the same.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📱',
+                        situation: 'You want to start tracking but want something low-effort that works with your Singapore bank account automatically.',
+                        options: [
+                          {
+                            text: 'Seedly — links to Singapore banks, auto-categorises transactions.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Seedly integrates with DBS, OCBC, UOB and most local banks. Transactions are auto-pulled and categorised — minimal effort required.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Build a spreadsheet from scratch.',
+                            biasLabel: 'Too much friction',
+                            biasExplanation: 'A spreadsheet requires manual entry every time — easy to abandon after a few weeks if you want low effort.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'DBS NAV Planner — already built into the DBS app.',
+                            biasLabel: 'Also a good fit',
+                            biasExplanation: 'If you bank with DBS, NAV Planner auto-categorises transactions with zero setup. Limited to DBS accounts only though.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'tools',
+                title: 'Best Tools for Singapore Students',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Best Tools for Singapore Students',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Here are the four best expense tracking apps for students in Singapore — tap each one to see features, cost, and whether it\'s right for you.',
+                  },
+                  {
+                    type: 'appcards',
+                    title: 'Best tracking apps for Singapore students:',
+                    apps: [
+                      {
+                        icon: '🇸🇬',
+                        name: 'Seedly',
+                        color: '#4F46E5',
+                        tagline: 'Singapore\'s most popular personal finance app',
+                        cost: 'Free',
+                        rating: 4.5,
+                        keyFeature: 'Links directly to Singapore banks (DBS, OCBC, UOB, Maybank) and auto-categorises every transaction. Includes a community Q&A for financial questions.',
+                        bestFor: 'Students who want automatic tracking with zero manual entry and Singapore-specific bank support.',
+                        singaporeTip: 'Seedly also has a "Financial Health Score" that benchmarks your spending against other Singapore users your age.',
+                      },
+                      {
+                        icon: '📊',
+                        name: 'Money Manager',
+                        color: '#059669',
+                        tagline: 'Simple, offline, no account needed',
+                        cost: 'Free (one-time $4.99 for Pro)',
+                        rating: 4.3,
+                        keyFeature: 'Fully offline — no bank linking, no data sharing. Manual entry only, but extremely fast with a clean UI. Supports SGD natively.',
+                        bestFor: 'Privacy-conscious students who prefer manual tracking and don\'t want to link bank accounts.',
+                        singaporeTip: 'Works great alongside PayNow — manually log each transaction right after paying, before you forget.',
+                      },
+                      {
+                        icon: '🏦',
+                        name: 'DBS NAV Planner',
+                        color: '#DC2626',
+                        tagline: 'Built into your DBS app — zero setup',
+                        cost: 'Free (DBS account required)',
+                        rating: 4.1,
+                        keyFeature: 'Automatically pulls and categorises all DBS/POSB transactions. Shows spending trends, savings goals, and a simple budget overview without leaving your banking app.',
+                        bestFor: 'DBS or POSB account holders who want tracking with absolutely no extra apps or setup.',
+                        singaporeTip: 'NAV Planner also shows your CPF balance and investment holdings alongside spending — useful for seeing your full financial picture.',
+                      },
+                      {
+                        icon: '📈',
+                        name: 'Syfe',
+                        color: '#7C3AED',
+                        tagline: 'Track spending and investments in one place',
+                        cost: 'Free (investing features separate)',
+                        rating: 4.2,
+                        keyFeature: 'Tracks net worth, bank balances, and investment portfolio in a single dashboard. Less granular for day-to-day budgeting but excellent for the big picture.',
+                        bestFor: 'Students who have started investing and want to see spending and net worth growth side by side.',
+                        singaporeTip: 'Syfe integrates with Singpass MyInfo to pull financial data — setup takes under 2 minutes with your Singpass login.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The 5-Minute Weekly Review',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Whichever app you choose, the habit that makes it work is a consistent weekly review. Here\'s the exact routine.',
+                  },
+                  {
+                    type: 'steps',
+                    title: 'The 5-minute weekly review:',
+                    steps: [
+                      'Every Sunday, open your tracking app or bank statement',
+                      'Check actual vs. planned spending in each 50/30/20 category',
+                      'Identify the one category that went over budget',
+                      'Decide one adjustment for the coming week',
+                      'Repeat — takes 5 minutes and builds lasting financial awareness',
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Which budgeting app is most popular among Singapore students?',
+                    prompt: 'most popular budgeting expense tracking app Singapore students 2024',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Tracking Your Spending',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on why tracking matters, which method fits which situation, and the best tools for Singapore students.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — what makes a good expense tracking habit?',
+                    prompt: 'expense tracking habit best practices consistency weekly review students',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '2-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Tracking Your Spending',
+                    questions: [
+                      {
+                        concept: 'Why tracking works',
+                        question: 'A student starts logging every transaction without changing their budget. What is the most likely outcome?',
+                        options: [
+                          'No change — you need a strict budget for tracking to matter',
+                          'They spend more because they feel more in control',
+                          'Discretionary spending drops 15–20% just from awareness',
+                          'Tracking only helps if done daily, not weekly',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Awareness alone changes behaviour. Seeing exactly where money goes creates accountability without needing any other change — this is the power of tracking.',
+                      },
+                      {
+                        concept: 'Choosing a tracking method',
+                        question: 'A student consistently overspends on GrabFood and Shopee. Which tracking method is most likely to help them stop?',
+                        options: [
+                          'Seedly app — it categorises digital transactions automatically',
+                          'Monthly bank statement review — see the damage at month-end',
+                          'Cash envelope system — physical cash creates a hard spending limit',
+                          'Google Sheets — custom categories give full visibility',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Physical cash creates a hard stop that digital tracking can\'t. Once the envelope is empty, spending stops — apps show you\'ve overspent but don\'t prevent it.',
+                      },
+                      {
+                        concept: 'Singapore tools',
+                        question: 'Which tracking app is best for a student who banks with DBS and wants zero setup or extra apps?',
+                        options: [
+                          'Seedly — best overall with multi-bank integration',
+                          'Money Manager — offline and private',
+                          'DBS NAV Planner — built into the DBS app, zero setup needed',
+                          'Syfe — best for tracking investments and net worth',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'DBS NAV Planner auto-categorises all DBS/POSB transactions with no extra app or setup required. For DBS customers it\'s the path of least resistance.',
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
-            content: [
-              {
-                type: 'text',
-                text: 'You cannot manage what you don\'t measure. Expense tracking turns vague feelings about money into concrete data — and data is what drives change.',
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'Studies show that people who track their spending reduce discretionary expenses by an average of 15–20% in the first month — just from awareness alone.',
-              },
-              {
-                type: 'text',
-                text: 'There\'s no single best way to track spending — the best method is the one you\'ll actually stick to. See which of these scenarios matches your situation.',
-              },
-              {
-                type: 'scenarios',
-                title: 'Which tracking method fits you?',
-                scenarios: [
-                  {
-                    icon: '📊',
-                    situation: 'You want full control over your categories and love seeing custom breakdowns. You don\'t mind spending 10 minutes a week on it.',
-                    options: [
-                      {
-                        text: 'Google Sheets spreadsheet — build your own system.',
-                        biasLabel: 'Best fit ✓',
-                        biasExplanation: 'Full customisation, free, and works offline. Best for detail-oriented people who want exactly the categories they need.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Cash envelope system — divide cash into labelled envelopes.',
-                        biasLabel: 'Overkill for this need',
-                        biasExplanation: 'Envelopes enforce hard limits but don\'t give you analytics or custom reports — and Singapore is largely cashless.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Just check your bank app at month-end.',
-                        biasLabel: 'Too infrequent',
-                        biasExplanation: 'Monthly reviews catch problems too late — you\'ve already overspent by the time you check.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '🏧',
-                    situation: 'You keep overspending on food delivery and online shopping. You need something that physically stops you when the budget runs out.',
-                    options: [
-                      {
-                        text: 'Cash envelope system — when the envelope is empty, stop spending.',
-                        biasLabel: 'Best fit ✓',
-                        biasExplanation: 'Physical cash creates a hard stop that digital payments can\'t replicate. The pain of handing over cash is real.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Seedly app — track digitally with bank integration.',
-                        biasLabel: 'Good but softer limit',
-                        biasExplanation: 'Seedly shows you when you\'ve overspent, but doesn\'t physically prevent it — requires more self-discipline.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Ignore it — I\'ll do better next month.',
-                        biasLabel: 'Ostrich Effect',
-                        biasExplanation: 'Avoidance reinforces the pattern. Without a system change, next month will look the same.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '📱',
-                    situation: 'You want to start tracking but want something low-effort that works with your Singapore bank account automatically.',
-                    options: [
-                      {
-                        text: 'Seedly — links to Singapore banks, auto-categorises transactions.',
-                        biasLabel: 'Best fit ✓',
-                        biasExplanation: 'Seedly integrates with DBS, OCBC, UOB and most local banks. Transactions are auto-pulled and categorised — minimal effort required.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Build a spreadsheet from scratch.',
-                        biasLabel: 'Too much friction',
-                        biasExplanation: 'A spreadsheet requires manual entry every time — easy to abandon after a few weeks if you want low effort.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'DBS NAV Planner — already built into the DBS app.',
-                        biasLabel: 'Also a good fit',
-                        biasExplanation: 'If you bank with DBS, NAV Planner auto-categorises transactions with zero setup. Limited to DBS accounts only though.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Here are the four best expense tracking apps for students in Singapore — tap each one to see if it\'s right for you.',
-              },
-              {
-                type: 'appcards',
-                title: 'Best tracking apps for Singapore students:',
-                apps: [
-                  {
-                    icon: '🇸🇬',
-                    name: 'Seedly',
-                    color: '#4F46E5',
-                    tagline: 'Singapore\'s most popular personal finance app',
-                    cost: 'Free',
-                    rating: 4.5,
-                    keyFeature: 'Links directly to Singapore banks (DBS, OCBC, UOB, Maybank) and auto-categorises every transaction. Includes a community Q&A for financial questions.',
-                    bestFor: 'Students who want automatic tracking with zero manual entry and Singapore-specific bank support.',
-                    singaporeTip: 'Seedly also has a "Financial Health Score" feature that benchmarks your spending against other Singapore users your age.',
-                  },
-                  {
-                    icon: '📊',
-                    name: 'Money Manager',
-                    color: '#059669',
-                    tagline: 'Simple, offline, no account needed',
-                    cost: 'Free (one-time $4.99 for Pro)',
-                    rating: 4.3,
-                    keyFeature: 'Fully offline — no bank linking, no data sharing. Manual entry only, but extremely fast with a clean UI. Supports SGD natively.',
-                    bestFor: 'Privacy-conscious students who prefer manual tracking and don\'t want to link bank accounts.',
-                    singaporeTip: 'Works great alongside PayNow — manually log each transaction right after paying, before you forget.',
-                  },
-                  {
-                    icon: '🏦',
-                    name: 'DBS NAV Planner',
-                    color: '#DC2626',
-                    tagline: 'Built into your DBS app — zero setup',
-                    cost: 'Free (DBS account required)',
-                    rating: 4.1,
-                    keyFeature: 'Automatically pulls and categorises all DBS/POSB transactions. Shows spending trends, savings goals, and a simple budget overview without leaving your banking app.',
-                    bestFor: 'DBS or POSB account holders who want tracking with absolutely no extra apps or setup.',
-                    singaporeTip: 'NAV Planner also shows your CPF balance and investment holdings alongside spending — useful for seeing your full financial picture.',
-                  },
-                  {
-                    icon: '📈',
-                    name: 'Syfe',
-                    color: '#7C3AED',
-                    tagline: 'Track spending and investments in one place',
-                    cost: 'Free (investing features separate)',
-                    rating: 4.2,
-                    keyFeature: 'Tracks net worth, bank balances, and investment portfolio in a single dashboard. Less granular for day-to-day budgeting but excellent for the big picture.',
-                    bestFor: 'Students who have started investing and want to see spending and net worth growth side by side.',
-                    singaporeTip: 'Syfe integrates with Singpass MyInfo to pull financial data — setup takes under 2 minutes with your Singpass login.',
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Whichever app you choose, the habit that makes it work is a consistent weekly review. Here\'s the exact routine — takes 5 minutes.',
-              },
-              {
-                type: 'steps',
-                title: 'The 5-minute weekly review:',
-                steps: [
-                  'Every Sunday, open your tracking app or bank statement',
-                  'Check actual vs planned spending in each 50/30/20 category',
-                  'Identify the one category that went over budget',
-                  'Decide one adjustment for the coming week',
-                  'Repeat — takes 5 minutes and builds lasting financial awareness',
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: Enable transaction notifications on your banking app (DBS, OCBC, UOB). Each ping is a micro-reminder of your spending — far more effective than reviewing at month-end.',
-              },
-              {
-                type: 'bot',
-                label: '💬 Which budgeting app is most popular among Singapore students?',
-                prompt: 'most popular budgeting expense tracking app Singapore students 2024',
-              },
-            ],
+
             flashcards: [
-              { q: 'By how much do people typically reduce spending just by tracking?', a: '15–20% in the first month — awareness alone changes behaviour.' },
-              { q: 'What is the best expense tracking app for Singapore students?', a: 'Seedly — it\'s Singapore-focused, links to local banks, and is free.' },
-              { q: 'What is the 5-minute weekly financial review?', a: 'Check actual vs planned spending each Sunday, identify what went over, and plan one adjustment for the week ahead.' },
-              { q: 'What bank feature helps Singapore students track spending passively?', a: 'Transaction notifications on DBS/OCBC/UOB apps — each ping creates micro-awareness of spending.' },
-              { q: 'What is the difference between the cash envelope system and an app?', a: 'Envelopes use physical cash to enforce hard limits. Apps track digitally — better for Singapore\'s cashless society.' },
+              {
+                q: 'By how much do people typically reduce spending just by tracking?',
+                a: '15–20% in the first month — awareness alone changes behaviour.',
+              },
+              {
+                q: 'What is the best expense tracking app for Singapore students?',
+                a: 'Seedly — it\'s Singapore-focused, links to local banks, and is free.',
+              },
+              {
+                q: 'What is the 5-minute weekly financial review?',
+                a: 'Check actual vs. planned spending each Sunday, identify what went over, and plan one adjustment for the week ahead.',
+              },
+              {
+                q: 'What bank feature helps Singapore students track spending passively?',
+                a: 'Transaction notifications on DBS/OCBC/UOB apps — each ping creates micro-awareness of spending.',
+              },
+              {
+                q: 'What is the difference between the cash envelope system and an app?',
+                a: 'Envelopes use physical cash to enforce hard limits. Apps track digitally — better for Singapore\'s cashless society but softer on enforcement.',
+              },
             ],
           },
         ],
