@@ -10682,9 +10682,1268 @@ export const MODULES = [
         icon: '🔄',
         description: 'Automate investing and remove emotion from the equation',
         lessons: [
-          { id: '9-1', title: 'Dollar-Cost Averaging', icon: '📅', topic: 'Dollar cost averaging DCA investing strategy', duration: '5 min', fincoins: 90, sections: [{ key: 'what', heading: 'What is DCA?' }, { key: 'why', heading: 'Why DCA Beats Timing the Market' }, { key: 'setup', heading: 'Setting Up Automatic DCA' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is dollar-cost averaging?', a: 'Investing a fixed amount at regular intervals — regardless of market price. Reduces impact of volatility.' }] },
-          { id: '9-2', title: 'Investing with CPFIS', icon: '🏛️', topic: 'CPF Investment Scheme CPFIS OA SA invest', duration: '6 min', fincoins: 90, sections: [{ key: 'what', heading: 'What is CPFIS?' }, { key: 'eligible', heading: 'What You Can Invest In' }, { key: 'vs', heading: 'CPFIS vs Cash Investing' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the minimum OA balance before you can use CPFIS?', a: '$20,000 must remain in your OA before you can invest the rest via CPFIS.' }] },
-          { id: '9-3', title: 'Avoiding Common Investing Mistakes', icon: '⚠️', topic: 'Common investing mistakes beginners Singapore', duration: '5 min', fincoins: 90, sections: [{ key: 'mistakes', heading: 'The 5 Biggest Beginner Mistakes' }, { key: 'crypto', heading: 'A Note on Crypto & Meme Stocks' }, { key: 'mindset', heading: 'Long-Term Investor Mindset' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the biggest mistake new investors make?', a: 'Timing the market — trying to buy low and sell high. Time IN the market consistently outperforms timing.' }] },
+          {
+            id: '9-1',
+            title: 'Dollar-Cost Averaging',
+            icon: '📅',
+            topic: 'Dollar cost averaging DCA investing strategy',
+            duration: '5 min',
+            fincoins: 55,
+            sections: [
+              // ─── Section 1: What is DCA? ──────────────────────────────────────────
+              {
+                key: 'what',
+                title: 'What is DCA?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is DCA?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Dollar-cost averaging (DCA) is the practice of investing a fixed dollar amount at regular intervals — regardless of what the market is doing. Instead of trying to pick the perfect moment to invest, you invest the same amount every month, every time. When prices are high, your fixed amount buys fewer units. When prices are low, it buys more. Over time, this mechanical discipline tends to lower your average purchase price compared to investing randomly or emotionally.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Dollar-Cost Averaging (DCA)',
+                    definition: 'Investing a fixed dollar amount at regular intervals regardless of market price. The fixed amount buys more units when prices fall and fewer when prices rise — automatically reducing the average cost per unit over time without any forecasting or timing required.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'A study of S&P 500 returns from 1926–2020 found that a disciplined monthly investor who never tried to time the market outperformed the majority of active investors over any 20-year period. Consistency beats cleverness — almost every time.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'How DCA Lowers Your Average Cost — A Worked Example',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Imagine you invest $300/month into the STI ETF for three months. The unit price is different each month due to market movements. Here is what happens to your average cost per unit:',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Month', 'Unit Price', 'Amount Invested', 'Units Bought', 'Total Units', 'Avg Cost/Unit'],
+                    rows: [
+                      ['January', '$3.20', '$300', '93.75', '93.75', '$3.20'],
+                      ['February', '$2.80', '$300', '107.14', '200.89', '$2.99'],
+                      ['March', '$3.00', '$300', '100.00', '300.89', '$2.99'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'text',
+                    text: 'Notice that in February, when the price dropped to $2.80, your $300 automatically bought more units — 107 instead of 93. Your average cost per unit after three months is $2.99, lower than the simple average of the three prices ($3.00). You did nothing differently — the mechanism worked automatically.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Dollar-cost averaging STI ETF Singapore example 2025',
+                    prompt: 'Dollar cost averaging DCA STI ETF Singapore 2025 example how it works average cost per unit monthly investing',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '9-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'DCA Basics — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'With dollar-cost averaging, you invest more money when prices are high to maximise returns.',
+                        isTrue: false,
+                        explanation: 'DCA involves investing a fixed dollar amount regardless of price — not more when prices are high. The beauty of DCA is that the fixed amount automatically buys more units when prices are low, without any decision-making required.',
+                      },
+                      {
+                        text: 'DCA tends to lower your average cost per unit compared to investing the same total amount in a single lump sum at a random point in time.',
+                        isTrue: true,
+                        explanation: 'Because DCA buys more units when prices are low and fewer when prices are high, it mechanically reduces your average cost per unit over time — particularly in volatile markets.',
+                      },
+                      {
+                        text: 'DCA requires you to monitor market prices closely and adjust your investment amount each month.',
+                        isTrue: false,
+                        explanation: 'DCA requires no monitoring at all — that is the point. You invest the same fixed amount every month regardless of price. The less you watch and adjust, the more faithfully you execute the strategy.',
+                      },
+                      {
+                        text: 'A disciplined DCA investor who never tries to time the market has historically outperformed most active investors over long periods.',
+                        isTrue: true,
+                        explanation: 'Decades of research consistently show that passive, regular investing outperforms active market timing for the vast majority of retail investors. Consistency and time in the market beat attempts to buy low and sell high.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Why DCA Beats Timing the Market ───────────────────────
+              {
+                key: 'why',
+                title: 'Why DCA Beats Timing the Market',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Why DCA Beats Timing the Market',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The instinct to wait for the "right moment" to invest feels rational — but it is one of the most reliably damaging behaviours in investing. The market does not send clear signals about when to buy. Instead, the fear/greed cycle causes most investors to do the opposite of what they should — hesitating when prices are low (fear) and piling in when prices are high (greed). DCA removes this decision entirely.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'A Putnam Investments study found that missing just the 10 best trading days in the S&P 500 over a 15-year period cut total returns by more than half. The problem: those 10 best days often occur during or immediately after the worst periods — exactly when most investors have fled to cash.',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'Common timing impulses — reframed:',
+                    variant: 'reframe',
+                    cards: [
+                      {
+                        frontLabel: '🧠 The Thought',
+                        backLabel: '✅ The Reframe',
+                        front: '"The market is at an all-time high — I should wait for a correction before investing."',
+                        back: 'All-time highs are normal. Markets spend roughly 30% of all trading days at or near all-time highs. Waiting for a correction means sitting in cash earning 3–4% while missing equity returns of 7–10% annually. The correction may not come for years — or may never reach the price you waited for.',
+                        tag: 'All-time highs are not a signal to stop',
+                      },
+                      {
+                        frontLabel: '🧠 The Thought',
+                        backLabel: '✅ The Reframe',
+                        front: '"The market just dropped 15% — I should wait until it stabilises before putting more money in."',
+                        back: 'A 15% drop means your fixed monthly amount now buys 18% more units than last month. This is DCA working exactly as intended. Pausing during a downturn is the single most common way investors accidentally turn a temporary loss into a permanent one.',
+                        tag: 'Downturns are when DCA works hardest for you',
+                      },
+                      {
+                        frontLabel: '🧠 The Thought',
+                        backLabel: '✅ The Reframe',
+                        front: '"I\'ll invest my $5,000 bonus once things look more certain — maybe after the election / rate decision / recession fear passes."',
+                        back: 'Markets price in uncertainty constantly. "More certain" conditions almost never arrive — there is always a reason to wait. If you have a lump sum, invest it now or split it over 3–6 months via DCA. The cost of waiting compounds silently every month you hold cash.',
+                        tag: 'Certainty never arrives — start anyway',
+                      },
+                      {
+                        frontLabel: '🧠 The Thought',
+                        backLabel: '✅ The Reframe',
+                        front: '"I missed the rally — there\'s no point investing now, I\'ll wait for the next dip."',
+                        back: 'Missing a rally does not mean the next best time to invest is after a dip. The next dip may come in 3 months or 3 years. Every month spent waiting is a month of compounding lost. Invest now — your future self has a longer horizon than your present self imagines.',
+                        tag: 'The best time to start was yesterday; second best is today',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Cost of missing best market days S&P 500 timing the market evidence',
+                    prompt: 'Cost of missing best trading days market timing evidence research S&P 500 DCA vs lump sum long term returns 2025',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '9-1-s2-scenarios',
+                    fincoins: 10,
+                    title: 'What would you do?',
+                    scenarios: [
+                      {
+                        icon: '📉',
+                        situation: 'It is February 2020. Your STI ETF portfolio has dropped 25% in three weeks due to COVID-19 fears. You have your regular $400 monthly investment due. Your instinct is to pause and wait for the market to stabilise.',
+                        options: [
+                          {
+                            text: 'Invest the $400 as planned — the drop means your money buys 33% more units than last month.',
+                            biasLabel: 'DCA discipline ✓',
+                            biasExplanation: 'This is DCA working exactly as intended. A 25% price drop means your $400 buys significantly more units. Investors who continued their regular investments through the March 2020 crash and held on captured the full recovery — the STI ETF recovered within 18 months.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Pause the investment and wait until the market shows signs of recovery.',
+                            biasLabel: 'Fear-driven pause',
+                            biasExplanation: 'Pausing during a downturn is the most common DCA mistake. You miss the cheapest units of the cycle — and by the time "recovery signs" appear, prices have already rebounded significantly. The best buying opportunity passes while you wait for certainty.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Sell your existing holdings to cut losses and reinvest when the market recovers.',
+                            biasLabel: 'Panic selling — locks in the loss',
+                            biasExplanation: 'Selling during a crash converts a temporary paper loss into a permanent realised loss. Investors who sold in March 2020 and waited for "recovery" either bought back at higher prices or missed the recovery entirely. A temporary drop is only a loss if you sell.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🚀',
+                        situation: 'The STI ETF has risen 22% over the past 8 months and is now at a multi-year high. You read an article saying "markets are overvalued." Your $400 monthly investment is due.',
+                        options: [
+                          {
+                            text: 'Invest the $400 as planned — all-time highs are normal and do not predict short-term corrections.',
+                            biasLabel: 'DCA discipline ✓',
+                            biasExplanation: 'All-time highs are not a reliable signal to stop investing. Markets spend roughly 30% of all trading days at or near highs — waiting for a correction means sitting in cash indefinitely. Your DCA plan exists precisely to remove this decision.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Skip this month and wait for a 10% pullback before investing.',
+                            biasLabel: 'Timing trap',
+                            biasExplanation: 'A 10% pullback may come in 2 weeks or 2 years. In the meantime, you earn 3–4% in cash while the market may rise another 10–15% before correcting. The expected cost of waiting almost always exceeds the expected benefit.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Double your investment this month to capitalise on the strong momentum.',
+                            biasLabel: 'Chasing momentum',
+                            biasExplanation: 'Increasing investment after a rally is the mirror image of pausing after a crash — both are attempts to time the market. DCA works because it is fixed and automatic. Deviating based on recent performance defeats the entire purpose of the strategy.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💰',
+                        situation: 'You receive a $3,000 year-end bonus. You want to invest it but the market feels uncertain. A friend suggests splitting it into 6 monthly instalments of $500 via DCA rather than investing all at once.',
+                        options: [
+                          {
+                            text: 'Split into 6 monthly instalments — reduces the risk of investing everything at a short-term peak.',
+                            biasLabel: 'Reasonable DCA approach ✓',
+                            biasExplanation: 'For a lump sum where timing feels uncertain, splitting into instalments is a psychologically sound approach — it removes the anxiety of a single entry point and smooths out short-term volatility. Statistically lump sum outperforms in rising markets, but DCA is better than holding cash indefinitely.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest the full $3,000 immediately — lump sum statistically outperforms DCA in rising markets.',
+                            biasLabel: 'Also valid — context dependent',
+                            biasExplanation: 'This is actually statistically correct — lump sum investing outperforms DCA roughly two-thirds of the time in rising markets because more money is invested for longer. However, if the uncertainty would cause you to panic-sell during a short-term drop, the DCA approach is better for your specific situation.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Hold the $3,000 in cash until the market outlook is clearer.',
+                            biasLabel: 'Waiting indefinitely — certainty never arrives',
+                            biasExplanation: 'A "clearer outlook" almost never arrives. There is always a reason to wait — elections, rate decisions, geopolitical risk. Every month in cash has an opportunity cost. Either invest now or commit to a DCA schedule — but do not hold indefinitely.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: DCA in Practice — What the Numbers Show ──────────────
+              {
+                key: 'numbers',
+                title: 'DCA in Practice — What the Numbers Show',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'DCA in Practice — What the Numbers Show',
+                  },
+                  {
+                    type: 'text',
+                    text: 'DCA is not perfect — and understanding its one real weakness makes you a more informed investor. Statistically, lump sum investing outperforms DCA roughly two-thirds of the time in markets that trend upward over time. The reason is simple: more money invested earlier means more time compounding. But DCA\'s strength is not raw performance — it is the removal of behavioural risk.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The One Real Weakness of DCA',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'DCA vs Lump Sum — when each wins:',
+                    variant: 'neutral',
+                    cards: [
+                      {
+                        frontLabel: '📅 DCA Wins When...',
+                        backLabel: '📋 Why',
+                        front: 'Markets are volatile or declining in the short term after your investment date.',
+                        back: 'If you invest a lump sum and the market drops 20% the next month, you have lost 20% of your full amount immediately. DCA spreads this risk — only your first instalment is exposed to the full drop, while subsequent ones buy in at lower prices.',
+                        tag: 'Protects against bad timing in volatile markets',
+                      },
+                      {
+                        frontLabel: '💰 Lump Sum Wins When...',
+                        backLabel: '📋 Why',
+                        front: 'Markets trend upward steadily after your investment date — which happens roughly two-thirds of the time historically.',
+                        back: 'In a rising market, money invested earlier compounds for longer. A $6,000 lump sum invested in January grows for the full year. Six $1,000 monthly instalments have average exposure of only 6.5 months — missing 5.5 months of compounding on half your capital.',
+                        tag: 'More time in market = more compounding',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'The practical conclusion: if you have a lump sum and high conviction, invest it all at once. If you are anxious about timing or investing from monthly income, DCA is the right approach — not because it maximises returns, but because it maximises the chance you actually stay invested through volatility.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '📈',
+                    title: 'The Cost of Stopping DCA During Downturns',
+                    description: 'Compare a consistent DCA investor ($300/month, never stops) against one who pauses for 6 months during a downturn. Drag to see how the gap compounds over years.',
+                    min: 1,
+                    max: 20,
+                    step: 1,
+                    initialValue: 10,
+                    prefix: '',
+                    calculateResult: (years) => {
+                      const monthlyInvestment = 300;
+                      const annualReturn = 0.07;
+                      const monthlyReturn = annualReturn / 12;
+                      const months = years * 12;
+                      const pausedMonths = 6;
+
+                      let consistentTotal = 0;
+                      for (let m = 1; m <= months; m++) {
+                        consistentTotal = (consistentTotal + monthlyInvestment) * (1 + monthlyReturn);
+                      }
+
+                      let pausedTotal = 0;
+                      const pauseStart = Math.floor(months * 0.3);
+                      for (let m = 1; m <= months; m++) {
+                        const amount = (m >= pauseStart && m < pauseStart + pausedMonths) ? 0 : monthlyInvestment;
+                        pausedTotal = (pausedTotal + amount) * (1 + monthlyReturn);
+                      }
+
+                      const difference = consistentTotal - pausedTotal;
+                      return [
+                        { label: '✅ Consistent DCA investor — portfolio value', value: `$${Math.round(consistentTotal).toLocaleString()}`, color: '#059669' },
+                        { label: '⚠️ Paused 6 months during downturn — portfolio value', value: `$${Math.round(pausedTotal).toLocaleString()}`, color: '#DC2626' },
+                        { label: '💸 Cost of pausing — compounded gap', value: `$${Math.round(difference).toLocaleString()}`, color: '#7C3AED' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Lump sum vs DCA investing returns evidence research 2025',
+                    prompt: 'Lump sum investing vs dollar cost averaging DCA returns comparison evidence research 2025 when each outperforms',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '9-1-s3-mcq',
+                    fincoins: 10,
+                    icon: '📅',
+                    title: 'DCA vs Lump Sum Quiz',
+                    question: 'Statistically, which approach outperforms more often over the long term — lump sum investing or dollar-cost averaging — and why?',
+                    options: [
+                      'DCA — because it always buys more units at lower prices than a lump sum',
+                      'Lump sum — because more money invested earlier has more time to compound in markets that trend upward',
+                      'They perform identically over time — the approach makes no statistical difference',
+                      'DCA — because spreading investments reduces total fees paid to brokers',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'Lump sum investing outperforms DCA roughly two-thirds of the time historically because markets trend upward over the long run — money invested earlier compounds for longer. However, DCA\'s strength is behavioural: it removes the anxiety of timing and keeps investors consistent through volatility, which is why it remains the right approach for most regular investors investing from monthly income.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Dollar-Cost Averaging',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Dollar-Cost Averaging',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how DCA mechanically lowers your average cost, why timing the market consistently fails, and the honest trade-off between DCA and lump sum investing. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Dollar-cost averaging vs lump sum investing Singapore long term evidence 2025',
+                    prompt: 'Dollar cost averaging vs lump sum investing Singapore 2025 long term returns evidence behavioural finance timing the market',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '9-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '📅',
+                    title: 'DCA Challenge',
+                    questions: [
+                      {
+                        concept: 'How DCA Works',
+                        question: 'You invest $300/month into an ETF. In Month 1 the price is $3.00/unit; in Month 2 it drops to $2.50/unit. What happens to the number of units you buy in Month 2 compared to Month 1?',
+                        options: [
+                          'You buy fewer units — the lower price means less value per dollar',
+                          'You buy the same number of units — DCA fixes the unit quantity, not the dollar amount',
+                          'You buy more units — your fixed $300 goes further at the lower price',
+                          'You buy no units — DCA pauses automatically when prices fall',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'At $3.00, $300 buys 100 units. At $2.50, $300 buys 120 units — 20% more. This is the mechanical advantage of DCA: a fixed dollar amount automatically acquires more units when prices fall, lowering your average cost per unit over time without any action on your part.',
+                      },
+                      {
+                        concept: 'Timing the Market',
+                        question: 'Why does missing just the 10 best trading days in a 15-year period cut total returns by more than half?',
+                        options: [
+                          'Because the 10 best days always occur at the start of the investment period',
+                          'Because the best days often occur during or immediately after the worst periods — when most investors have fled to cash',
+                          'Because missing 10 days triggers automatic penalty fees from the brokerage',
+                          'Because compound interest only applies on days when the market is rising',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The market\'s best days frequently occur during or right after its worst periods — sharp recoveries follow sharp sell-offs. Investors who flee to cash during crashes miss these recovery days entirely. This is why staying invested through volatility is so critical — and why DCA, which keeps you investing consistently, protects against this behavioural trap.',
+                      },
+                      {
+                        concept: 'DCA vs Lump Sum',
+                        question: 'A student receives a $4,000 scholarship payout and wants to invest it. They are not anxious about timing and understand markets trend upward over time. What does the evidence suggest is the better approach?',
+                        options: [
+                          'Split into 12 monthly instalments via DCA — always safer than lump sum',
+                          'Invest the full $4,000 immediately — lump sum outperforms DCA roughly two-thirds of the time in rising markets',
+                          'Hold in a savings account for 6 months then invest — timing matters most for large amounts',
+                          'Split into 2 instalments — a compromise that always outperforms both pure approaches',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'For an investor who is not anxious about timing and has a long horizon, lump sum investing outperforms DCA roughly two-thirds of the time — because more money invested earlier compounds for longer in markets that trend upward. DCA is the better choice when the investor would otherwise hold cash indefinitely, or when volatility anxiety would cause them to panic-sell after a lump sum entry.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What is dollar-cost averaging and what is its core mechanical advantage?', a: 'DCA is investing a fixed dollar amount at regular intervals regardless of price. Its core advantage: the fixed amount automatically buys more units when prices are low and fewer when prices are high — mechanically lowering your average cost per unit over time without any timing required.' },
+              { q: 'Why does missing just the 10 best trading days devastate long-term returns?', a: 'The market\'s best days typically occur during or immediately after its worst periods. Investors who flee to cash during crashes miss these sharp recovery days — cutting total returns by more than half over a 15-year period. Staying invested through volatility is essential.' },
+              { q: 'In what market condition does lump sum investing statistically outperform DCA?', a: 'In markets that trend upward — which is roughly two-thirds of the time historically. More money invested earlier has more time to compound. DCA\'s advantage is behavioural, not mathematical: it keeps investors consistent through volatility.' },
+              { q: 'What is the single most common DCA mistake investors make during a market downturn?', a: 'Pausing or stopping investments when prices fall — exactly when DCA is working hardest. A price drop means your fixed amount buys more units. Pausing during a downturn is the most reliable way to accidentally turn a temporary paper loss into a permanent missed opportunity.' },
+              { q: 'When is DCA the better choice over lump sum investing for a one-off amount?', a: 'When the investor is anxious about timing and would otherwise hold cash indefinitely, or when a lump sum entry during volatility would cause them to panic-sell. DCA\'s value is removing behavioural risk — not maximising mathematical returns.' },
+            ],
+          }, 
+          {
+            id: '9-2',
+            title: 'Investing with CPFIS',
+            icon: '🏛️',
+            topic: 'CPF Investment Scheme CPFIS OA SA invest',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+              // ─── Section 1: What is CPFIS? ────────────────────────────────────────
+              {
+                key: 'what',
+                title: 'What is CPFIS?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is CPFIS?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The CPF Investment Scheme (CPFIS) allows Singapore citizens and Permanent Residents to invest their CPF Ordinary Account (OA) funds — above a minimum balance — in a range of approved financial instruments. Rather than leaving your OA balance earning the guaranteed 2.5% per year, CPFIS gives you the option to put that money to work in ETFs, unit trusts, and other eligible products. For international students, CPF contributions begin once you start working in Singapore — making CPFIS a forward-looking topic that becomes directly relevant at graduation.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'CPF Investment Scheme (CPFIS)',
+                    definition: 'A scheme that allows CPF members to invest their Ordinary Account (OA) funds above $20,000 — and Special Account (SA) funds above $40,000 — in approved financial instruments. The goal is to potentially earn higher returns than the guaranteed CPF interest rates, though this comes with investment risk.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'The CPF OA pays a guaranteed 2.5% per year — the highest risk-free rate available to most Singapore residents on a government-backed account. Before investing via CPFIS, you must keep at least $20,000 in your OA. This minimum balance is protected and continues earning 2.5% regardless of your CPFIS investments.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'The two CPFIS accounts:',
+                    nodes: [
+                      {
+                        icon: '🏠',
+                        label: 'OA — Ordinary Account',
+                        sublabel: '2.5% guaranteed · CPFIS eligible above $20,000',
+                        color: '#4F46E5',
+                        examples: ['Used for: housing (HDB), education, investments', 'Interest rate: 2.5% p.a. guaranteed', 'CPFIS minimum: $20,000 must remain in OA'],
+                        details: [
+                          'The OA is the most versatile CPF account — it can be used for housing, education, and investments via CPFIS.',
+                          'It earns a guaranteed 2.5% per year on the full balance, including the portion above $20,000 that you choose not to invest.',
+                          'Only the amount above $20,000 is eligible for CPFIS investment — the first $20,000 is protected and continues earning 2.5%.',
+                        ],
+                        tip: 'As a new graduate, your OA balance builds slowly in the first few years. You may not reach the $20,000 CPFIS threshold for 2–3 years depending on your salary — but understanding CPFIS now means you are ready to act when you do.',
+                      },
+                      {
+                        icon: '🏦',
+                        label: 'SA — Special Account',
+                        sublabel: '4% guaranteed · CPFIS eligible above $40,000',
+                        color: '#0891B2',
+                        examples: ['Used for: retirement savings only', 'Interest rate: 4% p.a. guaranteed', 'CPFIS minimum: $40,000 must remain in SA'],
+                        details: [
+                          'The SA earns a higher guaranteed rate of 4% per year — specifically designed for retirement savings.',
+                          'SA funds cannot be used for housing or daily expenses — they are ring-fenced for retirement.',
+                          'CPFIS-SA investing requires a minimum $40,000 SA balance — a much higher threshold than OA, and rarely reached by young graduates.',
+                        ],
+                        tip: 'The SA\'s 4% guaranteed rate is actually a high hurdle for any investment to beat on a risk-adjusted basis. Most financial advisors suggest leaving SA funds at 4% rather than investing via CPFIS-SA — the guaranteed return is already excellent.',
+                      },
+                      {
+                        icon: '💊',
+                        label: 'MA — Medisave Account',
+                        sublabel: '4% guaranteed · Not eligible for CPFIS',
+                        color: '#059669',
+                        examples: ['Used for: healthcare, MediShield Life premiums', 'Interest rate: 4% p.a. guaranteed', 'CPFIS: not eligible — cannot be invested'],
+                        details: [
+                          'The MA is specifically for healthcare expenses and MediShield Life insurance premiums.',
+                          'It earns 4% guaranteed but cannot be invested via CPFIS — it is a protected healthcare reserve.',
+                          'MA contributions are capped at the Basic Healthcare Sum (BHS) — excess contributions flow into your SA or RA.',
+                        ],
+                        tip: 'You cannot invest your MA via CPFIS — it exists solely to cover healthcare costs and insurance premiums. No action needed here beyond ensuring your MediShield Life premiums are being deducted correctly.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPFIS CPF Investment Scheme OA SA eligibility rules Singapore 2025',
+                    prompt: 'CPFIS CPF Investment Scheme Singapore 2025 OA SA eligibility minimum balance $20000 how it works rules',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '9-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'CPFIS Basics — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'You can invest your entire CPF Ordinary Account balance via CPFIS once you decide to.',
+                        isTrue: false,
+                        explanation: 'You must keep at least $20,000 in your OA before investing the remainder via CPFIS. The first $20,000 is protected and continues earning the guaranteed 2.5% — only the amount above this threshold is eligible for investment.',
+                      },
+                      {
+                        text: 'The CPF Special Account pays a higher guaranteed interest rate than the Ordinary Account.',
+                        isTrue: true,
+                        explanation: 'The SA earns 4% per year guaranteed, compared to 2.5% for the OA. This higher rate reflects the SA\'s purpose as a long-term retirement savings account — and makes it a high hurdle for CPFIS-SA investments to beat on a risk-adjusted basis.',
+                      },
+                      {
+                        text: 'International students in Singapore can start using CPFIS immediately after opening a bank account.',
+                        isTrue: false,
+                        explanation: 'CPFIS is only available to CPF members — Singapore citizens and Permanent Residents. International students on a student pass do not contribute to CPF and therefore cannot access CPFIS. It becomes relevant once you start working in Singapore as a citizen or PR.',
+                      },
+                      {
+                        text: 'Your Medisave Account (MA) balance can be invested via CPFIS to earn higher returns.',
+                        isTrue: false,
+                        explanation: 'The MA is not eligible for CPFIS investment — it is a protected healthcare reserve specifically for medical expenses and MediShield Life premiums. Only OA funds above $20,000 and SA funds above $40,000 are eligible for CPFIS.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: What You Can Invest In ───────────────────────────────
+              {
+                key: 'eligible',
+                title: 'What You Can Invest In',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What You Can Invest In',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Not all investments are eligible under CPFIS. The CPF Board maintains an approved list of instruments — designed to balance growth potential with the protective purpose of CPF savings. The list is deliberately conservative: higher-risk instruments like individual stocks and cryptocurrency are excluded. Here is what is permitted and what is not.',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Instrument', 'CPFIS-OA', 'CPFIS-SA', 'Notes'],
+                    rows: [
+                      ['STI ETF (ES3, G3B)', '✅', '✅', 'Most popular CPFIS investment — low cost, SGX-listed'],
+                      ['Globally diversified ETFs (via Endowus)', '✅', '✅', 'Access through Endowus platform only'],
+                      ['Approved unit trusts', '✅', '✅', 'Must be on CPF Board approved list — check before investing'],
+                      ['Singapore Government Bonds', '✅', '✅', 'Low risk, lower return than equities'],
+                      ['Endowus fund portfolios', '✅', '✅', 'Only MAS-regulated robo-advisor with CPFIS access'],
+                      ['Individual Singapore stocks', '✅', '❌', 'OA only — limited list of approved SGX stocks'],
+                      ['Individual foreign stocks', '❌', '❌', 'Not permitted under CPFIS'],
+                      ['Cryptocurrency', '❌', '❌', 'Explicitly excluded — too high risk for CPF funds'],
+                      ['US-listed ETFs (VWRA, VTI)', '❌', '❌', 'Not on approved list — use cash investing instead'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'The CPF Board approved list changes periodically — always verify that a specific fund or ETF is currently approved before investing via CPFIS. Investing in a non-approved instrument is not possible through the CPFIS system, but the approved list for unit trusts in particular shrinks over time as underperforming funds are removed.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The OA Rate as a Hurdle Rate',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Before investing any OA funds via CPFIS, it is essential to understand the concept of a hurdle rate. Your OA earns a guaranteed 2.5% per year with zero risk. Any CPFIS investment must therefore be expected to earn more than 2.5% — after fees — to justify the additional risk. This sounds easy, but many CPFIS investors have historically underperformed the OA rate after accounting for unit trust fees.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'A CPF Board study found that a significant proportion of CPFIS investors would have been better off leaving their funds in the OA at 2.5% — primarily because they chose high-fee unit trusts that failed to outperform after costs. This led to major CPFIS reforms in 2018 that restricted access to the highest-fee products.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPFIS approved investments list ETF unit trust Singapore 2025',
+                    prompt: 'CPFIS approved investments list 2025 Singapore ETF unit trust Endowus eligible instruments CPF Board',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '9-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Is this a good CPFIS investment choice?',
+                    scenarios: [
+                      {
+                        icon: '📊',
+                        situation: 'You have $25,000 in your CPF OA — $5,000 above the $20,000 minimum. You want to invest the $5,000 via CPFIS. A friend recommends a unit trust with a 1.5% annual management fee that has returned 4% p.a. over the past 5 years.',
+                        options: [
+                          {
+                            text: 'Invest — 4% gross return beats the 2.5% OA rate so it is worth it.',
+                            biasLabel: 'Ignores fees — net return is only 2.5%',
+                            biasExplanation: 'A 4% gross return minus a 1.5% management fee leaves a net return of 2.5% — exactly equal to the guaranteed OA rate. You are taking investment risk for zero additional return. Past performance also does not guarantee future results.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Decline — the 1.5% fee means the net return barely matches the guaranteed OA rate, making the investment risk unjustifiable.',
+                            biasLabel: 'Correct — fees make this a poor CPFIS choice ✓',
+                            biasExplanation: 'Net return after fees is 2.5% — identical to the guaranteed OA rate. For CPFIS to make sense, your investment must earn meaningfully more than 2.5% after all fees. A low-cost ETF via Endowus (expense ratio ~0.30%) is a far better CPFIS vehicle than a 1.5% fee unit trust.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest half — a compromise that limits downside while still participating in growth.',
+                            biasLabel: 'Still takes risk for no net reward',
+                            biasExplanation: 'Splitting the amount does not change the fundamental problem — the fee structure means you are taking investment risk for a net return equal to the guaranteed OA rate. The correct fix is choosing a lower-fee instrument, not splitting the amount.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🤖',
+                        situation: 'You have $35,000 in your CPF OA. You want to invest the $15,000 above the minimum threshold in a globally diversified portfolio. Which CPFIS approach best achieves this?',
+                        options: [
+                          {
+                            text: 'Use Endowus — the only robo-advisor with CPFIS access, investing in low-cost globally diversified funds.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Endowus is the only MAS-regulated robo-advisor that can invest CPF-OA funds via CPFIS. It provides access to globally diversified institutional funds at low cost — the most efficient way to deploy OA funds above the $20,000 minimum into a diversified equity portfolio.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Use Syfe — it has globally diversified portfolios and lower fees than Endowus.',
+                            biasLabel: 'Cannot access CPF funds',
+                            biasExplanation: 'Syfe does not have CPFIS access — it is a cash-only platform. Your CPF-OA funds cannot be transferred to Syfe. Only Endowus can invest OA funds via CPFIS among Singapore robo-advisors.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Buy VWRA through Tiger Brokers — globally diversified and very low cost.',
+                            biasLabel: 'VWRA is not CPFIS eligible',
+                            biasExplanation: 'VWRA is listed on the London Stock Exchange and is not on the CPF Board\'s approved instrument list. US and globally-listed ETFs are not eligible for CPFIS — you can only invest CPF funds in instruments on the approved list, primarily SGX-listed ETFs and approved unit trusts.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📈',
+                        situation: 'Your CPF SA balance has just crossed $40,000, making it eligible for CPFIS-SA. You are considering investing $10,000 of it in an approved unit trust targeting 6% p.a. returns. The unit trust charges 1.0% p.a. in fees.',
+                        options: [
+                          {
+                            text: 'Leave the SA at 4% guaranteed — the net return after fees barely justifies the risk given the SA\'s already high guaranteed rate.',
+                            biasLabel: 'Correct — SA rate is a high hurdle ✓',
+                            biasExplanation: 'The SA earns 4% guaranteed with zero risk. A unit trust targeting 6% gross minus 1.0% fees = 5% net — only 1% above the guaranteed rate. For CPF funds specifically, a 1% premium over a guaranteed government-backed return is a thin margin to justify equity risk. Most advisors recommend leaving SA funds at 4%.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest — 5% net beats 4% guaranteed so it is clearly the better choice.',
+                            biasLabel: 'Underestimates the value of the guarantee',
+                            biasExplanation: 'The 1% premium over a guaranteed, government-backed return is slim compensation for the risk of underperformance. "Targeting 6%" is not guaranteed — in a bad year the unit trust could return 0% or negative, while your SA would still earn 4%. The guarantee has real value that a 1% premium barely compensates for.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Invest half — earn 4% on the remaining SA balance and take risk on only part of it.',
+                            biasLabel: 'Still thin risk premium',
+                            biasExplanation: 'Splitting the amount is a reasonable instinct but does not address the core issue — the risk premium over the 4% SA guarantee is too thin for most investors. If you want equity exposure, deploy cash funds first where the hurdle rate is lower.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: CPFIS vs Leaving OA at 2.5% ──────────────────────────
+              {
+                key: 'vs',
+                title: 'CPFIS vs Leaving OA at 2.5%',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'CPFIS vs Leaving OA at 2.5%',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The decision to invest via CPFIS is not always obvious — and for many people, leaving OA funds at 2.5% is the correct choice. The right answer depends on your investment horizon, the instruments you choose, and the fees you pay. Here is a framework for making this decision clearly.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'When CPFIS Makes Sense',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'CPFIS — when to invest vs when to leave at 2.5%:',
+                    variant: 'neutral',
+                    cards: [
+                      {
+                        frontLabel: '✅ Invest via CPFIS when...',
+                        backLabel: '📋 Why it works',
+                        front: 'You have a long time horizon (10+ years), choose low-cost instruments (STI ETF or Endowus globally diversified funds), and your OA balance is well above $20,000.',
+                        back: 'Over a 10+ year horizon, a globally diversified equity portfolio has historically returned 7–10% p.a. gross — well above the 2.5% OA rate even after low ETF fees (~0.30%). The longer your horizon, the more time the compounding gap widens in your favour.',
+                        tag: 'Long horizon + low fees = CPFIS makes sense',
+                      },
+                      {
+                        frontLabel: '⚠️ Leave at 2.5% when...',
+                        backLabel: '📋 Why it makes sense',
+                        front: 'You plan to use OA funds for housing within 5 years, your OA balance is only slightly above $20,000, or you are considering high-fee unit trusts.',
+                        back: 'OA funds used for HDB purchase must be available — you cannot invest funds you will need soon. At balances just above $20,000, the investable amount is small and commissions eat into returns. High-fee products rarely beat the OA rate after costs.',
+                        tag: 'Short horizon, small amount, or high fees = stay at 2.5%',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'How to Set Up CPFIS via Endowus',
+                  },
+                  {
+                    type: 'steps',
+                    steps: [
+                      'Create an Endowus account at endowus.com — complete identity verification with your NRIC or passport',
+                      'Select "CPF" as the funding source when creating a new portfolio',
+                      'Choose your portfolio — Endowus offers Core Flagship (globally diversified), Income, and other options',
+                      'Set your investment amount — must be above the $20,000 OA minimum; Endowus enforces this automatically',
+                      'Authorise the CPF withdrawal — Endowus sends a request to CPF Board; you approve via CPF online services',
+                      'Funds are transferred from your OA to Endowus within 3–5 business days and invested according to your chosen portfolio',
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'As an international student, CPFIS is not yet available to you — CPF contributions only begin when you work in Singapore as a citizen or PR. Use this knowledge now to plan ahead: when your OA crosses $20,000 (typically 2–3 years after starting work), Endowus is the most efficient CPFIS vehicle for globally diversified exposure.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Endowus CPFIS how to invest CPF OA Singapore 2025 setup steps',
+                    prompt: 'Endowus CPFIS CPF OA invest Singapore 2025 how to set up steps globally diversified portfolio returns vs 2.5%',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '9-2-s3-mcq',
+                    fincoins: 10,
+                    icon: '🏛️',
+                    title: 'CPFIS Decision Quiz',
+                    question: 'A Singapore PR who graduated 2 years ago has $28,000 in their CPF OA and plans to buy an HDB flat in 3 years. Should they invest the $8,000 above the minimum via CPFIS?',
+                    options: [
+                      'Yes — any return above 2.5% justifies CPFIS investment regardless of time horizon',
+                      'Yes — Endowus will protect the funds so they are always available for the HDB purchase',
+                      'No — OA funds needed for housing within 3 years should not be exposed to investment risk',
+                      'No — CPFIS is only available to those with more than $50,000 in their OA',
+                    ],
+                    correctIndex: 2,
+                    explanation: 'With an HDB purchase planned in 3 years, this is a short investment horizon — a market downturn could reduce the OA balance below what is needed for the flat purchase, and markets may not recover in 3 years. CPFIS makes most sense with a 10+ year horizon on funds not needed for housing. The $20,000 minimum threshold is $20,000, not $50,000.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Investing with CPFIS',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Investing with CPFIS',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how CPFIS works and which accounts are eligible, what instruments you can and cannot invest in, and the framework for deciding whether to invest or leave funds at the guaranteed rate. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPFIS worth it Singapore 2025 OA 2.5% vs investing ETF Endowus',
+                    prompt: 'CPFIS worth investing Singapore 2025 CPF OA 2.5% vs ETF Endowus returns comparison when to invest vs leave',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '9-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '🏛️',
+                    title: 'CPFIS Challenge',
+                    questions: [
+                      {
+                        concept: 'CPFIS Eligibility Rules',
+                        question: 'What is the minimum CPF Ordinary Account balance you must maintain before investing the remainder via CPFIS?',
+                        options: [
+                          '$10,000 — the first $10,000 is protected, the rest is investable',
+                          '$20,000 — the first $20,000 must remain in the OA at all times',
+                          '$40,000 — CPFIS requires a substantial base before investment is permitted',
+                          'There is no minimum — you can invest your entire OA balance via CPFIS',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The CPFIS-OA minimum is $20,000 — this amount must remain in your OA and continues earning the guaranteed 2.5% regardless of your CPFIS investments. Only the balance above $20,000 is eligible for investment. The $40,000 threshold applies to the Special Account (CPFIS-SA), not the OA.',
+                      },
+                      {
+                        concept: 'Eligible Instruments',
+                        question: 'Which of the following is NOT eligible for investment under CPFIS?',
+                        options: [
+                          'STI ETF (ES3 or G3B) listed on SGX',
+                          'Globally diversified funds via Endowus',
+                          'VWRA — a globally diversified ETF listed on the London Stock Exchange',
+                          'Singapore Government Bonds',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'VWRA is listed on the London Stock Exchange and is not on the CPF Board\'s approved instrument list. CPFIS only permits investment in approved instruments — primarily SGX-listed ETFs, approved unit trusts, Singapore Government Bonds, and funds accessible via Endowus. US and globally-listed ETFs are not eligible regardless of how diversified they are.',
+                      },
+                      {
+                        concept: 'CPFIS vs OA Rate Decision',
+                        question: 'Why did a significant proportion of CPFIS investors historically underperform the guaranteed 2.5% OA rate?',
+                        options: [
+                          'They invested in STI ETFs which consistently returned less than 2.5% per year',
+                          'They chose high-fee unit trusts whose costs eroded returns below the 2.5% OA benchmark',
+                          'CPF Board charged additional transaction fees that reduced net returns below 2.5%',
+                          'The OA rate was raised to 5% during this period, making it impossible for investments to compete',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'A CPF Board study found many CPFIS investors underperformed the OA\'s 2.5% primarily because they chose high-fee unit trusts — management fees of 1.5–2.0% p.a. left net returns at or below the guaranteed OA rate, while taking on investment risk. This led to CPFIS reforms in 2018. Low-cost instruments like the STI ETF (0.30% expense ratio) or Endowus funds avoid this trap.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What is CPFIS and which CPF accounts are eligible?', a: 'The CPF Investment Scheme allows members to invest CPF funds above minimum balances — OA funds above $20,000 and SA funds above $40,000. The MA cannot be invested via CPFIS. It is only available to Singapore citizens and PRs, not international students on a student pass.' },
+              { q: 'What is the minimum OA balance required before investing via CPFIS, and why does it matter?', a: '$20,000 must remain in the OA at all times. This protected amount continues earning the guaranteed 2.5% regardless of CPFIS investments — only the balance above $20,000 is eligible for investment.' },
+              { q: 'Why have many CPFIS investors historically underperformed the guaranteed 2.5% OA rate?', a: 'They chose high-fee unit trusts whose management costs of 1.5–2.0% p.a. eroded gross returns to below the OA benchmark. Low-cost instruments like the STI ETF (~0.30% expense ratio) or Endowus funds avoid this problem.' },
+              { q: 'Which is the only Singapore robo-advisor that can invest CPF OA funds via CPFIS?', a: 'Endowus — it is the only MAS-regulated robo-advisor with CPFIS access. Syfe and StashAway are cash-only platforms and cannot receive CPF funds. Endowus provides access to globally diversified institutional funds at low cost.' },
+              { q: 'When does CPFIS make the most sense, and when should you leave OA funds at 2.5%?', a: 'CPFIS makes sense with a 10+ year horizon, low-cost instruments, and OA funds not needed for housing. Leave at 2.5% if you plan to use OA funds for HDB within 5 years, the investable amount is small, or you are considering high-fee products.' },
+            ],
+          },
+          {
+            id: '9-3',
+            title: 'Avoiding Common Investing Mistakes',
+            icon: '⚠️',
+            topic: 'Common investing mistakes beginners Singapore',
+            duration: '5 min',
+            fincoins: 55,
+            sections: [
+              // ─── Section 1: Speculation vs Investing ─────────────────────────────
+              {
+                key: 'speculation',
+                title: 'Speculation vs Investing',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Speculation vs Investing',
+                  },
+                  {
+                    type: 'text',
+                    text: 'One of the most important distinctions in personal finance is the line between investing and speculation — and it is a line that is easy to blur, especially when friends are talking about gains. Investing means deploying capital into assets with a reasonable expectation of long-term returns based on underlying value and earnings. Speculation means taking on outsized risk in the hope of short-term price appreciation — where the "return" depends primarily on someone else paying more for the asset later, not on any underlying value creation.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Speculation',
+                    definition: 'Taking on high risk in pursuit of short-term price gains, where returns depend primarily on market sentiment and future buyer willingness rather than underlying asset value or earnings. Speculation is not inherently wrong — but it should be treated as a separate activity from long-term wealth building, funded only with money you can afford to lose entirely.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'MAS has repeatedly warned Singapore retail investors about the risks of cryptocurrency and speculative assets. In 2022, the collapse of Terraform\'s LUNA token — founded by a Singapore-based entity — wiped out an estimated USD $40 billion in value within days. Many Singapore retail investors lost significant sums. MAS does not regulate most cryptocurrencies and cannot protect investors if a platform fails or a token collapses.',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'Investing vs speculation — where does each asset sit?',
+                    variant: 'neutral',
+                    cards: [
+                      {
+                        frontLabel: '📊 Investing',
+                        backLabel: '📋 Why it qualifies',
+                        front: 'STI ETF, globally diversified ETFs (VWRA, IWDA), Singapore blue chip stocks, S-REITs, Singapore Savings Bonds, CPF.',
+                        back: 'These assets generate returns from underlying economic activity — company earnings, rental income, interest payments. Their long-term value is anchored to real-world cash flows, not just the belief that someone will pay more tomorrow.',
+                        tag: 'Returns from underlying value and earnings',
+                      },
+                      {
+                        frontLabel: '🎲 Speculation',
+                        backLabel: '📋 Why it qualifies',
+                        front: 'Most cryptocurrencies, meme stocks (GameStop, AMC), leveraged trading products, penny stocks, NFTs.',
+                        back: 'Returns depend primarily on sentiment and finding a buyer at a higher price — not on underlying earnings or cash flows. Prices can go to zero without any fundamental trigger. These are not inherently wrong to hold in small amounts, but they are not a substitute for a long-term investment portfolio.',
+                        tag: 'Returns from sentiment and future buyer belief',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The Terraform Luna Collapse — A Singapore Case Study',
+                  },
+                  {
+                    type: 'text',
+                    text: 'In May 2022, the TerraUSD (UST) stablecoin and its sister token LUNA — both associated with Terraform Labs, headquartered in Singapore — collapsed within 72 hours. UST, marketed as a stable $1 coin, lost its peg and fell to near zero. LUNA, which had traded above $80, fell to fractions of a cent. Many Singapore retail investors who had held LUNA or deposited UST on the Anchor Protocol for advertised 19–20% yields lost their entire investment. MAS subsequently pursued legal action against Terraform\'s co-founder. The collapse remains one of the largest retail investor loss events in Singapore\'s financial history.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'A simple rule: if a product advertises returns of 10%+ per year with no risk or lock-in, it is almost certainly either speculative or fraudulent. The CPF SA earns 4% guaranteed — backed by the Singapore government. Anything claiming to safely beat that by a wide margin deserves extreme scepticism.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 MAS warnings cryptocurrency Singapore retail investors 2025',
+                    prompt: 'MAS warnings cryptocurrency Singapore 2025 retail investor risks Terraform Luna collapse crypto regulation',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '9-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'Speculation vs Investing — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'An STI ETF and a meme stock are both forms of investing because both involve buying financial assets.',
+                        isTrue: false,
+                        explanation: 'Buying a financial asset does not automatically make it investing. The STI ETF generates returns from the underlying earnings of 30 companies. A meme stock\'s price is driven primarily by social media sentiment — its return depends on finding a buyer at a higher price, not on business fundamentals. One is investing; the other is speculation.',
+                      },
+                      {
+                        text: 'MAS regulates most cryptocurrencies and can protect Singapore investors if a crypto platform collapses.',
+                        isTrue: false,
+                        explanation: 'MAS does not regulate most cryptocurrencies and explicitly cannot protect investors if a crypto platform fails or a token collapses. MAS has repeatedly warned retail investors of this limitation. The Terraform Luna collapse is a direct example — MAS had no mechanism to recover investor losses.',
+                      },
+                      {
+                        text: 'Speculation is not inherently wrong, but it should be funded only with money you can afford to lose entirely.',
+                        isTrue: true,
+                        explanation: 'Correct — speculation is a legitimate activity if approached with full awareness of the risk. The key principle: speculative positions should be funded from discretionary money, completely separate from your long-term investment portfolio and emergency fund. Never speculate with money you cannot afford to lose.',
+                      },
+                      {
+                        text: 'A product advertising 20% annual returns with no risk is likely a strong investment opportunity worth researching.',
+                        isTrue: false,
+                        explanation: 'A 20% guaranteed return with no risk is a near-certain sign of either speculation or fraud. The Singapore CPF SA — one of the safest instruments in the world — earns 4% guaranteed. Any product claiming to safely and substantially beat that deserves extreme scepticism before any money is committed.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Traps Specific to Student Investors ──────────────────
+              {
+                key: 'traps',
+                title: 'Traps Specific to Student Investors',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Traps Specific to Student Investors',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Beyond the broad speculation vs investing distinction, student investors face a specific set of behavioural traps that are amplified by social environments — hall life, group chats, and the visibility of other people\'s gains. These traps do not require cryptocurrency or meme stocks to be damaging — they can affect perfectly mainstream investment decisions.',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'Student investor traps — tap to flip:',
+                    variant: 'reframe',
+                    cards: [
+                      {
+                        frontLabel: '❌ The Trap',
+                        backLabel: '✅ The Fix',
+                        front: 'FOMO investing: your hall friend just made 40% on Tesla in 3 months. You buy in immediately, near the peak of the rally.',
+                        back: 'You hear about gains after they have already happened — you are buying at the price your friend is now considering selling at. Past 3-month performance tells you nothing about the next 3 months. Build your own strategy and stick to it — do not construct a portfolio from other people\'s recent wins.',
+                        tag: 'You hear about gains after the fact',
+                      },
+                      {
+                        frontLabel: '❌ The Trap',
+                        backLabel: '✅ The Fix',
+                        front: 'Over-concentration: you put 80% of your portfolio into a single stock because you "know the company well" — it\'s a brand you use every day.',
+                        back: 'Familiarity with a product is not an investing edge. Millions of people use the same products — that information is already priced in. A single stock can lose 50–80% of its value on one earnings miss or regulatory change. No matter how well you know the brand, diversification is not optional.',
+                        tag: 'Familiarity is not an investing edge',
+                      },
+                      {
+                        frontLabel: '❌ The Trap',
+                        backLabel: '✅ The Fix',
+                        front: 'Chasing past performance: you pick the unit trust or ETF that returned the most over the past 12 months, assuming it will continue to outperform.',
+                        back: 'Past performance is not predictive of future returns — this is not a disclaimer, it is a documented empirical fact. The top-performing fund of last year is statistically more likely to underperform the index next year than to repeat. Choose investments based on cost and diversification, not recent returns.',
+                        tag: 'Last year\'s winner is next year\'s laggard',
+                      },
+                      {
+                        frontLabel: '❌ The Trap',
+                        backLabel: '✅ The Fix',
+                        front: 'Acting on social media stock tips: a finance influencer on Instagram or Telegram posts about a "must-buy" stock or token.',
+                        back: 'Anyone posting specific buy recommendations publicly has either already bought at a lower price (and benefits from your purchase pushing the price up) or is paid to promote it. MAS has prosecuted multiple cases of illegal stock promotion in Singapore. Treat all specific buy tips from social media as conflicted until proven otherwise.',
+                        tag: 'The person tipping you has already bought',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'MAS operates a list of investor alerts — unregulated entities and suspicious investment schemes targeting Singapore investors. Before investing in any platform or product you discovered through social media or a referral, check the MAS Investor Alert List at mas.gov.sg.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 MAS investor alert list Singapore scam investment 2025',
+                    prompt: 'MAS investor alert list Singapore 2025 unregulated investment scam social media stock tips illegal promotion',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '9-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Spot the trap',
+                    scenarios: [
+                      {
+                        icon: '📱',
+                        situation: 'A Telegram group you joined shares a tip about a Singapore penny stock that is "about to moon." Several members post screenshots of their gains. The stock has tripled in the past two weeks. You are considering putting $500 in.',
+                        options: [
+                          {
+                            text: 'Invest — the momentum is clear and $500 is a small amount so the risk is limited.',
+                            biasLabel: 'Classic pump-and-dump setup',
+                            biasExplanation: 'A stock that has tripled in two weeks on Telegram tips is a textbook pump-and-dump pattern. The people posting gain screenshots are selling to latecomers. MAS has prosecuted multiple such cases involving Singapore penny stocks. The fact that it is "only $500" does not change the nature of the risk.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Do not invest — the pattern matches a pump-and-dump scheme; check the MAS Investor Alert List first.',
+                            biasLabel: 'Correct — avoid and verify ✓',
+                            biasExplanation: 'Unsolicited tips in social media groups, combined with recent price spikes and screenshots of gains, are the signature of coordinated pump-and-dump activity. The correct response is to not invest and to check the MAS Investor Alert List. If the platform or promoter is on it, report to MAS.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Research the company fundamentals first — if they are strong, the investment is justified.',
+                            biasLabel: 'Fundamentals won\'t save you here',
+                            biasExplanation: 'In a pump-and-dump, the price rise has nothing to do with fundamentals — it is driven entirely by coordinated buying. Strong fundamentals do not protect you when the pump collapses and coordinated sellers exit. The trigger to avoid is the pattern itself, not the fundamentals.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏆',
+                        situation: 'You are choosing between two ETFs. ETF A returned 32% last year and has a 0.75% expense ratio. ETF B returned 11% last year and has a 0.20% expense ratio. Both are globally diversified. Which do you choose?',
+                        options: [
+                          {
+                            text: 'ETF A — last year\'s 32% return shows it is the stronger performing fund.',
+                            biasLabel: 'Chasing past performance',
+                            biasExplanation: 'Past 12-month performance is one of the least predictive indicators of future returns. The top-performing fund of last year is statistically more likely to revert toward average next year. ETF A\'s 0.75% expense ratio is also 3.75× higher than ETF B — a guaranteed annual drag on returns every year going forward.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'ETF B — the lower expense ratio (0.20%) is a guaranteed future advantage; past returns are not predictive.',
+                            biasLabel: 'Correct — cost is the only guaranteed factor ✓',
+                            biasExplanation: 'For two broadly similar globally diversified ETFs, the expense ratio is the most reliable predictor of long-term relative performance. A 0.55% annual cost difference compounds into thousands of dollars over a decade. Past returns are backward-looking; fees apply every year going forward.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Split equally between both — diversifying between funds reduces the risk of picking wrong.',
+                            biasLabel: 'Unnecessary if both are globally diversified',
+                            biasExplanation: 'If both ETFs are globally diversified, holding both provides minimal additional diversification — you are essentially paying two different expense ratios for near-identical exposure. Choose the lower-cost one and hold it consistently.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎓',
+                        situation: 'Your NTU batchmate tells you she has put 70% of her savings into a single tech company because she uses its products daily and "really believes in it." She asks if you think this is a good strategy.',
+                        options: [
+                          {
+                            text: 'Agree — conviction investing in companies you know well is a legitimate strategy used by Warren Buffett.',
+                            biasLabel: 'Misapplies the Buffett principle',
+                            biasExplanation: 'Buffett\'s conviction investing is based on deep financial analysis of business fundamentals — not product familiarity. Using a company\'s products tells you nothing that millions of other users don\'t already know, and that isn\'t already priced in. 70% in a single stock is dangerous concentration regardless of the company.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Push back — product familiarity is not an investing edge, and 70% in one stock is dangerous concentration regardless of the company.',
+                            biasLabel: 'Correct — diversification is not optional ✓',
+                            biasExplanation: 'Any single stock can lose 50–80% on a single bad earnings report, regulatory change, or macro shock. Familiarity with a product does not protect against this. A globally diversified ETF gives exposure to thousands of companies including this one — at a fraction of the concentration risk.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'It depends on which company — some are safer single-stock bets than others.',
+                            biasLabel: 'No single stock is safe at 70% concentration',
+                            biasExplanation: 'No company — however large or well-known — is a safe destination for 70% of a student\'s savings. Even the most established blue chips have experienced 40–60% drawdowns. The problem is not the specific company; it is the concentration level.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Building a Durable Investing Habit ───────────────────
+              {
+                key: 'mindset',
+                title: 'Building a Durable Investing Habit',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Building a Durable Investing Habit',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Avoiding mistakes is only half the picture. The other half is building an approach robust enough to survive market downturns, peer pressure, and your own psychology over decades. The investors who build real long-term wealth are rarely the most sophisticated — they are the most consistent. Here is what consistency looks like in practice for a Singapore graduate starting out.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'What a Simple Long-Term Portfolio Looks Like',
+                  },
+                  {
+                    type: 'text',
+                    text: 'A durable starting portfolio for a Singapore graduate does not need to be complex. Research consistently shows that simple, low-cost, globally diversified portfolios outperform most actively managed alternatives over the long term. Here is one version of what that looks like:',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Component', 'Instrument', 'Purpose', 'Where to Hold'],
+                    rows: [
+                      ['Global equities', 'VWRA or Endowus globally diversified fund', 'Long-term growth engine', 'Tiger/Moomoo/IBKR (cash) or Endowus (CPF)'],
+                      ['Singapore exposure', 'STI ETF (ES3 or G3B) or POEMS RSP', 'Local market + dividends', 'CDP-linked broker or POEMS RSP'],
+                      ['Capital-protected buffer', 'Singapore Savings Bonds (SSBs)', 'Stable returns, fully flexible', 'DBS/OCBC/UOB via SSB application'],
+                      ['CPF (when working)', 'OA at 2.5% or Endowus via CPFIS', 'Retirement foundation', 'CPF Board / Endowus'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The Investment Policy Statement',
+                  },
+                  {
+                    type: 'text',
+                    text: 'One of the most practical tools for avoiding behavioural mistakes is an Investment Policy Statement (IPS) — a one-page document you write for yourself that defines your strategy before a crisis hits. When markets fall 30% and every instinct tells you to sell, your IPS reminds you what you decided when you were calm.',
+                  },
+                  {
+                    type: 'checklist',
+                    title: 'Your one-page IPS should cover:',
+                    items: [
+                      'My investment goal — what I am building this portfolio for and over what time horizon',
+                      'My asset allocation — what percentage in equities, bonds, and cash, and why',
+                      'My chosen instruments — which specific ETFs or funds I hold and why I chose them',
+                      'My DCA schedule — how much I invest each month and on which date',
+                      'My rebalancing rule — when and how I rebalance (e.g. annually, or when allocation drifts >10%)',
+                      'My rules for downturns — written in advance: "If the market falls 20%, I will continue my DCA and not sell"',
+                      'What I will NOT do — no individual stock tips, no crypto from social media, no panic selling',
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Write your IPS when markets are calm — not during a crash. The best time is right now, before you have experienced your first major drawdown. Print it, save it somewhere visible, and refer to it whenever you feel the urge to deviate from your plan.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '📈',
+                    title: 'The Compounding Payoff of Starting Early',
+                    description: 'Compare two graduates — one starts investing $400/month at age 22, the other waits until 32. Drag to see how the 10-year head start compounds by retirement at 65.',
+                    min: 22,
+                    max: 45,
+                    step: 1,
+                    initialValue: 22,
+                    prefix: '',
+                    calculateResult: (startAge) => {
+                      const monthlyInvestment = 400;
+                      const annualReturn = 0.07;
+                      const monthlyReturn = annualReturn / 12;
+                      const retirementAge = 65;
+                      const months = (retirementAge - startAge) * 12;
+
+                      let total = 0;
+                      for (let m = 1; m <= months; m++) {
+                        total = (total + monthlyInvestment) * (1 + monthlyReturn);
+                      }
+
+                      const earlyStartMonths = (retirementAge - 22) * 12;
+                      let earlyTotal = 0;
+                      for (let m = 1; m <= earlyStartMonths; m++) {
+                        earlyTotal = (earlyTotal + monthlyInvestment) * (1 + monthlyReturn);
+                      }
+
+                      const gap = earlyTotal - total;
+                      const yearsInvesting = retirementAge - startAge;
+
+                      return [
+                        { label: `📅 Starting at age ${startAge} — portfolio at 65`, value: `$${Math.round(total).toLocaleString()}`, color: '#0891B2' },
+                        { label: '✅ Starting at age 22 — portfolio at 65', value: `$${Math.round(earlyTotal).toLocaleString()}`, color: '#059669' },
+                        { label: `💸 Cost of waiting — compounded gap`, value: `$${Math.round(gap).toLocaleString()}`, color: '#DC2626' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Simple long-term investment portfolio Singapore graduate starting out 2025',
+                    prompt: 'Simple long term investment portfolio Singapore 2025 graduate starting out ETF SSB CPF DCA strategy beginner',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '9-3-s3-mcq',
+                    fincoins: 10,
+                    icon: '⚠️',
+                    title: 'Long-Term Mindset Quiz',
+                    question: 'What is the primary purpose of writing an Investment Policy Statement (IPS) before you begin investing?',
+                    options: [
+                      'To satisfy MAS requirements for retail investors holding more than $10,000 in securities',
+                      'To lock in your asset allocation legally so you cannot deviate without penalty',
+                      'To define your strategy in advance so that during a market downturn you have a calm, pre-committed plan to follow',
+                      'To calculate the exact returns you will earn over your investment horizon',
+                    ],
+                    correctIndex: 2,
+                    explanation: 'An IPS is a personal document with no legal requirement or binding force — its value is entirely behavioural. By writing down your strategy, asset allocation, DCA schedule, and rules for downturns when you are calm, you give your future self a reference point to return to when markets are volatile and every instinct says to sell. It is a commitment device against your own psychology.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Avoiding Investing Mistakes',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Avoiding Investing Mistakes',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered the distinction between speculation and investing, the behavioural traps specific to student investors, and how to build a durable long-term approach. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Common investing mistakes Singapore beginners how to avoid 2025',
+                    prompt: 'Common investing mistakes Singapore beginners 2025 speculation FOMO over-concentration past performance chasing long term mindset',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '9-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '⚠️',
+                    title: 'Avoiding Mistakes Challenge',
+                    questions: [
+                      {
+                        concept: 'Speculation vs Investing',
+                        question: 'What is the fundamental difference between investing and speculation?',
+                        options: [
+                          'Investing involves buying assets on a stock exchange; speculation involves buying assets off-exchange',
+                          'Investing generates returns from underlying asset value and earnings; speculation relies on sentiment and finding a future buyer at a higher price',
+                          'Investing is regulated by MAS; speculation is entirely unregulated in Singapore',
+                          'Investing requires a minimum $1,000 commitment; speculation can begin with any amount',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The core distinction is the source of returns. Investing — in ETFs, stocks, REITs, bonds — generates returns from underlying economic activity: company earnings, rental income, interest. Speculation relies on market sentiment and the belief that someone will pay more later — not on fundamental value creation. Both can be done on regulated exchanges; the distinction is in the return mechanism.',
+                      },
+                      {
+                        concept: 'Student Investor Traps',
+                        question: 'Your friend made 40% on a stock in 3 months and tells you to buy it now. What is the most important reason to be cautious?',
+                        options: [
+                          'Your friend is probably lying about the returns to impress you',
+                          'You hear about gains after they have already happened — you would be buying at the price your friend is now considering selling at',
+                          'MAS prohibits acting on investment tips from friends and family',
+                          'A 40% return in 3 months is mathematically impossible in Singapore markets',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'FOMO investing is dangerous because you always hear about gains after the fact. Your friend bought at a lower price — you would be buying at the current elevated price, near where your friend is now considering selling. The rally that generated the 40% gain has already happened; it is not a signal about what comes next.',
+                      },
+                      {
+                        concept: 'Building a Durable Habit',
+                        question: 'Which of the following best describes the purpose of an Investment Policy Statement (IPS)?',
+                        options: [
+                          'A legal document required by MAS for all retail investors with portfolios over $5,000',
+                          'A personal document written in calm conditions that defines your strategy and rules for downturns — protecting you from your own psychology during volatile markets',
+                          'A performance benchmark that tells you whether your portfolio is beating the market',
+                          'A contract between you and your brokerage that locks in your asset allocation for 12 months',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'An IPS is a personal, non-binding document with no MAS requirement. Its entire value is behavioural — it defines your strategy, DCA schedule, and rules for downturns while you are calm, giving you a pre-committed plan to return to when markets fall and panic sets in. It is a commitment device against your own psychology, not a legal or performance instrument.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What is the fundamental difference between investing and speculation?', a: 'Investing generates returns from underlying asset value and earnings — company profits, rental income, interest. Speculation relies on market sentiment and finding a future buyer at a higher price. Speculation is not inherently wrong but should be funded only with money you can afford to lose entirely.' },
+              { q: 'What happened in the Terraform Luna collapse and why is it relevant to Singapore investors?', a: 'In May 2022, the LUNA token and TerraUSD stablecoin — associated with Singapore-headquartered Terraform Labs — collapsed within 72 hours, wiping out an estimated USD $40 billion. Many Singapore retail investors lost their entire holdings. MAS cannot protect investors in unregulated crypto collapses.' },
+              { q: 'Why is product familiarity not a valid investing edge?', a: 'Millions of people use the same products — that information is already reflected in the stock price. Familiarity does not give you insight that isn\'t already priced in. It also creates false confidence that can lead to dangerous over-concentration in a single stock.' },
+              { q: 'Why should you choose ETF B (11% last year, 0.20% fee) over ETF A (32% last year, 0.75% fee) if both are globally diversified?', a: 'Past 12-month returns are not predictive of future performance — last year\'s top fund is statistically likely to revert toward average. The 0.55% fee difference is a guaranteed annual drag on returns every year going forward. For similar funds, cost is the only reliable long-term differentiator.' },
+              { q: 'What is an Investment Policy Statement and why should you write one before your first market downturn?', a: 'A personal one-page document defining your strategy, asset allocation, DCA schedule, and rules for downturns — written when you are calm. Its value is behavioural: it gives you a pre-committed plan to return to when markets fall and panic sets in, protecting you from your own psychology.' },
+            ],
+          },        
         ],
       },
     ],
