@@ -43,430 +43,361 @@ export const MODULES = [
             duration: '5 min',
             xp: 50,
             sections: [
-                // ─── Section 1: What is Financial Literacy? ──────────
-                {
-                key: 'definition',
-                title: 'What is Financial Literacy?',
-                fincoins: 10,
-                minFincoins: 10,
-                content: [
-                    {
-                    type: 'heading',
-                    text: 'What is Financial Literacy?',
-                    },
-                    {
-                    type: 'text',
-                    text: 'Financial literacy is more than knowing financial vocabulary. It encompasses three things: the knowledge to understand financial concepts such as compound interest and inflation, the skill to apply that knowledge in real decisions, and the confidence to act on it. All three are required — knowledge without skill or confidence rarely translates into better financial outcomes.',
-                    },
-                    {
-                    type: 'keyterm',
-                    term: 'Financial Literacy',
-                    definition: 'The knowledge, skill, and confidence to make informed financial decisions — covering budgeting, saving, investing, and managing debt. It is the difference between knowing what compound interest is and actually using it to make better choices.',
-                    },
-                    {
-                    type: 'bot',
-                    label: '💬 Current financial literacy rates in Singapore',
-                    prompt: 'Singapore financial literacy rate 2024 2025 survey statistics percentage MAS MoneySense',
-                    },
-                    {
-                    type: 'callout',
-                    variant: 'fact',
-                    text: 'Only 59% of Singaporeans are considered financially literate — and among university students, the rate is lower still despite higher education levels. Financial literacy is not a byproduct of academic achievement.',
-                    },
-                    {
-                    type: 'flipcards',
-                    exerciseId: '1-1-s1-flip',
-                    fincoins: 10,
-                    title: 'What financial literacy actually means — and what it does not:',
-                    cards: [
-                        {
-                        frontLabel: '❌ Common misconception',
-                        backLabel: '✅ Reality',
-                        front: 'Financial literacy just means knowing financial terms and definitions.',
-                        back: 'Knowing definitions is financial knowledge — not financial literacy. Literacy requires the skill and confidence to apply that knowledge in real decisions. Someone can define "compound interest" and still keep all their money in a 0.05% savings account.',
-                        tag: 'Knowledge ≠ Literacy',
-                        },
-                        {
-                        frontLabel: '❌ Common misconception',
-                        backLabel: '✅ Reality',
-                        front: 'High earners are automatically financially literate.',
-                        back: 'Income and financial literacy are not the same thing. High earners with low literacy often accumulate lifestyle debt, fail to invest, and have little savings despite large salaries. Literacy is about behaviour, not income.',
-                        tag: 'Income ≠ Literacy',
-                        },
-                        {
-                        frontLabel: '❌ Common misconception',
-                        backLabel: '✅ Reality',
-                        front: 'Financial literacy is only relevant once you start earning a full-time salary.',
-                        back: 'Financial habits formed during university — budgeting, saving, and avoiding debt — are among the most persistent across a lifetime. The earlier literacy is developed, the longer it has to compound into better outcomes.',
-                        tag: 'Start early',
-                        },
-                        {
-                        frontLabel: '❌ Common misconception',
-                        backLabel: '✅ Reality',
-                        front: 'Studying a finance or business degree makes someone financially literate.',
-                        back: 'Academic finance covers theory and markets — not personal financial decision-making. Studies consistently show finance graduates are not significantly more financially literate than peers in other disciplines when it comes to personal money management.',
-                        tag: 'Degree ≠ Literacy',
-                        },
-                    ],
-                    },
-                    {
-                      type: 'tindertruefalse',
-                      exerciseId: '1-1-s1-tinder',
-                      fincoins: 10,
-                      title: 'Financial Literacy — True or False?',
-                      instruction: 'Swipe right for True · Swipe left for False',
-                      statements: [
-                        {
-                          text: 'Financial literacy means the same thing as financial knowledge.',
-                          isTrue: false,
-                          explanation: 'Financial literacy requires three things — knowledge, skill, and confidence. Knowledge alone is not literacy. Someone can understand compound interest in theory and still make poor financial decisions in practice.',
-                        },
-                        {
-                          text: 'A person can be financially literate without earning a high income.',
-                          isTrue: true,
-                          explanation: 'Financial literacy is about behaviour and decision-making, not income level. A low earner who budgets, saves, and avoids debt is more financially literate than a high earner who accumulates lifestyle debt and saves nothing.',
-                        },
-                        {
-                          text: 'Studying a finance or business degree guarantees strong personal financial literacy.',
-                          isTrue: false,
-                          explanation: 'Academic finance covers markets and theory — not personal money management. Studies show finance graduates are not significantly more financially literate than peers in other disciplines when it comes to personal financial decisions.',
-                        },
-                        {
-                          text: 'Financial habits formed during university are among the most persistent across a lifetime.',
-                          isTrue: true,
-                          explanation: 'University is often the first time students make independent financial decisions. Habits formed during this period — budgeting, saving, avoiding debt — tend to persist long after graduation.',
-                        },
-                        {
-                          text: 'High earners are automatically more financially literate than low earners.',
-                          isTrue: false,
-                          explanation: 'Income and financial literacy are unrelated. High earners with low literacy frequently accumulate lifestyle debt, fail to invest, and have little savings despite large salaries. Literacy is about behaviour, not income.',
-                        },
-                      ],
-                    },
+              { key: 'definition', heading: 'What Financial Literacy Actually Means' },
+              { key: 'why', heading: 'Why It Matters in Singapore' },
+              { key: 'bigthree', heading: 'The Big Three Concepts' },
+            ],
+            content: [
+              // ─── Section 1: What is Financial Literacy? ──────────
+              {
+                type: 'heading',
+                text: 'What is Financial Literacy?',
+              },
+              {
+                type: 'text',
+                text: 'Financial literacy is more than knowing financial vocabulary. It encompasses three things: the knowledge to understand financial concepts such as compound interest and inflation, the skill to apply that knowledge in real decisions, and the confidence to act on it. All three are required — knowledge without skill or confidence rarely translates into better financial outcomes.',
+              },
+              {
+                type: 'keyterm',
+                term: 'Financial Literacy',
+                definition: 'The knowledge, skill, and confidence to make informed financial decisions — covering budgeting, saving, investing, and managing debt. It is the difference between knowing what compound interest is and actually using it to make better choices.',
+              },
+              {
+                type: 'bot',
+                label: '💬 Current financial literacy rates in Singapore',
+                prompt: 'Singapore financial literacy rate 2024 2025 survey statistics percentage MAS MoneySense',
+              },
+              {
+                type: 'callout',
+                variant: 'fact',
+                text: 'Only 59% of Singaporeans are considered financially literate — and among university students, the rate is lower still despite higher education levels. Financial literacy is not a byproduct of academic achievement.',
+              },
+              {
+                type: 'flipcards',
+                title: 'What financial literacy actually means — and what it does not:',
+                cards: [
+                  {
+                    frontLabel: '❌ Common misconception',
+                    backLabel: '✅ Reality',
+                    front: 'Financial literacy just means knowing financial terms and definitions.',
+                    back: 'Knowing definitions is financial knowledge — not financial literacy. Literacy requires the skill and confidence to apply that knowledge in real decisions. Someone can define "compound interest" and still keep all their money in a 0.05% savings account.',
+                    tag: 'Knowledge ≠ Literacy',
+                  },
+                  {
+                    frontLabel: '❌ Common misconception',
+                    backLabel: '✅ Reality',
+                    front: 'High earners are automatically financially literate.',
+                    back: 'Income and financial literacy are not the same thing. High earners with low literacy often accumulate lifestyle debt, fail to invest, and have little savings despite large salaries. Literacy is about behaviour, not income.',
+                    tag: 'Income ≠ Literacy',
+                  },
+                  {
+                    frontLabel: '❌ Common misconception',
+                    backLabel: '✅ Reality',
+                    front: 'Financial literacy is only relevant once you start earning a full-time salary.',
+                    back: 'Financial habits formed during university — budgeting, saving, and avoiding debt — are among the most persistent across a lifetime. The earlier literacy is developed, the longer it has to compound into better outcomes.',
+                    tag: 'Start early',
+                  },
+                  {
+                    frontLabel: '❌ Common misconception',
+                    backLabel: '✅ Reality',
+                    front: 'Studying a finance or business degree makes someone financially literate.',
+                    back: 'Academic finance covers theory and markets — not personal financial decision-making. Studies consistently show finance graduates are not significantly more financially literate than peers in other disciplines when it comes to personal money management.',
+                    tag: 'Degree ≠ Literacy',
+                  },
                 ],
-                },
+              },
 
-                // ─── Section 2: Why Financial Literacy Matters ────────
-                {
-                key: 'why',
-                title: 'Why Financial Literacy Matters',
-                fincoins: 10,
-                minFincoins: 10,
-                content: [
-                    {
-                    type: 'heading',
-                    text: 'Why Financial Literacy Matters',
-                    },
-                    {
-                    type: 'text',
-                    text: 'The consequences of low financial literacy are concrete and measurable. Research consistently links poor financial literacy to higher debt levels, lower savings rates, and greater vulnerability to financial shocks. In Singapore — where the cost of living is high, financial products are increasingly complex, and retirement planning is largely self-directed — the stakes are particularly significant.',
-                    },
-                    {
-                    type: 'topiccards',
-                    title: 'Three areas where financial literacy has the greatest impact:',
-                    cards: [
-                        {
-                        icon: '💰',
-                        label: 'Budgeting & Saving',
-                        description: 'Financially literate individuals are significantly more likely to build savings and emergency funds.',
-                        color: '#4F46E5',
-                        details: [
-                            'People with higher financial literacy are more likely to have 3–6 months of expenses saved as an emergency fund.',
-                            'They are better at tracking spending and identifying where money is being lost to unnecessary costs.',
-                            'In Singapore, where monthly expenses are high, a failure to budget consistently is one of the leading causes of financial stress among students and young adults.',
-                            'Financial literacy enables the distinction between needs and wants — the foundation of any effective budget.',
-                        ],
-                        example: 'A financially literate student on a $1,500/month allowance builds a $3,000 emergency fund within a year by consistently allocating 20% to savings. A peer with the same income and no literacy framework spends everything and has nothing saved after graduation.',
-                        },
-                        {
-                        icon: '💳',
-                        label: 'Debt Management',
-                        description: 'Low financial literacy is one of the strongest predictors of problematic debt accumulation.',
-                        color: '#DC2626',
-                        details: [
-                            'Individuals with low financial literacy are more likely to carry high-interest credit card balances without understanding the true cost.',
-                            'They are more vulnerable to predatory lending — buy-now-pay-later schemes, personal loans with high effective interest rates, and credit rollovers.',
-                            'Understanding the difference between good debt (e.g. a low-interest student loan for a valuable qualification) and bad debt (e.g. credit card debt at 25% p.a.) is a core literacy skill.',
-                            'In Singapore, personal insolvency cases are disproportionately linked to credit card and unsecured debt — products that are heavily marketed to young adults.',
-                        ],
-                        example: 'An international student uses a credit card for daily expenses and pays only the minimum each month. At 25% p.a. effective interest, a $2,000 balance takes over 3 years to clear and costs nearly $800 in interest — a cost that financial literacy would have prevented.',
-                        },
-                        {
-                        icon: '📈',
-                        label: 'Investing & Wealth',
-                        description: 'Financial literacy is the strongest individual predictor of long-term wealth accumulation.',
-                        color: '#059669',
-                        details: [
-                            'Financially literate individuals are significantly more likely to participate in stock markets and retirement savings schemes.',
-                            'They start investing earlier — and because of compounding, earlier investing has a disproportionate impact on final wealth.',
-                            'They are better at evaluating financial products — avoiding high-fee unit trusts, unnecessary insurance-investment hybrids, and scam investments.',
-                            'In Singapore, understanding CPF, SRS, and tax-advantaged accounts is directly linked to long-term retirement readiness.',
-                        ],
-                        example: 'Two graduates start work at the same salary. One invests $300/month from age 23; the other waits until 33. By age 65, the early investor has nearly twice the retirement wealth — the difference is entirely due to 10 extra years of compounding.',
-                        },
+              // ─── Section 2: Why Financial Literacy Matters ────────
+              {
+                type: 'heading',
+                text: 'Why Financial Literacy Matters',
+              },
+              {
+                type: 'text',
+                text: 'The consequences of low financial literacy are concrete and measurable. Research consistently links poor financial literacy to higher debt levels, lower savings rates, and greater vulnerability to financial shocks. In Singapore — where the cost of living is high, financial products are increasingly complex, and retirement planning is largely self-directed — the stakes are particularly significant.',
+              },
+              {
+                type: 'topiccards',
+                title: 'Three areas where financial literacy has the greatest impact:',
+                cards: [
+                  {
+                    icon: '💰',
+                    label: 'Budgeting & Saving',
+                    description: 'Financially literate individuals are significantly more likely to build savings and emergency funds.',
+                    color: '#4F46E5',
+                    details: [
+                      'People with higher financial literacy are more likely to have 3–6 months of expenses saved as an emergency fund.',
+                      'They are better at tracking spending and identifying where money is being lost to unnecessary costs.',
+                      'In Singapore, where monthly expenses are high, a failure to budget consistently is one of the leading causes of financial stress among students and young adults.',
+                      'Financial literacy enables the distinction between needs and wants — the foundation of any effective budget.',
                     ],
-                    },
-                    {
-                    type: 'bot',
-                    label: '💬 Research on financial literacy and financial behaviour outcomes',
-                    prompt: 'Financial literacy impact financial behaviour outcomes research evidence saving investing debt management 2024',
-                    },
-                    {
-                    type: 'scenarios',
-                    exerciseId: '1-1-s2-scenarios',
-                    fincoins: 10,
-                    title: 'Financial literacy in action — what would a financially literate person do?',
-                    scenarios: [
-                        {
-                        icon: '💳',
-                        situation: 'A student receives their first credit card with a $2,000 limit. They use it for daily expenses throughout the month and receive the bill at month end.',
-                        options: [
-                            {
-                            text: 'Pay the full balance immediately — treat the card as a debit card, not a loan.',
-                            biasLabel: 'Financially literate ✓',
-                            biasExplanation: 'Paying the full balance every month means zero interest is charged. The card becomes a tool for convenience and rewards — not a source of debt. This is the foundational rule of credit card use.',
-                            isIdeal: true,
-                            },
-                            {
-                            text: 'Pay the minimum payment — keep cash free for other expenses.',
-                            biasLabel: 'Minimum payment trap',
-                            biasExplanation: 'Credit cards in Singapore charge up to 25% p.a. effective interest on unpaid balances. Paying only the minimum keeps the debt alive and growing — a $1,000 balance at 25% p.a. costs $250 in interest per year.',
-                            isIdeal: false,
-                            },
-                            {
-                            text: 'Ignore the bill until a reminder arrives — it\'s only a small balance.',
-                            biasLabel: 'Late payment penalty',
-                            biasExplanation: 'Late payments trigger penalty fees and interest charges immediately. They also damage credit scores, which affects future loan applications for housing and major purchases.',
-                            isIdeal: false,
-                            },
-                        ],
-                        },
-                        {
-                        icon: '💰',
-                        situation: 'A student receives a $500 ang pow during Chinese New Year. They have no emergency fund and $200 outstanding on a credit card at 25% p.a.',
-                        options: [
-                            {
-                            text: 'Clear the $200 credit card balance first, then put the remaining $300 into an emergency fund.',
-                            biasLabel: 'Financially literate ✓',
-                            biasExplanation: 'Clearing high-interest debt first guarantees a 25% return — better than any savings account or investment. The remaining $300 starts building an emergency fund, which prevents future debt cycles.',
-                            isIdeal: true,
-                            },
-                            {
-                            text: 'Put the full $500 into a savings account — start building wealth.',
-                            biasLabel: 'Ignoring high-interest debt',
-                            biasExplanation: 'Earning 3–4% in a savings account while paying 25% on credit card debt is a net loss. High-interest debt should always be cleared before saving or investing.',
-                            isIdeal: false,
-                            },
-                            {
-                            text: 'Spend it — windfalls are for enjoyment, not finances.',
-                            biasLabel: 'Present bias',
-                            biasExplanation: 'Present bias is the tendency to prioritise immediate enjoyment over future benefit. A $500 windfall deployed strategically has compounding financial benefits — spent immediately, it has none.',
-                            isIdeal: false,
-                            },
-                        ],
-                        },
-                        {
-                        icon: '📈',
-                        situation: 'A final-year student has $2,000 in savings and is about to graduate. A friend recommends putting it all into a single "hot stock" they read about online.',
-                        options: [
-                            {
-                            text: 'Keep $1,000 as an emergency fund and invest the other $1,000 in a diversified ETF.',
-                            biasLabel: 'Financially literate ✓',
-                            biasExplanation: 'Maintaining an emergency fund before investing prevents being forced to sell investments at a loss during unexpected expenses. A diversified ETF spreads risk across hundreds of companies rather than concentrating it in one.',
-                            isIdeal: true,
-                            },
-                            {
-                            text: 'Invest the full $2,000 in the recommended stock — higher risk means higher return.',
-                            biasLabel: 'Concentration risk',
-                            biasExplanation: 'Higher risk does not guarantee higher return — it means a wider range of outcomes, including total loss. Investing without an emergency fund also means any unexpected expense forces a sale, potentially at a loss.',
-                            isIdeal: false,
-                            },
-                            {
-                            text: 'Keep all $2,000 in a savings account — investing is too risky right now.',
-                            biasLabel: 'Inflation erosion',
-                            biasExplanation: 'Keeping money in a low-interest savings account when inflation is 2–3% means losing real purchasing power every year. Some level of investment exposure is necessary to preserve and grow wealth over time.',
-                            isIdeal: false,
-                            },
-                        ],
-                        },
+                    example: 'A financially literate student on a $1,500/month allowance builds a $3,000 emergency fund within a year by consistently allocating 20% to savings. A peer with the same income and no literacy framework spends everything and has nothing saved after graduation.',
+                  },
+                  {
+                    icon: '💳',
+                    label: 'Debt Management',
+                    description: 'Low financial literacy is one of the strongest predictors of problematic debt accumulation.',
+                    color: '#DC2626',
+                    details: [
+                      'Individuals with low financial literacy are more likely to carry high-interest credit card balances without understanding the true cost.',
+                      'They are more vulnerable to predatory lending — buy-now-pay-later schemes, personal loans with high effective interest rates, and credit rollovers.',
+                      'Understanding the difference between good debt (e.g. a low-interest student loan for a valuable qualification) and bad debt (e.g. credit card debt at 25% p.a.) is a core literacy skill.',
+                      'In Singapore, personal insolvency cases are disproportionately linked to credit card and unsecured debt — products that are heavily marketed to young adults.',
                     ],
-                    },
+                    example: 'An international student uses a credit card for daily expenses and pays only the minimum each month. At 25% p.a. effective interest, a $2,000 balance takes over 3 years to clear and costs nearly $800 in interest — a cost that financial literacy would have prevented.',
+                  },
+                  {
+                    icon: '📈',
+                    label: 'Investing & Wealth',
+                    description: 'Financial literacy is the strongest individual predictor of long-term wealth accumulation.',
+                    color: '#059669',
+                    details: [
+                      'Financially literate individuals are significantly more likely to participate in stock markets and retirement savings schemes.',
+                      'They start investing earlier — and because of compounding, earlier investing has a disproportionate impact on final wealth.',
+                      'They are better at evaluating financial products — avoiding high-fee unit trusts, unnecessary insurance-investment hybrids, and scam investments.',
+                      'In Singapore, understanding CPF, SRS, and tax-advantaged accounts is directly linked to long-term retirement readiness.',
+                    ],
+                    example: 'Two graduates start work at the same salary. One invests $300/month from age 23; the other waits until 33. By age 65, the early investor has nearly twice the retirement wealth — the difference is entirely due to 10 extra years of compounding.',
+                  },
                 ],
-                },
+              },
+              {
+                type: 'bot',
+                label: '💬 Research on financial literacy and financial behaviour outcomes',
+                prompt: 'Financial literacy impact financial behaviour outcomes research evidence saving investing debt management 2024',
+              },
+              {
+                type: 'scenarios',
+                title: 'Financial literacy in action — what would a financially literate person do?',
+                scenarios: [
+                  {
+                    icon: '💳',
+                    situation: 'A student receives their first credit card with a $2,000 limit. They use it for daily expenses throughout the month and receive the bill at month end.',
+                    options: [
+                      {
+                        text: 'Pay the full balance immediately — treat the card as a debit card, not a loan.',
+                        biasLabel: 'Financially literate ✓',
+                        biasExplanation: 'Paying the full balance every month means zero interest is charged. The card becomes a tool for convenience and rewards — not a source of debt. This is the foundational rule of credit card use.',
+                        isIdeal: true,
+                      },
+                      {
+                        text: 'Pay the minimum payment — keep cash free for other expenses.',
+                        biasLabel: 'Minimum payment trap',
+                        biasExplanation: 'Credit cards in Singapore charge up to 25% p.a. effective interest on unpaid balances. Paying only the minimum keeps the debt alive and growing — a $1,000 balance at 25% p.a. costs $250 in interest per year.',
+                        isIdeal: false,
+                      },
+                      {
+                        text: 'Ignore the bill until a reminder arrives — it\'s only a small balance.',
+                        biasLabel: 'Late payment penalty',
+                        biasExplanation: 'Late payments trigger penalty fees and interest charges immediately. They also damage credit scores, which affects future loan applications for housing and major purchases.',
+                        isIdeal: false,
+                      },
+                    ],
+                  },
+                  {
+                    icon: '💰',
+                    situation: 'A student receives a $500 ang pow during Chinese New Year. They have no emergency fund and $200 outstanding on a credit card at 25% p.a.',
+                    options: [
+                      {
+                        text: 'Clear the $200 credit card balance first, then put the remaining $300 into an emergency fund.',
+                        biasLabel: 'Financially literate ✓',
+                        biasExplanation: 'Clearing high-interest debt first guarantees a 25% return — better than any savings account or investment. The remaining $300 starts building an emergency fund, which prevents future debt cycles.',
+                        isIdeal: true,
+                      },
+                      {
+                        text: 'Put the full $500 into a savings account — start building wealth.',
+                        biasLabel: 'Ignoring high-interest debt',
+                        biasExplanation: 'Earning 3–4% in a savings account while paying 25% on credit card debt is a net loss. High-interest debt should always be cleared before saving or investing.',
+                        isIdeal: false,
+                      },
+                      {
+                        text: 'Spend it — windfalls are for enjoyment, not finances.',
+                        biasLabel: 'Present bias',
+                        biasExplanation: 'Present bias is the tendency to prioritise immediate enjoyment over future benefit. A $500 windfall deployed strategically has compounding financial benefits — spent immediately, it has none.',
+                        isIdeal: false,
+                      },
+                    ],
+                  },
+                  {
+                    icon: '📈',
+                    situation: 'A final-year student has $2,000 in savings and is about to graduate. A friend recommends putting it all into a single "hot stock" they read about online.',
+                    options: [
+                      {
+                        text: 'Keep $1,000 as an emergency fund and invest the other $1,000 in a diversified ETF.',
+                        biasLabel: 'Financially literate ✓',
+                        biasExplanation: 'Maintaining an emergency fund before investing prevents being forced to sell investments at a loss during unexpected expenses. A diversified ETF spreads risk across hundreds of companies rather than concentrating it in one.',
+                        isIdeal: true,
+                      },
+                      {
+                        text: 'Invest the full $2,000 in the recommended stock — higher risk means higher return.',
+                        biasLabel: 'Concentration risk',
+                        biasExplanation: 'Higher risk does not guarantee higher return — it means a wider range of outcomes, including total loss. Investing without an emergency fund also means any unexpected expense forces a sale, potentially at a loss.',
+                        isIdeal: false,
+                      },
+                      {
+                        text: 'Keep all $2,000 in a savings account — investing is too risky right now.',
+                        biasLabel: 'Inflation erosion',
+                        biasExplanation: 'Keeping money in a low-interest savings account when inflation is 2–3% means losing real purchasing power every year. Some level of investment exposure is necessary to preserve and grow wealth over time.',
+                        isIdeal: false,
+                      },
+                    ],
+                  },
+                ],
+              },
 
-                // ─── Section 3: The Big Three Concepts ───────────────
-                {
-                key: 'bigthree',
-                title: 'The Big Three Concepts',
-                fincoins: 10,
-                minFincoins: 10,
-                content: [
-                    {
-                    type: 'heading',
-                    text: 'The Big Three Concepts',
-                    },
-                    {
-                    type: 'text',
-                    text: 'Financial literacy researchers worldwide use three questions as an internationally validated benchmark — known as the "Big Three." These questions test understanding of compound interest, inflation, and risk diversification. Together, they represent the minimum conceptual foundation required to make sound financial decisions. They are used in surveys across 140+ countries to measure and compare financial literacy rates.',
-                    },
-                    {
-                    type: 'timeline',
-                    title: 'The Big Three — internationally validated financial literacy benchmark:',
-                    nodes: [
-                        {
-                        icon: '①',
-                        label: 'Compound Interest',
-                        sublabel: 'Does money grow faster over time?',
-                        color: '#4F46E5',
-                        examples: ['Savings accounts', 'Investment returns', 'Loan interest'],
-                        details: [
-                            'Compound interest means earning returns not just on the original principal, but on all previously earned returns as well.',
-                            'The effect accelerates over time — the longer money is invested, the faster it grows relative to simple interest.',
-                            'It applies in both directions: compound interest on savings builds wealth; compound interest on debt accelerates losses.',
-                            'Understanding compound interest is the foundation of both investment planning and debt management.',
-                        ],
-                        tip: '$1,000 invested at 5% compound interest per year becomes $1,629 after 10 years and $2,653 after 20 years — without adding a single dollar. The second decade adds more than the first.',
-                        },
-                        {
-                        icon: '②',
-                        label: 'Inflation',
-                        sublabel: 'Does money lose value over time?',
-                        color: '#F59E0B',
-                        examples: ['Rising grocery prices', 'Increasing rent', 'Falling purchasing power'],
-                        details: [
-                            'Inflation is the rate at which the general price level rises — meaning the same amount of money buys less over time.',
-                            'Singapore\'s average inflation rate is approximately 2–3% per year, though it has spiked higher in recent years.',
-                            'Money in a savings account earning less than the inflation rate is losing real value — even if the nominal balance is growing.',
-                            'The real return on any investment is the nominal return minus the inflation rate.',
-                        ],
-                        tip: 'If inflation is 3% and a savings account pays 0.05%, the real return is −2.95%. $10,000 in such an account loses roughly $295 of purchasing power every year.',
-                        },
-                        {
-                        icon: '③',
-                        label: 'Risk Diversification',
-                        sublabel: 'Does spreading investments reduce risk?',
-                        color: '#059669',
-                        examples: ['Stocks + bonds', 'ETFs across sectors', 'Multiple asset classes'],
-                        details: [
-                            'Diversification means spreading investments across different assets so that the failure of any single one does not devastate the entire portfolio.',
-                            'When assets are not perfectly correlated — meaning they do not all fall at the same time — diversification reduces overall portfolio volatility.',
-                            'An ETF tracking 500 companies means one company going bankrupt has a 0.2% impact rather than a 100% one.',
-                            'Geographic diversification — spreading across countries — adds a further layer of protection against localised economic downturns.',
-                        ],
-                        tip: 'An S&P 500 ETF provides instant diversification across 500 companies in one purchase. A global ETF extends this across thousands of companies in 50+ countries.',
-                        },
+              // ─── Section 3: The Big Three Concepts ───────────────
+              {
+                type: 'heading',
+                text: 'The Big Three Concepts',
+              },
+              {
+                type: 'text',
+                text: 'Financial literacy researchers worldwide use three questions as an internationally validated benchmark — known as the "Big Three." These questions test understanding of compound interest, inflation, and risk diversification. Together, they represent the minimum conceptual foundation required to make sound financial decisions. They are used in surveys across 140+ countries to measure and compare financial literacy rates.',
+              },
+              {
+                type: 'timeline',
+                title: 'The Big Three — internationally validated financial literacy benchmark:',
+                nodes: [
+                  {
+                    icon: '①',
+                    label: 'Compound Interest',
+                    sublabel: 'Does money grow faster over time?',
+                    color: '#4F46E5',
+                    examples: ['Savings accounts', 'Investment returns', 'Loan interest'],
+                    details: [
+                      'Compound interest means earning returns not just on the original principal, but on all previously earned returns as well.',
+                      'The effect accelerates over time — the longer money is invested, the faster it grows relative to simple interest.',
+                      'It applies in both directions: compound interest on savings builds wealth; compound interest on debt accelerates losses.',
+                      'Understanding compound interest is the foundation of both investment planning and debt management.',
                     ],
-                    },
-                    {
-                    type: 'bot',
-                    label: '💬 Big Three survey results — Singapore vs global financial literacy rates',
-                    prompt: 'Big Three financial literacy questions survey results Singapore vs global comparison 2024 2025 Lusardi compound interest inflation diversification',
-                    },
-                    {
-                    type: 'callout',
-                    variant: 'fact',
-                    text: 'Globally, fewer than 33% of adults can correctly answer all three Big Three questions. In Singapore, the rate is 40% — above the global average, but still meaning 6 in 10 Singaporeans lack foundational financial literacy.',
-                    },
-                    {
-                    type: 'tindertruefalse',
-                    exerciseId: '1-1-s3-tinder',
-                    fincoins: 10,
-                    title: 'The Big Three — True or False?',
-                    instruction: 'Swipe right for True · Swipe left for False',
-                    statements: [
-                        {
-                        text: 'Compound interest earns returns only on the original principal amount — not on previously earned returns.',
-                        isTrue: false,
-                        explanation: 'Compound interest earns returns on both the original principal and all previously accumulated returns. This is what distinguishes it from simple interest and what makes it so powerful over long time horizons.',
-                        },
-                        {
-                        text: 'If a savings account pays 1% interest and inflation is 3%, the real purchasing power of money in that account is decreasing.',
-                        isTrue: true,
-                        explanation: 'Real return = nominal return − inflation = 1% − 3% = −2%. The balance grows nominally but buys less in real terms every year. This is why keeping large amounts in low-interest accounts is a form of financial loss.',
-                        },
-                        {
-                        text: 'Investing all savings in a single company\'s stock provides more protection against loss than a diversified portfolio.',
-                        isTrue: false,
-                        explanation: 'Concentration in a single stock maximises risk — one bad event can wipe out the entire investment. A diversified portfolio spreads risk so that no single failure causes catastrophic loss.',
-                        },
-                        {
-                        text: 'Financial literacy is defined as the knowledge, skill, and confidence to make informed financial decisions.',
-                        isTrue: true,
-                        explanation: 'All three components are required. Knowledge alone — without the skill and confidence to apply it — does not constitute financial literacy and does not reliably lead to better financial behaviour.',
-                        },
-                        {
-                        text: 'In Singapore, a majority of adults can correctly answer all three Big Three financial literacy questions.',
-                        isTrue: false,
-                        explanation: 'Only 40% of Singaporeans can correctly answer all three Big Three questions — meaning 60% cannot. This is above the global average of 33%, but still represents a significant financial literacy gap.',
-                        },
+                    tip: '$1,000 invested at 5% compound interest per year becomes $1,629 after 10 years and $2,653 after 20 years — without adding a single dollar. The second decade adds more than the first.',
+                  },
+                  {
+                    icon: '②',
+                    label: 'Inflation',
+                    sublabel: 'Does money lose value over time?',
+                    color: '#F59E0B',
+                    examples: ['Rising grocery prices', 'Increasing rent', 'Falling purchasing power'],
+                    details: [
+                      'Inflation is the rate at which the general price level rises — meaning the same amount of money buys less over time.',
+                      'Singapore\'s average inflation rate is approximately 2–3% per year, though it has spiked higher in recent years.',
+                      'Money in a savings account earning less than the inflation rate is losing real value — even if the nominal balance is growing.',
+                      'The real return on any investment is the nominal return minus the inflation rate.',
                     ],
-                    },
+                    tip: 'If inflation is 3% and a savings account pays 0.05%, the real return is −2.95%. $10,000 in such an account loses roughly $295 of purchasing power every year.',
+                  },
+                  {
+                    icon: '③',
+                    label: 'Risk Diversification',
+                    sublabel: 'Does spreading investments reduce risk?',
+                    color: '#059669',
+                    examples: ['Stocks + bonds', 'ETFs across sectors', 'Multiple asset classes'],
+                    details: [
+                      'Diversification means spreading investments across different assets so that the failure of any single one does not devastate the entire portfolio.',
+                      'When assets are not perfectly correlated — meaning they do not all fall at the same time — diversification reduces overall portfolio volatility.',
+                      'An ETF tracking 500 companies means one company going bankrupt has a 0.2% impact rather than a 100% one.',
+                      'Geographic diversification — spreading across countries — adds a further layer of protection against localised economic downturns.',
+                    ],
+                    tip: 'An S&P 500 ETF provides instant diversification across 500 companies in one purchase. A global ETF extends this across thousands of companies in 50+ countries.',
+                  },
                 ],
-                },
+              },
+              {
+                type: 'bot',
+                label: '💬 Big Three survey results — Singapore vs global financial literacy rates',
+                prompt: 'Big Three financial literacy questions survey results Singapore vs global comparison 2024 2025 Lusardi compound interest inflation diversification',
+              },
+              {
+                type: 'callout',
+                variant: 'fact',
+                text: 'Globally, fewer than 33% of adults can correctly answer all three Big Three questions. In Singapore, the rate is 40% — above the global average, but still meaning 6 in 10 Singaporeans lack foundational financial literacy.',
+              },
+              {
+                type: 'tindertruefalse',
+                title: 'The Big Three — True or False?',
+                instruction: 'Swipe right for True · Swipe left for False',
+                statements: [
+                  {
+                    text: 'Compound interest earns returns only on the original principal amount — not on previously earned returns.',
+                    isTrue: false,
+                    explanation: 'Compound interest earns returns on both the original principal and all previously accumulated returns. This is what distinguishes it from simple interest and what makes it so powerful over long time horizons.',
+                  },
+                  {
+                    text: 'If a savings account pays 1% interest and inflation is 3%, the real purchasing power of money in that account is decreasing.',
+                    isTrue: true,
+                    explanation: 'Real return = nominal return − inflation = 1% − 3% = −2%. The balance grows nominally but buys less in real terms every year. This is why keeping large amounts in low-interest accounts is a form of financial loss.',
+                  },
+                  {
+                    text: 'Investing all savings in a single company\'s stock provides more protection against loss than a diversified portfolio.',
+                    isTrue: false,
+                    explanation: 'Concentration in a single stock maximises risk — one bad event can wipe out the entire investment. A diversified portfolio spreads risk so that no single failure causes catastrophic loss.',
+                  },
+                  {
+                    text: 'Financial literacy is defined as the knowledge, skill, and confidence to make informed financial decisions.',
+                    isTrue: true,
+                    explanation: 'All three components are required. Knowledge alone — without the skill and confidence to apply it — does not constitute financial literacy and does not reliably lead to better financial behaviour.',
+                  },
+                  {
+                    text: 'In Singapore, a majority of adults can correctly answer all three Big Three financial literacy questions.',
+                    isTrue: false,
+                    explanation: 'Only 40% of Singaporeans can correctly answer all three Big Three questions — meaning 60% cannot. This is above the global average of 33%, but still represents a significant financial literacy gap.',
+                  },
+                ],
+              },
 
-                // ─── Section 4: Put It All Together ──────────────────
-                {
-                key: 'challenge',
-                title: 'Put It All Together',
-                fincoins: 15,
-                minFincoins: 15,
-                content: [
-                    {
-                    type: 'heading',
-                    text: 'Put It All Together',
-                    },
-                    {
-                    type: 'text',
-                    text: 'The Big Three questions below are the same ones used in international financial literacy surveys across 140+ countries. They test the three foundational concepts covered in this lesson — compound interest, inflation, and risk diversification.',
-                    },
-                    {
-                    type: 'multistepmcq',
-                    exerciseId: '1-1-s4-mcq',
-                    fincoins: 15,
-                    icon: '🏆',
-                    title: 'The Big Three Challenge',
-                    questions: [
-                        {
-                        concept: 'Compound Interest',
-                        question: 'A sum of $1,000 is invested at 5% compound interest per year. After 2 years, the total amount is:',
-                        options: ['$1,050.00', '$1,100.00', '$1,102.50', '$1,025.00'],
-                        correctIndex: 2,
-                        explanation: 'Year 1: $1,000 × 1.05 = $1,050. Year 2: $1,050 × 1.05 = $1,102.50. The second year earns interest on $1,050 — not the original $1,000. This is compound interest.',
-                        },
-                        {
-                        concept: 'Inflation',
-                        question: 'Inflation is running at 3% per year. A savings account pays 1% per year. After one year, the purchasing power of money in that account has:',
-                        options: ['Increased by 1%', 'Stayed the same', 'Decreased by approximately 2%', 'Decreased by 3%'],
-                        correctIndex: 2,
-                        explanation: 'Real return = nominal interest rate − inflation rate = 1% − 3% = −2%. The money grows in nominal terms but loses purchasing power in real terms.',
-                        },
-                        {
-                        concept: 'Risk Diversification',
-                        question: 'All savings are invested in a single company\'s stock. That company goes bankrupt. Compared to a diversified portfolio, the loss is:',
-                        options: [
-                            'The same — diversification does not affect outcomes',
-                            'Smaller — single stocks are easier to monitor',
-                            'Larger — concentration risk amplified the loss',
-                            'It depends on the size of the investment',
-                        ],
-                        correctIndex: 2,
-                        explanation: 'A diversified portfolio spreads risk — if one asset fails, others cushion the blow. Concentrating everything in one stock means one failure wipes out the entire investment. Diversification directly reduces this risk.',
-                        },
+              // ─── Section 4: Put It All Together ──────────────────
+              {
+                type: 'heading',
+                text: 'Put It All Together',
+              },
+              {
+                type: 'text',
+                text: 'The Big Three questions below are the same ones used in international financial literacy surveys across 140+ countries. They test the three foundational concepts covered in this lesson — compound interest, inflation, and risk diversification.',
+              },
+              {
+                type: 'multistepmcq',
+                icon: '🏆',
+                title: 'The Big Three Challenge',
+                questions: [
+                  {
+                    concept: 'Compound Interest',
+                    question: 'A sum of $1,000 is invested at 5% compound interest per year. After 2 years, the total amount is:',
+                    options: ['$1,050.00', '$1,100.00', '$1,102.50', '$1,025.00'],
+                    correctIndex: 2,
+                    explanation: 'Year 1: $1,000 × 1.05 = $1,050. Year 2: $1,050 × 1.05 = $1,102.50. The second year earns interest on $1,050 — not the original $1,000. This is compound interest.',
+                  },
+                  {
+                    concept: 'Inflation',
+                    question: 'Inflation is running at 3% per year. A savings account pays 1% per year. After one year, the purchasing power of money in that account has:',
+                    options: ['Increased by 1%', 'Stayed the same', 'Decreased by approximately 2%', 'Decreased by 3%'],
+                    correctIndex: 2,
+                    explanation: 'Real return = nominal interest rate − inflation rate = 1% − 3% = −2%. The money grows in nominal terms but loses purchasing power in real terms.',
+                  },
+                  {
+                    concept: 'Risk Diversification',
+                    question: 'All savings are invested in a single company\'s stock. That company goes bankrupt. Compared to a diversified portfolio, the loss is:',
+                    options: [
+                      'The same — diversification does not affect outcomes',
+                      'Smaller — single stocks are easier to monitor',
+                      'Larger — concentration risk amplified the loss',
+                      'It depends on the size of the investment',
                     ],
-                    },
+                    correctIndex: 2,
+                    explanation: 'A diversified portfolio spreads risk — if one asset fails, others cushion the blow. Concentrating everything in one stock means one failure wipes out the entire investment. Diversification directly reduces this risk.',
+                  },
                 ],
-                },
+              },
             ],
 
             flashcards: [
-                { q: 'What are the three components of financial literacy?', a: 'Knowledge (understanding financial concepts), skill (ability to apply them), and confidence (willingness to act on them). All three are required — knowledge alone does not constitute literacy.' },
-                { q: 'What are the Big Three financial literacy concepts?', a: 'Compound interest, inflation, and risk diversification. These three questions are used as an internationally validated benchmark for financial literacy in surveys across 140+ countries.' },
-                { q: 'What is the financial literacy rate in Singapore?', a: 'Approximately 59% of Singaporeans are considered financially literate, and only 40% can correctly answer all three Big Three questions — above the global average of 33%, but still a significant gap.' },
-                { q: 'Why does financial literacy matter particularly for university students?', a: 'University is often the first time students make independent financial decisions. Habits formed during this period — budgeting, saving, avoiding debt — are among the most persistent across a lifetime.' },
-                { q: 'What is the difference between financial knowledge and financial literacy?', a: 'Knowledge is understanding financial concepts. Literacy also requires the skill to apply them and the confidence to act — someone can know what compound interest is and still keep savings in a 0.05% account.' },
+              { q: 'What are the three components of financial literacy?', a: 'Knowledge (understanding financial concepts), skill (ability to apply them), and confidence (willingness to act on them). All three are required — knowledge alone does not constitute literacy.' },
+              { q: 'What are the Big Three financial literacy concepts?', a: 'Compound interest, inflation, and risk diversification. These three questions are used as an internationally validated benchmark for financial literacy in surveys across 140+ countries.' },
+              { q: 'What is the financial literacy rate in Singapore?', a: 'Approximately 59% of Singaporeans are considered financially literate, and only 40% can correctly answer all three Big Three questions — above the global average of 33%, but still a significant gap.' },
+              { q: 'Why does financial literacy matter particularly for university students?', a: 'University is often the first time students make independent financial decisions. Habits formed during this period — budgeting, saving, avoiding debt — are among the most persistent across a lifetime.' },
+              { q: 'What is the difference between financial knowledge and financial literacy?', a: 'Knowledge is understanding financial concepts. Literacy also requires the skill to apply them and the confidence to act — someone can know what compound interest is and still keep savings in a 0.05% account.' },
             ],
-            },
-          
+          },
+
           // ── LESSON 1-2 ──────────────────────────────
           {
             id: '1-2',
