@@ -5369,800 +5369,1294 @@ export const MODULES = [
           icon: '📈',
           description: 'Earn more interest on money you\'re already saving',
           lessons: [
+            // ── LESSON 5-1 ──────────────────────────────
             {
-              id: '5-1', title: 'How HYSA Interest Works', icon: '🧮',
+              id: '5-1',
+              title: 'How HYSA Interest Works',
+              icon: '🧮',
               topic: 'High yield savings account interest rates Singapore',
-              duration: '6 min', fincoins: 80,
-              sections: [{ key: 'how', heading: 'How Bonus Interest Works' }, { key: 'qualify', heading: 'Qualifying Conditions' }, { key: 'calc', heading: 'Calculating Your Earnings' }],
-              content: [
+              duration: '6 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Most students park their money in a basic savings account earning 0.05% interest per year. High-Yield Savings Accounts (HYSAs) can earn 10 to 100 times more — but only if you understand how the bonus interest system works.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'fact',
-                  text: '$1,000 in a basic savings account at 0.05% earns $0.50 a year. The same $1,000 in an HYSA at 4% earns $40 — 80 times more, just by choosing the right account and meeting its conditions.',
-                },
-                {
-                  type: 'keyterm',
-                  term: 'High-Yield Savings Account (HYSA)',
-                  definition: 'A savings account that offers significantly higher interest than a standard account — but only when you meet specific conditions like crediting your salary, spending on a linked card, or setting up GIRO payments.',
-                },
-                {
-                  type: 'text',
-                  text: 'HYSA interest is not automatic. It is built in layers — a small base rate that everyone earns, plus bonus tiers you unlock by taking specific actions. The more conditions you meet, the higher your effective rate.',
-                },
-                {
-                  type: 'timeline',
-                  title: 'How HYSA interest is structured:',
-                  nodes: [
+                  key: 'how',
+                  title: 'How Bonus Interest Works',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '🏦',
-                      label: 'Base Interest',
-                      sublabel: 'Everyone gets this',
-                      color: '#6B7280',
-                      examples: ['~0.05% p.a.', 'No conditions needed', 'Applies to all balances'],
-                      details: [
-                        'The base rate is what your money earns by default — no actions required.',
-                        'For most Singapore savings accounts, this is around 0.05% p.a. — essentially nothing.',
-                        'This is what you earn if you open an HYSA but never meet any of its conditions.',
-                      ],
-                      tip: 'The base rate alone is not worth chasing — the value of an HYSA comes entirely from the bonus tiers on top.',
+                      type: 'heading',
+                      text: 'How Bonus Interest Works',
                     },
                     {
-                      icon: '⚡',
-                      label: 'Bonus Interest',
-                      sublabel: 'Unlocked by your actions',
-                      color: '#F59E0B',
-                      examples: ['Salary credit', 'Card spend', 'GIRO payments'],
-                      details: [
-                        'Bonus interest is added on top of the base rate when you meet specific monthly conditions.',
-                        'Each condition unlocks an additional interest tier — the more you meet, the higher your rate.',
-                        'Common conditions: credit your salary, spend a minimum on a linked card, set up a GIRO debit.',
-                      ],
-                      tip: 'Each bank structures its bonus tiers differently — DBS Multiplier rewards total transaction volume, while OCBC 360 and UOB One reward specific actions.',
+                      type: 'text',
+                      text: 'Most students park their money in a basic savings account earning 0.05% interest per year. High-Yield Savings Accounts (HYSAs) can earn 10 to 100 times more — but only if you understand how the bonus interest system works.',
                     },
                     {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: '$1,000 in a basic savings account at 0.05% earns $0.50 a year. The same $1,000 in an HYSA at 4% earns $40 — 80 times more, just by choosing the right account and meeting its conditions.',
+                    },
+                    {
+                      type: 'keyterm',
+                      term: 'High-Yield Savings Account (HYSA)',
+                      definition: 'A savings account that offers significantly higher interest than a standard account — but only when you meet specific conditions like crediting your salary, spending on a linked card, or setting up GIRO payments.',
+                    },
+                    {
+                      type: 'text',
+                      text: 'HYSA interest is not automatic. It is built in layers — a small base rate that everyone earns, plus bonus tiers you unlock by taking specific actions. The more conditions you meet, the higher your effective rate.',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'How HYSA interest is structured:',
+                      nodes: [
+                        {
+                          icon: '🏦',
+                          label: 'Base Interest',
+                          sublabel: 'Everyone gets this',
+                          color: '#6B7280',
+                          examples: ['~0.05% p.a.', 'No conditions needed', 'Applies to all balances'],
+                          details: [
+                            'The base rate is what your money earns by default — no actions required.',
+                            'For most Singapore savings accounts, this is around 0.05% p.a. — essentially nothing.',
+                            'This is what you earn if you open an HYSA but never meet any of its conditions.',
+                          ],
+                          tip: 'The base rate alone is not worth chasing — the value of an HYSA comes entirely from the bonus tiers on top.',
+                        },
+                        {
+                          icon: '⚡',
+                          label: 'Bonus Interest',
+                          sublabel: 'Unlocked by your actions',
+                          color: '#F59E0B',
+                          examples: ['Salary credit', 'Card spend', 'GIRO payments'],
+                          details: [
+                            'Bonus interest is added on top of the base rate when you meet specific monthly conditions.',
+                            'Each condition unlocks an additional interest tier — the more you meet, the higher your rate.',
+                            'Common conditions: credit your salary, spend a minimum on a linked card, set up a GIRO debit.',
+                          ],
+                          tip: 'Each bank structures its bonus tiers differently — DBS Multiplier rewards total transaction volume, while OCBC 360 and UOB One reward specific actions.',
+                        },
+                        {
+                          icon: '🎯',
+                          label: 'Effective Rate',
+                          sublabel: 'What you actually earn',
+                          color: '#059669',
+                          examples: ['Base + all bonuses', 'Up to 7.65% p.a.', 'Applied to your balance'],
+                          details: [
+                            'Your effective rate is the sum of your base rate plus every bonus tier you qualify for.',
+                            'This is the number that actually matters — and it varies month to month based on your behaviour.',
+                            'Most students can realistically achieve 2–4% p.a. by meeting 2–3 conditions consistently.',
+                          ],
+                          tip: 'Check your bank app monthly — most HYSAs show a breakdown of which bonus tiers you qualified for and which you missed.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current interest rates for DBS Multiplier, OCBC 360, and UOB One',
+                      prompt: 'current interest rates DBS Multiplier OCBC 360 UOB One Singapore 2025 conditions bonus tiers',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '5-1-s1-tinder',
+                      fincoins: 10,
+                      title: 'HYSA Interest — True or False?',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'HYSA bonus interest is automatically applied every month regardless of your activity.',
+                          isTrue: false,
+                          explanation: 'Bonus interest must be earned by meeting specific conditions each month — salary credit, card spend, GIRO payments. Miss the conditions, miss the bonus.',
+                        },
+                        {
+                          text: 'The base interest rate on most Singapore savings accounts is around 0.05% p.a.',
+                          isTrue: true,
+                          explanation: 'The base rate is what you earn without meeting any conditions — effectively nothing. The value of an HYSA comes entirely from the bonus tiers on top.',
+                        },
+                        {
+                          text: 'Your effective HYSA rate is fixed and does not change from month to month.',
+                          isTrue: false,
+                          explanation: 'Your effective rate is recalculated monthly based on which conditions you met. A missed condition in March means a lower rate for March only — it resets the following month.',
+                        },
+                        {
+                          text: 'Most students can realistically achieve 2–4% p.a. on an HYSA by meeting 2–3 conditions.',
+                          isTrue: true,
+                          explanation: 'Salary credit, card spend, and a GIRO payment are the most achievable conditions — and together they typically unlock 2–4% p.a. for a student with part-time income.',
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 2 ───────────────────────────
+                {
+                  key: 'qualify',
+                  title: 'Qualifying Conditions',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Qualifying Conditions',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Every HYSA has its own set of qualifying conditions — but they all fall into the same four categories. Here\'s what counts and how much each typically adds to your rate.',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Condition', 'What Counts', 'Typical Bonus Added'],
+                      rows: [
+                        ['Salary Credit', 'Monthly payroll credited via GIRO — must be labelled as salary', '+1.0% – 3.0% p.a.'],
+                        ['Card Spend', 'Min. spend on the bank\'s credit or debit card (e.g. $500/month)', '+0.5% – 2.0% p.a.'],
+                        ['GIRO Payments', 'At least 3 bill payments via GIRO (utilities, phone, insurance)', '+0.3% – 0.5% p.a.'],
+                        ['Insurance / Investment', 'Buying an eligible insurance or investment product from the bank', '+1.0% – 2.4% p.a.'],
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Example: $10,000 in a UOB One account, salary credited + $500/month card spend = ~3% p.a. effective rate. That\'s $300/year — $25/month — just from meeting two conditions. The same balance in a basic account at 0.05% earns $5/year.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Common HYSA Mistakes',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Common mistakes → what to do instead:',
+                      cards: [
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Crediting your salary to a different bank from your HYSA.',
+                          back: 'Always credit your salary to the same bank as your HYSA. Salary credit is the single biggest bonus tier — missing it can cost you 2–3% p.a.',
+                          tag: 'Salary credit = biggest bonus',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Spending $500/month on a credit card from a different bank.',
+                          back: 'Use the credit card linked to your HYSA bank. Spending on a DBS card counts toward DBS Multiplier — spending on an OCBC card doesn\'t.',
+                          tag: 'Keep spending in the same ecosystem',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Assuming your HYSA interest rate is fixed every month.',
+                          back: 'HYSA rates are recalculated monthly based on whether you met the conditions that month. Miss a condition in March, you lose that bonus in March only.',
+                          tag: 'Rates reset monthly',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Keeping all your money in one account to maximise the HYSA balance.',
+                          back: 'Most HYSAs only offer the highest rates on balances up to $75,000–$100,000. Beyond that, the rate drops — split excess into SSBs or fixed deposits.',
+                          tag: 'Balance caps exist',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 What are the qualifying conditions for UOB One, OCBC 360, and DBS Multiplier?',
+                      prompt: 'UOB One OCBC 360 DBS Multiplier qualifying conditions salary card spend GIRO 2025 Singapore',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 3 ───────────────────────────
+                {
+                  key: 'calc',
+                  title: 'Calculating Your Earnings',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Calculating Your Earnings',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Let\'s make this concrete. Drag the slider to your current savings and see exactly what you\'d earn at each interest rate — basic account vs HYSA with conditions met.',
+                    },
+                    {
+                      type: 'slider',
+                      icon: '🧮',
+                      title: 'Annual Interest Earnings',
+                      description: 'Drag to your savings amount and see what different accounts earn you per year.',
+                      min: 500,
+                      max: 20000,
+                      step: 500,
+                      initialValue: 5000,
+                      prefix: '$',
+                      calculateResult: (amount) => [
+                        { label: '🔴 Basic savings (0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#DC2626' },
+                        { label: '🟡 HYSA base only (0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#D97706' },
+                        { label: '🟠 HYSA + card spend only (~1.5%)', value: `$${(amount * 0.015).toFixed(2)}/yr`, color: '#EA580C' },
+                        { label: '🟢 HYSA + salary + card spend (~3%)', value: `$${(amount * 0.03).toFixed(2)}/yr`, color: '#059669' },
+                        { label: '💎 HYSA fully optimised (~4.5%)', value: `$${(amount * 0.045).toFixed(2)}/yr`, color: '#7C3AED' },
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'A student with $5,000 saved earns $2.50/year at the base rate. Meeting salary credit and card spend conditions on a UOB One account earns $150/year on the same balance — 60x more.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Which Account for Which Situation?',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Which HYSA is best for a student with a part-time salary in Singapore?',
+                      prompt: 'best high yield savings account Singapore student part-time salary internship 2025 UOB OCBC DBS',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '5-1-s3-scenarios',
+                      fincoins: 10,
+                      title: 'What would you do?',
+                      scenarios: [
+                        {
+                          icon: '🎓',
+                          situation: 'You\'re a full-time student with no salary, spending about $400/month on your OCBC debit card. Your OCBC 360 is earning only the base rate of 0.05%.',
+                          options: [
+                            {
+                              text: 'Switch to a digital bank like GXS or Trust for a better base rate.',
+                              biasLabel: 'Smart move ✓',
+                              biasExplanation: 'Without salary credit or card spend qualifying conditions, a digital bank\'s flat 2–3% rate beats the OCBC 360 base rate. Match the account to your situation.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Increase spending to $500/month to qualify for the card spend bonus.',
+                              biasLabel: 'Risky approach',
+                              biasExplanation: 'Spending more just to earn interest is counterproductive — the bonus earned rarely outweighs the extra spending required to unlock it.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Do nothing — the difference is too small to matter.',
+                              biasLabel: 'Costly inaction',
+                              biasExplanation: 'On a $5,000 balance, the difference between 0.05% and 3% is $148/year — real money that compounds over time.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '💼',
+                          situation: 'You\'ve just started a part-time internship paying $1,500/month. You have a UOB One account but have been crediting your pay to DBS.',
+                          options: [
+                            {
+                              text: 'Continue crediting to DBS — it\'s easier.',
+                              biasLabel: 'Missing out',
+                              biasExplanation: 'UOB One\'s biggest bonus tier requires salary credit to UOB. Crediting elsewhere means you miss 1–2% p.a. in bonus interest every month.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Switch salary credit to UOB One and set up one GIRO bill payment.',
+                              biasLabel: 'Best choice ✓',
+                              biasExplanation: 'Salary credit + one GIRO unlocks UOB One\'s main bonus tiers — you could earn up to 3% p.a. on your balance with minimal effort.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Open a new DBS Multiplier account and credit salary there instead.',
+                              biasLabel: 'Reasonable but slower',
+                              biasExplanation: 'DBS Multiplier is a strong account but takes time to set up and optimise. If you already have UOB One, activating it first is the faster win.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '💰',
+                          situation: 'You have $15,000 saved in your OCBC 360, earning 4% p.a. after meeting all conditions. You\'ve just saved an extra $10,000 from your internship.',
+                          options: [
+                            {
+                              text: 'Add the $10,000 to your OCBC 360 to earn 4% on $25,000.',
+                              biasLabel: 'Check the fine print',
+                              biasExplanation: 'OCBC 360 offers the highest rates only on the first $75,000 — but bonus tiers may apply differently across tranches. Verify before assuming the full rate applies.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Keep $15,000 in OCBC 360 and put the $10,000 into a Singapore Savings Bond.',
+                              biasLabel: 'Smart split ✓',
+                              biasExplanation: 'SSBs offer ~3% p.a. with zero risk and full government backing. Splitting across accounts diversifies your interest sources and keeps your HYSA conditions achievable.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Put the $10,000 in a fixed deposit for 6 months.',
+                              biasLabel: 'Reasonable option',
+                              biasExplanation: 'Fixed deposits offer certainty but lock up your money. SSBs are more flexible — redeemable any month with no penalty — making them the better choice for accessible savings.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: How HYSA Interest Works',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions on how HYSA interest is structured, which conditions matter most, and how to apply this to your own situation.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — how does HYSA bonus interest work in Singapore?',
+                      prompt: 'how does HYSA bonus interest work Singapore salary credit card spend GIRO conditions recap 2025',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '5-1-s4-mcq',
+                      fincoins: 25,
                       icon: '🎯',
-                      label: 'Effective Rate',
-                      sublabel: 'What you actually earn',
-                      color: '#059669',
-                      examples: ['Base + all bonuses', 'Up to 7.65% p.a.', 'Applied to your balance'],
-                      details: [
-                        'Your effective rate is the sum of your base rate plus every bonus tier you qualify for.',
-                        'This is the number that actually matters — and it varies month to month based on your behaviour.',
-                        'Most students can realistically achieve 2–4% p.a. by meeting 2–3 conditions consistently.',
-                      ],
-                      tip: 'Check your bank app monthly — most HYSAs show a breakdown of which bonus tiers you qualified for and which you missed.',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Every HYSA has its own set of qualifying conditions. They all fall into the same three categories — here\'s what counts and how much each typically adds to your rate.',
-                },
-                {
-                  type: 'table',
-                  headers: ['Condition', 'What Counts', 'Typical Bonus Added'],
-                  rows: [
-                    ['Salary Credit', 'Monthly payroll credited via GIRO — must be labelled as salary', '+1.0% – 3.0% p.a.'],
-                    ['Card Spend', 'Min. spend on the bank\'s credit or debit card (e.g. $500/month)', '+0.5% – 2.0% p.a.'],
-                    ['GIRO Payments', 'At least 3 bill payments via GIRO (utilities, phone, insurance)', '+0.3% – 0.5% p.a.'],
-                    ['Insurance / Investment', 'Buying an eligible insurance or investment product from the bank', '+1.0% – 2.4% p.a.'],
-                  ],
-                },
-                {
-                  type: 'flipcards',
-                  title: 'Common HYSA mistakes → what to do instead:',
-                  cards: [
-                    {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ Fix',
-                      front: 'Crediting your salary to a different bank from your HYSA.',
-                      back: 'Always credit your salary to the same bank as your HYSA. Salary credit is the single biggest bonus tier — missing it can cost you 2–3% p.a.',
-                      tag: 'Salary credit = biggest bonus',
-                    },
-                    {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ Fix',
-                      front: 'Spending $500/month on a credit card from a different bank.',
-                      back: 'Use the credit card linked to your HYSA bank. Spending on a DBS card counts toward DBS Multiplier — spending on an OCBC card doesn\'t.',
-                      tag: 'Keep spending in the same ecosystem',
-                    },
-                    {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ Fix',
-                      front: 'Assuming your HYSA interest rate is fixed every month.',
-                      back: 'HYSA rates are recalculated monthly based on whether you met the conditions that month. Miss a condition in March, you lose that bonus in March only.',
-                      tag: 'Rates reset monthly',
-                    },
-                    {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ Fix',
-                      front: 'Keeping all your money in one account to maximise the HYSA balance.',
-                      back: 'Most HYSAs only offer the highest rates on balances up to $75,000–$100,000. Beyond that, the rate drops — split excess into SSBs or fixed deposits.',
-                      tag: 'Balance caps exist',
-                    },
-                  ],
-                },
-                {
-                  type: 'scenarios',
-                  title: 'What would you do?',
-                  scenarios: [
-                    {
-                      icon: '🎓',
-                      situation: 'You\'re a full-time student with no salary, spending about $400/month on your OCBC debit card. Your OCBC 360 is earning only the base rate of 0.05%.',
-                      options: [
+                      title: 'How HYSA Interest Works',
+                      questions: [
                         {
-                          text: 'Switch to a digital bank like GXS or Trust for a better base rate.',
-                          biasLabel: 'Smart move ✓',
-                          biasExplanation: 'Without salary credit or card spend qualifying conditions, a digital bank\'s flat 2–3% rate beats the OCBC 360 base rate. Match the account to your situation.',
-                          isIdeal: true,
+                          concept: 'Interest structure',
+                          question: 'A student opens an OCBC 360 account but never sets up salary credit or card spend. What interest rate will they earn?',
+                          options: [
+                            'The full advertised rate — opening the account is enough',
+                            'Around 0.05% p.a. — the base rate only, with no bonus tiers unlocked',
+                            'Around 2% p.a. — OCBC 360 gives a default bonus to new customers',
+                            'Zero — HYSAs only pay interest when all conditions are met',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'Without meeting any qualifying conditions, only the base rate applies — around 0.05% p.a. The advertised rates are the maximum achievable when all conditions are met, not the default.',
                         },
                         {
-                          text: 'Increase spending to $500/month to qualify for the card spend bonus.',
-                          biasLabel: 'Risky approach',
-                          biasExplanation: 'Spending more just to earn interest is counterproductive — the bonus earned rarely outweighs the extra spending required.',
-                          isIdeal: false,
+                          concept: 'Qualifying conditions',
+                          question: 'Which single condition typically adds the most bonus interest to a Singapore HYSA?',
+                          options: [
+                            'Setting up 3 GIRO bill payments',
+                            'Purchasing an insurance product from the bank',
+                            'Crediting your monthly salary to the same bank',
+                            'Spending $200/month on a linked debit card',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'Salary credit is the highest-value condition for most HYSAs — typically adding 1–3% p.a. on its own. Missing it while meeting other conditions still leaves significant interest on the table.',
                         },
                         {
-                          text: 'Do nothing — the difference is too small to matter.',
-                          biasLabel: 'Costly inaction',
-                          biasExplanation: 'On a $5,000 balance, the difference between 0.05% and 3% is $148/year — real money that compounds over time.',
-                          isIdeal: false,
-                        },
-                      ],
-                    },
-                    {
-                      icon: '💼',
-                      situation: 'You\'ve just started a part-time internship paying $1,500/month. You have a UOB One account but have been crediting your pay to DBS.',
-                      options: [
-                        {
-                          text: 'Continue crediting to DBS — it\'s easier.',
-                          biasLabel: 'Missing out',
-                          biasExplanation: 'UOB One\'s biggest bonus tier requires salary credit to UOB. Crediting elsewhere means you miss 1–2% p.a. in bonus interest every month.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Switch salary credit to UOB One and set up one GIRO bill payment.',
-                          biasLabel: 'Best choice ✓',
-                          biasExplanation: 'Salary credit + one GIRO unlocks UOB One\'s main bonus tiers — you could earn up to 3% p.a. on your balance with minimal effort.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Open a new DBS Multiplier account and credit salary there instead.',
-                          biasLabel: 'Reasonable but slower',
-                          biasExplanation: 'DBS Multiplier is a strong account but takes time to set up and optimise. If you already have UOB One, activating it first is the faster win.',
-                          isIdeal: false,
-                        },
-                      ],
-                    },
-                    {
-                      icon: '💰',
-                      situation: 'You have $15,000 saved in your OCBC 360, earning 4% p.a. after meeting all conditions. You\'ve just saved an extra $10,000 from your internship.',
-                      options: [
-                        {
-                          text: 'Add the $10,000 to your OCBC 360 to earn 4% on $25,000.',
-                          biasLabel: 'Check the fine print',
-                          biasExplanation: 'OCBC 360 offers the highest rates only on the first $75,000 — but check whether the bonus tiers apply equally across the full balance or just the first tranche.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Keep $15,000 in OCBC 360 and put the $10,000 into a Singapore Savings Bond.',
-                          biasLabel: 'Smart split ✓',
-                          biasExplanation: 'SSBs offer ~3% p.a. with zero risk and full government backing. Splitting across accounts diversifies your interest sources and keeps your HYSA conditions achievable.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Put the $10,000 in a fixed deposit for 6 months.',
-                          biasLabel: 'Reasonable option',
-                          biasExplanation: 'Fixed deposits offer certainty but lock up your money. SSBs are more flexible — redeemable any month with no penalty.',
-                          isIdeal: false,
+                          concept: 'Applying the rules',
+                          question: 'A student earns 4% p.a. on their OCBC 360 in January by meeting all conditions. In February, they forget to spend $500 on their OCBC card. What happens?',
+                          options: [
+                            'They lose the 4% rate permanently and must reapply',
+                            'Nothing changes — HYSA rates are fixed for 12 months once unlocked',
+                            'They earn a lower rate in February only — the card spend bonus is removed for that month',
+                            'Their account is suspended until they meet the minimum spend again',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'HYSA rates are recalculated monthly. Missing the card spend condition in February removes that bonus tier for February only — all other conditions still apply, and the full rate returns in March if the spend is met again.',
                         },
                       ],
                     },
                   ],
-                },
-                {
-                  type: 'text',
-                  text: 'Let\'s make this concrete. Here\'s what a student who meets two HYSA conditions can realistically earn — compared to doing nothing.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'tip',
-                  text: 'Example: $10,000 in a UOB One account, salary credited + $500/month card spend = ~3% p.a. effective rate. That\'s $300/year — $25/month — just from meeting two conditions. The same balance in a basic account at 0.05% earns $5/year.',
-                },
-                {
-                  type: 'text',
-                  text: 'Now test your understanding of how HYSA interest actually works.',
-                },
-                {
-                  type: 'tindertruefalse',
-                  title: 'HYSA Interest — True or False?',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
-                    {
-                      text: 'HYSA bonus interest is automatically applied to your account every month regardless of your activity.',
-                      isTrue: false,
-                      explanation: 'Bonus interest must be earned by meeting specific conditions each month — salary credit, card spend, GIRO payments. Miss the conditions, miss the bonus.',
-                    },
-                    {
-                      text: 'Crediting your salary to a different bank from your HYSA can cost you up to 3% p.a. in lost bonus interest.',
-                      isTrue: true,
-                      explanation: 'Salary credit is the highest-value condition for most HYSAs. Missing it — even by crediting to a different account — removes the biggest bonus tier.',
-                    },
-                    {
-                      text: 'HYSA interest rates are fixed and do not change from month to month.',
-                      isTrue: false,
-                      explanation: 'Your effective rate is recalculated monthly based on which conditions you met. A good month earns the full rate; a missed condition means a lower rate that month.',
-                    },
-                    {
-                      text: 'A student with no salary can still earn above-base interest on an HYSA by meeting card spend and GIRO conditions.',
-                      isTrue: true,
-                      explanation: 'Salary credit is the biggest bonus but not the only one. Card spend and GIRO conditions can still unlock 0.5–2% in additional interest even without a salary.',
-                    },
-                    {
-                      text: 'Most HYSAs apply their highest interest rate equally across your entire account balance with no cap.',
-                      isTrue: false,
-                      explanation: 'Most HYSAs cap their highest rates at a certain balance — typically $50,000–$100,000. Amounts above the cap earn a lower rate, so splitting excess funds into SSBs or fixed deposits makes sense.',
-                    },
-                  ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Current interest rates for DBS Multiplier, OCBC 360, and UOB One',
-                  prompt: 'Current interest rates DBS Multiplier OCBC 360 UOB One Singapore 2025 conditions',
                 },
               ],
+
               flashcards: [
-                { q: 'What is a High-Yield Savings Account (HYSA)?', a: 'A savings account that earns significantly more than a standard account — but only when you meet specific monthly conditions like salary credit, card spend, or GIRO payments.' },
-                { q: 'What is the base interest rate on most Singapore savings accounts?', a: 'Around 0.05% p.a. — essentially nothing. The real value of an HYSA comes from the bonus tiers on top.' },
-                { q: 'What is the single most valuable condition to meet on most HYSAs?', a: 'Salary credit — crediting your monthly pay to the same bank as your HYSA unlocks the biggest bonus tier, often adding 1–3% p.a.' },
-                { q: 'How often is HYSA bonus interest recalculated?', a: 'Monthly — if you miss a condition in a given month, you lose that bonus for that month only. It resets the following month.' },
-                { q: 'What should you do with savings above an HYSA\'s balance cap?', a: 'Split excess funds into Singapore Savings Bonds or fixed deposits — most HYSAs only apply their highest rates up to $50,000–$100,000.' },
+                {
+                  q: 'What is a High-Yield Savings Account (HYSA)?',
+                  a: 'A savings account that earns significantly more than a standard account — but only when you meet specific monthly conditions like salary credit, card spend, or GIRO payments.',
+                },
+                {
+                  q: 'What is the base interest rate on most Singapore savings accounts?',
+                  a: 'Around 0.05% p.a. — essentially nothing. The real value of an HYSA comes from the bonus tiers on top.',
+                },
+                {
+                  q: 'What is the single most valuable condition to meet on most HYSAs?',
+                  a: 'Salary credit — crediting your monthly pay to the same bank as your HYSA unlocks the biggest bonus tier, often adding 1–3% p.a.',
+                },
+                {
+                  q: 'How often is HYSA bonus interest recalculated?',
+                  a: 'Monthly — if you miss a condition in a given month, you lose that bonus for that month only. It resets the following month.',
+                },
+                {
+                  q: 'What should you do with savings above an HYSA\'s balance cap?',
+                  a: 'Split excess funds into Singapore Savings Bonds or fixed deposits — most HYSAs only apply their highest rates up to $50,000–$100,000.',
+                },
               ],
             },
+            
+            // ── LESSON 5-2 ──────────────────────────────
             {
-              id: '5-2', title: 'OCBC 360 vs UOB One vs DBS Multiplier', icon: '⚖️',
+              id: '5-2',
+              title: 'OCBC 360 vs UOB One vs DBS Multiplier',
+              icon: '⚖️',
               topic: 'OCBC 360 UOB One DBS Multiplier comparison Singapore',
-              duration: '7 min', fincoins: 80,
-              sections: [{ key: 'compare', heading: 'Side-by-Side Comparison' }, { key: 'student', heading: 'Best Option for Students' }, { key: 'exercise', heading: 'Calculate Your Returns' }],
-              content: [
+              duration: '7 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'DBS Multiplier, OCBC 360, and UOB One are Singapore\'s three most popular high-yield savings accounts. All three can earn significantly more than a basic account — but they reward different behaviours. The best one for you depends entirely on how you actually use your money.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'tip',
-                  text: 'Interest rates for all three accounts change periodically. The numbers in this lesson are illustrative — use the bot chip at the bottom to get today\'s exact rates and conditions before making a decision.',
-                },
-                {
-                  type: 'text',
-                  text: 'Here\'s how the three accounts compare at a glance — based on their published condition structures.',
-                },
-                {
-                  type: 'table',
-                  headers: ['Account', 'Key Condition', 'Illustrative Max Rate', 'Best For'],
-                  rows: [
-                    ['DBS Multiplier', 'Total monthly transactions across DBS products', 'Up to ~4.1% p.a.', 'DBS ecosystem users with salary + card spend'],
-                    ['OCBC 360', 'Salary credit + card spend + GIRO + insurance/investment', 'Up to ~4.65% p.a.', 'Students who want savings pockets + goal tracking'],
-                    ['UOB One', 'Salary credit + $500/month card spend + 3 GIRO payments', 'Up to ~4.0% p.a.', 'Students with consistent monthly card spend'],
+                  key: 'compare',
+                  title: 'Side-by-Side Comparison',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Side-by-Side Comparison',
+                    },
+                    {
+                      type: 'text',
+                      text: 'DBS Multiplier, OCBC 360, and UOB One are Singapore\'s three most popular high-yield savings accounts. All three can earn significantly more than a basic account — but they reward different behaviours. The best one depends entirely on how you actually use your money.',
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Interest rates for all three accounts change periodically. The numbers in this lesson are illustrative — use the bot chip at the end of each section to get today\'s exact rates before making a decision.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'At a Glance',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Account', 'Key Condition', 'Illustrative Max Rate', 'Best For'],
+                      rows: [
+                        ['DBS Multiplier', 'Total monthly DBS transactions across products', 'Up to ~4.1% p.a.', 'DBS ecosystem users with salary + card spend'],
+                        ['OCBC 360', 'Salary + card spend + GIRO + insurance/investment', 'Up to ~4.65% p.a.', 'Students who want savings pockets + goal tracking'],
+                        ['UOB One', 'Salary + $500/month card spend + 3 GIRO payments', 'Up to ~4.0% p.a.', 'Students with consistent monthly card spend'],
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'A Closer Look at Each Account',
+                    },
+                    {
+                      type: 'topiccards',
+                      cards: [
+                        {
+                          icon: '🔴',
+                          label: 'DBS Multiplier',
+                          description: 'Rewards total transaction volume across DBS products',
+                          color: '#DC2626',
+                          details: [
+                            'Interest scales with your total monthly transactions across DBS products — salary, card spend, insurance, investments, home loan',
+                            'No fixed minimum spend — the more DBS products you use, the higher your rate',
+                            'Integrates with DBS NAV Planner for spending and savings tracking in one app',
+                          ],
+                          example: 'A student who credits salary to DBS and spends on a DBS card can realistically earn 2–3% p.a. — check the bot for today\'s exact tiered rates.',
+                        },
+                        {
+                          icon: '🟠',
+                          label: 'OCBC 360',
+                          description: 'Rewards specific monthly actions with separate bonus tiers',
+                          color: '#EA580C',
+                          details: [
+                            'Each condition unlocks a separate bonus tier — salary, card spend, GIRO, insurance/investment',
+                            'Savings Pockets feature lets you create named sub-accounts for different goals within one account',
+                            'Most student-friendly onboarding — low minimum balance and no fall-below fee for students',
+                          ],
+                          example: 'A student meeting salary credit + card spend conditions could earn 2.5–4% p.a. — use the bot chip for current tier breakdowns.',
+                        },
+                        {
+                          icon: '🔵',
+                          label: 'UOB One',
+                          description: 'Simple, clearly defined conditions with strong interest',
+                          color: '#1D4ED8',
+                          details: [
+                            'Simplest structure of the three — meet salary + $500 card spend + 3 GIRO debits and you\'re done',
+                            'Interest applied in balance bands — different rates for the first $30,000, next $30,000, and so on',
+                            'UOB TMRW app offers spending insights and savings nudges aimed at younger users',
+                          ],
+                          example: 'A student crediting salary and spending $500/month on a UOB card could earn 3–4% p.a. — check the bot for latest band rates.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current interest rates for DBS Multiplier, OCBC 360, and UOB One',
+                      prompt: 'current interest rates qualifying conditions DBS Multiplier OCBC 360 UOB One Singapore 2025',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '5-2-s1-tinder',
+                      fincoins: 10,
+                      title: 'HYSA Comparison — True or False?',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'DBS Multiplier rewards total transaction volume across DBS products — not just salary credit alone.',
+                          isTrue: true,
+                          explanation: 'Unlike OCBC 360 and UOB One which have fixed condition categories, DBS Multiplier rewards the total value of your monthly transactions across all DBS products — the more you use, the higher your rate.',
+                        },
+                        {
+                          text: 'A student with no salary cannot earn any bonus interest on any of the three HYSAs.',
+                          isTrue: false,
+                          explanation: 'OCBC 360 and UOB One both have card spend and GIRO tiers that don\'t require salary credit — students can still earn above-base rates by meeting these conditions.',
+                        },
+                        {
+                          text: 'Splitting your salary between two HYSAs is a good way to maximise interest from both accounts.',
+                          isTrue: false,
+                          explanation: 'Most HYSAs require full salary credit to unlock their biggest bonus tier. Splitting your salary means neither account qualifies — concentrate your salary in one account.',
+                        },
+                        {
+                          text: 'UOB One has the simplest qualifying conditions of the three accounts.',
+                          isTrue: true,
+                          explanation: 'UOB One\'s three conditions — salary credit, $500/month card spend, and 3 GIRO payments — are clearly defined and easier to track than DBS Multiplier\'s transaction volume tiers.',
+                        },
+                      ],
+                    },
                   ],
                 },
+
+                // ─── SECTION 2 ───────────────────────────
                 {
-                  type: 'topiccards',
-                  title: 'A closer look at each account:',
-                  cards: [
+                  key: 'student',
+                  title: 'Best Option for Students',
+                  fincoins: 10,
+                  content: [
                     {
+                      type: 'heading',
+                      text: 'Best Option for Students',
+                    },
+                    {
+                      type: 'text',
+                      text: 'The right account depends on your situation right now — not which account has the highest headline rate. Here\'s what each account realistically earns at different student life stages.',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'neutral',
+                      title: 'What does each account realistically earn for a student?',
+                      cards: [
+                        {
+                          frontLabel: '🔴 DBS Multiplier',
+                          backLabel: '📊 Realistic student rate',
+                          front: 'Key condition: Total monthly DBS transactions — salary + card spend + other DBS products.',
+                          back: 'Salary credit + DBS card spend → realistically 2–3% p.a. Without salary credit, hitting meaningful bonus tiers is difficult. Best once you\'re deeply in the DBS ecosystem.',
+                          tag: 'Best for full-time DBS users',
+                        },
+                        {
+                          frontLabel: '🟠 OCBC 360',
+                          backLabel: '📊 Realistic student rate',
+                          front: 'Key condition: Salary credit + card spend + GIRO + optional insurance/investment bonus.',
+                          back: 'Salary + card spend + GIRO → 2.5–4% p.a. Without salary, card spend and GIRO tiers still add 0.5–1.5% above base. Savings Pockets helps organise goals at any stage.',
+                          tag: 'Most flexible for students',
+                        },
+                        {
+                          frontLabel: '🔵 UOB One',
+                          backLabel: '📊 Realistic student rate',
+                          front: 'Key condition: Salary credit + min. $500/month card spend + 3 GIRO payments.',
+                          back: 'All three conditions met → 3–4% p.a. Simplest structure to qualify for once employed. If you already spend $500/month on a UOB card, this is the easiest HYSA to maximise.',
+                          tag: 'Simplest to qualify for once employed',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Which Account Fits Your Situation?',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '5-2-s2-scenarios',
+                      fincoins: 10,
+                      title: 'Which account fits your situation?',
+                      scenarios: [
+                        {
+                          icon: '🎓',
+                          situation: 'You\'re a full-time student with no salary yet, spending about $300–$400/month across various apps and cards.',
+                          options: [
+                            {
+                              text: 'Open an OCBC 360 and focus on the card spend and GIRO tiers only.',
+                              biasLabel: 'Smart starting point ✓',
+                              biasExplanation: 'Without salary credit you can\'t unlock the biggest tier, but OCBC 360\'s card spend and GIRO bonuses are still achievable — and Savings Pockets helps organise your goals while you study.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Open a DBS Multiplier and try to hit the transaction volume threshold.',
+                              biasLabel: 'Harder without salary',
+                              biasExplanation: 'DBS Multiplier rewards total transaction volume — without salary credit, it\'s hard to hit the thresholds that unlock meaningful bonus rates.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Use a digital bank like GXS or Trust for a flat 2–3% base rate instead.',
+                              biasLabel: 'Also a good option',
+                              biasExplanation: 'If you can\'t meet any HYSA conditions, a digital bank\'s flat rate beats the HYSA base of 0.05%. A perfectly reasonable choice until you have a salary.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '💼',
+                          situation: 'You\'re on a 6-month internship earning $1,500/month and already spending $500+/month on your UOB card.',
+                          options: [
+                            {
+                              text: 'Open a UOB One, credit your internship salary, and keep spending on your UOB card.',
+                              biasLabel: 'Best match ✓',
+                              biasExplanation: 'You already meet two of UOB One\'s three conditions — just add one GIRO payment (phone bill or transport) and you unlock the full bonus tier for the duration of your internship.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Switch everything to OCBC 360 to maximise conditions.',
+                              biasLabel: 'Unnecessary disruption',
+                              biasExplanation: 'Switching banks mid-internship means re-setting up salary credit and GIRO — UOB One is already the right fit given your existing UOB card spend.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Keep the money in your current basic savings account for simplicity.',
+                              biasLabel: 'Costly inaction',
+                              biasExplanation: 'On a $5,000 balance, the difference between 0.05% and 3% is ~$148/year. Six months of internship savings deserves a better home.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🏢',
+                          situation: 'You\'ve just started full-time work, salary credited to DBS, spending across multiple DBS products — card, insurance, and potentially a home loan in future.',
+                          options: [
+                            {
+                              text: 'Open a DBS Multiplier and consolidate all transactions within the DBS ecosystem.',
+                              biasLabel: 'Best long-term fit ✓',
+                              biasExplanation: 'DBS Multiplier is designed exactly for this — it rewards total DBS transaction volume. The more DBS products you use over time, the higher your effective rate becomes.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Switch to OCBC 360 for the higher headline rate.',
+                              biasLabel: 'Headline vs reality',
+                              biasExplanation: 'OCBC 360\'s headline rate requires meeting all conditions including insurance/investment products. If your ecosystem is already DBS, switching adds friction without guaranteed benefit.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Split salary between DBS Multiplier and UOB One to diversify.',
+                              biasLabel: 'Splitting dilutes conditions',
+                              biasExplanation: 'Most HYSAs require full salary credit to unlock their biggest tier — splitting your salary means neither account qualifies for the full bonus.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Which HYSA is best for a student with a part-time internship salary in Singapore?',
+                      prompt: 'best high yield savings account Singapore student internship part-time salary OCBC 360 UOB One DBS Multiplier 2025',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 3 ───────────────────────────
+                {
+                  key: 'exercise',
+                  title: 'Calculate Your Returns',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Calculate Your Returns',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Use the sliders below to estimate how much you could earn annually in each account. These figures are illustrative — based on published condition structures. Use the bot chip at the bottom for today\'s exact rates.',
+                    },
+                    {
+                      type: 'slider',
                       icon: '🔴',
-                      label: 'DBS Multiplier',
-                      description: 'Rewards total transaction volume',
-                      color: '#DC2626',
-                      details: [
-                        'Interest scales with your total monthly transactions across DBS products — salary, card spend, insurance, investments, home loan',
-                        'The more DBS products you use, the higher your rate — no fixed minimum spend required',
-                        'Integrates with DBS NAV Planner for spending and savings tracking in one app',
+                      title: 'DBS Multiplier: Annual Interest Estimator',
+                      description: 'Drag to your savings balance to see estimated annual interest (illustrative 2.5% p.a. for salary credit + card spend).',
+                      min: 1000,
+                      max: 50000,
+                      step: 1000,
+                      initialValue: 10000,
+                      prefix: '$',
+                      calculateResult: (balance) => [
+                        { label: '💰 Estimated annual interest', value: `$${(balance * 0.025).toFixed(0)}`, color: '#DC2626' },
+                        { label: '📅 Monthly earnings', value: `$${(balance * 0.025 / 12).toFixed(2)}`, color: '#4F46E5' },
+                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.025 - balance * 0.0005).toFixed(0)}/yr more`, color: '#059669' },
                       ],
-                      example: 'A student who credits salary to DBS and spends on a DBS card could realistically earn 2–3% p.a. — check the bot for today\'s exact tiered rates.',
                     },
                     {
+                      type: 'slider',
                       icon: '🟠',
-                      label: 'OCBC 360',
-                      description: 'Rewards specific monthly actions',
-                      color: '#EA580C',
-                      details: [
-                        'Each condition unlocks a separate bonus tier — salary, card spend, GIRO, insurance/investment',
-                        'Savings Pockets feature lets you create named sub-accounts for different goals within one account',
-                        'Most student-friendly onboarding — low minimum balance and no fall-below fee for students',
+                      title: 'OCBC 360: Annual Interest Estimator',
+                      description: 'Drag to your savings balance to see estimated annual interest (illustrative 3% p.a. for salary + card spend + GIRO).',
+                      min: 1000,
+                      max: 50000,
+                      step: 1000,
+                      initialValue: 10000,
+                      prefix: '$',
+                      calculateResult: (balance) => [
+                        { label: '💰 Estimated annual interest', value: `$${(balance * 0.03).toFixed(0)}`, color: '#EA580C' },
+                        { label: '📅 Monthly earnings', value: `$${(balance * 0.03 / 12).toFixed(2)}`, color: '#4F46E5' },
+                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/yr more`, color: '#059669' },
                       ],
-                      example: 'A student meeting salary credit + card spend conditions could earn 2.5–4% p.a. — use the bot chip below for current tier breakdowns.',
                     },
                     {
+                      type: 'slider',
                       icon: '🔵',
-                      label: 'UOB One',
-                      description: 'Simple conditions, strong interest',
-                      color: '#1D4ED8',
-                      details: [
-                        'Simpler structure than DBS Multiplier — meet salary + $500 card spend + 3 GIRO debits and you\'re done',
-                        'Interest is applied in bands — different rates for the first $30,000, next $30,000, and so on',
-                        'UOB TMRW app offers spending insights and savings nudges aimed at younger users',
-                      ],
-                      example: 'A student crediting salary and spending $500/month on a UOB card could earn 3–4% p.a. — check the bot for the latest band rates.',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'The right account depends on your situation right now — not which account has the highest headline rate. Here are three common student profiles.',
-                },
-                {
-                  type: 'scenarios',
-                  title: 'Which account fits your situation?',
-                  scenarios: [
-                    {
-                      icon: '🎓',
-                      situation: 'You\'re a full-time student with no salary yet, spending about $300–$400/month across various apps and cards.',
-                      options: [
-                        {
-                          text: 'Open an OCBC 360 and focus on the card spend and GIRO tiers only.',
-                          biasLabel: 'Smart starting point ✓',
-                          biasExplanation: 'Without salary credit you can\'t unlock the biggest tier, but OCBC 360\'s card spend and GIRO bonuses are still achievable — and Savings Pockets helps you organise goals.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Open a DBS Multiplier and try to hit the transaction volume threshold.',
-                          biasLabel: 'Harder without salary',
-                          biasExplanation: 'DBS Multiplier rewards total transaction volume — without salary credit, it\'s hard to hit the thresholds that unlock meaningful bonus rates.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Use a digital bank like GXS or Trust for a flat 2–3% base rate instead.',
-                          biasLabel: 'Also a good option',
-                          biasExplanation: 'If you can\'t meet any HYSA conditions, a digital bank\'s flat rate beats the HYSA base rate of 0.05%. This is a perfectly reasonable choice until you have a salary.',
-                          isIdeal: false,
-                        },
+                      title: 'UOB One: Annual Interest Estimator',
+                      description: 'Drag to your savings balance to see estimated annual interest (illustrative 3.5% p.a. for salary + $500 spend + 3 GIRO).',
+                      min: 1000,
+                      max: 50000,
+                      step: 1000,
+                      initialValue: 10000,
+                      prefix: '$',
+                      calculateResult: (balance) => [
+                        { label: '💰 Estimated annual interest', value: `$${(balance * 0.035).toFixed(0)}`, color: '#1D4ED8' },
+                        { label: '📅 Monthly earnings', value: `$${(balance * 0.035 / 12).toFixed(2)}`, color: '#4F46E5' },
+                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.035 - balance * 0.0005).toFixed(0)}/yr more`, color: '#059669' },
                       ],
                     },
                     {
-                      icon: '💼',
-                      situation: 'You\'re on a 6-month internship earning $1,500/month and already spending $500+/month on your UOB card.',
-                      options: [
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'On a $10,000 balance: DBS Multiplier earns ~$250/yr, OCBC 360 earns ~$300/yr, UOB One earns ~$350/yr — vs $5/yr in a basic savings account. Same money, wildly different outcomes.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Quick Decision Guide',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Your Situation', 'Best Account'],
+                      rows: [
+                        ['No salary, spending < $500/month', 'OCBC 360 (card + GIRO tiers) or digital bank'],
+                        ['Internship salary + UOB card spend', 'UOB One (simplest conditions to unlock)'],
+                        ['Full-time salary + multiple DBS products', 'DBS Multiplier (rewards ecosystem depth)'],
+                        ['Want goal-based savings pockets', 'OCBC 360 (Savings Pockets feature)'],
+                        ['Already spending $500/month on UOB card', 'UOB One (conditions already halfway met)'],
+                      ],
+                      firstColAccent: true,
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current interest rates for DBS Multiplier, OCBC 360, and UOB One',
+                      prompt: 'current interest rates and qualifying conditions DBS Multiplier OCBC 360 UOB One Singapore 2025 comparison',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: OCBC 360 vs UOB One vs DBS Multiplier',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions on how the accounts differ, which suits which student profile, and the one mistake that kills bonus interest on all three.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — key differences between DBS Multiplier, OCBC 360, and UOB One?',
+                      prompt: 'DBS Multiplier vs OCBC 360 vs UOB One key differences Singapore students 2025 summary',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '5-2-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'OCBC 360 vs UOB One vs DBS Multiplier',
+                      questions: [
                         {
-                          text: 'Open a UOB One, credit your internship salary, and keep spending on your UOB card.',
-                          biasLabel: 'Best match ✓',
-                          biasExplanation: 'You already meet two of UOB One\'s three conditions — just add one GIRO payment (phone bill or transport) and you unlock the full bonus tier for the duration of your internship.',
-                          isIdeal: true,
+                          concept: 'Account structure',
+                          question: 'What makes DBS Multiplier structurally different from OCBC 360 and UOB One?',
+                          options: [
+                            'DBS Multiplier requires no conditions — it gives the highest rate automatically',
+                            'DBS Multiplier rewards total transaction volume across DBS products, not fixed condition categories',
+                            'DBS Multiplier only applies to balances above $50,000',
+                            'DBS Multiplier pays interest weekly instead of monthly',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'OCBC 360 and UOB One have fixed condition categories (salary, card spend, GIRO). DBS Multiplier is different — it rewards the total value of your monthly transactions across all DBS products. More products, higher rate.',
                         },
                         {
-                          text: 'Switch everything to OCBC 360 to maximise conditions.',
-                          biasLabel: 'Unnecessary disruption',
-                          biasExplanation: 'Switching banks mid-internship means re-setting up salary credit and GIRO — UOB One is already the right fit given your existing UOB card spend.',
-                          isIdeal: false,
+                          concept: 'Student profile matching',
+                          question: 'A student is 3 months into an internship earning $1,500/month and already spends $600/month on their UOB debit card. Which account should they prioritise?',
+                          options: [
+                            'OCBC 360 — highest potential headline rate',
+                            'DBS Multiplier — rewards the most transaction types',
+                            'UOB One — two of three conditions already met, just add one GIRO payment',
+                            'A digital bank — simpler and no conditions needed',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'This student already meets UOB One\'s salary credit and card spend conditions. Adding one GIRO payment (phone bill, transport) unlocks the full bonus tier with minimal extra effort — no account switching required.',
                         },
                         {
-                          text: 'Keep the money in your current basic savings account for simplicity.',
-                          biasLabel: 'Costly inaction',
-                          biasExplanation: 'On a $5,000 balance, the difference between 0.05% and 3% is ~$148/year. Six months of internship savings deserves a better home.',
-                          isIdeal: false,
+                          concept: 'Common mistakes',
+                          question: 'A student has a UOB One account but credits their internship salary to a separate DBS account for convenience. What is the most likely impact?',
+                          options: [
+                            'No impact — UOB One doesn\'t require salary credit',
+                            'They lose the card spend bonus only',
+                            'They lose the salary credit bonus tier — the single biggest HYSA condition — and earn a much lower effective rate',
+                            'Their UOB One account is automatically closed after 3 months without salary credit',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'Salary credit to the same bank is the highest-value condition for most HYSAs. Crediting elsewhere — even to a different account at the same bank — typically disqualifies you from the salary tier, costing 1–3% p.a. in lost bonus interest.',
                         },
                       ],
                     },
-                    {
-                      icon: '🏢',
-                      situation: 'You\'ve just started full-time work, salary credited to DBS, spending across multiple DBS products — card, insurance, home loan in the future.',
-                      options: [
-                        {
-                          text: 'Open a DBS Multiplier and consolidate all transactions within the DBS ecosystem.',
-                          biasLabel: 'Best long-term fit ✓',
-                          biasExplanation: 'DBS Multiplier is designed exactly for this — it rewards total DBS transaction volume. The more DBS products you use, the higher your effective rate over time.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Switch to OCBC 360 for the higher headline rate.',
-                          biasLabel: 'Headline vs reality',
-                          biasExplanation: 'OCBC 360\'s headline rate requires meeting all conditions including insurance/investment products. If your ecosystem is DBS, switching adds friction without guaranteed benefit.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Split salary between DBS Multiplier and UOB One to diversify.',
-                          biasLabel: 'Splitting dilutes conditions',
-                          biasExplanation: 'Most HYSAs require salary credit to unlock their biggest tier — splitting your salary means neither account qualifies for the full bonus.',
-                          isIdeal: false,
-                        },
-                      ],
-                    },
                   ],
-                },
-                {
-                  type: 'flipcards',
-                  title: 'What does each account realistically earn for a student?',
-                  cards: [
-                    {
-                      frontLabel: '🔴 DBS Multiplier',
-                      backLabel: '📊 Realistic student rate',
-                      front: 'Key condition: Total monthly DBS transactions — salary + card spend + other DBS products.',
-                      back: 'A student with salary credit + DBS card spend can realistically earn 2–3% p.a. Without salary credit, earning above base rate is difficult. Check the bot for today\'s exact tier thresholds.',
-                      tag: 'Best when deeply in the DBS ecosystem',
-                    },
-                    {
-                      frontLabel: '🟠 OCBC 360',
-                      backLabel: '📊 Realistic student rate',
-                      front: 'Key condition: Salary credit + card spend + GIRO + optional insurance/investment bonus.',
-                      back: 'A student meeting salary + card spend + GIRO can earn 2.5–4% p.a. Without salary, card spend and GIRO tiers still add 0.5–1.5% above base. Savings Pockets adds non-financial value.',
-                      tag: 'Most flexible for students at different stages',
-                    },
-                    {
-                      frontLabel: '🔵 UOB One',
-                      backLabel: '📊 Realistic student rate',
-                      front: 'Key condition: Salary credit + min. $500/month card spend + 3 GIRO payments.',
-                      back: 'A student meeting all three conditions can earn 3–4% p.a. The simplest condition structure of the three — if you already spend $500/month on a UOB card, this is the easiest HYSA to maximise.',
-                      tag: 'Simplest to qualify for once employed',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Use the sliders below to estimate how much you could earn annually in each account. These figures are illustrative — based on published condition structures. Use the bot chip at the bottom for today\'s exact rates.',
-                },
-                {
-                  type: 'slider',
-                  icon: '🔴',
-                  title: 'DBS Multiplier: Annual Interest Estimator',
-                  description: 'Drag to your savings balance to see estimated annual interest (illustrative 2.5% p.a. for salary credit + card spend).',
-                  min: 1000,
-                  max: 50000,
-                  step: 1000,
-                  initialValue: 10000,
-                  prefix: '$',
-                  calculateResult: (balance) => [
-                    { label: '💰 Estimated annual interest', value: `$${(balance * 0.025).toFixed(0)}`, color: '#DC2626' },
-                    { label: '📅 Monthly earnings', value: `$${(balance * 0.025 / 12).toFixed(2)}`, color: '#4F46E5' },
-                    { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.025 - balance * 0.0005).toFixed(0)}/year more`, color: '#059669' },
-                  ],
-                },
-                {
-                  type: 'slider',
-                  icon: '🟠',
-                  title: 'OCBC 360: Annual Interest Estimator',
-                  description: 'Drag to your savings balance to see estimated annual interest (illustrative 3% p.a. for salary + card spend + GIRO).',
-                  min: 1000,
-                  max: 50000,
-                  step: 1000,
-                  initialValue: 10000,
-                  prefix: '$',
-                  calculateResult: (balance) => [
-                    { label: '💰 Estimated annual interest', value: `$${(balance * 0.03).toFixed(0)}`, color: '#EA580C' },
-                    { label: '📅 Monthly earnings', value: `$${(balance * 0.03 / 12).toFixed(2)}`, color: '#4F46E5' },
-                    { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/year more`, color: '#059669' },
-                  ],
-                },
-                {
-                  type: 'slider',
-                  icon: '🔵',
-                  title: 'UOB One: Annual Interest Estimator',
-                  description: 'Drag to your savings balance to see estimated annual interest (illustrative 3.5% p.a. for salary + $500 spend + 3 GIRO).',
-                  min: 1000,
-                  max: 50000,
-                  step: 1000,
-                  initialValue: 10000,
-                  prefix: '$',
-                  calculateResult: (balance) => [
-                    { label: '💰 Estimated annual interest', value: `$${(balance * 0.035).toFixed(0)}`, color: '#1D4ED8' },
-                    { label: '📅 Monthly earnings', value: `$${(balance * 0.035 / 12).toFixed(2)}`, color: '#4F46E5' },
-                    { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.035 - balance * 0.0005).toFixed(0)}/year more`, color: '#059669' },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Now test your understanding of how these three accounts compare.',
-                },
-                {
-                  type: 'tindertruefalse',
-                  title: 'HYSA Comparison — True or False?',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
-                    {
-                      text: 'DBS Multiplier rewards total transaction volume across DBS products — not just salary credit alone.',
-                      isTrue: true,
-                      explanation: 'Unlike OCBC 360 and UOB One which have fixed condition categories, DBS Multiplier rewards the total value of your monthly transactions across all DBS products.',
-                    },
-                    {
-                      text: 'A student with no salary cannot earn any bonus interest on any of the three HYSAs.',
-                      isTrue: false,
-                      explanation: 'OCBC 360 and UOB One both have card spend and GIRO tiers that don\'t require salary credit — students can still earn above-base rates by meeting these conditions.',
-                    },
-                    {
-                      text: 'Splitting your salary between two HYSAs is a good way to maximise interest from both accounts.',
-                      isTrue: false,
-                      explanation: 'Most HYSAs require full salary credit to unlock their biggest bonus tier. Splitting your salary means neither account qualifies — concentrate your salary in one account.',
-                    },
-                    {
-                      text: 'UOB One has the simplest qualifying conditions of the three accounts.',
-                      isTrue: true,
-                      explanation: 'UOB One\'s three conditions — salary credit, $500/month card spend, and 3 GIRO payments — are clearly defined and easier to track than DBS Multiplier\'s transaction volume tiers.',
-                    },
-                    {
-                      text: 'HYSA interest rates are guaranteed and will not change after you open the account.',
-                      isTrue: false,
-                      explanation: 'HYSA rates are set by the banks and can change at any time — they are not guaranteed. Always check your bank\'s current published rates before making decisions.',
-                    },
-                  ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Current interest rates for DBS Multiplier, OCBC 360, and UOB One',
-                  prompt: 'Current interest rates and qualifying conditions for DBS Multiplier, OCBC 360, and UOB One Singapore 2025',
                 },
               ],
+
               flashcards: [
-                { q: 'What is the key qualifying condition for UOB One?', a: 'Salary credit + minimum $500/month card spend + 3 GIRO payments — meet all three to unlock the full bonus rate.' },
-                { q: 'What makes DBS Multiplier different from OCBC 360 and UOB One?', a: 'DBS Multiplier rewards total transaction volume across all DBS products — the more DBS services you use, the higher your rate. The others have fixed condition categories.' },
-                { q: 'Which HYSA is most suitable for a student with no salary yet?', a: 'OCBC 360 — its card spend and GIRO tiers are achievable without salary credit, and Savings Pockets help with goal tracking.' },
-                { q: 'What is a realistic effective rate for a student meeting 2–3 HYSA conditions?', a: 'Roughly 2–4% p.a. depending on the account and conditions met — significantly better than the 0.05% base rate.' },
-                { q: 'Why should you check your HYSA rate every month?', a: 'HYSA rates are recalculated monthly based on whether you met the conditions. Miss a condition, you lose that bonus for that month only.' },
+                {
+                  q: 'What is the key qualifying condition for UOB One?',
+                  a: 'Salary credit + minimum $500/month card spend + 3 GIRO payments — meet all three to unlock the full bonus rate.',
+                },
+                {
+                  q: 'What makes DBS Multiplier different from OCBC 360 and UOB One?',
+                  a: 'DBS Multiplier rewards total transaction volume across all DBS products — the more DBS services you use, the higher your rate. The others have fixed condition categories.',
+                },
+                {
+                  q: 'Which HYSA is most suitable for a student with no salary yet?',
+                  a: 'OCBC 360 — its card spend and GIRO tiers are achievable without salary credit, and Savings Pockets help with goal tracking.',
+                },
+                {
+                  q: 'What is a realistic effective rate for a student meeting 2–3 HYSA conditions?',
+                  a: 'Roughly 2–4% p.a. depending on the account and conditions met — significantly better than the 0.05% base rate.',
+                },
+                {
+                  q: 'Why should you avoid splitting your salary between two HYSAs?',
+                  a: 'Most HYSAs require full salary credit to unlock their biggest bonus tier — splitting means neither account qualifies, and you lose the highest-value condition on both.',
+                },
               ],
             },
+            // ── LESSON 5-3 ──────────────────────────────
             {
-              id: '5-3', title: 'Maximising Your Interest', icon: '🔑',
+              id: '5-3',
+              title: 'Maximising Your Interest',
+              icon: '🔑',
               topic: 'Maximising bank interest Singapore student strategies',
-              duration: '5 min', fincoins: 80,
-              sections: [{ key: 'stack', heading: 'Stacking Interest Conditions' }, { key: 'automate', heading: 'Automating for Passive Gains' }, { key: 'review', heading: 'Annual Account Review' }],
-              content: [
+              duration: '5 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Earning high interest isn\'t about finding the best account — every student has already heard about DBS Multiplier, OCBC 360, and UOB One. The difference between students who actually earn 3–4% p.a. and those stuck at 0.05% is one thing: consistently meeting conditions. This lesson is about building the system that makes that happen automatically.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'fact',
-                  text: 'Studies on consumer banking behaviour show that most account holders who open HYSAs never fully maximise their bonus tiers — they set up the account once and forget to optimise their behaviour around it.',
-                },
-                {
-                  type: 'keyterm',
-                  term: 'Interest Stacking',
-                  definition: 'Deliberately structuring your financial behaviour — salary credit, card spend, GIRO payments — to meet multiple HYSA bonus tiers simultaneously, maximising your effective interest rate every month.',
-                },
-                {
-                  type: 'text',
-                  text: 'There are three levers you can pull to maximise your HYSA rate. Each one unlocks a different bonus tier — and the best part is that all three can be set up once and run automatically.',
-                },
-                {
-                  type: 'timeline',
-                  title: 'The three interest-stacking levers:',
-                  nodes: [
+                  key: 'stack',
+                  title: 'Stacking Interest Conditions',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '💰',
-                      label: 'Salary Credit',
-                      sublabel: 'Biggest single lever',
-                      color: '#4F46E5',
-                      examples: ['Credit full salary to HYSA', 'Must be labelled as salary', 'Payroll GIRO only'],
-                      details: [
-                        'Salary credit is the single most valuable condition across all three HYSAs — unlocking 1–3% p.a. in bonus interest alone.',
-                        'Your salary must be credited via payroll GIRO and labelled as salary — manual transfers don\'t count.',
-                        'Set this up once with your HR department and it runs automatically every month.',
-                      ],
-                      tip: 'When starting a new job, the first thing you do is tell HR to credit your salary to your HYSA — not your everyday account.',
+                      type: 'heading',
+                      text: 'Stacking Interest Conditions',
                     },
                     {
-                      icon: '💳',
-                      label: 'Spend Optimisation',
-                      sublabel: 'Use the right card',
-                      color: '#0891B2',
-                      examples: ['$500/month minimum', 'Use linked bank card', 'Consolidate daily spend'],
-                      details: [
-                        'Card spend bonuses require you to spend a minimum amount — typically $500/month — on the bank\'s linked credit or debit card.',
-                        'The key is consolidation — route all your regular spending (groceries, transport, subscriptions) through one card.',
-                        'You\'re already spending this money — the only change is which card you use.',
-                      ],
-                      tip: 'Set your linked card as the default payment method in GrabPay, Shopee, and your phone\'s wallet. Passive spend accumulation with zero extra effort.',
+                      type: 'text',
+                      text: 'Earning high interest isn\'t about finding the best account — every student has already heard about DBS Multiplier, OCBC 360, and UOB One. The difference between students who actually earn 3–4% p.a. and those stuck at 0.05% is one thing: consistently meeting conditions. This lesson is about building the system that makes that happen automatically.',
                     },
                     {
-                      icon: '🔄',
-                      label: 'GIRO Setup',
-                      sublabel: 'Easiest wins',
-                      color: '#059669',
-                      examples: ['Phone bill', 'Utilities / SP Group', 'Insurance premium'],
-                      details: [
-                        'Most HYSAs require 3 GIRO payments per month — these are recurring automatic deductions from your account.',
-                        'Phone bill, internet, utilities, and insurance premiums all count — set them up once and they qualify every month automatically.',
-                        'This is the lowest-effort condition to meet — most students already have eligible bills, they just haven\'t linked them to GIRO.',
-                      ],
-                      tip: 'Log into your bank app and set up GIRO for your phone bill, SP Group utilities, and one insurance premium. Done in 15 minutes, qualifies every month forever.',
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'Most account holders who open HYSAs never fully maximise their bonus tiers — they set up the account once and forget to optimise their behaviour around it.',
                     },
-                  ],
-                },
-                {
-                  type: 'checklist',
-                  title: '✅ Your interest-stacking setup checklist:',
-                  items: [
-                    'Tell HR to credit your salary to your HYSA via payroll GIRO — not your everyday account.',
-                    'Set your HYSA\'s linked credit or debit card as your default payment method for daily spending.',
-                    'Set up GIRO for at least 3 recurring bills — phone, utilities, and insurance are the easiest.',
-                    'Enable monthly interest breakdown notifications in your bank app so you know which tiers you hit.',
-                    'Set a calendar reminder for the last week of each month to check if you\'ve met your spend threshold.',
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'The goal is to make interest maximisation require zero monthly decision-making. Once your salary credit, GIRO payments, and card spend are set up correctly, your HYSA runs on autopilot.',
-                },
-                {
-                  type: 'scenarios',
-                  title: 'Should you automate, adjust, or restructure?',
-                  scenarios: [
                     {
-                      icon: '📱',
-                      situation: 'You meet all three HYSA conditions every month but you manually transfer your salary from DBS to OCBC 360 each payday because your salary is credited to DBS.',
-                      options: [
+                      type: 'keyterm',
+                      term: 'Interest Stacking',
+                      definition: 'Deliberately structuring your financial behaviour — salary credit, card spend, GIRO payments — to meet multiple HYSA bonus tiers simultaneously, maximising your effective interest rate every month.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'The Three Interest-Stacking Levers',
+                    },
+                    {
+                      type: 'text',
+                      text: 'There are three levers you can pull to maximise your HYSA rate. Each one unlocks a different bonus tier — and all three can be set up once and run automatically.',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'The three interest-stacking levers:',
+                      nodes: [
                         {
-                          text: 'Keep doing the manual transfer — it only takes 2 minutes.',
-                          biasLabel: 'Risk of missing months',
-                          biasExplanation: 'Manual processes break down — travel, illness, or simply forgetting means you miss the salary credit condition and lose the biggest bonus tier that month.',
-                          isIdeal: false,
+                          icon: '💰',
+                          label: 'Salary Credit',
+                          sublabel: 'Biggest single lever',
+                          color: '#4F46E5',
+                          examples: ['Credit full salary to HYSA', 'Must be labelled as salary', 'Payroll GIRO only'],
+                          details: [
+                            'Salary credit is the single most valuable condition across all three HYSAs — unlocking 1–3% p.a. in bonus interest alone.',
+                            'Your salary must be credited via payroll GIRO and labelled as salary — manual transfers don\'t count.',
+                            'Set this up once with your HR department and it runs automatically every month.',
+                          ],
+                          tip: 'When starting a new job or internship, the first thing you do is tell HR to credit your salary to your HYSA — not your everyday account.',
                         },
                         {
-                          text: 'Ask HR to change your payroll GIRO to credit directly to OCBC 360.',
-                          biasLabel: 'Best fix ✓',
-                          biasExplanation: 'One HR form eliminates the manual step permanently. Direct payroll GIRO also ensures the transfer is labelled as salary — which a manual transfer may not be.',
-                          isIdeal: true,
+                          icon: '💳',
+                          label: 'Spend Optimisation',
+                          sublabel: 'Use the right card',
+                          color: '#0891B2',
+                          examples: ['$500/month minimum', 'Use linked bank card', 'Consolidate daily spend'],
+                          details: [
+                            'Card spend bonuses require you to spend a minimum amount — typically $500/month — on the bank\'s linked credit or debit card.',
+                            'The key is consolidation — route all your regular spending (groceries, transport, subscriptions) through one card.',
+                            'You\'re already spending this money — the only change is which card you use.',
+                          ],
+                          tip: 'Set your linked card as the default payment method in GrabPay, Shopee, and your phone\'s wallet. Passive spend accumulation with zero extra effort.',
                         },
                         {
-                          text: 'Switch to DBS Multiplier instead since your salary is already in DBS.',
-                          biasLabel: 'Also reasonable',
-                          biasExplanation: 'If your entire banking ecosystem is DBS, switching to DBS Multiplier removes the friction entirely. But if OCBC 360 suits you better, fixing the payroll is the cleaner solution.',
-                          isIdeal: false,
+                          icon: '🔄',
+                          label: 'GIRO Setup',
+                          sublabel: 'Easiest wins',
+                          color: '#059669',
+                          examples: ['Phone bill', 'Utilities / SP Group', 'Insurance premium'],
+                          details: [
+                            'Most HYSAs require 3 GIRO payments per month — these are recurring automatic deductions from your account.',
+                            'Phone bill, internet, utilities, and insurance premiums all count — set them up once and they qualify every month automatically.',
+                            'This is the lowest-effort condition to meet — most students already have eligible bills, they just haven\'t linked them to GIRO.',
+                          ],
+                          tip: 'Log into your bank app and set up GIRO for your phone bill, SP Group utilities, and one insurance premium. Done in 15 minutes, qualifies every month forever.',
                         },
                       ],
                     },
                     {
-                      icon: '💸',
-                      situation: 'You\'re consistently $50–$80 short of the $500/month card spend threshold on your UOB One account. Last month you missed the bonus tier.',
-                      options: [
-                        {
-                          text: 'Spend an extra $50–$80 on things you don\'t need to hit the threshold.',
-                          biasLabel: 'Counterproductive',
-                          biasExplanation: 'Spending $80 extra to earn ~$15 in bonus interest is a net loss. Never spend more than you would otherwise just to chase an interest condition.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Route existing subscriptions (Netflix, Spotify, phone plan) to your UOB card.',
-                          biasLabel: 'Smart consolidation ✓',
-                          biasExplanation: 'You\'re already paying for these — moving them to your UOB card costs nothing and adds $30–$80/month in qualifying spend without any extra outlay.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Switch to OCBC 360 which has a lower spend threshold.',
-                          biasLabel: 'Drastic for a small gap',
-                          biasExplanation: 'Switching banks has setup costs and disruption. Consolidating existing subscriptions to your UOB card is faster and solves the problem without changing accounts.',
-                          isIdeal: false,
-                        },
-                      ],
+                      type: 'bot',
+                      label: '💬 Have any HYSA conditions or rates changed recently?',
+                      prompt: 'latest changes DBS Multiplier OCBC 360 UOB One conditions interest rates Singapore 2025',
                     },
                     {
-                      icon: '🔍',
-                      situation: 'You set up your HYSA 18 months ago and haven\'t reviewed it since. Your bank has updated its conditions twice in that period.',
-                      options: [
+                      type: 'tindertruefalse',
+                      exerciseId: '5-3-s1-tinder',
+                      fincoins: 10,
+                      title: 'Maximising Interest — True or False?',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
                         {
-                          text: 'Assume nothing has changed — you\'ve been earning interest so it must be fine.',
-                          biasLabel: 'Risky assumption',
-                          biasExplanation: 'Banks change HYSA conditions regularly. You may be meeting old conditions that no longer qualify, or missing new conditions that could earn you more.',
-                          isIdeal: false,
+                          text: 'A manual salary transfer from one bank to your HYSA counts the same as payroll GIRO for salary credit conditions.',
+                          isTrue: false,
+                          explanation: 'Most banks require salary to be credited via payroll GIRO and labelled as salary. A manual transfer may not be recognised as salary credit — always confirm with your bank and update through HR.',
                         },
                         {
-                          text: 'Do a 30-minute annual review — check current conditions, your monthly breakdown, and whether a competitor account now offers better terms.',
-                          biasLabel: 'Best practice ✓',
-                          biasExplanation: 'A 30-minute annual review can identify missed conditions, rate changes, or better alternatives. On a $20,000 balance, finding an extra 1% p.a. is worth $200/year.',
-                          isIdeal: true,
+                          text: 'Setting up GIRO for recurring bills is one of the easiest HYSA conditions to automate.',
+                          isTrue: true,
+                          explanation: 'Phone, utilities, and insurance GIRO payments qualify for most HYSAs\' GIRO conditions — set them up once and they run automatically every month.',
                         },
                         {
-                          text: 'Switch banks immediately to whoever has the highest headline rate right now.',
-                          biasLabel: 'Headline rates mislead',
-                          biasExplanation: 'Headline rates require all conditions to be met. A review helps you understand what you can realistically earn — switching impulsively often results in worse outcomes.',
-                          isIdeal: false,
+                          text: 'Routing existing subscriptions like Netflix and Spotify to your HYSA\'s linked card is a cost-free way to increase qualifying card spend.',
+                          isTrue: true,
+                          explanation: 'You\'re already paying for these subscriptions — switching the payment card costs nothing and adds to your monthly qualifying spend without any extra outlay.',
+                        },
+                        {
+                          text: 'Spending extra money you wouldn\'t otherwise spend is a good strategy to hit a card spend threshold.',
+                          isTrue: false,
+                          explanation: 'Spending $80 extra to earn $15 in bonus interest is a net loss. Always consolidate existing spending to hit thresholds — never manufacture new spending.',
                         },
                       ],
                     },
                   ],
                 },
+
+                // ─── SECTION 2 ───────────────────────────
                 {
-                  type: 'flipcards',
-                  title: 'Set-and-forget mistakes → one-time fixes:',
-                  cards: [
+                  key: 'automate',
+                  title: 'Automating for Passive Gains',
+                  fincoins: 10,
+                  content: [
                     {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ One-time fix',
-                      front: 'Your salary is credited to your HYSA but your daily spending card is from a different bank — so you never hit the card spend threshold.',
-                      back: 'Order the linked debit or credit card from your HYSA bank and set it as your default. One card switch, permanent fix.',
-                      tag: 'One card change unlocks a whole tier',
+                      type: 'heading',
+                      text: 'Automating for Passive Gains',
                     },
                     {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ One-time fix',
-                      front: 'You pay your phone bill, utilities, and insurance manually each month — none of them are set up as GIRO.',
-                      back: 'Log into each provider\'s website and set up GIRO to deduct from your HYSA. Takes 20 minutes total, qualifies automatically every month from then on.',
-                      tag: '20 minutes of setup = lifetime qualification',
+                      type: 'text',
+                      text: 'The goal is to make interest maximisation require zero monthly decision-making. Once your salary credit, GIRO payments, and card spend are set up correctly, your HYSA runs on autopilot.',
                     },
                     {
-                      frontLabel: '❌ Mistake',
-                      backLabel: '✅ One-time fix',
-                      front: 'You check your interest earned at year-end and only then realise you\'ve been missing a condition for months.',
-                      back: 'Enable monthly interest breakdown push notifications in your bank app. You\'ll know within days of month-end exactly which tiers you hit and which you missed.',
-                      tag: 'Notifications = instant feedback loop',
+                      type: 'checklist',
+                      title: '✅ Your interest-stacking setup checklist:',
+                      items: [
+                        'Tell HR to credit your salary to your HYSA via payroll GIRO — not your everyday account.',
+                        'Set your HYSA\'s linked credit or debit card as your default payment method for daily spending.',
+                        'Set up GIRO for at least 3 recurring bills — phone, utilities, and insurance are the easiest.',
+                        'Enable monthly interest breakdown notifications in your bank app so you know which tiers you hit.',
+                        'Set a calendar reminder for the last week of each month to check if you\'ve met your spend threshold.',
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Set-and-Forget Mistakes',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Common set-and-forget mistakes → one-time fixes:',
+                      cards: [
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ One-time fix',
+                          front: 'Your salary is credited to your HYSA but your daily spending card is from a different bank — so you never hit the card spend threshold.',
+                          back: 'Order the linked debit or credit card from your HYSA bank and set it as your default. One card switch, permanent fix — the spend accumulates passively from then on.',
+                          tag: 'One card change unlocks a whole tier',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ One-time fix',
+                          front: 'You pay your phone bill, utilities, and insurance manually each month — none of them are set up as GIRO.',
+                          back: 'Log into each provider\'s website and set up GIRO to deduct from your HYSA. Takes 20 minutes total, qualifies automatically every month from then on.',
+                          tag: '20 minutes of setup = lifetime qualification',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ One-time fix',
+                          front: 'You check your interest earned at year-end and only then realise you\'ve been missing a condition for months.',
+                          back: 'Enable monthly interest breakdown push notifications in your bank app. You\'ll know within days of month-end exactly which tiers you hit and which you missed.',
+                          tag: 'Notifications = instant feedback loop',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do I set up GIRO payments for SP Group and phone bills in Singapore?',
+                      prompt: 'how to set up GIRO payments Singapore SP Group phone bill bank app HYSA 2025',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '5-3-s2-scenarios',
+                      fincoins: 10,
+                      title: 'Should you automate, adjust, or restructure?',
+                      scenarios: [
+                        {
+                          icon: '📱',
+                          situation: 'You meet all three HYSA conditions every month but you manually transfer your salary from DBS to OCBC 360 each payday because your salary is credited to DBS.',
+                          options: [
+                            {
+                              text: 'Keep doing the manual transfer — it only takes 2 minutes.',
+                              biasLabel: 'Risk of missing months',
+                              biasExplanation: 'Manual processes break down — travel, illness, or simply forgetting means you miss the salary credit condition and lose the biggest bonus tier that month.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Ask HR to change your payroll GIRO to credit directly to OCBC 360.',
+                              biasLabel: 'Best fix ✓',
+                              biasExplanation: 'One HR form eliminates the manual step permanently. Direct payroll GIRO also ensures the transfer is labelled as salary — which a manual transfer may not be.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Switch to DBS Multiplier instead since your salary is already in DBS.',
+                              biasLabel: 'Also reasonable',
+                              biasExplanation: 'If your entire banking ecosystem is DBS, switching to DBS Multiplier removes the friction entirely. But if OCBC 360 suits you better, fixing the payroll is the cleaner solution.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '💸',
+                          situation: 'You\'re consistently $50–$80 short of the $500/month card spend threshold on your UOB One account. Last month you missed the bonus tier.',
+                          options: [
+                            {
+                              text: 'Spend an extra $50–$80 on things you don\'t need to hit the threshold.',
+                              biasLabel: 'Counterproductive',
+                              biasExplanation: 'Spending $80 extra to earn ~$15 in bonus interest is a net loss. Never spend more than you would otherwise just to chase an interest condition.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Route existing subscriptions (Netflix, Spotify, phone plan) to your UOB card.',
+                              biasLabel: 'Smart consolidation ✓',
+                              biasExplanation: 'You\'re already paying for these — moving them to your UOB card costs nothing and adds $30–$80/month in qualifying spend without any extra outlay.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Switch to OCBC 360 which has a lower spend threshold.',
+                              biasLabel: 'Drastic for a small gap',
+                              biasExplanation: 'Switching banks has setup costs and disruption. Consolidating existing subscriptions to your UOB card is faster and solves the problem without changing accounts.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🔍',
+                          situation: 'You set up your HYSA 18 months ago and haven\'t reviewed it since. Your bank has updated its conditions twice in that period.',
+                          options: [
+                            {
+                              text: 'Assume nothing has changed — you\'ve been earning interest so it must be fine.',
+                              biasLabel: 'Risky assumption',
+                              biasExplanation: 'Banks change HYSA conditions regularly. You may be meeting old conditions that no longer qualify, or missing new conditions that could earn you more.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Do a 30-minute annual review — check current conditions, your monthly breakdown, and whether a competitor account now offers better terms.',
+                              biasLabel: 'Best practice ✓',
+                              biasExplanation: 'A 30-minute annual review can identify missed conditions, rate changes, or better alternatives. On a $20,000 balance, finding an extra 1% p.a. is worth $200/year.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Switch banks immediately to whoever has the highest headline rate right now.',
+                              biasLabel: 'Headline rates mislead',
+                              biasExplanation: 'Headline rates require all conditions to be met. A review helps you understand what you can realistically earn — switching impulsively often results in worse outcomes.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
                     },
                   ],
                 },
+
+                // ─── SECTION 3 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Banks revise HYSA conditions and rates more often than most people realise. A 30-minute annual account review is one of the highest-value financial habits you can build — here\'s what it could be worth.',
-                },
-                {
-                  type: 'slider',
-                  icon: '🔑',
-                  title: 'How much are you leaving on the table?',
-                  description: 'Drag to your current savings balance to see the annual difference between earning the base rate and a realistic optimised rate.',
-                  min: 1000,
-                  max: 75000,
-                  step: 1000,
-                  initialValue: 15000,
-                  prefix: '$',
-                  calculateResult: (balance) => [
-                    { label: '😴 Basic account (0.05% p.a.)', value: `$${(balance * 0.0005).toFixed(0)}/year`, color: '#9CA3AF' },
-                    { label: '✅ Optimised HYSA (~3% p.a.)', value: `$${(balance * 0.03).toFixed(0)}/year`, color: '#059669' },
-                    { label: `💸 You're leaving on the table`, value: `$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/year`, color: '#DC2626' },
+                  key: 'review',
+                  title: 'Annual Account Review',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Annual Account Review',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Banks revise HYSA conditions and rates more often than most people realise. A 30-minute annual account review is one of the highest-value financial habits you can build — here\'s exactly what it could be worth.',
+                    },
+                    {
+                      type: 'slider',
+                      icon: '🔑',
+                      title: 'How much are you leaving on the table?',
+                      description: 'Drag to your current savings balance to see the annual difference between earning the base rate and a realistic optimised rate.',
+                      min: 1000,
+                      max: 75000,
+                      step: 1000,
+                      initialValue: 15000,
+                      prefix: '$',
+                      calculateResult: (balance) => [
+                        { label: '😴 Basic account (0.05% p.a.)', value: `$${(balance * 0.0005).toFixed(0)}/year`, color: '#9CA3AF' },
+                        { label: '✅ Optimised HYSA (~3% p.a.)', value: `$${(balance * 0.03).toFixed(0)}/year`, color: '#059669' },
+                        { label: '💸 You\'re leaving on the table', value: `$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/year`, color: '#DC2626' },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'What to Check in Your Annual Review',
+                    },
+                    {
+                      type: 'steps',
+                      steps: [
+                        'Pull up your monthly interest breakdown — open your bank app and check the last 3 months of interest earned. Most HYSAs show a tier-by-tier breakdown so you can see exactly which conditions you hit and which you missed.',
+                        'Check the bank\'s current published conditions — go to your bank\'s website and compare current conditions against what you set up for. Conditions change — you may be meeting tiers that no longer exist, or missing new ones.',
+                        'Calculate your effective rate — divide your annual interest earned by your average balance. If your effective rate is more than 0.5% below what you should be earning, something is misaligned.',
+                        'Benchmark against competitors — spend 5 minutes checking whether OCBC 360, UOB One, or DBS Multiplier now offers better terms for your profile. Use the bot chip below for today\'s exact rates.',
+                        'Fix one thing, then automate — identify the single easiest fix (a GIRO payment, a card switch, an HR payroll update) and action it before closing the review. One change per review compounds over time.',
+                      ],
+                    },
+                   
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: Set a recurring calendar reminder every January — "HYSA Annual Review". A 30-minute check on a $20,000 balance that finds just 1% more in missed conditions is worth $200/year, every year.',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Review Area', 'What to Check', 'Time Needed'],
+                      rows: [
+                        ['Interest breakdown', 'Which tiers you hit vs missed in the last 3 months', '5 min'],
+                        ['Current conditions', 'Bank\'s published conditions vs what you set up for', '5 min'],
+                        ['Effective rate check', 'Annual interest ÷ average balance = your real rate', '5 min'],
+                        ['Competitor benchmark', 'Best rates available for your profile today', '10 min'],
+                        ['Fix + automate', 'One actionable change before closing the review', '5 min'],
+                      ],
+                      firstColAccent: true,
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Have any HYSA conditions or rates changed recently in Singapore?',
+                      prompt: 'latest changes DBS Multiplier OCBC 360 UOB One interest rates conditions Singapore 2025 updates',
+                    },
                   ],
                 },
+
+                // ─── SECTION 4 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Now test your understanding of interest maximisation strategies.',
-                },
-                {
-                  type: 'tindertruefalse',
-                  title: 'Maximising Interest — True or False?',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
                     {
-                      text: 'Spending extra money you wouldn\'t otherwise spend is a good strategy to hit a card spend threshold.',
-                      isTrue: false,
-                      explanation: 'Spending $80 extra to earn $15 in bonus interest is a net loss. Always consolidate existing spending to hit thresholds — never manufacture new spending.',
+                      type: 'heading',
+                      text: 'Challenge: Maximising Your Interest',
                     },
                     {
-                      text: 'Setting up GIRO for recurring bills is one of the easiest HYSA conditions to automate.',
-                      isTrue: true,
-                      explanation: 'Phone, utilities, and insurance GIRO payments qualify for most HYSAs\' GIRO conditions — set them up once and they run automatically every month.',
+                      type: 'text',
+                      text: 'Three questions on interest stacking, automation, and the annual review habit.',
                     },
                     {
-                      text: 'A manual salary transfer from one bank to your HYSA counts the same as payroll GIRO for salary credit conditions.',
-                      isTrue: false,
-                      explanation: 'Most banks require salary to be credited via payroll GIRO and labelled as salary. A manual transfer may not be recognised as salary credit — always confirm with your bank.',
+                      type: 'bot',
+                      label: '💬 Quick recap — what are the three levers for maximising HYSA interest?',
+                      prompt: 'how to maximise HYSA interest Singapore salary credit card spend GIRO stacking strategies 2025',
                     },
                     {
-                      text: 'HYSA conditions and rates are fixed once you open the account and will not change.',
-                      isTrue: false,
-                      explanation: 'Banks revise HYSA conditions and rates regularly. An annual review helps you stay current and ensure you\'re still meeting the right conditions for the best rate.',
-                    },
-                    {
-                      text: 'Routing existing subscriptions like Netflix and Spotify to your HYSA\'s linked card is a cost-free way to increase qualifying card spend.',
-                      isTrue: true,
-                      explanation: 'You\'re already paying for these subscriptions — switching the payment card costs nothing and adds to your monthly qualifying spend without any extra outlay.',
+                      type: 'multistepmcq',
+                      exerciseId: '5-3-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'Maximising Your Interest',
+                      questions: [
+                        {
+                          concept: 'Interest stacking',
+                          question: 'A student earns $1,800/month from a part-time internship and spends $450/month on a UOB card. Their UOB One account requires $500/month card spend. What is the best way to hit the threshold?',
+                          options: [
+                            'Spend an extra $50 on discretionary items to push card spend over $500',
+                            'Switch to OCBC 360 which has no card spend minimum',
+                            'Move Netflix, Spotify, and phone plan payments to the UOB card — spending that\'s already happening',
+                            'Top up GrabPay from the UOB card to artificially inflate the spend count',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'Consolidating existing subscriptions costs nothing and adds $30–$80 in qualifying spend — no extra outlay required. Never manufacture spending just to chase a bonus tier; the interest earned rarely outweighs the extra cost.',
+                        },
+                        {
+                          concept: 'Automation',
+                          question: 'A student manually transfers their salary from DBS to their OCBC 360 every payday. Why is this a problem — and what\'s the fix?',
+                          options: [
+                            'It\'s not a problem — manual transfers count the same as payroll GIRO for salary credit',
+                            'It\'s a problem because OCBC charges a fee for incoming transfers; fix by switching to UOB',
+                            'It\'s a problem because manual transfers may not be recognised as salary credit, and a missed month costs the biggest bonus tier — fix by updating payroll GIRO through HR',
+                            'It\'s a problem because DBS blocks transfers to competitor banks; fix by using PayNow instead',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'Banks typically require salary to arrive via payroll GIRO labelled as salary. A manual transfer may not qualify — and any month it\'s forgotten, the biggest bonus tier is lost. One HR form fixes this permanently.',
+                        },
+                        {
+                          concept: 'Annual review',
+                          question: 'A student checks their OCBC 360 at year-end and realises their effective rate has been 0.8% for the past 6 months — well below the 3.5% they expected. What is the most likely cause?',
+                          options: [
+                            'OCBC 360 reduced its base rate — nothing can be done',
+                            'The student met the conditions when they set up the account but OCBC changed its conditions mid-year — a review would have caught this months earlier',
+                            'The student\'s balance exceeded the cap, so the higher rate no longer applied to any of their money',
+                            'Interest is only applied annually, so the 0.8% is normal until December',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'Banks update HYSA conditions regularly. A student who set up conditions 18 months ago and never reviewed may be meeting outdated tiers while missing new ones. A 30-minute annual review catches exactly this — and on a $15,000 balance, 2.7% in missed interest is $405/year.',
+                        },
+                      ],
                     },
                   ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Have any HYSA conditions or rates changed recently?',
-                  prompt: 'Latest changes to DBS Multiplier OCBC 360 UOB One conditions interest rates Singapore 2025',
                 },
               ],
+
               flashcards: [
-                { q: 'What is interest stacking?', a: 'Deliberately structuring your behaviour — salary credit, card spend, GIRO — to meet multiple HYSA bonus tiers simultaneously and maximise your effective rate.' },
-                { q: 'What is the single most valuable HYSA condition to meet?', a: 'Salary credit — it unlocks the biggest bonus tier (1–3% p.a.) across all three major HYSAs. Always credit your salary to your HYSA bank.' },
-                { q: 'How do you hit the card spend threshold without spending more money?', a: 'Consolidate existing spending — groceries, transport, subscriptions — onto your HYSA\'s linked card. Route what you already spend through one card.' },
-                { q: 'Why should you do an annual HYSA review?', a: 'Banks change conditions and rates regularly. A 30-minute review can identify missed conditions or better alternatives — on $20,000, finding 1% more is worth $200/year.' },
-                { q: 'What is the easiest HYSA condition to automate permanently?', a: 'GIRO payments — set up your phone bill, utilities, and insurance to deduct from your HYSA once, and they qualify automatically every month.' },
+                {
+                  q: 'What is interest stacking?',
+                  a: 'Deliberately structuring your behaviour — salary credit, card spend, GIRO — to meet multiple HYSA bonus tiers simultaneously and maximise your effective rate.',
+                },
+                {
+                  q: 'What is the single most valuable HYSA condition to meet?',
+                  a: 'Salary credit — it unlocks the biggest bonus tier (1–3% p.a.) across all three major HYSAs. Always credit your salary to your HYSA bank via payroll GIRO.',
+                },
+                {
+                  q: 'How do you hit the card spend threshold without spending more money?',
+                  a: 'Consolidate existing spending — groceries, transport, subscriptions — onto your HYSA\'s linked card. Route what you already spend through one card.',
+                },
+                {
+                  q: 'Why should you do an annual HYSA review?',
+                  a: 'Banks change conditions and rates regularly. A 30-minute review can identify missed conditions or better alternatives — on $20,000, finding 1% more is worth $200/year.',
+                },
+                {
+                  q: 'What is the easiest HYSA condition to automate permanently?',
+                  a: 'GIRO payments — set up your phone bill, utilities, and insurance to deduct from your HYSA once, and they qualify automatically every month.',
+                },
               ],
             },
+            
           ],
         },
         {
