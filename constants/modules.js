@@ -2629,93 +2629,446 @@ export const MODULES = [
         lessons: [
 
           // ── LESSON 3-1 ──────────────────────────────
+          // ── LESSON 3-1 ──────────────────────────────
           {
             id: '3-1',
             title: 'Why You Need an Emergency Fund',
             icon: '🛡️',
             topic: 'Emergency funds — purpose, size, and why they matter',
             duration: '5 min',
-            fincoins: 70,
+            fincoins: 55,
             sections: [
-              { key: 'what', heading: 'What an Emergency Fund Is (and Isn\'t)' },
-              { key: 'size', heading: 'How Much You Actually Need' },
-              { key: 'without', heading: 'What Happens Without One' },
+
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'what',
+                title: 'What an Emergency Fund Is (and Isn\'t)',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What an Emergency Fund Is (and Isn\'t)',
+                  },
+                  {
+                    type: 'text',
+                    text: 'An emergency fund is a dedicated pool of cash set aside for genuine financial emergencies — not planned expenses, not wants, and definitely not "opportunities". It is the foundation of every financial plan.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Emergency Fund',
+                    definition: 'A separate, liquid cash reserve covering 3–6 months of essential expenses — held exclusively for genuine financial crises, not planned costs or discretionary spending.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Real Emergency vs. Not an Emergency',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The hardest part of an emergency fund is protecting it. Many students raid it for things that feel urgent but aren\'t. Here\'s the line.',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['✅ Real Emergency', '❌ Not an Emergency'],
+                    rows: [
+                      ['Medical bill from an accident', 'Flight home for a holiday'],
+                      ['Laptop breaks, needed for class', 'Laptop upgrade (old one still works)'],
+                      ['Job loss — covering rent gap', 'Sale on Shopee you "can\'t miss"'],
+                      ['Family crisis requiring travel', 'Concert tickets'],
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'The most common emergency fund mistake: using it for something that "felt like an emergency" — a sale, a trip, an impulse buy. Once spent, it takes months to rebuild.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What counts as a financial emergency for students?',
+                    prompt: 'what counts as financial emergency students Singapore examples unexpected expenses',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '3-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'Emergency or Not?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'A Shopee sale you "can\'t miss" is a valid reason to dip into your emergency fund.',
+                        isTrue: false,
+                        explanation: 'Sales are discretionary spending — a Want, not an emergency. The emergency fund is for crises that would otherwise send you into debt.',
+                      },
+                      {
+                        text: 'Your laptop breaking mid-semester when you need it for submissions counts as an emergency.',
+                        isTrue: true,
+                        explanation: 'A broken essential tool affecting your academic performance with no cheap alternative is a genuine emergency — this is exactly what the fund is for.',
+                      },
+                      {
+                        text: 'An emergency fund should be kept in your main daily spending account for easy access.',
+                        isTrue: false,
+                        explanation: 'Keeping it separate — in a different account — creates a psychological barrier that prevents casual dipping. Easy access to your main account makes it too tempting to spend.',
+                      },
+                      {
+                        text: 'Unexpected medical bills are a valid use of an emergency fund.',
+                        isTrue: true,
+                        explanation: 'Medical emergencies are exactly what the fund exists for — unplanned, urgent, and impossible to cover from regular monthly spending.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'size',
+                title: 'How Much You Actually Need',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'How Much You Actually Need',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The standard recommendation is 3–6 months of essential expenses. For students in Singapore, that\'s roughly $3,000–$6,000 depending on your rent and lifestyle.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'How to Calculate Your Target',
+                  },
+                  {
+                    type: 'steps',
+                    title: 'Calculate your emergency fund target:',
+                    steps: [
+                      'Add up your monthly essentials: rent + food + transport + phone',
+                      'Multiply by 3 for a starter fund, or by 6 for a full fund',
+                      'Example: $800 rent + $300 food + $120 transport + $20 phone = $1,240/month',
+                      'Starter fund target: $1,240 × 3 = $3,720',
+                      'Keep this in a separate savings account — not your daily account',
+                    ],
+                  },
+                  {
+                    type: 'slider',
+                    icon: '🛡️',
+                    title: 'Emergency Fund Calculator',
+                    description: 'Drag to your monthly essential expenses to see your fund targets.',
+                    min: 500,
+                    max: 4000,
+                    step: 50,
+                    initialValue: 1200,
+                    prefix: '$',
+                    calculateResult: (expenses) => [
+                      { label: '🎯 Starter Fund (3 months)', value: `$${(expenses * 3).toLocaleString()}`, color: '#4F46E5' },
+                      { label: '✅ Full Fund (6 months)', value: `$${(expenses * 6).toLocaleString()}`, color: '#059669' },
+                      { label: '📅 At $200/month, starter fund in', value: `${Math.ceil((expenses * 3) / 200)} months`, color: '#F59E0B' },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Where to Keep It in Singapore',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Your emergency fund needs to be two things: accessible when you need it, and separate enough that you won\'t casually spend it. These Singapore options hit both.',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '🏦',
+                        label: 'High-Yield Savings Account',
+                        description: 'OCBC 360 or UOB One — earn 2–4% while keeping funds fully liquid.',
+                        color: '#4F46E5',
+                        details: [
+                          'Withdrawable any time — no lock-in period',
+                          'Interest rates up to 4% p.a. with qualifying conditions',
+                          'Keep it separate from your daily spending account',
+                        ],
+                        example: 'Open an OCBC 360 account solely for your emergency fund. Transfer your $200/month contribution on income day.',
+                      },
+                      {
+                        icon: '📜',
+                        label: 'Singapore Savings Bond (SSB)',
+                        description: 'Government-backed, redeemable any month, earns above-average interest.',
+                        color: '#059669',
+                        details: [
+                          'Backed by the Singapore government — zero default risk',
+                          'Redeem any month with no penalty — 1 month notice needed',
+                          'Interest rates typically 2.5–3.5% p.a.',
+                        ],
+                        example: 'Once your fund reaches $1,000+, move part of it into SSB for better returns. Keep $500–$1,000 in a savings account for instant access.',
+                      },
+                      {
+                        icon: '⚠️',
+                        label: 'Standard Savings Account (Avoid)',
+                        description: 'Typical DBS/OCBC savings accounts earn only 0.05% — your money loses value to inflation.',
+                        color: '#F59E0B',
+                        details: [
+                          'Interest rate: 0.05% p.a. — almost nothing',
+                          'Fine for daily transactions, terrible for storing savings',
+                          'Inflation erodes the real value of money sitting here',
+                        ],
+                        example: 'If you keep $3,000 in a 0.05% account, you earn $1.50/year. In an OCBC 360 at 2.5%, you earn $75/year.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: Keep your emergency fund in a Singapore Savings Bond or high-yield savings account — not a standard 0.05% account. You earn more while keeping it accessible.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What is the current SSB interest rate in Singapore?',
+                    prompt: 'Singapore Savings Bond SSB current interest rate 2025',
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'without',
+                title: 'What Happens Without One',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What Happens Without One',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Most students think "I\'ll deal with emergencies when they happen." But without a fund, your only options in a crisis are all bad. Here\'s what the domino effect looks like.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'The no-emergency-fund crisis chain',
+                    nodes: [
+                      {
+                        icon: '💥',
+                        label: 'Crisis hits',
+                        sublabel: 'Unexpected expense appears',
+                        color: '#DC2626',
+                        details: [
+                          'Medical bill, broken laptop, sudden job loss',
+                          'You need $500–$2,000 immediately',
+                          'No emergency fund means no buffer',
+                        ],
+                        tip: 'This is not rare — most people face at least one financial shock per year.',
+                      },
+                      {
+                        icon: '💳',
+                        label: 'Bad options only',
+                        sublabel: 'You scramble for cash',
+                        color: '#F59E0B',
+                        details: [
+                          'Credit card debt at 26.9% annual interest',
+                          'Borrowing from family or friends — stressful for relationships',
+                          'Selling investments at a loss to raise cash quickly',
+                        ],
+                        tip: '$1,000 on a credit card at 26.9% costs $269 in interest if unpaid for a year.',
+                      },
+                      {
+                        icon: '📉',
+                        label: 'Knock-on damage',
+                        sublabel: 'The crisis compounds',
+                        color: '#4F46E5',
+                        details: [
+                          'Financial anxiety affects sleep and academic performance',
+                          'Debt repayment disrupts your monthly budget for months',
+                          'Positive saving habits you built get broken',
+                        ],
+                        tip: 'Research links financial stress directly to lower GPA and reduced concentration in students.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bullets',
+                    title: 'The real cost of having no emergency fund:',
+                    items: [
+                      '💳 Credit card debt at 26.9% annual interest',
+                      '🙏 Borrowing from family or friends — stressful for relationships',
+                      '😰 Financial anxiety that affects sleep and academic performance',
+                      '📉 Forced to sell investments at the wrong time to raise cash',
+                      '🔄 Breaking a positive saving streak you worked hard to build',
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How does financial stress affect student academic performance?',
+                    prompt: 'financial stress impact student academic performance university research Singapore',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '3-1-s3-scenarios',
+                    fincoins: 10,
+                    title: 'Emergency Fund Decisions',
+                    scenarios: [
+                      {
+                        icon: '💻',
+                        situation: 'Your laptop dies two weeks before finals. Repair costs $400. You have no emergency fund. What do you do?',
+                        options: [
+                          {
+                            text: 'Put it on your credit card and pay it back over 3 months.',
+                            biasLabel: 'Costly but common',
+                            biasExplanation: '$400 on a credit card at 26.9% p.a. over 3 months costs roughly $27 in interest on top. An emergency fund would have made this free.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Borrow from a friend and pay back next month.',
+                            biasLabel: 'Relationship risk',
+                            biasExplanation: 'Borrowing from friends for financial emergencies strains relationships — especially if repayment is delayed. It\'s a social cost on top of the financial one.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Use the emergency fund — this is exactly what it\'s for.',
+                            biasLabel: 'Correct use ✓',
+                            biasExplanation: 'A broken essential tool affecting your academic performance is a genuine emergency. Using the fund here is textbook correct — then rebuild it afterward.',
+                            isIdeal: true,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '✈️',
+                        situation: 'You haven\'t been home in a year and flights are cheap this weekend. You have $1,200 in your emergency fund. Do you use it?',
+                        options: [
+                          {
+                            text: 'Yes — mental health is important and you miss home.',
+                            biasLabel: 'Rationalisation',
+                            biasExplanation: 'Emotional framing can make discretionary spending feel essential. A planned trip home is not a financial emergency — save separately for it.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Use half — $600 for the flight, keep $600 as a partial fund.',
+                            biasLabel: 'Compromise trap',
+                            biasExplanation: 'Half an emergency fund is much less useful than a full one. If a real crisis hits after, you\'re still exposed. Don\'t chip at it for non-emergencies.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Don\'t use it — save separately for the trip from your Wants budget.',
+                            biasLabel: 'Correct boundary ✓',
+                            biasExplanation: 'A trip home is a Want — save for it from your 30% Wants allocation. The emergency fund is untouchable for discretionary spending.',
+                            isIdeal: true,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏥',
+                        situation: 'You have a $600 emergency fund (half-built). An unexpected $400 medical bill arrives. Do you use the fund?',
+                        options: [
+                          {
+                            text: 'No — keep the fund intact and put the bill on credit card.',
+                            biasLabel: 'Wrong priority',
+                            biasExplanation: 'Credit card interest (26.9% p.a.) is far more expensive than rebuilding your fund. Use the emergency fund — it\'s there for this — then rebuild.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Yes — use $400 from the fund, then prioritise rebuilding it.',
+                            biasLabel: 'Correct use ✓',
+                            biasExplanation: 'This is a genuine emergency. Using the fund saves you ~$27 in interest vs. credit card. Afterward, redirect savings contributions to rebuild it.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Ask family to pay — don\'t touch any savings.',
+                            biasLabel: 'Dependency',
+                            biasExplanation: 'The emergency fund exists precisely so you don\'t have to ask family in a crisis. Building financial independence means using your own buffer first.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Emergency Fund Fundamentals',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on what an emergency fund is, how much you need, and what happens when you don\'t have one.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — key emergency fund rules to remember?',
+                    prompt: 'emergency fund key rules students Singapore summary how much where to keep',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '3-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Emergency Fund Fundamentals',
+                    questions: [
+                      {
+                        concept: 'What qualifies as an emergency',
+                        question: 'Which of these is the most valid use of an emergency fund?',
+                        options: [
+                          'A Shopee 11.11 sale on an item you\'ve wanted for months',
+                          'Flights home that are unusually cheap this weekend',
+                          'A sudden medical bill you have no other way to cover',
+                          'A concert for your favourite artist — tickets sell out fast',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'An emergency fund is for genuine crises — unplanned, urgent, and financially damaging if unaddressed. Medical bills fit all three. Sales and concerts are discretionary Wants.',
+                      },
+                      {
+                        concept: 'Fund size',
+                        question: 'A student\'s monthly essentials are $1,200 (rent, food, transport, phone). What is their starter emergency fund target?',
+                        options: [
+                          '$1,200 — one month of expenses',
+                          '$2,400 — two months of expenses',
+                          '$3,600 — three months of expenses',
+                          '$7,200 — six months of expenses',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'The starter fund is 3 months of essential expenses. $1,200 × 3 = $3,600. A full fund would be $7,200 — build toward that once the starter is in place.',
+                      },
+                      {
+                        concept: 'No emergency fund consequences',
+                        question: 'A student with no emergency fund faces a $1,000 crisis. They put it on a credit card at 26.9% p.a. and take 6 months to pay it off. What is the approximate interest cost?',
+                        options: [
+                          'Around $27',
+                          'Around $67',
+                          'Around $134',
+                          'Nothing — credit cards are interest-free if paid within the month',
+                        ],
+                        correctIndex: 1,
+                        explanation: '$1,000 at 26.9% over 6 months is roughly $67 in interest. An emergency fund would have made this cost zero — illustrating exactly why the fund pays for itself.',
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
-            content: [
-              {
-                type: 'text',
-                text: 'An emergency fund is a dedicated pool of cash set aside for genuine financial emergencies — not planned expenses, not wants, and definitely not "opportunities". It is the foundation of every financial plan.',
-              },
-              {
-                type: 'table',
-                headers: ['✅ Real Emergency', '❌ Not an Emergency'],
-                rows: [
-                  ['Medical bill from an accident', 'Flight home for a holiday'],
-                  ['Laptop breaks, needed for class', 'Laptop upgrade (old one works)'],
-                  ['Job loss — covering rent gap', 'Sale on Shopee you "can\'t miss"'],
-                  ['Family crisis requiring travel', 'Concert tickets'],
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'The standard recommendation is 3–6 months of essential expenses. For students in Singapore, that\'s roughly $3,000–$6,000 depending on your rent and lifestyle.',
-              },
-              {
-                type: 'steps',
-                title: 'Calculate your emergency fund target:',
-                steps: [
-                  'Add up your monthly essentials: rent + food + transport + phone',
-                  'Multiply by 3 for a starter fund, 6 for a full fund',
-                  'Example: $800 rent + $300 food + $120 transport + $20 phone = $1,240/month',
-                  'Starter fund target: $1,240 × 3 = $3,720',
-                  'Keep this in a separate savings account — not your daily account',
-                ],
-              },
-              {
-                type: 'slider',
-                icon: '🛡️',
-                title: 'Emergency Fund Calculator',
-                description: 'Drag to your monthly essential expenses to calculate your fund targets.',
-                min: 500,
-                max: 4000,
-                step: 50,
-                initialValue: 1200,
-                prefix: '$',
-                calculateResult: (expenses) => [
-                  { label: '🎯 Starter Fund (3 months)', value: `$${(expenses * 3).toLocaleString()}`, color: '#4F46E5' },
-                  { label: '✅ Full Fund (6 months)', value: `$${(expenses * 6).toLocaleString()}`, color: '#059669' },
-                  { label: '📅 At $200/month, starter fund in', value: `${Math.ceil((expenses * 3) / 200)} months`, color: '#F59E0B' },
-                ],
-              },
-              {
-                type: 'bullets',
-                title: 'What happens without an emergency fund:',
-                items: [
-                  '💳 You go into credit card debt at 26.9% annual interest',
-                  '🙏 You have to borrow from family or friends (stressful for relationships)',
-                  '😰 Financial anxiety affects sleep quality and academic performance',
-                  '📉 You sell investments at the wrong time to raise cash',
-                  '🔄 You break a positive saving streak you worked hard to build',
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: Keep your emergency fund in a Singapore Savings Bond (SSB) or high-yield savings account — not a 0.05% standard savings account. You earn more while keeping it accessible.',
-              },
-              {
-                type: 'bot',
-                label: '💬 What is the current SSB interest rate?',
-                prompt: 'Singapore Savings Bond SSB current interest rate 2024 2025',
-              },
-            ],
+
             flashcards: [
-              { q: 'How many months of expenses should an emergency fund cover?', a: '3 months minimum (starter), 6 months for a full fund.' },
-              { q: 'What is a real emergency vs a non-emergency?', a: 'Real: medical bill, job loss, broken essential item. Not real: sales, holidays, upgrades.' },
-              { q: 'What happens if you have no emergency fund and face a crisis?', a: 'You go into high-interest credit card debt (26.9% p.a.) or borrow from family.' },
-              { q: 'Where should you keep your emergency fund in Singapore?', a: 'In a high-yield savings account or SSB — accessible but separate from your daily spending account.' },
-              { q: 'What is a starter emergency fund target for a Singapore student?', a: 'Around $3,000–$3,700 — 3 months of essential expenses (rent, food, transport, phone).' },
+              {
+                q: 'How many months of expenses should an emergency fund cover?',
+                a: '3 months minimum (starter fund), 6 months for a full fund.',
+              },
+              {
+                q: 'What is a real emergency vs. a non-emergency?',
+                a: 'Real: medical bill, job loss, broken essential item. Not real: sales, holidays, upgrades.',
+              },
+              {
+                q: 'What happens if you have no emergency fund and face a crisis?',
+                a: 'You go into high-interest credit card debt (26.9% p.a.) or have to borrow from family.',
+              },
+              {
+                q: 'Where should you keep your emergency fund in Singapore?',
+                a: 'In a high-yield savings account (OCBC 360, UOB One) or Singapore Savings Bond — accessible but separate from your daily account.',
+              },
+              {
+                q: 'What is a starter emergency fund target for a Singapore student?',
+                a: 'Around $3,000–$3,700 — 3 months of essential expenses (rent, food, transport, phone).',
+              },
             ],
           },
 
@@ -2726,193 +3079,447 @@ export const MODULES = [
             icon: '🧱',
             topic: 'Strategies to build an emergency fund on a student budget',
             duration: '6 min',
-            fincoins: 70,
+            fincoins: 55,
             sections: [
-              { key: 'start', heading: 'Starting From Zero' },
-              { key: 'strategies', heading: 'Three Building Strategies' },
-              { key: 'where', heading: 'Where to Keep It in Singapore' },
-            ],
-            content: [
-              {
-                type: 'text',
-                text: 'Building an emergency fund on a student income feels daunting — but the goal is not to save $5,000 overnight. It\'s to make consistent, automatic, small deposits until the fund grows itself.',
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'Saving just $100/month for 30 months builds a $3,000 emergency fund. That\'s $25/week — roughly skipping 4 bubble teas per week.',
-              },
-              {
-                type: 'text',
-                text: 'Follow these five steps to get your emergency fund started from zero.',
-              },
-              {
-                type: 'steps',
-                title: 'Starting from zero — step by step:',
-                steps: [
-                  'Open a separate savings account (not your main account)',
-                  'Set up an automatic transfer of $50–$100 on the day you receive income',
-                  'Label the account "Emergency Fund — Do Not Touch"',
-                  'Set a milestone: celebrate (cheaply) when you hit $500, $1,000, $3,000',
-                  'Never spend it unless it\'s a genuine emergency',
-                ],
-              },
-              {
-                type: 'text',
-                text: 'There are three proven strategies for building your fund — each suits a different situation. Tap each card to see how it works and who it\'s best for.',
-              },
-              {
-                type: 'timeline',
-                title: 'Three building strategies:',
-                nodes: [
-                  {
-                    icon: '1',
-                    label: 'Pay Yourself First',
-                    sublabel: 'Most effective',
-                    color: '#4F46E5',
-                    examples: ['Salary day transfer', 'Auto-debit setup'],
-                    details: [
-                      'On income day, move your savings target immediately — before groceries, before GrabFood, before anything.',
-                      'What\'s left after the transfer is yours to spend guilt-free. Works because it removes the decision entirely.',
-                    ],
-                    tip: 'Best for everyone — set up an automatic transfer so it happens without you thinking about it.',
-                  },
-                  {
-                    icon: '2',
-                    label: 'Round-Up Savings',
-                    sublabel: 'No willpower needed',
-                    color: '#0891B2',
-                    examples: ['Kopi at $4.60 → $0.40 saved', 'App-based rounding'],
-                    details: [
-                      'Apps round up every purchase to the nearest dollar and move the difference to savings automatically.',
-                      'Small amounts compound faster than you think — no fixed commitment required.',
-                    ],
-                    tip: 'Best for low or irregular income — the amounts are tiny but add up over months.',
-                  },
-                  {
-                    icon: '3',
-                    label: 'Windfall Saving',
-                    sublabel: 'Accelerate your fund',
-                    color: '#059669',
-                    examples: ['Ang bao money', 'Bonuses', 'Tax refunds'],
-                    details: [
-                      'Save 100% of unexpected money before it gets absorbed into daily spending.',
-                      'One ang bao season alone can add $200–$500 to your emergency fund.',
-                    ],
-                    tip: 'Best used alongside Strategy 1 — windfalls are one-off boosts, not a substitute for regular saving.',
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Test your understanding of the three strategies — swipe right for True, left for False.',
-              },
-              {
-                type: 'tindertruefalse',
-                title: 'Savings Strategy Check',
-                instruction: 'Swipe right for True · Swipe left for False',
-                statements: [
-                  {
-                    text: '"Pay yourself first" means saving whatever is left after spending.',
-                    isTrue: false,
-                    explanation: 'It\'s the opposite — transfer savings immediately when income arrives, before spending anything. Saving "what\'s left" rarely works.',
-                  },
-                  {
-                    text: 'Round-up savings work best for people with irregular or low income.',
-                    isTrue: true,
-                    explanation: 'Small automatic round-ups accumulate without requiring a fixed monthly commitment — ideal when income varies.',
-                  },
-                  {
-                    text: 'Ang bao money and bonuses should be spent as a reward — you earned it.',
-                    isTrue: false,
-                    explanation: 'Windfalls are one of the fastest ways to boost your emergency fund. Spending them first removes a key opportunity to accelerate savings.',
-                  },
-                  {
-                    text: 'Having your emergency fund in a separate account makes it less likely you\'ll spend it.',
-                    isTrue: true,
-                    explanation: 'A psychological barrier — money visible in your daily account gets spent. Separation creates friction that protects the fund.',
-                  },
-                  {
-                    text: 'Saving $100/month for 30 months builds a $3,000 emergency fund.',
-                    isTrue: true,
-                    explanation: 'Simple math — but the key insight is that $100/month is only $25/week, which is achievable even on a student budget.',
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Where you keep your emergency fund matters — the right account earns you interest while keeping the money accessible. Tap each option to find the best fit.',
-              },
-              {
-                type: 'appcards',
-                title: 'Best accounts for your emergency fund:',
-                apps: [
-                  {
-                    icon: '🏦',
-                    name: 'OCBC 360 Account',
-                    color: '#DC2626',
-                    tagline: 'Highest potential interest for working adults',
-                    cost: 'Free to open',
-                    rating: 4.5,
-                    keyFeature: 'Up to 4.65% p.a. with salary credit, card spend, and insurance/investment bonuses. Interest is tiered — you earn more by doing more with OCBC.',
-                    bestFor: 'Students who have started working and can credit salary into OCBC. Less suitable as a pure student account without salary credit.',
-                    singaporeTip: 'As a student without salary credit, you\'ll earn the base rate (~0.05%). Open it now, but maximise interest once you start working.',
-                  },
-                  {
-                    icon: '🏦',
-                    name: 'UOB One Account',
-                    color: '#0A84FF',
-                    tagline: 'Great interest with consistent monthly spend',
-                    cost: 'Free to open',
-                    rating: 4.3,
-                    keyFeature: 'Up to 4% p.a. with $500/month card spend and a GIRO debit. Simpler conditions than OCBC — spend $500/month and set up one GIRO.',
-                    bestFor: 'Students who already spend $500+/month on their UOB card and have at least one GIRO debit set up.',
-                    singaporeTip: 'Your MRT top-up or phone bill GIRO counts toward the bonus tier — easy to qualify if you use UOB as your main card.',
-                  },
-                  {
-                    icon: '🏦',
-                    name: 'DBS Multiplier',
-                    color: '#FF3B30',
-                    tagline: 'Bonus interest tied to your DBS ecosystem',
-                    cost: 'Free to open',
-                    rating: 4.1,
-                    keyFeature: 'Up to 4.1% p.a. when you credit salary and transact across DBS categories (credit card, insurance, investments). Interest scales with how many categories you engage.',
-                    bestFor: 'Students already using DBS as their main bank who want everything in one ecosystem.',
-                    singaporeTip: 'DBS NAV Planner integrates directly with Multiplier — you can track both spending and savings interest in the same app.',
-                  },
-                  {
-                    icon: '📜',
-                    name: 'Singapore Savings Bond',
-                    color: '#059669',
-                    tagline: 'Government-backed, flexible, risk-free',
-                    cost: 'Min. $500 to invest',
-                    rating: 4.4,
-                    keyFeature: 'Issued by the Singapore government — zero default risk. Step-up interest averaging ~3% p.a. over 10 years. Redeemable any month with no penalty.',
-                    bestFor: 'Students with a lump sum ($500+) they won\'t need for at least 6–12 months. Not ideal for money you may need urgently.',
-                    singaporeTip: 'Apply via DBS/OCBC/UOB internet banking or ATM using your CDP account. New tranches are issued monthly — check MAS website for current rates.',
-                  },
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: As a student without a salary, you may not qualify for bonus interest tiers on OCBC/UOB. Use a standard savings account or SSB until you start working — even 3% beats 0.05%.',
-              },
-              {
-                type: 'bot',
-                label: '💬 Current OCBC 360 and UOB One interest rates',
-                prompt: 'OCBC 360 UOB One DBS Multiplier current interest rates Singapore 2025',
-              },
-            ],
-            flashcards: [
-              { q: 'What is the "pay yourself first" strategy?', a: 'Transfer your savings immediately when income arrives — before spending on anything else.' },
-              { q: 'How long does it take to save $3,000 at $100/month?', a: '30 months — or faster if you save windfalls like ang bao money or part-time bonuses.' },
-              { q: 'Which Singapore bank accounts offer the highest savings interest rates?', a: 'OCBC 360, UOB One, and DBS Multiplier — all offer 3–4.65% p.a. with qualifying conditions.' },
-              { q: 'Why should your emergency fund be in a separate account?', a: 'To create a psychological barrier — money you can see in your daily account gets spent.' },
-              { q: 'What is a round-up savings strategy?', a: 'Apps automatically round up each purchase to the nearest dollar and save the difference — effortless micro-saving.' },
-            ],
-          },
 
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'start',
+                title: 'Starting From Zero',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Starting From Zero',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Building an emergency fund on a student income feels daunting — but the goal is not to save $5,000 overnight. It\'s to make consistent, automatic, small deposits until the fund grows itself.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Saving just $100/month for 30 months builds a $3,000 emergency fund. That\'s $25/week — roughly skipping 4 bubble teas.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Your First Five Steps',
+                  },
+                  {
+                    type: 'steps',
+                    title: 'Starting from zero — step by step:',
+                    steps: [
+                      'Open a separate savings account (not your main account)',
+                      'Set up an automatic transfer of $50–$100 on the day you receive income',
+                      'Label the account "Emergency Fund — Do Not Touch"',
+                      'Set milestones: celebrate (cheaply) when you hit $500, $1,000, $3,000',
+                      'Never spend it unless it\'s a genuine emergency',
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: Most Singapore banks let you nickname your savings accounts in-app. Naming it "Emergency Fund" creates a psychological barrier — money with a label is harder to spend.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How do I open a separate savings account in Singapore?',
+                    prompt: 'open separate savings account Singapore student DBS OCBC UOB online 2025',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '3-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'Starting Your Fund',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'You need a high income before you can start building an emergency fund.',
+                        isTrue: false,
+                        explanation: '$50–$100/month is enough to start. Consistency matters more than amount — small deposits compound over time.',
+                      },
+                      {
+                        text: 'Saving $100/month builds a $3,000 emergency fund in 30 months.',
+                        isTrue: true,
+                        explanation: 'Simple math, but the key insight is that $100/month is only $25/week — achievable even on a student budget.',
+                      },
+                      {
+                        text: 'Keeping your emergency fund in your main spending account is fine as long as you have self-discipline.',
+                        isTrue: false,
+                        explanation: 'Separation creates a psychological barrier. Money visible in your daily account gets spent — even with the best intentions. A separate account protects it.',
+                      },
+                      {
+                        text: 'Setting up an automatic transfer on income day removes the decision entirely.',
+                        isTrue: true,
+                        explanation: 'Automation is the most reliable savings habit — it works without relying on willpower or remembering to transfer manually each month.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'strategies',
+                title: 'Three Building Strategies',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Three Building Strategies',
+                  },
+                  {
+                    type: 'text',
+                    text: 'There are three proven strategies for building your emergency fund — each suits a different situation. The best approach is often a combination of all three.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'Three building strategies:',
+                    nodes: [
+                      {
+                        icon: '1️⃣',
+                        label: 'Pay Yourself First',
+                        sublabel: 'Most effective',
+                        color: '#4F46E5',
+                        examples: ['Salary day transfer', 'Auto-debit setup'],
+                        details: [
+                          'On income day, move your savings target immediately — before groceries, GrabFood, or anything else.',
+                          'What\'s left after the transfer is yours to spend guilt-free.',
+                          'Works because it removes the decision entirely — no willpower needed.',
+                        ],
+                        tip: 'Best for everyone. Set up an automatic transfer so it happens without you thinking about it.',
+                      },
+                      {
+                        icon: '2️⃣',
+                        label: 'Round-Up Savings',
+                        sublabel: 'No willpower needed',
+                        color: '#0891B2',
+                        examples: ['Kopi at $4.60 → $0.40 saved', 'App-based rounding'],
+                        details: [
+                          'Apps round up every purchase to the nearest dollar and move the difference to savings automatically.',
+                          'Small amounts compound faster than you think — no fixed commitment required.',
+                          'Completely passive — works in the background while you spend normally.',
+                        ],
+                        tip: 'Best for low or irregular income — the amounts are tiny but add up meaningfully over months.',
+                      },
+                      {
+                        icon: '3️⃣',
+                        label: 'Windfall Saving',
+                        sublabel: 'Accelerate your fund',
+                        color: '#059669',
+                        examples: ['Ang bao money', 'Part-time bonuses', 'Tax refunds'],
+                        details: [
+                          'Save 100% of unexpected money before it gets absorbed into daily spending.',
+                          'One ang bao season alone can add $200–$500 to your emergency fund.',
+                          'Best used alongside Strategy 1 — windfalls boost, but don\'t replace, regular saving.',
+                        ],
+                        tip: 'Transfer windfall money to your emergency fund within 24 hours — before you find something to spend it on.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Combining the Strategies',
+                  },
+                  {
+                    type: 'text',
+                    text: 'These strategies aren\'t mutually exclusive. A student paying themselves first ($80/month) + rounding up purchases (~$20/month) + saving ang bao money ($300/year) reaches $3,000 in under 2 years.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Behavioural research shows that automatic savings transfers are 3× more likely to be maintained than manual ones — the moment you remove the decision, consistency follows.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Are there round-up savings apps available in Singapore?',
+                    prompt: 'round-up automatic savings apps Singapore 2025 student micro-saving',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '3-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Which strategy fits?',
+                    scenarios: [
+                      {
+                        icon: '📅',
+                        situation: 'You receive a fixed $1,200 allowance on the 1st of every month. You want to save consistently without thinking about it. Which strategy fits best?',
+                        options: [
+                          {
+                            text: 'Pay yourself first — auto-transfer $150 the moment income arrives.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Fixed income + automation = the most reliable combination. You never see the $150, so you never miss it.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Round-up savings — let the app accumulate micro-amounts.',
+                            biasLabel: 'Too slow for this goal',
+                            biasExplanation: 'Round-ups work well as a supplement but are too slow as a primary strategy on a fixed income. With $1,200/month you can do better.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Save whatever is left at month-end.',
+                            biasLabel: 'Passive trap',
+                            biasExplanation: 'Saving "what\'s left" almost always results in nothing left. Expenses expand to fill available money — plan first, spend after.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎍',
+                        situation: 'It\'s Chinese New Year and you\'ve collected $450 in ang bao money. You have no emergency fund yet. What\'s the best move?',
+                        options: [
+                          {
+                            text: 'Treat yourself — you only get ang bao season once a year.',
+                            biasLabel: 'Windfall spending',
+                            biasExplanation: 'Windfalls feel like "free money" and trigger spending. But $450 is almost 15% of a starter emergency fund — a huge one-off opportunity.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Transfer the full $450 to a savings account immediately.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Saving windfall money before it gets absorbed is one of the fastest ways to kickstart your fund. $450 deposited now is a meaningful head start.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Split it — $200 to savings, $250 to spend.',
+                            biasLabel: 'Reasonable compromise',
+                            biasExplanation: 'Not wrong, but with no emergency fund yet, fully deploying a windfall is the stronger move. Treats can come from your monthly Wants budget.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💸',
+                        situation: 'Your income is inconsistent — some months $600 from part-time work, others $1,400. A fixed monthly transfer feels risky. What\'s the best approach?',
+                        options: [
+                          {
+                            text: 'Skip saving until income stabilises.',
+                            biasLabel: 'Indefinite delay',
+                            biasExplanation: 'Irregular income is normal for students — waiting for stability means the fund never gets started. Small, variable amounts still compound over time.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Set a floor transfer ($50) every month + save 50% of any income above $800.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'A small floor amount ensures consistent progress on low-income months. Saving aggressively above a threshold accelerates the fund when income is higher.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Only use round-up savings — no fixed commitment.',
+                            biasLabel: 'Too passive',
+                            biasExplanation: 'Round-ups alone on an irregular income generate very small amounts. Combine with a minimum floor transfer for meaningful progress.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'where',
+                title: 'Where to Keep It in Singapore',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Where to Keep It in Singapore',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Where you keep your emergency fund matters — the right account earns you interest while keeping the money accessible. Tap each option to find the best fit for your situation.',
+                  },
+                  {
+                    type: 'appcards',
+                    title: 'Best accounts for your emergency fund:',
+                    apps: [
+                      {
+                        icon: '🏦',
+                        name: 'OCBC 360 Account',
+                        color: '#DC2626',
+                        tagline: 'Highest potential interest for working adults',
+                        cost: 'Free to open',
+                        rating: 4.5,
+                        keyFeature: 'Up to 4.65% p.a. with salary credit, card spend, and insurance/investment bonuses. Interest is tiered — you earn more by doing more with OCBC.',
+                        bestFor: 'Students who have started working and can credit salary into OCBC. Less suitable as a pure student account without salary credit.',
+                        singaporeTip: 'As a student without salary credit, you\'ll earn the base rate (~0.05%). Open it now, but maximise interest once you start working.',
+                      },
+                      {
+                        icon: '🏦',
+                        name: 'UOB One Account',
+                        color: '#0A84FF',
+                        tagline: 'Great interest with consistent monthly spend',
+                        cost: 'Free to open',
+                        rating: 4.3,
+                        keyFeature: 'Up to 4% p.a. with $500/month card spend and a GIRO debit. Simpler conditions than OCBC — spend $500/month and set up one GIRO.',
+                        bestFor: 'Students who already spend $500+/month on their UOB card and have at least one GIRO debit set up.',
+                        singaporeTip: 'Your MRT top-up or phone bill GIRO counts toward the bonus tier — easy to qualify if you use UOB as your main card.',
+                      },
+                      {
+                        icon: '🏦',
+                        name: 'DBS Multiplier',
+                        color: '#FF3B30',
+                        tagline: 'Bonus interest tied to your DBS ecosystem',
+                        cost: 'Free to open',
+                        rating: 4.1,
+                        keyFeature: 'Up to 4.1% p.a. when you credit salary and transact across DBS categories (credit card, insurance, investments). Interest scales with how many categories you engage.',
+                        bestFor: 'Students already using DBS as their main bank who want everything in one ecosystem.',
+                        singaporeTip: 'DBS NAV Planner integrates directly with Multiplier — track both spending and savings interest in the same app.',
+                      },
+                      {
+                        icon: '📜',
+                        name: 'Singapore Savings Bond',
+                        color: '#059669',
+                        tagline: 'Government-backed, flexible, risk-free',
+                        cost: 'Min. $500 to invest',
+                        rating: 4.4,
+                        keyFeature: 'Issued by the Singapore government — zero default risk. Step-up interest averaging ~3% p.a. over 10 years. Redeemable any month with no penalty.',
+                        bestFor: 'Students with a lump sum ($500+) they won\'t need for at least a month. Not ideal for money you may need within days.',
+                        singaporeTip: 'Apply via DBS/OCBC/UOB internet banking or ATM using your CDP account. New tranches issued monthly — check MAS website for current rates.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: As a student without a salary, you may not qualify for bonus interest tiers on OCBC/UOB. Use a standard savings account or SSB until you start working — even 3% beats 0.05%.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Choosing the Right Account',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Which account fits your situation?',
+                    cards: [
+                      {
+                        frontLabel: '👤 Situation',
+                        backLabel: '✅ Best fit',
+                        front: 'Student with no salary, just starting out. Want something simple.',
+                        back: 'Open a UOB One or OCBC 360 account. Even the base rate beats a standard savings account. You\'ll unlock bonus tiers when you start working.',
+                        tag: 'Early-stage student',
+                      },
+                      {
+                        frontLabel: '👤 Situation',
+                        backLabel: '✅ Best fit',
+                        front: 'You have $1,000+ saved already and won\'t need it urgently.',
+                        back: 'Move part of it into a Singapore Savings Bond (SSB) for 3%+ government-backed interest. Keep $300–$500 liquid in a savings account for instant access.',
+                        tag: 'Fund partially built',
+                      },
+                      {
+                        frontLabel: '👤 Situation',
+                        backLabel: '✅ Best fit',
+                        front: 'You have a part-time job and spend $500+/month on your UOB card.',
+                        back: 'Qualify for UOB One bonus interest immediately — set up one GIRO debit (phone bill works) and you\'re in the high-interest tier.',
+                        tag: 'Part-time worker',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Current OCBC 360 and UOB One interest rates',
+                    prompt: 'OCBC 360 UOB One DBS Multiplier current interest rates Singapore 2025',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Building Your Fund',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on how to start from zero, which strategy fits which situation, and where to keep your fund in Singapore.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — best strategies for building an emergency fund as a student?',
+                    prompt: 'emergency fund building strategies students Singapore pay yourself first auto-transfer',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '3-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Building Your Fund',
+                    questions: [
+                      {
+                        concept: 'Starting from zero',
+                        question: 'What is the most important first step when building an emergency fund from scratch?',
+                        options: [
+                          'Wait until you have $500 saved before opening a separate account',
+                          'Open a separate account and set up an automatic transfer on income day',
+                          'Save whatever is left at the end of each month',
+                          'Invest the money in a robo-advisor for better returns',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Separation + automation is the foundation. A separate account protects the fund psychologically; automation removes the decision so it happens regardless of willpower.',
+                      },
+                      {
+                        concept: 'Choosing a strategy',
+                        question: 'A student receives an ang bao windfall of $600 and has no emergency fund yet. What is the best use of this money?',
+                        options: [
+                          'Spend it — windfalls are meant to be enjoyed',
+                          'Invest it in stocks for better returns than a savings account',
+                          'Transfer it directly to a new emergency fund savings account',
+                          'Split equally between spending and a savings account',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'A windfall with no emergency fund is a rare opportunity to make a large one-off deposit. $600 is 20% of a starter fund in a single transfer — exactly what windfall saving is for.',
+                      },
+                      {
+                        concept: 'Where to keep it',
+                        question: 'A student with $800 in their emergency fund wants to earn better interest without losing access. What is the best option?',
+                        options: [
+                          'Leave it in a standard savings account at 0.05% — safest option',
+                          'Move it into a Singapore Savings Bond — redeemable any month, ~3% p.a.',
+                          'Put it in a fixed deposit — locked for 12 months for highest rate',
+                          'Invest it in an index fund — higher long-term returns',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The SSB offers government-backed returns of ~3% p.a. and can be redeemed any month with no penalty — ideal for emergency funds. Fixed deposits lock money up; index funds are too volatile for emergency reserves.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is the "pay yourself first" strategy?',
+                a: 'Transfer your savings immediately when income arrives — before spending on anything else.',
+              },
+              {
+                q: 'How long does it take to save $3,000 at $100/month?',
+                a: '30 months — or faster if you save windfalls like ang bao money or part-time bonuses.',
+              },
+              {
+                q: 'Which Singapore bank accounts offer the highest savings interest rates?',
+                a: 'OCBC 360, UOB One, and DBS Multiplier — all offer 3–4.65% p.a. with qualifying conditions.',
+              },
+              {
+                q: 'Why should your emergency fund be in a separate account?',
+                a: 'To create a psychological barrier — money you can see in your daily account gets spent.',
+              },
+              {
+                q: 'What is a round-up savings strategy?',
+                a: 'Apps automatically round up each purchase to the nearest dollar and save the difference — effortless micro-saving.',
+              },
+            ],
+          },         
+
+          // ── LESSON 3-3 ──────────────────────────────
           // ── LESSON 3-3 ──────────────────────────────
           {
             id: '3-3',
@@ -2920,188 +3527,489 @@ export const MODULES = [
             icon: '🌟',
             topic: 'Goal-based saving and short vs long-term saving strategies',
             duration: '5 min',
-            fincoins: 70,
+            fincoins: 55,
             sections: [
-              { key: 'types', heading: 'Short vs Long-Term Savings' },
-              { key: 'buckets', heading: 'The Multiple Savings Buckets Approach' },
-              { key: 'tools', heading: 'Tools for Goal-Based Saving in Singapore' },
-            ],
-            content: [
+
+              // ─── SECTION 1 ───────────────────────────
               {
-                type: 'text',
-                text: 'Once your emergency fund is in place, the next step is saving intentionally for goals — whether that\'s a laptop in 3 months, a trip in 6 months, or a house in 10 years. Each goal deserves its own dedicated savings bucket.',
-              },
-              {
-                type: 'text',
-                text: 'The time horizon of your goal determines where you should keep the money. Tap each card to see the right account type for each horizon.',
-              },
-              {
-                type: 'timeline',
-                title: 'Time horizon → right account:',
-                nodes: [
+                key: 'types',
+                title: 'Short vs Long-Term Savings',
+                fincoins: 10,
+                content: [
                   {
-                    icon: '⚡',
-                    label: 'Short-term',
-                    sublabel: '< 1 year',
-                    color: '#4F46E5',
-                    accountType: 'High-yield savings',
-                    examples: ['Laptop', 'Holiday', 'Semester fees'],
-                    details: [
-                      'Keep it accessible and risk-free — you need this money soon',
-                      'High-yield savings accounts are ideal — OCBC 360, UOB One, DBS Multiplier',
-                      'Never invest money you\'ll need within 12 months — markets can drop 20% overnight',
-                    ],
-                    tip: 'Saving $600 for a Japan trip in 8 months? OCBC 360 at ~4% p.a. — safe, accessible, and earning interest.',
+                    type: 'heading',
+                    text: 'Short vs Long-Term Savings',
                   },
                   {
-                    icon: '📅',
-                    label: 'Medium-term',
-                    sublabel: '1–5 years',
-                    color: '#F59E0B',
-                    accountType: 'SSB or Fixed Deposit',
-                    examples: ['Postgrad fees', 'Car', 'Wedding fund'],
-                    details: [
-                      'You can afford slightly less liquidity in exchange for better returns',
-                      'Singapore Savings Bonds — government-backed, redeemable monthly, ~3% p.a.',
-                      'Fixed deposits — lock in a rate for 6–24 months, typically 3–3.5% p.a.',
-                    ],
-                    tip: 'SSB gives you ~3% p.a. with full capital protection and monthly redemption if plans change.',
+                    type: 'text',
+                    text: 'Once your emergency fund is in place, the next step is saving intentionally for goals — whether that\'s a laptop in 3 months, a trip in 6 months, or a house in 10 years. Each goal deserves its own dedicated savings bucket.',
                   },
                   {
-                    icon: '🌱',
-                    label: 'Long-term',
-                    sublabel: '5+ years',
-                    color: '#059669',
-                    accountType: 'Investments',
-                    examples: ['House downpayment', 'Retirement', 'Financial freedom'],
-                    details: [
-                      'Long time horizons absorb market volatility — invest for significantly higher returns',
-                      'STI ETF or global index funds (e.g. VWRA) for DIY investors',
-                      'Robo-advisors (Syfe, StashAway) for hands-off investing with low minimums',
-                      'Time in the market consistently beats timing the market',
+                    type: 'keyterm',
+                    term: 'Goal-Based Saving',
+                    definition: 'The practice of assigning each savings pot a specific purpose and time horizon — so every dollar you save has a name, a target, and a deadline.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Time Horizon Determines Strategy',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The single most important factor in choosing where to keep savings is how soon you\'ll need the money. The longer the horizon, the more risk you can afford — and the higher the potential return.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'Time horizon → right account:',
+                    nodes: [
+                      {
+                        icon: '⚡',
+                        label: 'Short-term (< 1 year)',
+                        sublabel: 'High-yield savings account',
+                        color: '#4F46E5',
+                        examples: ['Laptop', 'Holiday', 'Semester fees'],
+                        details: [
+                          'Keep it accessible and risk-free — you need this money soon',
+                          'High-yield savings accounts are ideal: OCBC 360, UOB One, DBS Multiplier',
+                          'Never invest money you\'ll need within 12 months — markets can drop 20% overnight',
+                        ],
+                        tip: 'Saving $600 for a Japan trip in 8 months? Keep it in OCBC 360 at ~4% p.a. — safe, accessible, and earning interest.',
+                      },
+                      {
+                        icon: '📅',
+                        label: 'Medium-term (1–5 years)',
+                        sublabel: 'SSB or Fixed Deposit',
+                        color: '#F59E0B',
+                        examples: ['Postgrad fees', 'Car', 'Wedding fund'],
+                        details: [
+                          'You can afford slightly less liquidity in exchange for better returns',
+                          'Singapore Savings Bonds — government-backed, redeemable monthly, ~3% p.a.',
+                          'Fixed deposits — lock in a rate for 6–24 months, typically 3–3.5% p.a.',
+                        ],
+                        tip: 'SSB gives you ~3% p.a. with full capital protection and monthly redemption flexibility if your plans change.',
+                      },
+                      {
+                        icon: '🌱',
+                        label: 'Long-term (5+ years)',
+                        sublabel: 'Investments',
+                        color: '#059669',
+                        examples: ['House downpayment', 'Retirement', 'Financial freedom'],
+                        details: [
+                          'Long time horizons absorb market volatility — invest for significantly higher returns',
+                          'STI ETF or global index funds (e.g. VWRA) for DIY investors',
+                          'Robo-advisors like Syfe or StashAway for hands-off investing with low minimums',
+                          'Time in the market consistently beats timing the market',
+                        ],
+                        tip: '$100/month invested from age 22 at 7% p.a. grows to ~$240,000 by age 62. The same amount in savings: ~$55,000.',
+                      },
                     ],
-                    tip: '$100/month invested from age 22 at 7% p.a. grows to ~$240,000 by age 62. The same in savings: ~$55,000.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'Never invest money you\'ll need within 12 months. Markets can drop 20–30% in weeks — a short-term goal can be wiped out before you have time to recover.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What are the current fixed deposit rates in Singapore?',
+                    prompt: 'fixed deposit rates Singapore banks 2025 best rates DBS OCBC UOB',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '3-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'Savings Horizon — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Money needed in 8 months should be invested in an ETF for better returns.',
+                        isTrue: false,
+                        explanation: 'Short-term money (< 1 year) should never be invested. Markets can drop 20–30% quickly — a high-yield savings account is the right home for near-term goals.',
+                      },
+                      {
+                        text: 'A Singapore Savings Bond is a suitable account for a 3-year savings goal.',
+                        isTrue: true,
+                        explanation: 'SSBs offer ~3% p.a. with government backing and monthly redemption — ideal for medium-term goals where you want better returns but may need flexibility.',
+                      },
+                      {
+                        text: 'The longer your savings horizon, the more risk you can afford to take.',
+                        isTrue: true,
+                        explanation: 'A longer timeline gives markets time to recover from dips. This is why retirement savings — decades away — are typically invested, not kept in savings accounts.',
+                      },
+                      {
+                        text: 'Keeping all your savings in one account is more efficient than splitting by goal.',
+                        isTrue: false,
+                        explanation: 'Mixing goals in one account makes it impossible to track progress and easy to accidentally spend one goal\'s savings on another. Separate buckets prevent this.',
+                      },
+                    ],
                   },
                 ],
               },
-              
+
+              // ─── SECTION 2 ───────────────────────────
               {
-                type: 'text',
-                text: 'The most effective system is to give every savings goal its own named bucket. Tap each bucket below to see how it works and what to put in it.',
-              },
-              {
-                type: 'buckets',
-                title: 'The four savings buckets:',
-                buckets: [
+                key: 'buckets',
+                title: 'The Multiple Savings Buckets Approach',
+                fincoins: 10,
+                content: [
                   {
-                    icon: '🛡️',
-                    name: 'Emergency Fund',
-                    color: '#DC2626',
-                    subtitle: '3–6 months of expenses — always full, never touched',
-                    fillPercent: 100,
-                    details: [
-                      'This is your financial safety net — fill it before all other buckets',
-                      'Target: 3 months expenses minimum, 6 months ideal',
-                      'Keep it in a high-yield savings account, not investments',
-                      'Only use it for genuine emergencies: job loss, medical, urgent repairs',
-                    ],
-                    tip: 'Once full, redirect the monthly contribution to Bucket 2 or 3.',
+                    type: 'heading',
+                    text: 'The Multiple Savings Buckets Approach',
                   },
                   {
+                    type: 'text',
+                    text: 'The most effective savings system gives every goal its own named bucket — a separate account or sub-account with a specific target and deadline. Tap each bucket below to see how it works.',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '🛡️',
+                        label: 'Bucket 1 — Emergency Fund',
+                        description: '3–6 months of expenses. Fill this first before all other buckets.',
+                        color: '#DC2626',
+                        details: [
+                          'This is your financial safety net — non-negotiable foundation',
+                          'Target: 3 months expenses minimum, 6 months ideal',
+                          'Keep it in a high-yield savings account, not investments',
+                          'Only use it for genuine emergencies: job loss, medical, urgent repairs',
+                          'Once full, redirect monthly contributions to Bucket 2 or 3',
+                        ],
+                        example: 'Monthly essentials of $1,200 → starter target of $3,600. Contribute $150/month → full in 24 months.',
+                      },
+                      {
+                        icon: '🎯',
+                        label: 'Bucket 2 — Goal Fund',
+                        description: 'Named after a specific goal — e.g. "Japan 2025" or "MacBook Fund".',
+                        color: '#4F46E5',
+                        details: [
+                          'One account (or sub-account) per goal — name it after the goal',
+                          'Calculate: total needed ÷ months remaining = monthly transfer amount',
+                          'OCBC Savings Pockets or separate sub-accounts work perfectly',
+                          'Short-term goals: savings account. Medium-term: SSB or fixed deposit',
+                        ],
+                        example: 'Japan trip costs $1,800 in 9 months → save $200/month, name the account "Japan 2025".',
+                      },
+                      {
+                        icon: '📈',
+                        label: 'Bucket 3 — Investment Fund',
+                        description: 'Long-term wealth building — only money you won\'t need for 5+ years.',
+                        color: '#059669',
+                        details: [
+                          'Start with a robo-advisor (Syfe, StashAway) — low minimums, auto-diversified',
+                          'STI ETF or global index funds (e.g. VWRA) for DIY investors',
+                          'Even $50/month at 7% p.a. from age 22 grows to ~$150,000 by retirement',
+                          'Time in the market beats timing the market — start small, start now',
+                        ],
+                        example: '$100/month into Syfe Core Equity100 from age 22 → ~$240,000 by age 62 at historical 7% p.a.',
+                      },
+                      {
+                        icon: '🎉',
+                        label: 'Bucket 4 — Fun Fund',
+                        description: 'Guilt-free spending money — optional but surprisingly powerful.',
+                        color: '#F59E0B',
+                        details: [
+                          'A dedicated fun budget removes guilt from enjoying your money',
+                          'When it\'s empty, you stop — no guilt, no overspending, no shame',
+                          'Typically 10–15% of your monthly Wants budget set aside separately',
+                          'Use it for concerts, spontaneous trips, treats, gifts',
+                        ],
+                        example: 'Set aside $100/month labelled "Fun Fund". Spend it freely — when it\'s gone, it\'s gone until next month.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Naming a savings account after a goal increases the likelihood of reaching it by 31% — behavioural economics research consistently shows that named money is harder to spend.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Setting Up a Goal Account — Step by Step',
+                  },
+                  {
+                    type: 'steps',
+                    title: 'Setting up a goal-based savings account:',
+                    steps: [
+                      'Open a sub-account or separate account (most Singapore banks allow this free)',
+                      'Name it after your goal — "Japan 2025" or "MacBook Fund"',
+                      'Calculate how much you need and by when',
+                      'Divide the total by months remaining — that is your monthly transfer amount',
+                      'Set up an automatic transfer for that amount on income day',
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: OCBC allows you to create multiple savings "pockets" within one account — each named separately. It\'s free, instant, and perfect for the buckets approach.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How do I set up savings pockets in OCBC Singapore?',
+                    prompt: 'OCBC savings pockets how to set up sub accounts Singapore 2025',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '3-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Which bucket does it belong in?',
+                    scenarios: [
+                      {
+                        icon: '💻',
+                        situation: 'You need a new laptop for your final year project — $1,500, needed in 7 months. You have $800 in emergency fund and $200 saved loosely.',
+                        options: [
+                          {
+                            text: 'Use your emergency fund — laptops are essential.',
+                            biasLabel: 'Wrong bucket',
+                            biasExplanation: 'A planned purchase is not an emergency. Using the emergency fund for something predictable leaves you exposed when a real crisis hits. Open a separate Goal Fund.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Open a "Laptop Fund" account, save $215/month for 7 months.',
+                            biasLabel: 'Correct bucket ✓',
+                            biasExplanation: '$1,500 ÷ 7 months = $215/month. A named Goal Fund keeps this separate from both your emergency fund and daily spending — the right tool for a planned goal.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest $200 in an ETF — 7 months might be enough for returns.',
+                            biasLabel: 'Wrong horizon',
+                            biasExplanation: '7 months is too short to invest. Markets can drop 20–30% — you could end up with $140 when you need $1,500. Short-term goals belong in savings accounts.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏠',
+                        situation: 'You want to save for a house downpayment — estimated $80,000 needed in about 8–10 years. Where should this money go?',
+                        options: [
+                          {
+                            text: 'High-yield savings account — safe and accessible.',
+                            biasLabel: 'Too conservative',
+                            biasExplanation: 'At 3% p.a. for 10 years, $500/month grows to ~$70,000. At 7% p.a. (investing), the same $500/month grows to ~$87,000. Long horizons reward investment risk.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Invest in a robo-advisor or index fund — 8–10 year horizon absorbs volatility.',
+                            biasLabel: 'Correct bucket ✓',
+                            biasExplanation: 'An 8–10 year horizon is firmly long-term. Investing in a diversified fund gives you significantly higher expected returns than savings accounts — time absorbs the risk.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Singapore Savings Bond — government-backed and safe.',
+                            biasLabel: 'Suboptimal return',
+                            biasExplanation: 'SSB is excellent for medium-term (1–5 years), but at ~3% p.a. it significantly underperforms a diversified index fund over 8–10 years. Too conservative for this horizon.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎉',
+                        situation: 'You\'ve been impulsively buying things and feeling guilty about it. You want to enjoy spending without the guilt. What\'s the smartest move?',
+                        options: [
+                          {
+                            text: 'Cut all discretionary spending — save everything you can.',
+                            biasLabel: 'Unsustainable',
+                            biasExplanation: 'Total restriction leads to rebound spending. A sustainable budget includes intentional fun money — the goal is balance, not deprivation.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Set up a monthly Fun Fund — spend it freely, guilt-free, until it\'s empty.',
+                            biasLabel: 'Correct bucket ✓',
+                            biasExplanation: 'A Fun Fund gives you permission to spend within a defined limit. When it\'s gone, you stop — no guilt, no shame. Paradoxically, it reduces overall impulsive spending.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Keep spending as you are — budgets are too restrictive.',
+                            biasLabel: 'No system',
+                            biasExplanation: 'Without a system, impulsive spending continues and guilt compounds. A Fun Fund solves both problems — it gives structure to enjoyment.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'tools',
+                title: 'Tools for Goal-Based Saving in Singapore',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Tools for Goal-Based Saving in Singapore',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Singapore\'s banking ecosystem makes goal-based saving easy — most major banks offer free sub-accounts or savings pockets. Here\'s what each platform offers and which goal type it suits.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Bank Features for Goal Saving',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Platform → goal saving feature',
+                    cards: [
+                      {
+                        frontLabel: '🏦 Platform',
+                        backLabel: '✅ Feature',
+                        front: 'OCBC Bank',
+                        back: 'OCBC Savings Pockets — create multiple named sub-accounts within one account. Free, instant setup in-app. Each pocket earns interest separately.',
+                        tag: 'Best for multiple short-term goals',
+                      },
+                      {
+                        frontLabel: '🏦 Platform',
+                        backLabel: '✅ Feature',
+                        front: 'DBS Bank',
+                        back: 'DBS NAV Planner lets you set savings goals with visual progress tracking. Multiple Multiplier sub-accounts can be created for different goals.',
+                        tag: 'Best for DBS users wanting visual goal tracking',
+                      },
+                      {
+                        frontLabel: '🏦 Platform',
+                        backLabel: '✅ Feature',
+                        front: 'Syfe (Robo-advisor)',
+                        back: 'Syfe Goals lets you create named investment portfolios for each long-term goal. No minimum, auto-rebalanced, and tracks goal progress as a percentage.',
+                        tag: 'Best for long-term investment goals',
+                      },
+                      {
+                        frontLabel: '🏦 Platform',
+                        backLabel: '✅ Feature',
+                        front: 'Singapore Savings Bond',
+                        back: 'Apply monthly via DBS/OCBC/UOB for government-backed returns of ~3% p.a. Redeemable any month — perfect for medium-term goals with flexibility needs.',
+                        tag: 'Best for medium-term goals (1–5 years)',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Quick Reference — Goal to Account',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Goal Type', 'Horizon', 'Best Account'],
+                    rows: [
+                      ['Holiday / laptop / fees', '< 1 year', 'OCBC 360 Pocket'],
+                      ['Postgrad / wedding fund', '1–5 years', 'SSB or Fixed Deposit'],
+                      ['House / retirement', '5+ years', 'Syfe / STI ETF'],
+                      ['Emergency buffer', 'Always liquid', 'UOB One / OCBC 360'],
+                    ],
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '3-3-s3-mcq',
+                    fincoins: 10,
+                    icon: '🌟',
+                    title: 'Goal Horizon Quiz',
+                    question: 'You want to save for a Japan trip happening in 8 months. Which account type is BEST?',
+                    options: [
+                      'Invest it in STI ETF for higher returns',
+                      'High-yield savings account (OCBC 360)',
+                      'CPF Special Account top-up',
+                      'Keep it in your daily spending account',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'Short-term goals (< 1 year) need accessible, low-risk accounts. STI ETF is too volatile for 8 months. CPF locks money in. Daily accounts earn near-zero interest. OCBC 360 is safe, accessible, and earns ~4% p.a.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How do I apply for a Singapore Savings Bond?',
+                    prompt: 'how to apply Singapore Savings Bond SSB DBS OCBC UOB steps 2025',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Saving for Goals',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on time horizons, the savings buckets system, and the right tools for goal-based saving in Singapore.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — key rules for goal-based saving in Singapore?',
+                    prompt: 'goal based saving key rules Singapore students short medium long term accounts',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '3-3-s4-mcq',
+                    fincoins: 25,
                     icon: '🎯',
-                    name: 'Goal Fund',
-                    color: '#4F46E5',
-                    subtitle: 'Named after your specific goal — e.g. "Japan 2025"',
-                    fillPercent: 75,
-                    details: [
-                      'One account per goal — name it after the goal so it feels real',
-                      'Calculate: total needed ÷ months remaining = monthly save target',
-                      'OCBC Savings Pockets or separate sub-accounts work perfectly',
-                      'Short-term goals: savings account. Medium-term: SSB or fixed deposit',
+                    title: 'Saving for Goals',
+                    questions: [
+                      {
+                        concept: 'Savings time horizons',
+                        question: 'A student wants to save $2,400 for a Japan trip happening in 10 months. Which approach is correct?',
+                        options: [
+                          'Invest in a robo-advisor — 10 months is enough time for returns',
+                          'Put it in a fixed deposit — higher rate than a savings account',
+                          'Keep it in a high-yield savings account — accessible and risk-free',
+                          'Use CPF top-ups for the tax relief benefit',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Short-term goals (< 1 year) need accessible, low-risk accounts. Robo-advisors can drop in value; fixed deposits may have lock-in periods; CPF is for retirement. A high-yield savings account is risk-free and accessible.',
+                      },
+                      {
+                        concept: 'The buckets approach',
+                        question: 'A student has $3,600 in a single savings account covering emergency fund, Japan trip savings, and fun money. What is the main problem?',
+                        options: [
+                          'The total amount is too low to be split across multiple accounts',
+                          'All goals mixed together makes it impossible to track progress and easy to accidentally overspend one goal',
+                          'A single account earns more interest than multiple sub-accounts',
+                          'There is no problem — one account is simpler and equally effective',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Mixing goals in one account removes clarity and accountability. You can\'t tell how close you are to each goal, and spending bleeds across categories. Named separate buckets solve both problems.',
+                      },
+                      {
+                        concept: 'Singapore tools',
+                        question: 'A student wants to save for a postgrad degree costing $20,000 — needed in 3 years. Which account is most appropriate?',
+                        options: [
+                          'Daily spending account — easy access',
+                          'STI ETF — highest long-term returns',
+                          'Singapore Savings Bond — ~3% p.a., government-backed, redeemable monthly',
+                          'Robo-advisor — auto-diversified and low minimum',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Three years is medium-term — SSBs offer ~3% p.a. with zero default risk and monthly redemption if plans change. An ETF or robo-advisor carries market risk inappropriate for a goal needed in 3 years.',
+                      },
                     ],
-                    tip: 'Naming an account after a goal increases the likelihood of reaching it by 31% — behavioural economics research.',
-                  },
-                  {
-                    icon: '📈',
-                    name: 'Investment Fund',
-                    color: '#059669',
-                    subtitle: 'Long-term wealth building — 5+ year horizon',
-                    fillPercent: 50,
-                    details: [
-                      'Only money you won\'t need for 5+ years should be invested',
-                      'Start with a robo-advisor (Syfe, StashAway) — low minimums, auto-diversified',
-                      'STI ETF or global index funds for DIY investors',
-                      'Time in the market beats timing the market — start small, start now',
-                    ],
-                    tip: 'Even $50/month invested from age 22 grows to ~$150,000 by retirement at 7% p.a.',
-                  },
-                  {
-                    icon: '🎉',
-                    name: 'Fun Fund',
-                    color: '#F59E0B',
-                    subtitle: 'Guilt-free spending money — optional but powerful',
-                    fillPercent: 25,
-                    details: [
-                      'A dedicated fun budget removes guilt from spending on enjoyment',
-                      'When it\'s empty, you stop — no guilt, no overspending',
-                      'Typically 10–15% of your Wants budget set aside monthly',
-                      'Use it for: concerts, spontaneous trips, treats, gifts',
-                    ],
-                    tip: 'Having a Fun Fund paradoxically reduces impulsive overspending — you spend less when you know there\'s a designated amount.',
                   },
                 ],
-              },
-              {
-                type: 'text',
-                text: 'Setting up a goal-based account in Singapore takes less than 5 minutes. Here\'s exactly how.',
-              },
-              {
-                type: 'steps',
-                title: 'Setting up a goal-based savings account:',
-                steps: [
-                  'Open a sub-account or separate account (most Singapore banks allow this free)',
-                  'Name it after your goal — "Japan 2025" or "MacBook Fund"',
-                  'Calculate how much you need and by when',
-                  'Divide the total by the number of months — that is your monthly save target',
-                  'Set up an automatic transfer for that amount on income day',
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: OCBC allows you to create multiple savings "pockets" within one account — each named separately. It\'s free, instant, and perfect for the buckets approach.',
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'Naming a savings account after a goal increases the likelihood of reaching it by 31% — according to behavioural economics research.',
-              },
-              {
-                type: 'mcq',
-                icon: '🌟',
-                title: 'Goal Horizon Quiz',
-                question: 'You want to save for a Japan trip happening in 8 months. Which account type is BEST?',
-                options: [
-                  'Invest it in STI ETF for higher returns',
-                  'High-yield savings account (OCBC 360)',
-                  'CPF Special Account top-up',
-                  'Keep it in your daily spending account',
-                ],
-                correctIndex: 1,
-                explanation: 'Short-term goals (< 1 year) need accessible, low-risk accounts. STI ETF is too volatile for 8 months. CPF locks money in. Daily accounts earn near zero interest.',
-              },
-              {
-                type: 'bot',
-                label: '💬 How do I set up savings pockets in OCBC Singapore?',
-                prompt: 'OCBC savings pockets how to set up sub accounts Singapore 2024 2025',
               },
             ],
+
             flashcards: [
-              { q: 'What is the multiple savings buckets approach?', a: 'Separate savings pots for different goals: Emergency Fund, Specific Goals, Investments, and Fun Money.' },
-              { q: 'What account type is best for a short-term goal (< 1 year)?', a: 'A high-yield savings account — accessible, earns decent interest, no lock-in period.' },
-              { q: 'What account type is best for a 3-year savings goal?', a: 'Fixed deposit or Singapore Savings Bond — slightly higher rates, some lock-in acceptable.' },
-              { q: 'How does naming a savings account affect your saving behaviour?', a: 'It increases goal achievement by 31% — naming creates a psychological commitment.' },
-              { q: 'How do you calculate a monthly savings target for a goal?', a: 'Total amount needed ÷ number of months remaining = monthly transfer amount.' },
+              {
+                q: 'What is the multiple savings buckets approach?',
+                a: 'Separate savings pots for different goals: Emergency Fund, Specific Goals, Investments, and Fun Money.',
+              },
+              {
+                q: 'What account type is best for a short-term goal (< 1 year)?',
+                a: 'A high-yield savings account — accessible, earns decent interest, no lock-in period.',
+              },
+              {
+                q: 'What account type is best for a 3-year savings goal?',
+                a: 'Fixed deposit or Singapore Savings Bond — slightly higher rates, some lock-in acceptable.',
+              },
+              {
+                q: 'How does naming a savings account affect your saving behaviour?',
+                a: 'It increases goal achievement by 31% — naming creates a psychological commitment to the goal.',
+              },
+              {
+                q: 'How do you calculate a monthly savings target for a goal?',
+                a: 'Total amount needed ÷ number of months remaining = monthly transfer amount.',
+              },
             ],
           },
         ],
