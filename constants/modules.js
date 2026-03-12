@@ -41,7 +41,7 @@ export const MODULES = [
             icon: '📚',
             topic: 'Financial literacy definition and importance',
             duration: '5 min',
-            xp: 50,
+            fincoins: 45,
             sections: [
                 // ─── Section 1: What is Financial Literacy? ──────────
                 {
@@ -477,290 +477,433 @@ export const MODULES = [
                 { q: 'What is the difference between financial knowledge and financial literacy?', a: 'Knowledge is understanding financial concepts. Literacy also requires the skill to apply them and the confidence to act — someone can know what compound interest is and still keep savings in a 0.05% account.' },
             ],
             },
-          
-          // ── LESSON 1-2 ──────────────────────────────
           {
             id: '1-2',
             title: 'Your Money Mindset',
             icon: '🧩',
             topic: 'Money mindset and psychological relationship with money',
             duration: '6 min',
-            xp: 50,
+            fincoins: 45,
             sections: [
-              { key: 'mindset', heading: 'Fixed vs Growth Money Mindset' },
-              { key: 'biases', heading: 'Common Financial Biases' },
-              { key: 'habits', heading: 'Building Positive Money Habits' },
-            ],
-            content: [
-              {
-                type: 'text',
-                text: 'How you think about money shapes every financial decision you make. Two people earning the same salary can end up in completely different financial positions — the difference is mindset and habits.',
-              },
-              {
-                type: 'text',
-                text: 'Tap each card to see how a fixed money mindset can be reframed into a growth one.',
-              },
-              {
-                type: 'flipcards',
-                title: 'Fixed → Growth Mindset',
-                cards: [
-                  {
 
-                    front: '"I\'m just not good with money."',
-                    back: '"I can learn to manage money better — it\'s a skill, not a talent."',
-                  },
-                  {
-                    front: '"Investing is too risky for me."',
-                    back: '"I can learn to manage risk through diversification and time."',
-                  },
-                  {
-                    front: '"I\'ll start saving when I earn more."',
-                    back: '"I start saving a small amount now and build the habit."',
-                  },
-                  {
-                    front: '"Rich people are just lucky."',
-                    back: '"Financial success is learnable — habits and decisions compound over time."',
-                  },
-                ],
-              },
+              // ─── Section 1: Fixed vs Growth Mindset ──────────────
               {
-                type: 'text',
-                text: 'Beyond mindset, our brains are wired with cognitive shortcuts called biases — and they quietly sabotage financial decisions every day. Swipe through the five most common ones.',
-              },
-              {
-                type: 'biasreveal',
-                title: 'The five biases that hurt your finances:',
-                biases: [
+                key: 'mindset',
+                title: 'Fixed vs Growth Mindset',
+                fincoins: 10,
+                content: [
                   {
-                    icon: '🎯',
-                    name: 'Present Bias',
-                    color: '#4F46E5',
-                    tagline: 'Valuing today\'s $100 more than tomorrow\'s $200',
-                    definition: 'We instinctively prefer immediate rewards over future ones — even when the future reward is objectively better. This makes saving feel pointless and spending feel urgent.',
-                    example: '"I\'ll save next month when I have more money" — said every month, indefinitely.',
-                    singaporeTip: 'Flash sales on Shopee and Lazada are designed to trigger present bias — the countdown timer makes the immediate reward feel even more urgent.',
+                    type: 'heading',
+                    text: 'Fixed vs Growth Money Mindset',
                   },
                   {
-                    icon: '🐑',
-                    name: 'Herd Mentality',
-                    color: '#F59E0B',
-                    tagline: 'Doing what everyone else is doing with money',
-                    definition: 'We take financial cues from the crowd — assuming that if everyone is buying something, it must be a good decision. This leads to buying high and selling low.',
-                    example: 'Buying crypto in 2021 because "everyone is making money" — right before the crash.',
-                    singaporeTip: 'Singapore\'s property obsession is partly herd mentality — "everyone buys HDB" is a social norm, not always the best financial decision for every person.',
+                    type: 'text',
+                    text: 'How you think about money shapes every financial decision you make. Two people earning the same salary can end up in completely different financial positions — the difference is mindset and habits. A fixed money mindset treats financial ability as something you either have or don\'t. A growth mindset treats it as a skill — one that can be learned, practised, and improved.',
                   },
                   {
-                    icon: '😨',
-                    name: 'Loss Aversion',
-                    color: '#DC2626',
-                    tagline: 'The pain of losing feels twice as bad as the joy of gaining',
-                    definition: 'Losing $100 feels roughly twice as painful as gaining $100 feels good. This asymmetry leads to panic selling during market dips and holding bad investments too long.',
-                    example: 'Selling all your investments when the market drops 10% — locking in a loss right before recovery.',
-                    singaporeTip: 'CPF interest is guaranteed — loss aversion makes people irrationally afraid of investing CPF-IS funds, even when expected returns are higher.',
+                    type: 'keyterm',
+                    term: 'Money Mindset',
+                    definition: 'The set of beliefs and attitudes you hold about money that shape your financial behaviours. A fixed mindset ("I\'m just bad with money") leads to avoidance and inaction. A growth mindset ("I can learn to manage money") leads to engagement and improvement.',
                   },
                   {
-                    icon: '🙈',
-                    name: 'Ostrich Effect',
-                    color: '#059669',
-                    tagline: 'Avoiding financial information when it might be bad',
-                    definition: 'Like an ostrich burying its head, we avoid checking bank balances, credit card statements, or investment portfolios when we suspect bad news. Avoidance feels like relief but makes problems worse.',
-                    example: 'Not opening your credit card statement because you overspent last month.',
-                    singaporeTip: 'Use MyInfo or Singpass Finance to see all accounts in one place — visibility removes the temptation to avoid.',
-                  },
-                  {
-                    icon: '💳',
-                    name: 'Payment Decoupling',
-                    color: '#7C3AED',
-                    tagline: 'Digital payments feel less real than cash',
-                    definition: 'When payment is separated from the act of spending — by time, abstraction, or technology — it reduces the psychological "pain of paying". This makes overspending much easier.',
-                    example: 'Spending $400 on a credit card feels less painful than handing over $400 in cash.',
-                    singaporeTip: 'PayNow, GrabPay, and NETS make Singapore almost cashless — convenient but dangerous without a budget. You never feel the money leaving.',
-                  },
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: PayNow and e-wallets make payment decoupling especially dangerous — it\'s easy to lose track of spending when you never physically hand over cash.',
-              },
-              {
-                type: 'text',
-                text: 'Knowing the names isn\'t enough — you need to recognise biases in the moment. Pick your reaction to each scenario below to see which bias is at play.',
-              },
-              {
-                type: 'scenarios',
-                title: 'Which bias is driving this?',
-                scenarios: [
-                  {
-                    icon: '💰',
-                    situation: 'You receive a $500 bonus. There\'s a sale on Shopee ending tonight. What do you do?',
-                    options: [
+                    type: 'flipcards',
+                    exerciseId: '1-2-s1-flip',
+                    fincoins: 10,
+                    title: 'Fixed → Growth: Reframing money beliefs',
+                    cards: [
                       {
-                        text: 'Transfer $400 to savings, spend $100 guilt-free.',
-                        biasLabel: 'Rational choice ✓',
-                        biasExplanation: 'You resisted present bias — paying future-you first before spending.',
-                        isIdeal: true,
+                        frontLabel: '❌ Fixed Mindset',
+                        backLabel: '✅ Growth Mindset',
+                        front: '"I\'m just not good with money."',
+                        back: '"Managing money is a skill I can learn — and I\'m already starting."',
+                        tag: 'Identity reframe',
                       },
                       {
-                        text: 'Browse Shopee — it\'s a limited time deal, can\'t miss it.',
-                        biasLabel: 'Present Bias',
-                        biasExplanation: 'Valuing an immediate reward (the sale) more than the future benefit of saving.',
-                        isIdeal: false,
+                        frontLabel: '❌ Fixed Mindset',
+                        backLabel: '✅ Growth Mindset',
+                        front: '"Investing is too risky and complicated for me."',
+                        back: '"I can learn to manage risk through diversification and time in the market."',
+                        tag: 'Risk reframe',
                       },
                       {
-                        text: 'Spend most of it — you deserve a treat after working hard.',
-                        biasLabel: 'Present Bias',
-                        biasExplanation: 'Framing present spending as deserved makes it easier to justify — but the future cost is real.',
-                        isIdeal: false,
+                        frontLabel: '❌ Fixed Mindset',
+                        backLabel: '✅ Growth Mindset',
+                        front: '"I\'ll start saving when I earn more."',
+                        back: '"I build the habit now with whatever I have — the amount matters less than the behaviour."',
+                        tag: 'Habit reframe',
+                      },
+                      {
+                        frontLabel: '❌ Fixed Mindset',
+                        backLabel: '✅ Growth Mindset',
+                        front: '"Rich people are just lucky or born into it."',
+                        back: '"Financial success is largely the result of consistent habits and decisions that compound over time."',
+                        tag: 'Attribution reframe',
                       },
                     ],
                   },
                   {
-                    icon: '📱',
-                    situation: 'Everyone in your friend group is buying the new iPhone. Your current phone works fine.',
-                    options: [
+                    type: 'tindertruefalse',
+                    exerciseId: '1-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'Fixed vs Growth Mindset — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
                       {
-                        text: 'Buy it — you don\'t want to be the only one without it.',
-                        biasLabel: 'Herd Mentality',
-                        biasExplanation: 'Making financial decisions based on what others do rather than your own needs.',
-                        isIdeal: false,
+                        text: 'A fixed money mindset means believing financial ability is a talent you either have or don\'t.',
+                        isTrue: true,
+                        explanation: 'A fixed mindset treats money management as innate — "I\'m just not a money person." This leads to avoidance and inaction because effort feels pointless.',
                       },
                       {
-                        text: 'Keep your current phone — it works, and you have savings goals.',
-                        biasLabel: 'Rational choice ✓',
-                        biasExplanation: 'You separated social pressure from financial need — a key financial literacy skill.',
-                        isIdeal: true,
+                        text: 'Two people earning the same salary will always end up in similar financial positions.',
+                        isTrue: false,
+                        explanation: 'Income is only one factor. Mindset, habits, and decisions determine financial outcomes far more than salary alone. Two people on the same income can have completely different financial trajectories.',
                       },
                       {
-                        text: 'Put it on credit card — everyone else has it.',
-                        biasLabel: 'Herd Mentality + Debt Risk',
-                        biasExplanation: 'Herd mentality amplified by payment decoupling — the credit card makes the purchase feel less real.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '📉',
-                    situation: 'Your investment drops 10% in a week. The market has been volatile.',
-                    options: [
-                      {
-                        text: 'Sell everything — I can\'t bear to lose more.',
-                        biasLabel: 'Loss Aversion',
-                        biasExplanation: 'The pain of a 10% loss feels bigger than the potential of recovery — leading to panic selling at the worst time.',
-                        isIdeal: false,
+                        text: 'A growth money mindset treats financial management as a learnable skill.',
+                        isTrue: true,
+                        explanation: 'Growth mindset means believing you can improve your financial habits through learning and practice — making it far more likely you will actually engage with and improve your finances.',
                       },
                       {
-                        text: 'Check my investment thesis — if nothing changed, hold or buy more.',
-                        biasLabel: 'Rational choice ✓',
-                        biasExplanation: 'Short-term volatility is normal. Long-term investors who hold through dips consistently outperform panic sellers.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Avoid checking my portfolio at all.',
-                        biasLabel: 'Ostrich Effect',
-                        biasExplanation: 'Avoiding information doesn\'t change reality — and may cause you to miss rebalancing opportunities.',
-                        isIdeal: false,
+                        text: 'Waiting until you earn more to start saving is a financially sound strategy.',
+                        isTrue: false,
+                        explanation: 'Waiting to save is the single most common financial mistake. The habit matters more than the amount — someone saving $50/month at 22 will likely outperform someone saving $500/month starting at 32.',
                       },
                     ],
                   },
                 ],
               },
+
+              // ─── Section 2: Common Financial Biases ──────────────
               {
-                type: 'text',
-                text: 'Once you recognise these biases, the next step is building habits that work with your brain — not against it. The habit loop is the proven framework for making any financial behaviour automatic.',
-              },
-              {
-                type: 'timeline',
-                title: 'The habit loop — how financial habits form:',
-                nodes: [
+                key: 'biases',
+                title: 'Common Financial Biases',
+                fincoins: 10,
+                content: [
                   {
-                    icon: '🔔',
-                    label: 'Cue',
-                    sublabel: 'The trigger',
-                    color: '#4F46E5',
-                    examples: ['Salary credit alert', 'Calendar reminder', 'App notification'],
-                    details: [
-                      'Link saving to an existing trigger — a salary credit notification is ideal.',
-                      'The cue must be consistent and automatic to build a reliable habit.',
-                    ],
-                    tip: 'Every time you receive a salary credit alert, that\'s your cue to transfer 20% to savings.',
+                    type: 'heading',
+                    text: 'Common Financial Biases',
                   },
                   {
-                    icon: '⚙️',
-                    label: 'Routine',
-                    sublabel: 'The behaviour',
-                    color: '#F59E0B',
-                    examples: ['Bank transfer', 'GIRO instruction', 'Auto-debit'],
-                    details: [
-                      'Keep the routine simple and frictionless — a single bank transfer takes 10 seconds.',
-                      'Automate it where possible so it doesn\'t rely on willpower.',
-                    ],
-                    tip: 'Set up a standing GIRO instruction so the transfer happens automatically on salary day.',
+                    type: 'text',
+                    text: 'Beyond mindset, our brains are wired with cognitive shortcuts called biases — and they quietly sabotage financial decisions every day. Understanding them is the first step to overriding them.',
                   },
                   {
-                    icon: '🎁',
-                    label: 'Reward',
-                    sublabel: 'What makes it stick',
-                    color: '#059669',
-                    examples: ['Savings balance grows', 'Milestone badges', 'Progress tracker'],
-                    details: [
-                      'Track your growing savings balance — visible progress is its own reward.',
-                      'Small celebrations at milestones ($500, $1,000) reinforce the loop.',
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Behavioural economics research shows that cognitive biases — not lack of information — are the primary driver of poor financial decisions. Knowing the right thing to do is not enough if biases push you to do the opposite.',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '🎯',
+                        label: 'Present Bias',
+                        description: 'Valuing immediate rewards far more than future ones — even when the future reward is objectively better.',
+                        color: '#4F46E5',
+                        details: [
+                          'We instinctively prefer $100 today over $200 next year — even though waiting doubles the money.',
+                          'Present bias makes saving feel pointless and spending feel urgent.',
+                          'It is the primary reason people consistently fail to follow through on financial intentions.',
+                        ],
+                        example: '"I\'ll save next month when I have more money" — said every month, indefinitely.',
+                      },
+                      {
+                        icon: '😨',
+                        label: 'Loss Aversion',
+                        description: 'The pain of losing money feels roughly twice as strong as the pleasure of gaining the same amount.',
+                        color: '#DC2626',
+                        details: [
+                          'Losing $100 feels about twice as bad as gaining $100 feels good.',
+                          'This leads to panic selling during market dips and holding bad investments too long.',
+                          'Loss aversion makes people irrationally risk-averse — avoiding investments with positive expected value.',
+                        ],
+                        example: 'Selling all investments when the market drops 10% — locking in a loss right before recovery.',
+                      },
+                      {
+                        icon: '🐑',
+                        label: 'Herd Mentality',
+                        description: 'Making financial decisions based on what others are doing rather than independent analysis.',
+                        color: '#F59E0B',
+                        details: [
+                          'We assume that if everyone is doing something financially, it must be the right move.',
+                          'This leads to buying assets at peak prices because "everyone is making money".',
+                          'In Singapore, property obsession is partly driven by herd mentality — "everyone buys HDB" is a social norm, not always the optimal financial decision.',
+                        ],
+                        example: 'Buying crypto in late 2021 because "everyone is making money" — right before the crash.',
+                      },
+                      {
+                        icon: '💳',
+                        label: 'Payment Decoupling',
+                        description: 'Digital payments feel less real than cash, making overspending significantly easier.',
+                        color: '#7C3AED',
+                        details: [
+                          'When payment is separated from spending by time or abstraction, the "pain of paying" is reduced.',
+                          'Spending $400 on a card feels less painful than handing over $400 in cash.',
+                          'Singapore\'s near-cashless infrastructure — PayNow, GrabPay, NETS — makes this bias especially dangerous.',
+                        ],
+                        example: 'Tapping your phone to pay feels almost free — until the credit card bill arrives.',
+                      },
                     ],
-                    tip: 'Open your savings app after every transfer and watch the balance grow — that number is your reward.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How cognitive biases affect financial decisions in Singapore',
+                    prompt: 'cognitive biases financial decisions Singapore behavioural economics research 2024',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '1-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Spot the bias — what\'s driving this decision?',
+                    scenarios: [
+                      {
+                        icon: '💰',
+                        situation: 'You receive a $500 bonus. There\'s a Shopee sale ending tonight. You haven\'t saved anything this month.',
+                        options: [
+                          {
+                            text: 'Transfer $400 to savings, spend $100 guilt-free.',
+                            biasLabel: 'Rational ✓',
+                            biasExplanation: 'You resisted present bias — prioritising future-you before spending on the immediate reward.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Browse the sale — it\'s limited time, can\'t miss it.',
+                            biasLabel: 'Present Bias',
+                            biasExplanation: 'The countdown timer is designed to trigger present bias — making the immediate reward feel more urgent than it really is.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Spend most of it — you deserve a treat after working hard.',
+                            biasLabel: 'Present Bias',
+                            biasExplanation: 'Framing present spending as deserved makes it easier to justify — but the future cost is identical regardless of the reasoning.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📉',
+                        situation: 'Your ETF investment drops 12% in two weeks. A friend says the market will keep falling.',
+                        options: [
+                          {
+                            text: 'Sell everything — I can\'t bear to lose more.',
+                            biasLabel: 'Loss Aversion',
+                            biasExplanation: 'The pain of a 12% paper loss feels larger than it is — leading to panic selling at exactly the wrong time.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Do nothing — short-term volatility is normal for long-term investments.',
+                            biasLabel: 'Rational ✓',
+                            biasExplanation: 'Market dips are a normal part of long-term investing. Investors who hold through volatility consistently outperform those who panic sell.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Follow my friend\'s advice and sell before it drops further.',
+                            biasLabel: 'Herd Mentality',
+                            biasExplanation: 'Taking financial cues from others rather than your own analysis — especially in volatile markets — is a classic herd mentality trap.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📱',
+                        situation: 'Everyone in your cohort is using GrabPay and spending freely on food delivery. Your budget is tight.',
+                        options: [
+                          {
+                            text: 'Use GrabPay for everything too — it\'s convenient and everyone does it.',
+                            biasLabel: 'Herd Mentality + Payment Decoupling',
+                            biasExplanation: 'Two biases compounding: social pressure to match peers, and the digital payment reducing the psychological pain of spending.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Set a weekly food delivery budget and track it manually.',
+                            biasLabel: 'Rational ✓',
+                            biasExplanation: 'You counteract payment decoupling by manually tracking spending — making the cost visible and real despite the frictionless payment.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Avoid checking your spending — ignorance is bliss.',
+                            biasLabel: 'Ostrich Effect',
+                            biasExplanation: 'Avoiding financial information doesn\'t change reality — it just means problems grow undetected until they become crises.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
                   },
                 ],
               },
+
+              // ─── Section 3: Building Positive Money Habits ────────
               {
-                type: 'callout',
-                variant: 'fact',
-                text: 'Research shows it takes an average of 66 days to form a new financial habit — not 21 days as commonly believed.',
-              },
-              {
-                type: 'bot',
-                label: '💬 What percentage of Singaporeans have positive financial habits?',
-                prompt: 'percentage of Singaporeans with positive saving and financial habits MoneySense survey',
-              },
-              {
-                type: 'text',
-                text: 'Now test your understanding of the money mindset concepts covered in this lesson.',
-              },
-              {
-                type: 'tindertruefalse',
-                title: 'Money Mindset Myths',
-                instruction: 'Swipe right for True · Swipe left for False',
-                statements: [
+                key: 'habits',
+                title: 'Building Positive Money Habits',
+                fincoins: 10,
+                content: [
                   {
-                    text: 'You need to earn a lot before budgeting is worth doing.',
-                    isTrue: false,
-                    explanation: 'Budgeting is most important when income is limited — it helps you make the most of every dollar.',
+                    type: 'heading',
+                    text: 'Building Positive Money Habits',
                   },
                   {
-                    text: 'Payment decoupling means digital spending feels less real than cash.',
-                    isTrue: true,
-                    explanation: 'Studies confirm card/digital payments reduce the "pain of paying" — making overspending easier.',
+                    type: 'text',
+                    text: 'Knowing about biases is not enough — you need systems that work with your brain, not against it. The habit loop is the proven framework for turning any financial intention into an automatic behaviour.',
                   },
                   {
-                    text: 'Loss aversion means people fear losses more than they value equivalent gains.',
-                    isTrue: true,
-                    explanation: 'Losing $100 feels roughly twice as bad as gaining $100 feels good — a key insight from behavioural economics.',
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Research shows it takes an average of 66 days to form a new habit — not 21 days as commonly believed. Financial habits are no different. Consistency over weeks and months is what creates lasting change.',
                   },
                   {
-                    text: 'It takes exactly 21 days to form a new habit.',
-                    isTrue: false,
-                    explanation: 'Research shows it takes an average of 66 days — the 21-day myth is a popular misconception.',
+                    type: 'timeline',
+                    title: 'The habit loop — how financial habits form:',
+                    nodes: [
+                      {
+                        icon: '🔔',
+                        label: 'Cue',
+                        sublabel: 'The trigger',
+                        color: '#4F46E5',
+                        examples: ['Salary credit alert', 'Calendar reminder', 'App notification'],
+                        details: [
+                          'Link saving to an existing, automatic trigger — a salary credit notification is ideal.',
+                          'The cue must be consistent and outside your control to build a reliable habit.',
+                        ],
+                        tip: 'Every time you receive a salary credit alert, that\'s your cue to transfer 20% to savings immediately.',
+                      },
+                      {
+                        icon: '⚙️',
+                        label: 'Routine',
+                        sublabel: 'The behaviour',
+                        color: '#F59E0B',
+                        examples: ['Instant bank transfer', 'GIRO instruction', 'Auto-debit'],
+                        details: [
+                          'Keep the routine as simple and frictionless as possible — a single transfer takes under 10 seconds.',
+                          'Automate it where possible so it doesn\'t rely on willpower or memory.',
+                        ],
+                        tip: 'Set up a standing GIRO instruction so the savings transfer happens automatically on salary day — before you can spend it.',
+                      },
+                      {
+                        icon: '🎁',
+                        label: 'Reward',
+                        sublabel: 'What makes it stick',
+                        color: '#059669',
+                        examples: ['Savings balance grows', 'Milestone reached', 'Progress tracker'],
+                        details: [
+                          'Track your savings balance visually — watching the number grow is a powerful intrinsic reward.',
+                          'Set explicit milestones ($500, $1,000, $3,000) and acknowledge each one.',
+                        ],
+                        tip: 'Open your savings app after every transfer and watch the balance grow — that number is your reward.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Best saving habits for students in Singapore',
+                    prompt: 'best money saving habits university students Singapore practical tips 2024',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '1-2-s3-tinder',
+                    fincoins: 10,
+                    title: 'Habit Building — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'It takes an average of 21 days to form a new financial habit.',
+                        isTrue: false,
+                        explanation: 'Research shows habit formation takes an average of 66 days — the 21-day figure is a popular myth. Financial habits in particular require sustained repetition before becoming automatic.',
+                      },
+                      {
+                        text: 'Automating savings removes the need for willpower and makes the habit more reliable.',
+                        isTrue: true,
+                        explanation: 'Automating savings via GIRO or standing instructions means the behaviour happens regardless of motivation levels on any given day — the most reliable way to build a consistent habit.',
+                      },
+                      {
+                        text: 'The habit loop consists of: Cue → Routine → Reward.',
+                        isTrue: true,
+                        explanation: 'The habit loop has three components. The cue triggers the behaviour, the routine is the behaviour itself, and the reward reinforces it — making the loop more likely to repeat.',
+                      },
+                      {
+                        text: 'Willpower alone is a reliable strategy for maintaining long-term financial habits.',
+                        isTrue: false,
+                        explanation: 'Willpower is a finite resource that depletes with use. Systems and automation are far more reliable than willpower for maintaining financial habits over months and years.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 4: Put It All Together ──────────────────
+              {
+                key: 'challenge',
+                title: 'Put It All Together',
+                fincoins: 15,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Put It All Together',
+                  },
+                  {
+                    type: 'text',
+                    text: 'This final section tests your understanding of money mindset, cognitive biases, and habit formation — the three pillars of this lesson.',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '1-2-s4-mcq',
+                    fincoins: 15,
+                    icon: '🧩',
+                    title: 'Money Mindset Challenge',
+                    questions: [
+                      {
+                        concept: 'Growth Mindset',
+                        question: 'Which of the following best describes a growth money mindset?',
+                        options: [
+                          'Believing you are either naturally good or bad with money',
+                          'Treating financial management as a learnable skill that improves with practice',
+                          'Avoiding financial decisions to prevent making mistakes',
+                          'Only engaging with finances once you earn a full-time salary',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'A growth mindset treats financial ability as a skill — not a fixed trait. This belief leads to engagement, learning, and improvement, whereas a fixed mindset leads to avoidance and inaction.',
+                      },
+                      {
+                        concept: 'Loss Aversion',
+                        question: 'An investor\'s portfolio drops 15% during a market correction. Loss aversion would most likely cause them to:',
+                        options: [
+                          'Hold their position and wait for recovery',
+                          'Invest more while prices are lower',
+                          'Sell all holdings to avoid further losses',
+                          'Rebalance their portfolio across asset classes',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Loss aversion makes the pain of a 15% loss feel disproportionately large — driving panic selling at exactly the wrong moment. Long-term investors who hold through corrections consistently outperform those who sell.',
+                      },
+                      {
+                        concept: 'Habit Loop',
+                        question: 'A student wants to save 20% of their allowance every month. Which approach is most likely to succeed long-term?',
+                        options: [
+                          'Manually transfer savings at the end of each month from whatever is left',
+                          'Remind yourself daily to save using willpower',
+                          'Set up an automatic transfer on the same day allowance is received each month',
+                          'Save only during months when spending is lower than usual',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Automation removes reliance on willpower and memory — the two most unreliable components of habit maintenance. An automatic transfer on allowance day ensures savings happen first, before spending decisions are made.',
+                      },
+                    ],
                   },
                 ],
               },
             ],
+
             flashcards: [
-              { q: 'What is present bias in personal finance?', a: 'Valuing immediate rewards over future gains — e.g. spending today instead of saving for tomorrow.' },
-              { q: 'What is the habit loop for building money habits?', a: 'Cue → Routine → Reward → Repeat. Attach saving to an existing trigger like salary credit.' },
-              { q: 'How does payment decoupling affect spending in Singapore?', a: 'Digital payments (PayNow, cards) feel less "real" than cash, making it easier to overspend.' },
-              { q: 'What is loss aversion?', a: 'The pain of losing money feels stronger than the joy of gaining the same amount — leading to overly risk-averse or panic-driven decisions.' },
-              { q: 'What is the difference between fixed and growth money mindset?', a: 'Fixed: "I\'m bad with money." Growth: "I can learn to manage money better." Growth mindset leads to better outcomes.' },
+              { q: 'What is present bias in personal finance?', a: 'Valuing immediate rewards far more than future ones — e.g. spending today instead of saving for tomorrow, even when saving is objectively better.' },
+              { q: 'What is the habit loop for building money habits?', a: 'Cue → Routine → Reward. Attach saving to an automatic trigger like a salary credit alert, keep the routine simple, and track progress as the reward.' },
+              { q: 'How does payment decoupling affect spending in Singapore?', a: 'Digital payments (PayNow, GrabPay, cards) reduce the psychological "pain of paying" compared to cash — making it significantly easier to overspend without noticing.' },
+              { q: 'What is loss aversion and how does it affect investing?', a: 'The pain of losing money feels roughly twice as strong as the pleasure of gaining the same amount — leading to panic selling during market dips and holding bad investments too long.' },
+              { q: 'What is the difference between fixed and growth money mindset?', a: 'Fixed: "I\'m just bad with money — it\'s not for me." Growth: "Managing money is a skill I can learn and improve." Growth mindset leads to engagement and better financial outcomes.' },
             ],
           },
+          
+          
 
           // ── LESSON 1-3 ──────────────────────────────
           {
@@ -769,151 +912,434 @@ export const MODULES = [
             icon: '🎯',
             topic: 'Setting SMART financial goals',
             duration: '5 min',
-            xp: 50,
+            fincoins: 35,
             sections: [
-              { key: 'why', heading: 'Why Goals Change Financial Behaviour' },
-              { key: 'smart', heading: 'SMART Financial Goals' },
-              { key: 'singapore', heading: 'Common Goals for Students in Singapore' },
+
+              // ─── Section 1: Why Goals Change Financial Behaviour ──
+              {
+                key: 'why',
+                title: 'Why Goals Matter',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Why Goals Change Financial Behaviour',
+                  },
+                  {
+                    type: 'text',
+                    text: 'People with written financial goals save significantly more and accumulate more wealth than those without. A goal gives every dollar a purpose — and turns vague intentions into concrete decisions. Without a goal, spending decisions are made in isolation. With one, every dollar has a job.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Research shows that people who write down their goals are significantly more likely to achieve them than those who keep goals in their head. The act of writing forces specificity — and specificity drives action.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Financial Goal',
+                    definition: 'A specific, time-bound target for your money — such as saving $3,000 for an emergency fund by December, or clearing a credit card balance in 6 months. Goals convert financial intentions into actionable plans.',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '🎯',
+                        label: 'Direction',
+                        description: 'Goals tell you where to point your money — without them, spending fills every available space.',
+                        color: '#4F46E5',
+                        details: [
+                          'A goal creates a filter for spending decisions — "does this bring me closer to or further from my goal?"',
+                          'Without direction, money disappears into small, unmemorable purchases that never add up to anything meaningful.',
+                        ],
+                        example: 'With a $3,000 emergency fund goal, a $200 impulse purchase becomes a conscious trade-off — not an unconscious habit.',
+                      },
+                      {
+                        icon: '📊',
+                        label: 'Measurement',
+                        description: 'Goals make progress visible — and visible progress is one of the most powerful motivators.',
+                        color: '#059669',
+                        details: [
+                          'Tracking a savings balance toward a specific target creates momentum — each contribution feels meaningful.',
+                          'Without a measurable goal, saving feels abstract and its absence is easy to justify.',
+                        ],
+                        example: 'Watching a savings balance grow from $0 to $500 to $1,000 toward a $3,000 target is far more motivating than "just saving."',
+                      },
+                      {
+                        icon: '⚡',
+                        label: 'Prioritisation',
+                        description: 'Goals force you to rank competing uses of money — building the decision-making muscle.',
+                        color: '#F59E0B',
+                        details: [
+                          'Money is finite. Goals force explicit trade-offs between competing wants and needs.',
+                          'The habit of prioritising financial goals over impulse spending is one of the strongest predictors of long-term wealth.',
+                        ],
+                        example: 'Choosing between a weekend trip and three months of emergency fund contributions is easier when you have a clear goal and a deadline.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Research on financial goals and wealth accumulation',
+                    prompt: 'financial goals written goals wealth accumulation savings research evidence 2024',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '1-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'Why Goals Matter — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'People with written financial goals tend to save more and accumulate more wealth than those without.',
+                        isTrue: true,
+                        explanation: 'Research consistently shows that written, specific goals lead to better financial outcomes. Writing forces specificity, and specificity drives action and accountability.',
+                      },
+                      {
+                        text: 'Without a financial goal, most people naturally spend within their means.',
+                        isTrue: false,
+                        explanation: 'Without a goal, spending tends to expand to fill available income — a phenomenon known as lifestyle creep. Goals create the filter that prevents this.',
+                      },
+                      {
+                        text: 'A financial goal makes every spending decision a conscious trade-off rather than an unconscious habit.',
+                        isTrue: true,
+                        explanation: 'When you have a clear goal, each spending decision is evaluated against it — creating intentionality that gradually replaces impulsive or habitual spending.',
+                      },
+                      {
+                        text: 'Financial goals are only useful once you have a stable income.',
+                        isTrue: false,
+                        explanation: 'Goals are most important when resources are limited — they help you maximise every dollar. A student saving $100/month toward a goal is building habits that will compound for decades.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: SMART Financial Goals ────────────────
+              {
+                key: 'smart',
+                title: 'SMART Financial Goals',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'SMART Financial Goals',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Most financial goals fail not because people lack motivation — but because the goals are too vague to act on. The SMART framework transforms weak intentions into clear, actionable targets.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'SMART Goals',
+                    definition: 'Specific, Measurable, Achievable, Relevant, Time-bound. A framework for setting goals that are clear enough to act on and concrete enough to track. A goal that fails any of the five criteria is a wish, not a plan.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    exerciseId: '1-3-s2-flip-smart',
+                    fincoins: 0,
+                    title: 'The five SMART criteria',
+                    cards: [
+                      {
+                        frontLabel: 'S — Specific',
+                        backLabel: '✅ Example',
+                        front: '🎯 Specific\n\nYour goal must name exactly what you are saving for and how much. Vague goals cannot be acted on.',
+                        back: '"Save $3,000 for an emergency fund" is specific.\n"Save more money" is not.\n\nReplace vague intentions with a named goal and a dollar amount.',
+                        tag: 'S — Specific',
+                      },
+                      {
+                        frontLabel: 'M — Measurable',
+                        backLabel: '✅ Example',
+                        front: '📏 Measurable\n\nAttach a number so you can always tell whether you are on track. Progress you can see is progress that motivates.',
+                        back: '"Save $500/month" is measurable.\n"Save a lot" is not.\n\nAdd a monthly contribution amount to every goal.',
+                        tag: 'M — Measurable',
+                      },
+                      {
+                        frontLabel: 'A — Achievable',
+                        backLabel: '✅ Example',
+                        front: '✅ Achievable\n\nA goal should stretch you without being impossible. Unrealistic targets get abandoned early — realistic ones build lasting habits.',
+                        back: 'Saving $200/month on a $1,500 allowance is achievable.\nSaving $1,000/month is not.\n\nAim for 10–20% of income.',
+                        tag: 'A — Achievable',
+                      },
+                      {
+                        frontLabel: 'R — Relevant',
+                        backLabel: '✅ Example',
+                        front: '💡 Relevant\n\nA relevant goal fits your current life stage and financial priorities. The right goal at the wrong time still leads to poor outcomes.',
+                        back: 'For most students: emergency fund before investing, debt clearance before saving.\n\nOrder matters — relevant means right for now.',
+                        tag: 'R — Relevant',
+                      },
+                      {
+                        frontLabel: 'T — Time-bound',
+                        backLabel: '✅ Example',
+                        front: '⏰ Time-bound\n\nA deadline creates urgency and lets you calculate exactly how much to save each month. Without one, "someday" becomes never.',
+                        back: '"By December 2025" is time-bound.\n"Someday" is not.\n\nPick a month and year, then divide the target by months remaining.',
+                        tag: 'T — Time-bound',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'flipcards',
+                    exerciseId: '1-3-s2-flip',
+                    fincoins: 10,
+                    title: 'Vague → SMART: See the transformation',
+                    cards: [
+                      {
+                        frontLabel: '❌ Vague Goal',
+                        backLabel: '✅ SMART Goal',
+                        front: '"Save more money."',
+                        back: '"Save $500/month for 6 months to build a $3,000 emergency fund by June 2025."',
+                        tag: 'Specific + Measurable + Time-bound',
+                      },
+                      {
+                        frontLabel: '❌ Vague Goal',
+                        backLabel: '✅ SMART Goal',
+                        front: '"Invest someday."',
+                        back: '"Invest $200/month into an STI ETF starting January, via a robo-advisor like Syfe."',
+                        tag: 'Achievable + Relevant + Time-bound',
+                      },
+                      {
+                        frontLabel: '❌ Vague Goal',
+                        backLabel: '✅ SMART Goal',
+                        front: '"Pay off my debt."',
+                        back: '"Clear my $3,000 credit card balance by December by paying $300/month for 10 months."',
+                        tag: 'Specific + Measurable + Time-bound',
+                      },
+                      {
+                        frontLabel: '❌ Vague Goal',
+                        backLabel: '✅ SMART Goal',
+                        front: '"Build an emergency fund before graduation."',
+                        back: '"Save $3,700 in a separate OCBC 360 account by June 2026 — $154/month for 24 months."',
+                        tag: 'All five SMART criteria met',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Common Goals for Students in Singapore ─
+              {
+                key: 'singapore',
+                title: 'Goals for Students in Singapore',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Common Goals for Students in Singapore',
+                  },
+                  {
+                    type: 'text',
+                    text: 'As an international student in Singapore, your financial goals will differ from those of students in your home country. Singapore\'s high cost of living, cashless financial infrastructure, and unique products like CPF make certain goals particularly relevant.',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '🛡️',
+                        label: 'Emergency Fund',
+                        description: 'The most important financial goal for any student — before investing, before anything else.',
+                        color: '#4F46E5',
+                        details: [
+                          'An emergency fund covers 3–6 months of expenses — for students in Singapore, that\'s roughly $3,000–$6,000.',
+                          'It prevents a single unexpected expense (medical, broken laptop, flight home) from creating credit card debt.',
+                          'Keep it in a high-yield savings account — OCBC 360 or UOB One — separate from your daily account.',
+                        ],
+                        example: 'Monthly expenses: $1,200. Emergency fund target: $3,600 (3 months). At $200/month: 18 months to build.',
+                      },
+                      {
+                        icon: '💳',
+                        label: 'Zero Credit Card Debt',
+                        description: 'Credit cards in Singapore charge up to 26.9% p.a. — clearing debt before saving or investing is always the right move.',
+                        color: '#DC2626',
+                        details: [
+                          'At 26.9% p.a., a $2,000 credit card balance costs $538 in interest per year — more than most savings accounts earn.',
+                          'Always pay the full balance monthly. If you already have a balance, clearing it is your highest-priority financial goal.',
+                          'A debt-free graduation is one of the most valuable financial positions you can be in.',
+                        ],
+                        example: '$1,500 credit card balance at 26.9% p.a. = $403/year in interest. Cleared in 6 months at $250/month.',
+                      },
+                      {
+                        icon: '📈',
+                        label: 'Start Investing Early',
+                        description: 'Starting at 22 versus 32 can nearly double your retirement wealth — due to compounding.',
+                        color: '#059669',
+                        details: [
+                          'Singapore has accessible investment options for students — robo-advisors like Syfe and StashAway require as little as $1 to start.',
+                          'A regular savings plan (RSP) investing $100–$200/month into a diversified ETF builds the habit before the salary.',
+                          'Time in the market beats timing the market — start small and start early.',
+                        ],
+                        example: '$150/month invested from age 22 at 7% p.a. = ~$640,000 by age 65. Starting at 32: ~$310,000.',
+                      },
+                      {
+                        icon: '🎓',
+                        label: 'Understand CPF Before Working',
+                        description: 'As an international student, you don\'t contribute to CPF now — but you will the moment you start working in Singapore.',
+                        color: '#F59E0B',
+                        details: [
+                          'CPF contributions begin from your first paycheck — understanding the system before you start means you can optimise from day one.',
+                          'CPF OA, SA, and MA accounts have different interest rates and uses — knowing the difference is a significant financial advantage.',
+                          'This is a knowledge goal, not a savings goal — but it has a direct dollar impact on retirement wealth.',
+                        ],
+                        example: 'An employee earning $4,000/month contributes $800 to CPF and their employer adds $680 — $1,480/month that needs to be managed well.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Average cost of living for international students in Singapore 2024',
+                    prompt: 'average monthly cost of living international university student Singapore 2024 NTU NUS SMU expenses',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '1-3-s3-scenarios',
+                    fincoins: 10,
+                    title: 'Goal prioritisation — what should come first?',
+                    scenarios: [
+                      {
+                        icon: '💰',
+                        situation: 'You have $500 saved. You have a $1,000 credit card balance at 26.9% p.a. and no emergency fund. A friend recommends you start investing in a robo-advisor.',
+                        options: [
+                          {
+                            text: 'Put $500 into the robo-advisor — start building wealth early.',
+                            biasLabel: 'Wrong order',
+                            biasExplanation: 'Investing while carrying 26.9% p.a. credit card debt is a guaranteed net loss — no investment reliably returns 26.9%. Always clear high-interest debt before investing.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Use $500 to partially clear the credit card balance — then save aggressively to clear the rest.',
+                            biasLabel: 'Correct priority ✓',
+                            biasExplanation: 'Paying down 26.9% debt is a guaranteed 26.9% return — better than any investment. Clear the debt first, then redirect that monthly payment into savings and investments.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Keep the $500 as emergency fund and pay the minimum on the credit card.',
+                            biasLabel: 'Costly compromise',
+                            biasExplanation: 'Minimum payments keep the debt alive at 26.9% p.a. A $1,000 balance paying minimum takes years to clear and costs hundreds in interest. Clear the debt, then rebuild the emergency fund.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎯',
+                        situation: 'You want to set a financial goal for the next 12 months. Which of these is the most SMART goal?',
+                        options: [
+                          {
+                            text: '"I want to save as much as possible before graduation."',
+                            biasLabel: 'Not SMART',
+                            biasExplanation: 'No specific amount, no measurable target, no timeframe. This is an intention, not a goal. There\'s no way to track whether you\'re on pace.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '"I will save $200/month for 12 months to build a $2,400 emergency fund by December 2025."',
+                            biasLabel: 'SMART goal ✓',
+                            biasExplanation: 'Specific ($200/month, emergency fund), Measurable ($2,400), Achievable, Relevant (emergency fund is the right first goal), Time-bound (December 2025).',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '"I will try to spend less and save more each month."',
+                            biasLabel: 'Not SMART',
+                            biasExplanation: 'No numbers, no deadline, no specific target. "Try to" signals low commitment. SMART goals require specificity to generate action.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🛡️',
+                        situation: 'You\'ve just cleared all your debt and have $0 saved. You earn $1,500/month. What should your first financial goal be?',
+                        options: [
+                          {
+                            text: 'Start investing $300/month in an STI ETF immediately.',
+                            biasLabel: 'Wrong order',
+                            biasExplanation: 'Investing without an emergency fund means any unexpected expense — medical, travel, broken device — forces you to sell investments or take on debt. Build the emergency fund first.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Build a $3,000 emergency fund first — save $250/month for 12 months.',
+                            biasLabel: 'Correct priority ✓',
+                            biasExplanation: 'The emergency fund is the foundation of every other financial goal. It prevents a single unexpected expense from derailing everything else. Once it\'s built, redirect savings into investments.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Split evenly — $150/month to emergency fund, $150/month to investments.',
+                            biasLabel: 'Suboptimal split',
+                            biasExplanation: 'Splitting before the emergency fund is complete leaves you vulnerable for longer. The priority is to build the fund quickly, then shift fully to investing. Speed matters here.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 4: Put It All Together ──────────────────
+              {
+                key: 'challenge',
+                title: 'Put It All Together',
+                fincoins: 15,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Put It All Together',
+                  },
+                  {
+                    type: 'text',
+                    text: 'This final section tests your understanding of why goals matter, how to make them SMART, and how to prioritise them correctly for your situation as a student in Singapore.',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '1-3-s4-mcq',
+                    fincoins: 15,
+                    icon: '🎯',
+                    title: 'Financial Goals Challenge',
+                    questions: [
+                      {
+                        concept: 'SMART Goals',
+                        question: 'Which of the following is the most SMART financial goal?',
+                        options: [
+                          '"I want to save money this year."',
+                          '"I will save $300/month for 10 months to build a $3,000 emergency fund by December 2025."',
+                          '"I will try to spend less on food and entertainment."',
+                          '"I want to invest before I graduate."',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Option B meets all five SMART criteria: Specific ($300/month, emergency fund), Measurable ($3,000), Achievable, Relevant (emergency fund is the right first goal), Time-bound (December 2025). The others lack specificity, measurability, or a timeframe.',
+                      },
+                      {
+                        concept: 'Goal Prioritisation',
+                        question: 'A student has $800/month disposable income, a $2,000 credit card balance at 26.9% p.a., and no emergency fund. What is the correct order of priorities?',
+                        options: [
+                          'Start investing first — time in the market is most important',
+                          'Build emergency fund first, then clear credit card debt, then invest',
+                          'Clear credit card debt first, then build emergency fund, then invest',
+                          'Split equally between debt, savings, and investing',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'High-interest debt (26.9% p.a.) must be cleared first — it is a guaranteed negative return that no investment can reliably beat. Once debt is cleared, build the emergency fund. Only then should investing begin.',
+                      },
+                      {
+                        concept: 'Singapore Context',
+                        question: 'As an international student in Singapore about to graduate and enter the workforce, which financial goal should you prioritise understanding before your first paycheck?',
+                        options: [
+                          'How to apply for a credit card with the best rewards',
+                          'How the CPF system works and how contributions are allocated',
+                          'How to time the stock market for maximum returns',
+                          'How to negotiate a higher starting salary',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'CPF contributions begin from your first paycheck — understanding OA, SA, and MA allocations before you start means you can optimise from day one. Missing this knowledge in the first years of work has a compounding cost over a 40-year career.',
+                      },
+                    ],
+                  },
+                ],
+              },
             ],
-            content: [
-              {
-                type: 'text',
-                text: 'People with written financial goals save significantly more and accumulate more wealth than those without. A goal gives every dollar a purpose.',
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'A Harvard study found that people who write down their goals are 42% more likely to achieve them than those who don\'t.',
-              },
-              {
-                type: 'keyterm',
-                term: 'SMART Goals',
-                definition: 'Specific, Measurable, Achievable, Relevant, Time-bound — a framework for setting goals that actually get done.',
-              },
-              {
-                type: 'text',
-                text: 'Most financial goals fail because they\'re too vague. Swipe through the cards below to see how weak goals get transformed into SMART ones.',
-              },
-              {
-                type: 'flipcards',
-                title: 'Vague → SMART Goals',
-                cards: [
-                  {
-                    frontLabel: '❌ Vague',
-                    backLabel: '✅ SMART',
-                    front: '"Save more money"',
-                    back: '"Save $500/month for 6 months to build a $3,000 emergency fund by June 2025."',
-                    tag: 'Specific + Measurable + Time-bound',
-                  },
-                  {
-                    frontLabel: '❌ Vague',
-                    backLabel: '✅ SMART',
-                    front: '"Invest someday"',
-                    back: '"Invest $200/month into an STI ETF starting January, via a robo-advisor."',
-                    tag: 'Achievable + Relevant + Time-bound',
-                  },
-                  {
-                    frontLabel: '❌ Vague',
-                    backLabel: '✅ SMART',
-                    front: '"Pay off debt"',
-                    back: '"Clear my $3,000 credit card balance by December by paying $300/month."',
-                    tag: 'Specific + Measurable + Time-bound',
-                  },
-                  {
-                    frontLabel: '❌ Vague',
-                    backLabel: '✅ SMART',
-                    front: '"Build emergency fund"',
-                    back: '"Save $3,700 in a separate OCBC 360 account by June 2025 — $310/month."',
-                    tag: 'All five SMART criteria met',
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Now test yourself — swipe right if the goal is SMART, left if it\'s not. Look for the five SMART criteria: Specific, Measurable, Achievable, Relevant, Time-bound.',
-              },
-              {
-                type: 'tindertruefalse',
-                title: 'Is it SMART?',
-                instruction: 'Swipe right if SMART · Swipe left if Not SMART',
-                statements: [
-                  { text: '"I want to save $500 every month for 12 months to build a $6,000 emergency fund by December 2025."', isTrue: true, explanation: 'Specific ($500/month), Measurable ($6,000), Achievable, Relevant (emergency fund), Time-bound (December 2025).' },
-                  { text: '"I want to be rich one day."', isTrue: false, explanation: 'Not specific, not measurable, no timeframe — there\'s no way to know if you\'re making progress.' },
-                  { text: '"I will invest $100/month into a robo-advisor starting next month."', isTrue: true, explanation: 'Specific ($100/month, robo-advisor), Measurable, Achievable, Relevant, Time-bound (next month).' },
-                  { text: '"I\'ll try to spend less on food."', isTrue: false, explanation: 'Not specific — how much less? By when? On what? Without numbers it\'s just a wish.' },
-                  { text: '"I will clear my $1,200 credit card debt in 6 months by paying $200/month."', isTrue: true, explanation: 'All five criteria met — specific amount, measurable monthly payment, achievable timeframe, clearly relevant, time-bound.' },
-                  { text: '"I want to save a lot before graduation."', isTrue: false, explanation: '"A lot" is not measurable and "before graduation" is vague — it needs a specific dollar amount and date. Try: "Save $4,000 by May 2026 — $200/month for 20 months."' },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'Now make it personal. Tap the financial goals below that are relevant to you — each one will show you a realistic monthly saving target.',
-              },
-              {
-                type: 'bot',
-                label: '💬 What is the average cost of living for students in Singapore?',
-                prompt: 'average monthly cost of living international student Singapore university 2024',
-              },
-              {
-                type: 'goalpicker',
-                title: 'What are your financial goals? 🎯',
-                goals: [
-                  {
-                    icon: '🛡️',
-                    label: 'Build a 3-month emergency fund',
-                    monthlySaving: 200,
-                    months: 18,
-                    tip: 'Keep this in a separate OCBC 360 or UOB One account — not your daily account.',
-                  },
-                  {
-                    icon: '✈️',
-                    label: 'Save for a flight home this semester break',
-                    monthlySaving: 150,
-                    months: 4,
-                    tip: 'Budget $600–$800 for a return flight to most Southeast Asian destinations.',
-                  },
-                  {
-                    icon: '💻',
-                    label: 'Buy a new laptop without going into debt',
-                    monthlySaving: 120,
-                    months: 10,
-                    tip: 'A solid mid-range laptop (e.g. MacBook Air M2) costs around $1,200–$1,500 in Singapore.',
-                  },
-                  {
-                    icon: '🎓',
-                    label: 'Graduate with zero credit card debt',
-                    monthlySaving: 100,
-                    months: 12,
-                    tip: 'If you already have credit card debt, prioritise clearing it — 26.9% p.a. interest grows fast.',
-                  },
-                  {
-                    icon: '📈',
-                    label: 'Start investing $100–$200/month by Year 3',
-                    monthlySaving: 150,
-                    months: 24,
-                    tip: 'Start with a robo-advisor (Syfe, StashAway) — low minimums, auto-diversified, no expertise needed.',
-                  },
-                  {
-                    icon: '🏠',
-                    label: 'Understand CPF before entering the workforce',
-                    monthlySaving: 0,
-                    months: 0,
-                    tip: 'No saving needed — just complete Module 4 of AmpliFI before graduation. Knowledge is free.',
-                  },
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Singapore Tip: As an international student, you won\'t contribute to CPF while studying — but understanding it now means you\'re ready the moment you start working here.',
-              },
-            ],
+
             flashcards: [
-              { q: 'What does SMART stand for in goal-setting?', a: 'Specific, Measurable, Achievable, Relevant, Time-bound.' },
-              { q: 'Why is having a written financial goal important?', a: 'Written goals are 42% more likely to be achieved — they give every spending decision a purpose.' },
-              { q: 'What is a reasonable emergency fund target for a student in Singapore?', a: '$3,000–$6,000 — roughly 3 months of living expenses.' },
-              { q: 'Convert this to a SMART goal: "I want to save money"', a: '"I will save $500/month for 6 months to build a $3,000 emergency fund by June 2025."' },
-              { q: 'When should international students start learning about CPF?', a: 'Before graduation — so they\'re ready to maximise contributions from their first paycheck.' },
+              { q: 'What does SMART stand for in goal-setting?', a: 'Specific, Measurable, Achievable, Relevant, Time-bound. A goal that fails any of these criteria is a wish, not a plan.' },
+              { q: 'Why is having a written financial goal important?', a: 'Written goals are significantly more likely to be achieved — they force specificity, create accountability, and turn vague intentions into actionable plans.' },
+              { q: 'What is the correct order of financial priorities for a student with debt and no emergency fund?', a: 'Clear high-interest debt first, then build a 3-month emergency fund, then start investing. Order matters because 26.9% p.a. debt cancels out any investment returns.' },
+              { q: 'What is a reasonable emergency fund target for a student in Singapore?', a: '$3,000–$6,000 — roughly 3 months of living expenses. Keep it in a high-yield savings account separate from your daily account.' },
+              { q: 'When should international students start learning about CPF?', a: 'Before graduation — CPF contributions begin from your first paycheck, and understanding the system from day one has a compounding impact over a 40-year career.' },
             ],
           },
         ],
@@ -934,7 +1360,7 @@ export const MODULES = [
             icon: '📋',
             topic: 'Budgeting fundamentals and why it changes financial outcomes',
             duration: '5 min',
-            xp: 60,
+            fincoins: 60,
             sections: [
               { key: 'what', heading: 'What a Budget Actually Is' },
               { key: 'why', heading: 'Why Most Students Don\'t Budget' },
@@ -1156,7 +1582,7 @@ export const MODULES = [
             icon: '🥧',
             topic: 'The 50/30/20 budgeting framework applied to Singapore student life',
             duration: '6 min',
-            xp: 60,
+            fincoins: 60,
             sections: [
               { key: 'rule', heading: 'The 50/30/20 Framework' },
               { key: 'singapore', heading: 'Applying It in Singapore' },
@@ -1271,7 +1697,7 @@ export const MODULES = [
             icon: '🔍',
             topic: 'Expense tracking methods and tools for students in Singapore',
             duration: '5 min',
-            xp: 60,
+            fincoins: 60,
             sections: [
               { key: 'why', heading: 'Why Tracking Is Powerful' },
               { key: 'methods', heading: 'Three Ways to Track' },
@@ -1475,7 +1901,7 @@ export const MODULES = [
             icon: '🛡️',
             topic: 'Emergency funds — purpose, size, and why they matter',
             duration: '5 min',
-            xp: 70,
+            fincoins: 70,
             sections: [
               { key: 'what', heading: 'What an Emergency Fund Is (and Isn\'t)' },
               { key: 'size', heading: 'How Much You Actually Need' },
@@ -1566,7 +1992,7 @@ export const MODULES = [
             icon: '🧱',
             topic: 'Strategies to build an emergency fund on a student budget',
             duration: '6 min',
-            xp: 70,
+            fincoins: 70,
             sections: [
               { key: 'start', heading: 'Starting From Zero' },
               { key: 'strategies', heading: 'Three Building Strategies' },
@@ -1760,7 +2186,7 @@ export const MODULES = [
             icon: '🌟',
             topic: 'Goal-based saving and short vs long-term saving strategies',
             duration: '5 min',
-            xp: 70,
+            fincoins: 70,
             sections: [
               { key: 'types', heading: 'Short vs Long-Term Savings' },
               { key: 'buckets', heading: 'The Multiple Savings Buckets Approach' },
@@ -1969,7 +2395,7 @@ export const MODULES = [
             {
               id: '4-1', title: 'The Big Three Local Banks', icon: '🏛️',
               topic: 'DBS OCBC UOB Singapore banking overview',
-              duration: '6 min', xp: 70,
+              duration: '6 min', fincoins: 70,
               sections: [{ key: 'overview', heading: 'DBS, OCBC & UOB Overview' }, { key: 'accounts', heading: 'Account Types' }, { key: 'choose', heading: 'Which Bank Should You Choose?' }],
               content: [
                 {
@@ -2163,7 +2589,7 @@ export const MODULES = [
               icon: '📱',
               topic: 'Singapore digital banks GXS Trust MariBank',
               duration: '5 min',
-              xp: 70,
+              fincoins: 70,
               sections: [
                 { key: 'digital', heading: 'Digital Banks in Singapore' },
                 { key: 'compare', heading: 'Digital vs Traditional' },
@@ -2337,7 +2763,7 @@ export const MODULES = [
               icon: '💳',
               topic: 'PayNow SGQR Singapore cashless payments',
               duration: '4 min',
-              xp: 60,
+              fincoins: 60,
               sections: [
                 { key: 'paynow', heading: 'How PayNow Works' },
                 { key: 'safety', heading: 'Staying Safe' },
@@ -2522,7 +2948,7 @@ export const MODULES = [
             {
               id: '5-1', title: 'How HYSA Interest Works', icon: '🧮',
               topic: 'High yield savings account interest rates Singapore',
-              duration: '6 min', xp: 80,
+              duration: '6 min', fincoins: 80,
               sections: [{ key: 'how', heading: 'How Bonus Interest Works' }, { key: 'qualify', heading: 'Qualifying Conditions' }, { key: 'calc', heading: 'Calculating Your Earnings' }],
               content: [
                 {
@@ -2776,7 +3202,7 @@ export const MODULES = [
             {
               id: '5-2', title: 'OCBC 360 vs UOB One vs DBS Multiplier', icon: '⚖️',
               topic: 'OCBC 360 UOB One DBS Multiplier comparison Singapore',
-              duration: '7 min', xp: 80,
+              duration: '7 min', fincoins: 80,
               sections: [{ key: 'compare', heading: 'Side-by-Side Comparison' }, { key: 'student', heading: 'Best Option for Students' }, { key: 'exercise', heading: 'Calculate Your Returns' }],
               content: [
                 {
@@ -3057,7 +3483,7 @@ export const MODULES = [
             {
               id: '5-3', title: 'Maximising Your Interest', icon: '🔑',
               topic: 'Maximising bank interest Singapore student strategies',
-              duration: '5 min', xp: 80,
+              duration: '5 min', fincoins: 80,
               sections: [{ key: 'stack', heading: 'Stacking Interest Conditions' }, { key: 'automate', heading: 'Automating for Passive Gains' }, { key: 'review', heading: 'Annual Account Review' }],
               content: [
                 {
@@ -3324,7 +3750,7 @@ export const MODULES = [
             {
               id: '6-1', title: 'Singapore Savings Bonds Explained', icon: '🇸🇬',
               topic: 'Singapore Savings Bond SSB how it works',
-              duration: '6 min', xp: 80,
+              duration: '6 min', fincoins: 80,
               sections: [{ key: 'what', heading: 'What Are SSBs?' }, { key: 'how', heading: 'How to Apply' }, { key: 'when', heading: 'When SSBs Make Sense' }],
               content: [
                 {
@@ -3594,7 +4020,7 @@ export const MODULES = [
             {
               id: '6-2', title: 'Fixed Deposits in Singapore', icon: '🔒',
               topic: 'Fixed deposit Singapore banks rates comparison',
-              duration: '5 min', xp: 80,
+              duration: '5 min', fincoins: 80,
               sections: [{ key: 'what', heading: 'How Fixed Deposits Work' }, { key: 'rates', heading: 'Current Rates' }, { key: 'vs', heading: 'FD vs SSB vs HYSA' }],
               content: [
                 {
@@ -3885,7 +4311,7 @@ export const MODULES = [
             {
               id: '6-3', title: 'T-Bills & Low-Risk Instruments', icon: '📑',
               topic: 'Singapore T-bills treasury bills how to buy',
-              duration: '5 min', xp: 80,
+              duration: '5 min', fincoins: 80,
               sections: [{ key: 'what', heading: 'What Are T-Bills?' }, { key: 'apply', heading: 'Applying via CPF/Cash' }, { key: 'vs',heading: 'T-Bills vs SSB vs FD' }], 
               content: [
               {
@@ -4188,7 +4614,7 @@ export const MODULES = [
         icon: '🌱',
         description: 'Core concepts every investor must understand first',
         lessons: [
-          { id: '7-1', title: 'Why Invest at All?', icon: '🤔', topic: 'Why investing beats saving alone', duration: '5 min', xp: 80, sections: [{ key: 'why', heading: 'Inflation Erodes Savings' }, { key: 'power', heading: 'The Power of Compounding' }, { key: 'start', heading: 'Starting Early' }], 
+          { id: '7-1', title: 'Why Invest at All?', icon: '🤔', topic: 'Why investing beats saving alone', duration: '5 min', fincoins: 80, sections: [{ key: 'why', heading: 'Inflation Erodes Savings' }, { key: 'power', heading: 'The Power of Compounding' }, { key: 'start', heading: 'Starting Early' }], 
           content: [
             {
               type: 'text',
@@ -4339,7 +4765,7 @@ export const MODULES = [
             { q: 'What have broad market investments historically returned per year?', a: 'The S&P 500 has historically averaged ~10% p.a. and the Singapore STI ~7–8% p.a. — both significantly outpacing long-term inflation.' },
           ], 
         },
-          { id: '7-2', title: 'Risk & Return', icon: '⚖️', topic: 'Risk return tradeoff investing', duration: '6 min', xp: 80, sections: [{ key: 'tradeoff', heading: 'The Risk-Return Tradeoff' }, { key: 'types', heading: 'Types of Investment Risk' }, { key: 'tolerance', heading: 'Your Risk Tolerance' }], 
+          { id: '7-2', title: 'Risk & Return', icon: '⚖️', topic: 'Risk return tradeoff investing', duration: '6 min', fincoins: 80, sections: [{ key: 'tradeoff', heading: 'The Risk-Return Tradeoff' }, { key: 'types', heading: 'Types of Investment Risk' }, { key: 'tolerance', heading: 'Your Risk Tolerance' }], 
           content: [
             {
               type: 'text',
@@ -4542,7 +4968,7 @@ export const MODULES = [
             { q: 'What is inflation risk and who is most exposed to it?', a: 'The risk that your returns fail to keep pace with inflation, eroding purchasing power. Most exposed: investors who keep everything in cash or low-yield savings accounts.' },
           ],
           },
-          { id: '7-3', title: 'Diversification', icon: '🎨', topic: 'Diversification portfolio investing strategy', duration: '5 min', xp: 80, sections: [{ key: 'what', heading: 'What is Diversification?' }, { key: 'how', heading: 'How to Diversify' }, { key: 'etf', heading: 'ETFs as Instant Diversification' }],
+          { id: '7-3', title: 'Diversification', icon: '🎨', topic: 'Diversification portfolio investing strategy', duration: '5 min', fincoins: 80, sections: [{ key: 'what', heading: 'What is Diversification?' }, { key: 'how', heading: 'How to Diversify' }, { key: 'etf', heading: 'ETFs as Instant Diversification' }],
           content: [
             {
               type: 'text',
@@ -4776,7 +5202,7 @@ export const MODULES = [
         icon: '🇸🇬',
         description: 'Practical investing options available to you right now',
         lessons: [
-          { id: '8-1', title: 'Opening a CDP & Brokerage Account', icon: '🏦', topic: 'CDP account brokerage Singapore how to open invest', duration: '7 min', xp: 90, sections: [{ key: 'cdp', heading: 'What is a CDP Account?' }, { key: 'brokers', heading: 'Singapore Brokerages Compared' }, { key: 'open', heading: 'Opening Your Account' }],
+          { id: '8-1', title: 'Opening a CDP & Brokerage Account', icon: '🏦', topic: 'CDP account brokerage Singapore how to open invest', duration: '7 min', fincoins: 90, sections: [{ key: 'cdp', heading: 'What is a CDP Account?' }, { key: 'brokers', heading: 'Singapore Brokerages Compared' }, { key: 'open', heading: 'Opening Your Account' }],
           content: [
             // ─── Section 1: What is a CDP Account? ───────────────
             { type: 'heading', text: 'What is a CDP Account?' },
@@ -5150,8 +5576,8 @@ export const MODULES = [
           ],
           
           },
-          { id: '8-2', title: 'STI ETF & Singapore Stocks', icon: '📊', topic: 'STI ETF Singapore Exchange stocks investing', duration: '6 min', xp: 90, sections: [{ key: 'sti', heading: 'What is the STI ETF?' }, { key: 'reits', heading: 'Singapore REITs' }, { key: 'blue', heading: 'Blue Chip Singapore Stocks' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What does the STI ETF track?', a: 'The Straits Times Index — Singapore\'s top 30 listed companies by market cap.' }] },
-          { id: '8-3', title: 'Robo-Advisors in Singapore', icon: '🤖', topic: 'Syfe StashAway Endowus robo advisor Singapore', duration: '6 min', xp: 90, sections: [{ key: 'what', heading: 'What is a Robo-Advisor?' }, { key: 'options', heading: 'Syfe vs StashAway vs Endowus' }, { key: 'start', heading: 'Getting Started with $100' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the minimum investment for most Singapore robo-advisors?', a: 'As low as $1–$100 — Syfe and StashAway both allow very low minimums.' }] },
+          { id: '8-2', title: 'STI ETF & Singapore Stocks', icon: '📊', topic: 'STI ETF Singapore Exchange stocks investing', duration: '6 min', fincoins: 90, sections: [{ key: 'sti', heading: 'What is the STI ETF?' }, { key: 'reits', heading: 'Singapore REITs' }, { key: 'blue', heading: 'Blue Chip Singapore Stocks' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What does the STI ETF track?', a: 'The Straits Times Index — Singapore\'s top 30 listed companies by market cap.' }] },
+          { id: '8-3', title: 'Robo-Advisors in Singapore', icon: '🤖', topic: 'Syfe StashAway Endowus robo advisor Singapore', duration: '6 min', fincoins: 90, sections: [{ key: 'what', heading: 'What is a Robo-Advisor?' }, { key: 'options', heading: 'Syfe vs StashAway vs Endowus' }, { key: 'start', heading: 'Getting Started with $100' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the minimum investment for most Singapore robo-advisors?', a: 'As low as $1–$100 — Syfe and StashAway both allow very low minimums.' }] },
         ],
       },
       {
@@ -5160,9 +5586,9 @@ export const MODULES = [
         icon: '🔄',
         description: 'Automate investing and remove emotion from the equation',
         lessons: [
-          { id: '9-1', title: 'Dollar-Cost Averaging', icon: '📅', topic: 'Dollar cost averaging DCA investing strategy', duration: '5 min', xp: 90, sections: [{ key: 'what', heading: 'What is DCA?' }, { key: 'why', heading: 'Why DCA Beats Timing the Market' }, { key: 'setup', heading: 'Setting Up Automatic DCA' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is dollar-cost averaging?', a: 'Investing a fixed amount at regular intervals — regardless of market price. Reduces impact of volatility.' }] },
-          { id: '9-2', title: 'Investing with CPFIS', icon: '🏛️', topic: 'CPF Investment Scheme CPFIS OA SA invest', duration: '6 min', xp: 90, sections: [{ key: 'what', heading: 'What is CPFIS?' }, { key: 'eligible', heading: 'What You Can Invest In' }, { key: 'vs', heading: 'CPFIS vs Cash Investing' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the minimum OA balance before you can use CPFIS?', a: '$20,000 must remain in your OA before you can invest the rest via CPFIS.' }] },
-          { id: '9-3', title: 'Avoiding Common Investing Mistakes', icon: '⚠️', topic: 'Common investing mistakes beginners Singapore', duration: '5 min', xp: 90, sections: [{ key: 'mistakes', heading: 'The 5 Biggest Beginner Mistakes' }, { key: 'crypto', heading: 'A Note on Crypto & Meme Stocks' }, { key: 'mindset', heading: 'Long-Term Investor Mindset' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the biggest mistake new investors make?', a: 'Timing the market — trying to buy low and sell high. Time IN the market consistently outperforms timing.' }] },
+          { id: '9-1', title: 'Dollar-Cost Averaging', icon: '📅', topic: 'Dollar cost averaging DCA investing strategy', duration: '5 min', fincoins: 90, sections: [{ key: 'what', heading: 'What is DCA?' }, { key: 'why', heading: 'Why DCA Beats Timing the Market' }, { key: 'setup', heading: 'Setting Up Automatic DCA' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is dollar-cost averaging?', a: 'Investing a fixed amount at regular intervals — regardless of market price. Reduces impact of volatility.' }] },
+          { id: '9-2', title: 'Investing with CPFIS', icon: '🏛️', topic: 'CPF Investment Scheme CPFIS OA SA invest', duration: '6 min', fincoins: 90, sections: [{ key: 'what', heading: 'What is CPFIS?' }, { key: 'eligible', heading: 'What You Can Invest In' }, { key: 'vs', heading: 'CPFIS vs Cash Investing' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the minimum OA balance before you can use CPFIS?', a: '$20,000 must remain in your OA before you can invest the rest via CPFIS.' }] },
+          { id: '9-3', title: 'Avoiding Common Investing Mistakes', icon: '⚠️', topic: 'Common investing mistakes beginners Singapore', duration: '5 min', fincoins: 90, sections: [{ key: 'mistakes', heading: 'The 5 Biggest Beginner Mistakes' }, { key: 'crypto', heading: 'A Note on Crypto & Meme Stocks' }, { key: 'mindset', heading: 'Long-Term Investor Mindset' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the biggest mistake new investors make?', a: 'Timing the market — trying to buy low and sell high. Time IN the market consistently outperforms timing.' }] },
         ],
       },
     ],
@@ -5185,9 +5611,9 @@ export const MODULES = [
         icon: '🏦',
         description: 'Understand Singapore\'s Central Provident Fund inside out',
         lessons: [
-          { id: '10-1', title: 'What is CPF?', icon: '❓', topic: 'CPF Central Provident Fund basics Singapore', duration: '7 min', xp: 100, sections: [{ key: 'what', heading: 'What CPF Is and Why It Exists' }, { key: 'accounts', heading: 'The Four CPF Accounts' }, { key: 'international', heading: 'CPF for International Graduates' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What are the four CPF accounts?', a: 'Ordinary Account (OA), Special Account (SA), MediSave Account (MA), and Retirement Account (RA — created at 55).' }] },
-          { id: '10-2', title: 'CPF Contribution Rates', icon: '💹', topic: 'CPF contribution rates employee employer Singapore', duration: '6 min', xp: 100, sections: [{ key: 'rates', heading: 'Employee & Employer Rates' }, { key: 'calc', heading: 'Calculating Your Contribution' }, { key: 'changes', heading: 'Rate Changes Over Your Career' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the total CPF contribution rate for employees under 55?', a: '37% of gross salary — 20% from employee, 17% from employer.' }] },
-          { id: '10-3', title: 'CPF OA: Housing & Investments', icon: '🏠', topic: 'CPF Ordinary Account housing investment CPFIS', duration: '6 min', xp: 100, sections: [{ key: 'oa', heading: 'What Your OA Can Be Used For' }, { key: 'housing', heading: 'Using OA for HDB' }, { key: 'invest', heading: 'Investing Your OA' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What interest rate does the CPF OA earn?', a: '2.5% per annum — guaranteed by the Singapore government.' }] },
+          { id: '10-1', title: 'What is CPF?', icon: '❓', topic: 'CPF Central Provident Fund basics Singapore', duration: '7 min', fincoins: 100, sections: [{ key: 'what', heading: 'What CPF Is and Why It Exists' }, { key: 'accounts', heading: 'The Four CPF Accounts' }, { key: 'international', heading: 'CPF for International Graduates' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What are the four CPF accounts?', a: 'Ordinary Account (OA), Special Account (SA), MediSave Account (MA), and Retirement Account (RA — created at 55).' }] },
+          { id: '10-2', title: 'CPF Contribution Rates', icon: '💹', topic: 'CPF contribution rates employee employer Singapore', duration: '6 min', fincoins: 100, sections: [{ key: 'rates', heading: 'Employee & Employer Rates' }, { key: 'calc', heading: 'Calculating Your Contribution' }, { key: 'changes', heading: 'Rate Changes Over Your Career' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the total CPF contribution rate for employees under 55?', a: '37% of gross salary — 20% from employee, 17% from employer.' }] },
+          { id: '10-3', title: 'CPF OA: Housing & Investments', icon: '🏠', topic: 'CPF Ordinary Account housing investment CPFIS', duration: '6 min', fincoins: 100, sections: [{ key: 'oa', heading: 'What Your OA Can Be Used For' }, { key: 'housing', heading: 'Using OA for HDB' }, { key: 'invest', heading: 'Investing Your OA' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What interest rate does the CPF OA earn?', a: '2.5% per annum — guaranteed by the Singapore government.' }] },
         ],
       },
       {
@@ -5196,9 +5622,9 @@ export const MODULES = [
         icon: '📋',
         description: 'Navigate Singapore\'s tax system and protect what you build',
         lessons: [
-          { id: '11-1', title: 'Singapore Income Tax Basics', icon: '🧾', topic: 'Singapore income tax personal relief filing', duration: '7 min', xp: 100, sections: [{ key: 'how', heading: 'How Singapore Tax Works' }, { key: 'rates', heading: 'Tax Rates & Brackets' }, { key: 'relief', heading: 'Key Tax Reliefs to Claim' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the first tax bracket in Singapore?', a: 'The first $20,000 of chargeable income is taxed at 0% — Singapore has very low income tax.' }] },
-          { id: '11-2', title: 'MediShield Life & Insurance', icon: '🏥', topic: 'MediShield Life insurance Singapore basics', duration: '6 min', xp: 100, sections: [{ key: 'medishield', heading: 'What MediShield Life Covers' }, { key: 'gap', heading: 'The Insurance Gap' }, { key: 'need', heading: 'What Insurance Do You Actually Need?' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What does MediShield Life cover?', a: 'Large hospital bills and selected outpatient treatments — all Singapore citizens and PRs are enrolled automatically.' }] },
-          { id: '11-3', title: 'Tax Relief Through CPF Top-Ups', icon: '💡', topic: 'CPF top up tax relief SA Retirement Account Singapore', duration: '5 min', xp: 100, sections: [{ key: 'topup', heading: 'CPF Cash Top-Up Scheme' }, { key: 'relief', heading: 'Tax Relief Amounts' }, { key: 'strategy', heading: 'Optimising Your Top-Up Strategy' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'How much tax relief can you get from CPF cash top-ups?', a: 'Up to $8,000 for self top-up + $8,000 for family members = $16,000 total relief per year.' }] },
+          { id: '11-1', title: 'Singapore Income Tax Basics', icon: '🧾', topic: 'Singapore income tax personal relief filing', duration: '7 min', fincoins: 100, sections: [{ key: 'how', heading: 'How Singapore Tax Works' }, { key: 'rates', heading: 'Tax Rates & Brackets' }, { key: 'relief', heading: 'Key Tax Reliefs to Claim' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the first tax bracket in Singapore?', a: 'The first $20,000 of chargeable income is taxed at 0% — Singapore has very low income tax.' }] },
+          { id: '11-2', title: 'MediShield Life & Insurance', icon: '🏥', topic: 'MediShield Life insurance Singapore basics', duration: '6 min', fincoins: 100, sections: [{ key: 'medishield', heading: 'What MediShield Life Covers' }, { key: 'gap', heading: 'The Insurance Gap' }, { key: 'need', heading: 'What Insurance Do You Actually Need?' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What does MediShield Life cover?', a: 'Large hospital bills and selected outpatient treatments — all Singapore citizens and PRs are enrolled automatically.' }] },
+          { id: '11-3', title: 'Tax Relief Through CPF Top-Ups', icon: '💡', topic: 'CPF top up tax relief SA Retirement Account Singapore', duration: '5 min', fincoins: 100, sections: [{ key: 'topup', heading: 'CPF Cash Top-Up Scheme' }, { key: 'relief', heading: 'Tax Relief Amounts' }, { key: 'strategy', heading: 'Optimising Your Top-Up Strategy' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'How much tax relief can you get from CPF cash top-ups?', a: 'Up to $8,000 for self top-up + $8,000 for family members = $16,000 total relief per year.' }] },
         ],
       },
       {
@@ -5207,9 +5633,9 @@ export const MODULES = [
         icon: '🔭',
         description: 'Build a financial plan that spans decades, not months',
         lessons: [
-          { id: '12-1', title: 'Planning for Your First Job', icon: '💼', topic: 'Financial planning first job Singapore graduate salary', duration: '7 min', xp: 110, sections: [{ key: 'salary', heading: 'Understanding Your Offer Letter' }, { key: 'first', heading: 'First Month Financial Checklist' }, { key: 'setup', heading: 'Setting Up Your Financial System' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the median graduate starting salary in Singapore?', a: 'Around $3,500–$4,200/month for fresh graduates, varying by industry and university.' }] },
-          { id: '12-2', title: 'Net Worth Tracking', icon: '📊', topic: 'Net worth calculation tracking personal finance Singapore', duration: '5 min', xp: 110, sections: [{ key: 'what', heading: 'What is Net Worth?' }, { key: 'calc', heading: 'Calculating Yours' }, { key: 'grow', heading: 'Growing Net Worth Over Time' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'How do you calculate net worth?', a: 'Total Assets (savings + investments + CPF + property) minus Total Liabilities (loans + credit card debt).' }] },
-          { id: '12-3', title: 'Retirement Planning in Singapore', icon: '🌅', topic: 'CPF retirement planning Singapore BRS FRS ERS', duration: '7 min', xp: 110, sections: [{ key: 'cpflife', heading: 'CPF LIFE — Your Retirement Income' }, { key: 'targets', heading: 'BRS, FRS & ERS Explained' }, { key: 'plan', heading: 'Building Your Retirement Plan' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is CPF LIFE?', a: 'A lifelong monthly payout scheme funded by your CPF Retirement Account — Singapore\'s version of an annuity.' }] },
+          { id: '12-1', title: 'Planning for Your First Job', icon: '💼', topic: 'Financial planning first job Singapore graduate salary', duration: '7 min', fincoins: 110, sections: [{ key: 'salary', heading: 'Understanding Your Offer Letter' }, { key: 'first', heading: 'First Month Financial Checklist' }, { key: 'setup', heading: 'Setting Up Your Financial System' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the median graduate starting salary in Singapore?', a: 'Around $3,500–$4,200/month for fresh graduates, varying by industry and university.' }] },
+          { id: '12-2', title: 'Net Worth Tracking', icon: '📊', topic: 'Net worth calculation tracking personal finance Singapore', duration: '5 min', fincoins: 110, sections: [{ key: 'what', heading: 'What is Net Worth?' }, { key: 'calc', heading: 'Calculating Yours' }, { key: 'grow', heading: 'Growing Net Worth Over Time' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'How do you calculate net worth?', a: 'Total Assets (savings + investments + CPF + property) minus Total Liabilities (loans + credit card debt).' }] },
+          { id: '12-3', title: 'Retirement Planning in Singapore', icon: '🌅', topic: 'CPF retirement planning Singapore BRS FRS ERS', duration: '7 min', fincoins: 110, sections: [{ key: 'cpflife', heading: 'CPF LIFE — Your Retirement Income' }, { key: 'targets', heading: 'BRS, FRS & ERS Explained' }, { key: 'plan', heading: 'Building Your Retirement Plan' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is CPF LIFE?', a: 'A lifelong monthly payout scheme funded by your CPF Retirement Account — Singapore\'s version of an annuity.' }] },
         ],
       },
     ],
@@ -5231,3 +5657,15 @@ export const getModuleByLessonId = (id) =>
 
 // Backwards compatibility
 export const LESSONS = getAllLessons();
+
+export function getNextLesson(lessonId) {
+  for (const mod of MODULES) {
+    for (const chapter of mod.chapters) {
+      const idx = chapter.lessons.findIndex(l => l.id === lessonId);
+      if (idx !== -1 && idx < chapter.lessons.length - 1) {
+        return chapter.lessons[idx + 1];
+      }
+    }
+  }
+  return null;
+}
