@@ -9332,382 +9332,1348 @@ export const MODULES = [
         icon: '🇸🇬',
         description: 'Practical investing options available to you right now',
         lessons: [
-          { id: '8-1', title: 'Opening a CDP & Brokerage Account', icon: '🏦', topic: 'CDP account brokerage Singapore how to open invest', duration: '7 min', fincoins: 90, sections: [{ key: 'cdp', heading: 'What is a CDP Account?' }, { key: 'brokers', heading: 'Singapore Brokerages Compared' }, { key: 'open', heading: 'Opening Your Account' }],
-          content: [
-            // ─── Section 1: What is a CDP Account? ───────────────
-            { type: 'heading', text: 'What is a CDP Account?' },
-            {
-              type: 'text',
-              text: 'Investing in Singapore-listed shares requires two separate accounts to be in place before a single trade can be executed. The first is a Central Depository (CDP) account — a free account issued by SGX that holds shares in the investor\'s name. The second is a brokerage account — the trading platform used to place buy and sell orders. These two accounts serve completely different purposes, and understanding how they interact is the foundation of investing in Singapore.',
-            },
-            {
-              type: 'keyterm',
-              term: 'CDP Account (Central Depository)',
-              definition: 'A free account issued by SGX that holds Singapore-listed securities in your name. Think of it as your personal share safe — it stores your shares independently of any brokerage. Even if your broker shuts down, your shares in CDP remain legally yours.',
-            },
-            {
-              type: 'bot',
-              label: '💬 How to open a CDP account in Singapore as an international student',
-              prompt: 'How to open a CDP account Singapore 2025 requirements international student student pass documents needed steps SGX',
-            },
-            {
-              type: 'callout',
-              variant: 'fact',
-              text: 'Opening a CDP account is free and takes 3–5 business days via the SGX website. International students on a valid student pass are eligible — you need to be at least 18 years old and have a local Singapore bank account. You only ever need one CDP account for life — it links to all CDP-linked brokerages automatically.',
-            },
+          {
+            id: '8-1',
+            title: 'Opening a CDP & Brokerage Account',
+            icon: '🏦',
+            topic: 'CDP account brokerage Singapore how to open invest',
+            duration: '7 min',
+            fincoins: 55,
+            sections: [
+              {
+                key: 'cdp',
+                title: 'What is a CDP Account?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is a CDP Account?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Investing in Singapore-listed shares requires two separate accounts before a single trade can be executed. The first is a Central Depository (CDP) account — a free account issued by SGX that holds shares in your name. The second is a brokerage account — the trading platform used to place buy and sell orders. These two accounts serve completely different purposes, and understanding how they interact is the foundation of investing in Singapore.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'CDP Account (Central Depository)',
+                    definition: 'A free account issued by SGX that holds Singapore-listed securities in your name. Think of it as your personal share safe — it stores your shares independently of any brokerage. Even if your broker shuts down, your shares in CDP remain legally yours.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Opening a CDP account is free and takes 3–5 business days via the SGX website. International students on a valid student pass are eligible — you need to be at least 18 years old and have a local Singapore bank account. You only ever need one CDP account for life.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'How to open your CDP account:',
+                    nodes: [
+                      {
+                        icon: '🖥️',
+                        label: 'Apply Online',
+                        sublabel: 'SGX website — 15 minutes',
+                        color: '#4F46E5',
+                        examples: ['Valid student pass', 'Passport', 'Singapore bank account details'],
+                        details: [
+                          'Submit your CDP application at SGX.com — the form takes about 15 minutes to complete.',
+                          'You will need your student pass, passport, and a local Singapore bank account number.',
+                          'No minimum deposit is required — the account is completely free to open.',
+                        ],
+                        tip: 'Open your brokerage account in parallel while waiting for CDP approval — this way both accounts are ready at the same time.',
+                      },
+                      {
+                        icon: '⏳',
+                        label: 'Wait 3–5 Days',
+                        sublabel: 'SGX processes your application',
+                        color: '#0891B2',
+                        examples: ['CDP account number sent by mail or email', 'No action needed during this window'],
+                        details: [
+                          'SGX processes your application within 3–5 business days.',
+                          'You receive your CDP account number by mail or email once approved.',
+                          'Use this window to finalise your brokerage account choice and ensure your linked bank account is funded.',
+                        ],
+                        tip: 'Do not place any trades until your CDP account number is confirmed — a CDP-linked brokerage cannot settle trades without it.',
+                      },
+                      {
+                        icon: '🚀',
+                        label: 'Start Investing',
+                        sublabel: 'Link CDP to your broker and trade',
+                        color: '#059669',
+                        examples: ['Link CDP account number to your chosen broker', 'Place your first trade', 'Shares appear in CDP within T+2'],
+                        details: [
+                          'Provide your CDP account number to your chosen CDP-linked brokerage to complete the link.',
+                          'You can now place trades — shares bought through a CDP-linked broker flow directly into your CDP account.',
+                          'Your CDP statement will reflect new holdings within T+2 business days after each trade.',
+                        ],
+                        tip: 'Check your CDP statement at SGX.com after your first trade to confirm shares have landed in your account — this is your proof of legal ownership.',
+                      },
+                    ],
+                  },
 
-            // ─── Section 2: What is a Brokerage Account? ─────────
-            { type: 'heading', text: 'What is a Brokerage Account?' },
-            {
-              type: 'text',
-              text: 'A brokerage account is the trading platform used to place buy and sell orders on the market. The brokerage executes trades on the investor\'s behalf — but depending on the type of broker, shares are stored very differently after a trade settles. There are two types of brokerage accounts available to Singapore retail investors.',
-            },
-            {
-              type: 'keyterm',
-              term: 'Brokerage Account',
-              definition: 'A trading account that lets investors place buy and sell orders on the market. The brokerage executes trades — but depending on the broker type, shares are either stored in the investor\'s own CDP account or held internally by the broker under their name.',
-            },
-            {
-              type: 'text',
-              text: 'Brokerage accounts in Singapore fall into two categories — CDP-linked and custodian — which differ fundamentally in where shares are held after a trade executes.',
-            },
-            {
-              type: 'topiccards',
-              title: 'Two types of brokerage accounts:',
-              cards: [
-                {
-                  icon: '🏛️',
-                  label: 'CDP-Linked Broker',
-                  description: 'Executes trades and credits shares directly to the investor\'s CDP account.',
-                  color: '#4F46E5',
-                  details: [
-                    'Shares are held in the investor\'s own CDP account — legally theirs, ring-fenced from the broker.',
-                    'If the broker goes bankrupt, shares are completely safe — they are not the broker\'s property.',
-                    'Examples: POEMS (PhillipCapital), DBS Vickers, OCBC Securities, UOB Kay Hian.',
-                    'Commissions are typically higher — from 0.12% per trade — reflecting the added safety.',
-                    'Best for: long-term holding of individual Singapore stocks like DBS, CapitaLand, Keppel.',
-                  ],
-                  example: 'Buying 100 shares of DBS through POEMS credits those shares to the investor\'s CDP account within T+2 — they appear in the CDP statement, not just in the POEMS app.',
-                },
-                {
-                  icon: '🔒',
-                  label: 'Custodian Broker',
-                  description: 'Holds shares internally under the broker\'s name — not in the investor\'s CDP account.',
-                  color: '#0891B2',
-                  details: [
-                    'Shares are held in the broker\'s own custody account — the investor owns them beneficially, but they are registered under the broker\'s name.',
-                    'Lower commissions — from 0.05% per trade — because the broker handles settlement internally.',
-                    'If the broker faces insolvency, shares may be caught in proceedings — though most jurisdictions have investor protection schemes.',
-                    'Examples: Tiger Brokers, Moomoo, Interactive Brokers, Saxo.',
-                    'Best for: regular investing in ETFs, US stocks, or global markets where CDP linkage is not available.',
-                  ],
-                  example: 'Buying VWRA through Tiger Brokers means the shares sit in Tiger\'s custody account — visible in the Tiger app, but not present in the investor\'s CDP account.',
-                },
-              ],
-            },
-            {
-              type: 'text',
-              text: 'In addition to a brokerage account, every investor also needs a linked Singapore bank account. This is not a type of brokerage account — it is a separate requirement that handles the movement of cash when trades are executed.',
-            },
-            {
-              type: 'topiccards',
-              title: 'The third component:',
-              cards: [
-                {
-                  icon: '🏦',
-                  label: 'Linked Bank Account',
-                  description: 'A Singapore bank account linked to the brokerage — where cash moves in and out when trades are executed.',
-                  color: '#059669',
-                  details: [
-                    'Every brokerage account must be linked to a Singapore bank account for fund transfers.',
-                    'Singapore stocks settle on a T+2 basis — cash is debited from the linked bank 2 business days after a trade executes.',
-                    'Failed settlement due to insufficient funds incurs penalty fees — always ensure the account is funded before trading.',
-                    'A dedicated savings account is preferable to a daily spending account to avoid accidentally spending settlement funds.',
-                    'Compatible banks: DBS, OCBC, UOB — most brokerages accept all three.',
-                  ],
-                  example: 'Buying $1,000 of STI ETF on Monday means $1,000 is debited from the linked bank account on Wednesday (T+2). If the account has insufficient funds on Wednesday, a contra loss penalty applies.',
-                },
-              ],
-            },
-
-            // ─── Section 3: CDP vs Brokerage ─────────────────────
-            { type: 'heading', text: 'CDP vs Brokerage — What\'s the Difference?' },
-            {
-              type: 'text',
-              text: 'Students often use "CDP account" and "brokerage account" interchangeably — but they serve completely different purposes. One holds your shares; the other executes your trades. Here is exactly how they differ.',
-            },
-            {
-              type: 'table',
-              headers: ['', 'CDP Account', 'Brokerage Account'],
-              rows: [
-                ['Purpose', 'Holds your shares', 'Executes your trades'],
-                ['Operated by', 'SGX (Singapore Exchange)', 'Private broker (Tiger, POEMS, etc.)'],
-                ['Who holds shares', 'You — in your own name', 'Depends on broker type'],
-                ['Cost to open', 'Free', 'Free (commissions per trade)'],
-                ['How many needed', 'One — for life', 'One per broker you use'],
-                ['If provider fails', 'Shares are safe — SGX-backed', 'Depends: CDP-linked = safe; Custodian = at risk'],
-                ['Linked to', 'Your Singapore bank account', 'Your CDP account (if CDP-linked)'],
-              ],
-            },
-            {
-              type: 'tindertruefalse',
-              title: 'CDP vs Brokerage — True or False?',
-              instruction: 'Swipe right for True · Swipe left for False',
-              statements: [
-                {
-                  text: 'Your brokerage account and your CDP account are the same thing.',
-                  isTrue: false,
-                  explanation: 'They serve completely different purposes. Your brokerage account executes trades; your CDP account holds the resulting shares. You need both to invest in SGX-listed stocks through a CDP-linked broker.',
-                },
-                {
-                  text: 'Opening a CDP account costs money and requires a minimum deposit.',
-                  isTrue: false,
-                  explanation: 'CDP accounts are completely free to open and have no minimum deposit or balance requirement. You apply via the SGX website and the account is typically ready within 3–5 business days.',
-                },
-                {
-                  text: 'If your CDP-linked broker goes bankrupt, your shares held in your CDP account are protected.',
-                  isTrue: true,
-                  explanation: 'Shares in your CDP account are held in your name by SGX — they are legally yours and ring-fenced from the broker. A broker bankruptcy cannot touch your CDP holdings.',
-                },
-                {
-                  text: 'You need to open a new CDP account each time you switch to a different CDP-linked broker.',
-                  isTrue: false,
-                  explanation: 'You only ever need one CDP account. It is tied to your identity and automatically links to any CDP-linked brokerage you use — switching brokers does not require a new CDP account.',
-                },
-                {
-                  text: 'With a custodian broker, your shares are registered under the broker\'s name rather than your own.',
-                  isTrue: true,
-                  explanation: 'Custodian brokers hold shares internally in their own name. You are the beneficial owner, but the shares are not registered in your name — which is why CDP-linked brokers offer stronger legal protection for long-term holders.',
-                },
-              ],
-            },
-
-            // ─── Section 4: Choosing Your Broker ─────────────────
-            { type: 'heading', text: 'Choosing Your Broker' },
-            {
-              type: 'text',
-              text: 'The next decision is which broker to open. The right answer depends on what you\'re investing in, how frequently you trade, and how much you\'re starting with. There is no single best broker — only the best broker for your situation.',
-            },
-            {
-              type: 'bot',
-              label: '💬 Best brokerage accounts for Singapore investors in 2025 — fees and promotions compared',
-              prompt: 'Best brokerage accounts Singapore 2025 Tiger Brokers Moomoo POEMS DBS Vickers Interactive Brokers fees commissions new account promotions comparison',
-            },
-            {
-              type: 'appcards',
-              title: 'Singapore brokerages compared — tap to explore:',
-              apps: [
-                {
-                  icon: '🐯',
-                  name: 'Tiger Brokers',
-                  color: '#F59E0B',
-                  tagline: 'Low-cost custodian broker with SGX and US access',
-                  cost: 'From 0.06% commission',
-                  rating: 4.4,
-                  keyFeature: 'One of the lowest commission rates available to Singapore retail investors. Covers SGX stocks, US stocks, ETFs, and options in a single app with no minimum deposit.',
-                  bestFor: 'Beginners and regular investors who want low fees for both SGX and US markets without needing CDP linkage.',
-                  singaporeTip: 'Tiger Brokers frequently runs new account promotions — free shares or commission rebates. Custodian broker: shares are held internally, not in your CDP account.',
-                },
-                {
-                  icon: '🐄',
-                  name: 'Moomoo',
-                  color: '#059669',
-                  tagline: 'Feature-rich custodian broker with strong US ETF access',
-                  cost: 'From 0.05% commission',
-                  rating: 4.3,
-                  keyFeature: 'Among the lowest commissions in Singapore with advanced charting and free real-time US market data. Strong for US-listed ETFs like VWRA and VTI.',
-                  bestFor: 'Cost-conscious investors who also want research tools and are primarily investing in US or global ETFs.',
-                  singaporeTip: 'Moomoo offers a cash management account earning competitive interest on uninvested cash — useful while you decide where to deploy funds. Custodian broker: shares not held in CDP.',
-                },
-                {
-                  icon: '📋',
-                  name: 'POEMS (PhillipCapital)',
-                  color: '#4F46E5',
-                  tagline: 'CDP-linked broker with RSP plans and wide market access',
-                  cost: 'From 0.08% commission',
-                  rating: 4.0,
-                  keyFeature: 'CDP-linked — shares go directly into your CDP account. Offers a Regular Savings Plan (RSP) from $100/month for automatic investing in STI ETFs and blue chips.',
-                  bestFor: 'Investors who want CDP safety for Singapore stocks, or who want to automate monthly investing through a Regular Savings Plan.',
-                  singaporeTip: 'POEMS\' RSP is one of the most popular ways for Singapore retail investors to dollar-cost average into the STI ETF monthly with minimal effort and low minimum amounts.',
-                },
-                {
-                  icon: '🏦',
-                  name: 'DBS Vickers',
-                  color: '#DC2626',
-                  tagline: 'CDP-linked broker inside the DBS ecosystem',
-                  cost: 'From 0.12% commission',
-                  rating: 3.9,
-                  keyFeature: 'Fully integrated with DBS/POSB banking — fund transfers are instant. CDP-linked for all SGX trades. Simple interface suited to occasional rather than active traders.',
-                  bestFor: 'DBS or POSB account holders who want the simplest possible setup and prioritise CDP safety over low commissions.',
-                  singaporeTip: 'DBS Vickers has a minimum commission of ~$10 per trade — this makes it expensive for small purchases under $5,000. Better suited for larger, less frequent trades.',
-                },
-                {
-                  icon: '🌐',
-                  name: 'Interactive Brokers',
-                  color: '#7C3AED',
-                  tagline: 'Institutional-grade platform for serious global investors',
-                  cost: 'From 0.05% commission',
-                  rating: 4.5,
-                  keyFeature: 'Widest range of global markets and ETFs available to Singapore retail investors. Lowest commissions at higher volumes. Access to US, EU, and Asian markets in one account.',
-                  bestFor: 'Experienced investors focused on global ETFs like VWRA or IWDA who want the lowest long-term costs and widest market access.',
-                  singaporeTip: 'IBKR pays competitive interest on uninvested USD cash — useful if you hold USD between trades. The interface is more complex than Tiger or Moomoo, better suited to investors with some experience.',
-                },
-              ],
-            },
-            {
-              type: 'scenarios',
-              title: 'Which broker setup fits your situation?',
-              scenarios: [
-                {
-                  icon: '🎓',
-                  situation: 'You\'re a first-year international student with $300/month to invest. You want to buy an STI ETF regularly and keep costs as low as possible.',
-                  options: [
-                    {
-                      text: 'Open Tiger Brokers — custodian, low commissions from 0.06%, easy app, no minimum deposit.',
-                      biasLabel: 'Best fit ✓',
-                      biasExplanation: 'For small monthly amounts, Tiger\'s low commissions minimise fee drag significantly. A CDP-linked broker with a $10 minimum commission would eat over 3% of a $300 purchase — devastating for a regular savings plan.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: 'Open DBS Vickers — same bank ecosystem, familiar interface, CDP-linked for safety.',
-                      biasLabel: 'High fees for small trades',
-                      biasExplanation: 'DBS Vickers\' ~$10 minimum commission represents over 3% of a $300 investment. At this scale, fee drag would significantly erode your returns over time.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: 'Wait until you have $5,000 saved before opening any account.',
-                      biasLabel: 'Opportunity cost of waiting',
-                      biasExplanation: 'Delaying to reduce fee percentages sacrifices compounding time. Starting with $300/month in a low-cost broker beats waiting — time in the market consistently outperforms timing the market.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-                {
-                  icon: '💼',
-                  situation: 'You\'ve just started full-time work and want to build a long-term portfolio of individual Singapore blue-chip stocks — DBS, CapitaLand, Singtel. You plan to hold for 10+ years.',
-                  options: [
-                    {
-                      text: 'Open POEMS — CDP-linked, shares go directly into your CDP account, legally yours for the long haul.',
-                      biasLabel: 'Best fit for SGX blue chips ✓',
-                      biasExplanation: 'For a 10+ year hold of individual stocks, CDP-linked is the right choice. Your shares are legally yours in CDP — safe regardless of what happens to POEMS over a decade.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: 'Use Tiger Brokers — lower commissions even for individual Singapore stocks.',
-                      biasLabel: 'Custodian risk for long holds',
-                      biasExplanation: 'Lower fees are attractive, but for a 10+ year hold, CDP-linked is meaningfully safer. Custodian brokers hold shares in their own name — over a decade, broker risk becomes a real consideration.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: 'Use Syfe instead — simpler and no need to pick individual stocks.',
-                      biasLabel: 'Wrong tool for the goal',
-                      biasExplanation: 'Robo-advisors build diversified portfolios — they don\'t let you pick individual stocks. If you specifically want DBS or Singtel shares, you need a direct brokerage account.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-                {
-                  icon: '🌍',
-                  situation: 'You want to invest in globally diversified ETFs — VWRA or IWDA. You\'re comfortable with apps and want the lowest possible long-term fees.',
-                  options: [
-                    {
-                      text: 'Open Interactive Brokers — widest global ETF access, lowest commissions at higher volumes.',
-                      biasLabel: 'Best for serious global ETF investors ✓',
-                      biasExplanation: 'IBKR offers the widest range of global ETFs at institutional-grade fees. For a VWRA or IWDA strategy investing regularly over years, the commission savings compound into thousands of dollars.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: 'Use POEMS — you already have a CDP account there, keep everything in one place.',
-                      biasLabel: 'Higher fees for global ETFs',
-                      biasExplanation: 'CDP-linked brokers charge significantly more for globally-listed ETFs. Convenience shouldn\'t override long-term cost — the fee difference on a regular global ETF strategy compounds into thousands over a decade.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: 'Use Moomoo — low fees, strong US access, beginner-friendly app.',
-                      biasLabel: 'Strong runner-up',
-                      biasExplanation: 'Moomoo is an excellent choice for global ETFs with low commissions and a clean interface. IBKR edges ahead at higher investment volumes, but Moomoo is the more beginner-friendly option and still very competitive.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-              ],
-            },
-
-            // ─── Section 5: Watch Out For These ──────────────────
-            { type: 'heading', text: 'Watch Out For These' },
-            {
-              type: 'text',
-              text: 'Even with the right accounts open, a few common mistakes can cost you money or create unnecessary risk. These are the ones that trip up most first-time investors in Singapore.',
-            },
-            {
-              type: 'flipcards',
-              title: 'Common first-investor mistakes — tap to flip:',
-              cards: [
-                {
-                  frontLabel: '❌ Mistake',
-                  backLabel: '✅ Fix',
-                  front: 'Opening a CDP-linked brokerage account and trying to trade before the CDP account is ready.',
-                  back: 'Apply for your CDP account first — it takes 3–5 business days. Open your brokerage account in parallel, but wait for CDP approval before placing any trades. Plan ahead, not at the moment you want to buy.',
-                  tag: 'CDP first, then trade',
-                },
-                {
-                  frontLabel: '❌ Mistake',
-                  backLabel: '✅ Fix',
-                  front: 'Choosing a broker based on the best welcome bonus or sign-up promotion.',
-                  back: 'Welcome bonuses are one-off. Commission rates apply to every trade for years. A broker charging 0.05% vs 0.20% saves hundreds annually on a regular investing plan — always prioritise long-term cost over short-term promotions.',
-                  tag: 'Long-term cost beats short-term bonus',
-                },
-                {
-                  frontLabel: '❌ Mistake',
-                  backLabel: '✅ Fix',
-                  front: 'Linking your daily spending account to your brokerage for cash settlement.',
-                  back: 'T+2 settlement means cash leaves your bank 2 days after a trade. Link a dedicated savings account with a buffer — mixing with daily spending risks accidentally spending settlement funds and triggering a contra loss penalty.',
-                  tag: 'Separate settlement from spending',
-                },
-                {
-                  frontLabel: '❌ Mistake',
-                  backLabel: '✅ Fix',
-                  front: 'Using a CDP-linked broker for US and global ETFs and paying 3–5× more in commissions.',
-                  back: 'CDP-linked brokers are best for long-term SGX stock holdings. For US or global ETFs like VWRA or VTI, custodian brokers offer dramatically lower commissions. Use the right broker for each market — the fee difference compounds significantly.',
-                  tag: 'Right broker for each market',
-                },
-              ],
-            },
-            {
-              type: 'slider',
-              icon: '💸',
-              title: 'Annual Commission Cost Calculator',
-              description: 'Drag to your monthly investment amount to see how much you pay in annual commissions at a low-cost broker (0.06%) versus a standard broker (0.20%) — and what you save each year.',
-              min: 100,
-              max: 5000,
-              step: 100,
-              initialValue: 500,
-              prefix: '$',
-              calculateResult: (monthly) => {
-                const annual = monthly * 12;
-                const lowCostFee = annual * 0.0006;
-                const standardFee = annual * 0.002;
-                const saving = standardFee - lowCostFee;
-                return [
-                  { label: '✅ Low-cost broker (0.06%) — annual commission', value: `$${lowCostFee.toFixed(2)}`, color: '#059669' },
-                  { label: '⚠️ Standard broker (0.20%) — annual commission', value: `$${standardFee.toFixed(2)}`, color: '#DC2626' },
-                  { label: '💰 You save by choosing low-cost', value: `$${saving.toFixed(2)}/year`, color: '#4F46E5' },
-                ];
+                  {
+                    type: 'bot',
+                    label: '💬 How to open a CDP account in Singapore as an international student',
+                    prompt: 'How to open CDP account Singapore 2025 international student student pass requirements documents SGX steps',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '8-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'CDP Account — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Opening a CDP account costs money and requires a minimum deposit.',
+                        isTrue: false,
+                        explanation: 'CDP accounts are completely free to open with no minimum deposit or balance requirement. You apply via the SGX website and the account is typically ready within 3–5 business days.',
+                      },
+                      {
+                        text: 'International students on a valid Singapore student pass are eligible to open a CDP account.',
+                        isTrue: true,
+                        explanation: 'Yes — international students with a valid student pass can open a CDP account. You need to be at least 18, have a local Singapore bank account, and apply via the SGX website.',
+                      },
+                      {
+                        text: 'You need to open a new CDP account each time you switch to a different broker.',
+                        isTrue: false,
+                        explanation: 'You only ever need one CDP account. It is tied to your identity and automatically links to any CDP-linked brokerage you use — switching brokers does not require a new CDP account.',
+                      },
+                      {
+                        text: 'If your CDP-linked broker goes bankrupt, your shares held in your CDP account are protected.',
+                        isTrue: true,
+                        explanation: 'Shares in your CDP account are held in your name by SGX — they are legally yours and ring-fenced from the broker. A broker bankruptcy cannot touch your CDP holdings.',
+                      },
+                    ],
+                  },
+                ],
               },
-            },
-          ],
-
-          flashcards: [
-            { q: 'What is a CDP account and what makes it different from a brokerage account?', a: 'A CDP account holds your Singapore-listed shares in your own name — it is your personal share safe, backed by SGX. A brokerage account is where you place trades. The broker executes the order; the CDP account stores the result.' },
-            { q: 'What is the difference between a CDP-linked and a custodian broker?', a: 'CDP-linked brokers credit shares directly to your CDP account — legally yours and safe if the broker fails. Custodian brokers hold shares internally under their own name — lower cost, but shares may be at risk in a broker insolvency.' },
-            { q: 'How long does it take to open a CDP account, and who is eligible?', a: '3–5 business days via the SGX website. It is free. International students on a valid Singapore student pass are eligible — you need to be 18+ and have a local Singapore bank account.' },
-            { q: 'What does T+2 settlement mean and why does it matter?', a: 'Cash is debited from your linked bank account 2 business days after your trade executes. If your account has insufficient funds on settlement day, you face a contra loss penalty — always ensure funds are available.' },
-            { q: 'Which type of broker is better for global ETFs like VWRA, and why?', a: 'Custodian brokers — Tiger Brokers, Moomoo, or Interactive Brokers — offer significantly lower commissions for US and globally-listed ETFs. CDP-linked brokers charge much more for non-SGX markets, so match your broker to your market.' },
-          ],
-          
+              {
+                key: 'brokers',
+                title: 'CDP-Linked vs Custodian Brokers',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'CDP-Linked vs Custodian Brokers',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Not all brokerages work the same way. Once you place a trade, where your shares are held depends entirely on the type of broker you use. There are two types available to Singapore retail investors — and the difference matters most if you plan to hold shares for years.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'Two types of brokerage accounts:',
+                    cards: [
+                      {
+                        icon: '🏛️',
+                        label: 'CDP-Linked Broker',
+                        description: 'Shares flow directly into your CDP account after every trade.',
+                        color: '#4F46E5',
+                        details: [
+                          'Shares are held in your own CDP account — legally yours, ring-fenced from the broker.',
+                          'If the broker goes bankrupt, your shares are completely safe — they are not the broker\'s property.',
+                          'Examples: POEMS (PhillipCapital), DBS Vickers, OCBC Securities, UOB Kay Hian.',
+                          'Commissions are typically higher — from 0.08–0.12% per trade — reflecting the added safety.',
+                          'Best for: long-term holding of individual Singapore stocks like DBS, CapitaLand, Singtel.',
+                        ],
+                        example: 'Buying 100 shares of DBS through POEMS credits those shares to your CDP account within T+2 — they appear in your CDP statement, not just in the POEMS app.',
+                      },
+                      {
+                        icon: '🔒',
+                        label: 'Custodian Broker',
+                        description: 'Shares are held internally under the broker\'s name — not in your CDP account.',
+                        color: '#0891B2',
+                        details: [
+                          'Shares are held in the broker\'s own custody account — you own them beneficially, but they are registered under the broker\'s name.',
+                          'Lower commissions — from 0.05–0.06% per trade — because the broker handles settlement internally.',
+                          'Examples: Tiger Brokers, Moomoo, Interactive Brokers, Saxo.',
+                          'If the broker faces insolvency, shares may be caught in proceedings — most have investor protection schemes but it adds risk.',
+                          'Best for: regular investing in ETFs, US stocks, or global markets where CDP linkage is not available.',
+                        ],
+                        example: 'Buying VWRA through Tiger Brokers means the shares sit in Tiger\'s custody account — visible in the Tiger app, but not present in your CDP account.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'T+2 settlement: cash is debited from your linked bank account 2 business days after your trade executes. Always keep a buffer in your linked account — insufficient funds on settlement day triggers a contra loss penalty.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CDP-linked vs custodian broker Singapore — which is safer?',
+                    prompt: 'CDP-linked broker vs custodian broker Singapore 2025 safety shares protection difference POEMS Tiger Brokers',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '8-1-s2-scenarios',
+                    fincoins: 10,
+                    title: 'CDP-linked or custodian — which fits?',
+                    scenarios: [
+                      {
+                        icon: '📈',
+                        situation: 'You want to buy 200 shares of DBS Bank and hold them for 10+ years as a long-term investment. You want to be sure your shares are legally protected no matter what happens to your broker.',
+                        options: [
+                          {
+                            text: 'Use a CDP-linked broker like POEMS — shares go directly into your CDP account, legally yours forever.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'For a 10+ year hold of individual Singapore stocks, CDP-linked is the right choice. Your shares are legally yours in CDP — safe regardless of what happens to the broker over a decade.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Use Tiger Brokers — lower commissions even for Singapore stocks.',
+                            biasLabel: 'Custodian risk for long holds',
+                            biasExplanation: 'Lower fees are attractive, but for a 10+ year hold, CDP-linked is meaningfully safer. Custodian brokers hold shares in their own name — over a decade, broker risk becomes a real consideration.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Use any broker — it doesn\'t matter where shares are held as long as you can see them in the app.',
+                            biasLabel: 'Ignores legal ownership risk',
+                            biasExplanation: 'Seeing shares in an app is not the same as legally owning them in your name. With custodian brokers, shares are registered under the broker\'s name — if the broker faces insolvency, your holdings could be caught up in proceedings.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🌍',
+                        situation: 'You want to invest $300/month into a globally diversified ETF like VWRA listed on the London Stock Exchange. You want the lowest possible fees.',
+                        options: [
+                          {
+                            text: 'Use Interactive Brokers or Moomoo — custodian brokers with low commissions and access to global ETFs.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Global ETFs like VWRA are not SGX-listed, so CDP linkage is not available anyway. Custodian brokers offer dramatically lower commissions for international markets — the right tool for this strategy.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Use DBS Vickers — it\'s CDP-linked so your shares are safer.',
+                            biasLabel: 'Wrong tool for global ETFs',
+                            biasExplanation: 'CDP-linked brokers charge much higher commissions for non-SGX markets, and CDP linkage is not available for globally-listed ETFs anyway. The fee difference compounds into thousands over a regular investing plan.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Wait until you can afford a lump sum to minimise the number of trades and fees.',
+                            biasLabel: 'Opportunity cost of waiting',
+                            biasExplanation: 'Delaying to reduce fee impact sacrifices compounding time. Starting with $300/month in a low-cost broker beats waiting — time in the market consistently outperforms timing the market.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎓',
+                        situation: 'You\'re a first-year NTU student with $200/month to invest. You\'re not sure yet whether to buy Singapore stocks or global ETFs — you want flexibility to do both.',
+                        options: [
+                          {
+                            text: 'Open Tiger Brokers or Moomoo — low commissions for both SGX and US/global markets in one account.',
+                            biasLabel: 'Best fit for flexibility ✓',
+                            biasExplanation: 'Custodian brokers like Tiger and Moomoo support both SGX stocks and global ETFs at low cost — ideal when you\'re still deciding your strategy. At $200/month, minimising fee drag is critical.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Open both a CDP-linked broker and a custodian broker immediately.',
+                            biasLabel: 'Unnecessary complexity at the start',
+                            biasExplanation: 'Having two brokers is fine eventually, but unnecessary when starting out. Begin with one low-cost custodian broker for flexibility — add a CDP-linked broker later if you specifically want long-term Singapore stock holdings.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Open POEMS — it\'s the most established Singapore broker and supports everything.',
+                            biasLabel: 'Higher fees for small monthly amounts',
+                            biasExplanation: 'POEMS\' minimum commission of ~$10/trade represents 5% of a $200 investment — devastating fee drag for a monthly savings plan. A lower-cost custodian broker is far more appropriate at this scale.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                key: 'chooseBroker',
+                title: 'Choosing Your Broker',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Choosing Your Broker',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The right broker depends on what you\'re investing in, how frequently you trade, and how much you\'re starting with. There is no single best broker — only the best broker for your situation. Here are the five most popular options among Singapore retail investors.',
+                  },
+                  {
+                    type: 'appcards',
+                    title: 'Singapore brokerages compared — tap to explore:',
+                    apps: [
+                      {
+                        icon: '🐯',
+                        name: 'Tiger Brokers',
+                        color: '#F59E0B',
+                        tagline: 'Low-cost custodian broker with SGX and US access',
+                        cost: 'From 0.06% commission',
+                        rating: 4.4,
+                        keyFeature: 'One of the lowest commission rates available to Singapore retail investors. Covers SGX stocks, US stocks, ETFs, and options in a single app with no minimum deposit.',
+                        bestFor: 'Beginners and regular investors who want low fees for both SGX and US markets without needing CDP linkage.',
+                        singaporeTip: 'Tiger Brokers frequently runs new account promotions — free shares or commission rebates. Custodian broker: shares are held internally, not in your CDP account.',
+                      },
+                      {
+                        icon: '🐄',
+                        name: 'Moomoo',
+                        color: '#059669',
+                        tagline: 'Feature-rich custodian broker with strong US ETF access',
+                        cost: 'From 0.05% commission',
+                        rating: 4.3,
+                        keyFeature: 'Among the lowest commissions in Singapore with advanced charting and free real-time US market data. Strong for US-listed ETFs like VWRA and VTI.',
+                        bestFor: 'Cost-conscious investors who also want research tools and are primarily investing in US or global ETFs.',
+                        singaporeTip: 'Moomoo offers a cash management account earning competitive interest on uninvested cash — useful while you decide where to deploy funds. Custodian broker: shares not held in CDP.',
+                      },
+                      {
+                        icon: '📋',
+                        name: 'POEMS (PhillipCapital)',
+                        color: '#4F46E5',
+                        tagline: 'CDP-linked broker with RSP plans and wide market access',
+                        cost: 'From 0.08% commission',
+                        rating: 4.0,
+                        keyFeature: 'CDP-linked — shares go directly into your CDP account. Offers a Regular Savings Plan (RSP) from $100/month for automatic investing in STI ETFs and blue chips.',
+                        bestFor: 'Investors who want CDP safety for Singapore stocks, or who want to automate monthly investing through a Regular Savings Plan.',
+                        singaporeTip: 'POEMS\' RSP is one of the most popular ways for Singapore retail investors to dollar-cost average into the STI ETF monthly with minimal effort.',
+                      },
+                      {
+                        icon: '🏦',
+                        name: 'DBS Vickers',
+                        color: '#DC2626',
+                        tagline: 'CDP-linked broker inside the DBS ecosystem',
+                        cost: 'From 0.12% commission',
+                        rating: 3.9,
+                        keyFeature: 'Fully integrated with DBS/POSB banking — fund transfers are instant. CDP-linked for all SGX trades. Simple interface suited to occasional rather than active traders.',
+                        bestFor: 'DBS or POSB account holders who want the simplest possible setup and prioritise CDP safety over low commissions.',
+                        singaporeTip: 'DBS Vickers has a minimum commission of ~$10 per trade — this makes it expensive for purchases under $5,000. Better suited for larger, less frequent trades.',
+                      },
+                      {
+                        icon: '🌐',
+                        name: 'Interactive Brokers',
+                        color: '#7C3AED',
+                        tagline: 'Institutional-grade platform for serious global investors',
+                        cost: 'From 0.05% commission',
+                        rating: 4.5,
+                        keyFeature: 'Widest range of global markets and ETFs available to Singapore retail investors. Lowest commissions at higher volumes. Access to US, EU, and Asian markets in one account.',
+                        bestFor: 'Experienced investors focused on global ETFs like VWRA or IWDA who want the lowest long-term costs and widest market access.',
+                        singaporeTip: 'IBKR pays competitive interest on uninvested USD cash — useful if you hold USD between trades. The interface is more complex than Tiger or Moomoo, better suited to investors with some experience.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'slider',
+                    icon: '💸',
+                    title: 'Annual Commission Cost Calculator',
+                    description: 'Drag to your monthly investment amount to see how much you pay in annual commissions at a low-cost broker (0.06%) versus a standard broker (0.20%) — and what you save each year.',
+                    min: 100,
+                    max: 5000,
+                    step: 100,
+                    initialValue: 500,
+                    prefix: '$',
+                    calculateResult: (monthly) => {
+                      const annual = monthly * 12;
+                      const lowCostFee = annual * 0.0006;
+                      const standardFee = annual * 0.002;
+                      const saving = standardFee - lowCostFee;
+                      return [
+                        { label: '✅ Low-cost broker (0.06%) — annual commission', value: `$${lowCostFee.toFixed(2)}`, color: '#059669' },
+                        { label: '⚠️ Standard broker (0.20%) — annual commission', value: `$${standardFee.toFixed(2)}`, color: '#DC2626' },
+                        { label: '💰 Annual saving with low-cost broker', value: `$${saving.toFixed(2)}`, color: '#4F46E5' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Best brokerage accounts for Singapore investors 2025 — fees compared',
+                    prompt: 'Best brokerage accounts Singapore 2025 Tiger Brokers Moomoo POEMS DBS Vickers Interactive Brokers fees commissions comparison',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '8-1-s3-mcq',
+                    fincoins: 10,
+                    question: 'An NUS student wants to invest $250/month into a Regular Savings Plan for the STI ETF and have shares held safely in their own name. Which broker is the best fit?',
+                    options: [
+                      'Tiger Brokers — lowest commissions and easy app',
+                      'POEMS (PhillipCapital) — CDP-linked with an RSP from $100/month',
+                      'Interactive Brokers — widest market access and lowest fees at volume',
+                      'DBS Vickers — simple setup if you already bank with DBS',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'POEMS is the best fit here. It is CDP-linked — shares go directly into the student\'s CDP account — and it offers a Regular Savings Plan from $100/month, purpose-built for monthly STI ETF investing. Tiger and IBKR are custodian brokers, and DBS Vickers has a ~$10 minimum commission that makes small monthly purchases expensive.',
+                  },
+                ],
+              },
+              {
+                key: 'challenge',
+                title: 'Challenge: CDP & Brokerage',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: CDP & Brokerage',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how CDP accounts work, the difference between CDP-linked and custodian brokers, and how to choose the right broker for your situation. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CDP account Singapore brokerage types explained 2025',
+                    prompt: 'CDP account Singapore 2025 CDP-linked custodian broker difference safety SGX brokerage comparison',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '8-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'CDP Account & Brokerage',
+                    questions: [
+                      {
+                        concept: 'CDP Account Basics',
+                        question: 'What is the primary purpose of a CDP account in Singapore?',
+                        options: [
+                          'To place buy and sell orders on the Singapore Exchange',
+                          'To hold Singapore-listed shares in your own name, independently of any broker',
+                          'To earn interest on uninvested cash while you decide what to buy',
+                          'To link your bank account to a brokerage for cash settlement',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'A CDP account holds your Singapore-listed shares in your own name — it is your personal share safe, backed by SGX. It is completely separate from your brokerage account, which is where you place trades.',
+                      },
+                      {
+                        concept: 'CDP-Linked vs Custodian',
+                        question: 'What happens to your shares if your CDP-linked broker goes bankrupt, compared to a custodian broker?',
+                        options: [
+                          'Both broker types put your shares at equal risk in a bankruptcy',
+                          'Custodian broker shares are safer because they are held by a third party',
+                          'CDP-linked shares are safe — held in your CDP account by SGX. Custodian shares may be caught in proceedings',
+                          'Neither poses any risk — all brokers in Singapore are fully insured by MAS',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'With a CDP-linked broker, your shares sit in your CDP account at SGX — legally yours and ring-fenced from the broker. With a custodian broker, shares are registered under the broker\'s name, so a broker insolvency could put your holdings at risk.',
+                      },
+                      {
+                        concept: 'Choosing the Right Broker',
+                        question: 'A student wants to invest $200/month into VWRA, a globally diversified ETF listed on the London Stock Exchange. Which broker type is most appropriate?',
+                        options: [
+                          'A CDP-linked broker like POEMS — CDP safety applies to all markets',
+                          'A custodian broker like Tiger or Moomoo — lower fees and global market access',
+                          'DBS Vickers — instant fund transfers from a DBS account',
+                          'Any broker — the type doesn\'t matter for ETF investing',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'VWRA is listed on the London Stock Exchange, not SGX — so CDP linkage is not available regardless of broker. Custodian brokers like Tiger or Moomoo offer significantly lower commissions for global ETFs and are the right choice for this strategy. At $200/month, minimising fee drag is critical.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What is a CDP account and what makes it different from a brokerage account?', a: 'A CDP account holds your Singapore-listed shares in your own name — it is your personal share safe, backed by SGX. A brokerage account is where you place trades. The broker executes the order; the CDP account stores the result.' },
+              { q: 'What is the difference between a CDP-linked and a custodian broker?', a: 'CDP-linked brokers credit shares directly to your CDP account — legally yours and safe if the broker fails. Custodian brokers hold shares internally under their own name — lower cost, but shares may be at risk in a broker insolvency.' },
+              { q: 'How long does it take to open a CDP account, and who is eligible?', a: '3–5 business days via the SGX website. It is free. International students on a valid Singapore student pass are eligible — you need to be 18+ and have a local Singapore bank account.' },
+              { q: 'What does T+2 settlement mean and why does it matter?', a: 'Cash is debited from your linked bank account 2 business days after your trade executes. If your account has insufficient funds on settlement day, you face a contra loss penalty — always ensure funds are available before trading.' },
+              { q: 'Which type of broker is better for global ETFs like VWRA, and why?', a: 'Custodian brokers — Tiger Brokers, Moomoo, or Interactive Brokers — offer significantly lower commissions for US and globally-listed ETFs. CDP-linked brokers charge much more for non-SGX markets, so match your broker to your market.' },
+            ],
           },
-          { id: '8-2', title: 'STI ETF & Singapore Stocks', icon: '📊', topic: 'STI ETF Singapore Exchange stocks investing', duration: '6 min', fincoins: 90, sections: [{ key: 'sti', heading: 'What is the STI ETF?' }, { key: 'reits', heading: 'Singapore REITs' }, { key: 'blue', heading: 'Blue Chip Singapore Stocks' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What does the STI ETF track?', a: 'The Straits Times Index — Singapore\'s top 30 listed companies by market cap.' }] },
-          { id: '8-3', title: 'Robo-Advisors in Singapore', icon: '🤖', topic: 'Syfe StashAway Endowus robo advisor Singapore', duration: '6 min', fincoins: 90, sections: [{ key: 'what', heading: 'What is a Robo-Advisor?' }, { key: 'options', heading: 'Syfe vs StashAway vs Endowus' }, { key: 'start', heading: 'Getting Started with $100' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the minimum investment for most Singapore robo-advisors?', a: 'As low as $1–$100 — Syfe and StashAway both allow very low minimums.' }] },
+          {
+            id: '8-2',
+            title: 'STI ETF & Singapore Stocks',
+            icon: '📊',
+            topic: 'STI ETF & Singapore Exchange stocks investing',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+              // ─── Section 1: What is the STI ETF? ─────────────────────────────────
+              {
+                key: 'sti',
+                title: 'What is the STI ETF?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is the STI ETF?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The Straits Times Index (STI) is Singapore\'s benchmark stock market index — it tracks the top 30 companies listed on the Singapore Exchange (SGX) by market capitalisation. An STI ETF is a fund that mirrors this index, giving investors exposure to all 30 companies in a single trade. For international students new to Singapore investing, the STI ETF is often the first instrument to understand — it is the local equivalent of buying "a slice of Singapore\'s economy".',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Exchange-Traded Fund (ETF)',
+                    definition: 'A fund that tracks an index and trades on a stock exchange like a regular share. Buying one unit of an STI ETF gives you proportional exposure to all 30 companies in the Straits Times Index — instant diversification in a single trade, at low cost.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'There are two STI ETFs available on SGX: the SPDR STI ETF (ES3) managed by State Street, and the Nikko AM STI ETF (G3B) managed by Nikko Asset Management. Both track the same index with similar expense ratios of around 0.30% per year — among the lowest fund costs available to Singapore retail investors.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'What the STI ETF gives you:',
+                    nodes: [
+                      {
+                        icon: '🏦',
+                        label: 'Singapore\'s Top 30',
+                        sublabel: 'Instant exposure to the largest SGX companies',
+                        color: '#4F46E5',
+                        examples: ['DBS Bank — largest bank in Southeast Asia', 'OCBC Bank — second largest Singapore bank', 'Singapore Telecommunications (Singtel)'],
+                        details: [
+                          'The STI includes Singapore\'s 30 largest listed companies by market cap — dominated by banks, REITs, and telcos.',
+                          'The three local banks — DBS, OCBC, UOB — make up roughly 40–45% of the index weight.',
+                          'Other major constituents include CapitaLand Integrated Commercial Trust, Jardine Matheson, and Keppel.',
+                        ],
+                        tip: 'Because the banks dominate the STI, the index is heavily exposed to Singapore\'s financial sector — it does not fully represent Singapore\'s broader economy.',
+                      },
+                      {
+                        icon: '💰',
+                        label: 'Low Cost',
+                        sublabel: 'Expense ratio ~0.30% per year',
+                        color: '#0891B2',
+                        examples: ['SPDR STI ETF (ES3): ~0.30% p.a.', 'Nikko AM STI ETF (G3B): ~0.30% p.a.', 'Active unit trusts: often 1.0–2.0% p.a.'],
+                        details: [
+                          'An expense ratio of 0.30% means you pay $3 per year for every $1,000 invested — automatically deducted from the fund.',
+                          'Active unit trusts in Singapore typically charge 1.0–2.0% per year — the STI ETF costs 3–6× less.',
+                          'Over 20 years, the fee difference between a 0.30% ETF and a 1.5% unit trust compounds into tens of thousands of dollars on a modest portfolio.',
+                        ],
+                        tip: 'The expense ratio is not a transaction you see — it is built into the ETF\'s daily price. You do not pay it separately; it simply reduces the fund\'s net asset value slightly each day.',
+                      },
+                      {
+                        icon: '📅',
+                        label: 'Dividends Paid',
+                        sublabel: 'Twice yearly cash distributions',
+                        color: '#059669',
+                        examples: ['Dividends paid twice per year', 'Historically ~3–4% dividend yield', 'Cash credited to your brokerage or CDP account'],
+                        details: [
+                          'Both STI ETFs distribute dividends twice per year — collected from the underlying 30 companies and passed through to unitholders.',
+                          'The historical dividend yield has been approximately 3–4% per year, though this varies with market conditions.',
+                          'Dividends are credited as cash to your brokerage or CDP-linked account — you can reinvest them manually or use a Regular Savings Plan that does this automatically.',
+                        ],
+                        tip: 'Singapore does not impose withholding tax on dividends from Singapore-listed stocks and ETFs for individuals — a meaningful advantage over holding US ETFs, which are subject to 30% US dividend withholding tax.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 STI ETF Singapore SPDR Nikko AM performance dividend yield 2025',
+                    prompt: 'STI ETF Singapore 2025 SPDR ES3 Nikko AM G3B performance expense ratio dividend yield comparison',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '8-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'STI ETF — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Buying one unit of an STI ETF gives you exposure to all 30 companies in the Straits Times Index.',
+                        isTrue: true,
+                        explanation: 'Correct — that is the key advantage of an ETF. One purchase instantly diversifies you across all 30 STI constituents, including DBS, OCBC, UOB, and Singtel.',
+                      },
+                      {
+                        text: 'The STI ETF has an expense ratio of around 3% per year, making it one of the more expensive funds in Singapore.',
+                        isTrue: false,
+                        explanation: 'The STI ETF expense ratio is approximately 0.30% per year — not 3%. That is $3 per year for every $1,000 invested, and among the lowest fund costs available to Singapore retail investors.',
+                      },
+                      {
+                        text: 'There are two STI ETFs available on SGX — the SPDR STI ETF and the Nikko AM STI ETF — and both track the same index.',
+                        isTrue: true,
+                        explanation: 'Correct — SPDR STI ETF (ES3) and Nikko AM STI ETF (G3B) both track the Straits Times Index with similar expense ratios. The choice between them is largely one of personal preference.',
+                      },
+                      {
+                        text: 'Singapore individuals pay withholding tax on dividends received from SGX-listed ETFs.',
+                        isTrue: false,
+                        explanation: 'Singapore does not impose withholding tax on dividends from Singapore-listed stocks and ETFs for individuals. This is a meaningful tax advantage compared to US-listed ETFs, which are subject to 30% US dividend withholding tax.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Singapore Blue Chips & REITs ─────────────────────────
+              {
+                key: 'bluechips',
+                title: 'Singapore Blue Chips & REITs',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Singapore Blue Chips & REITs',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Beyond the STI ETF, two categories of SGX-listed investments are especially prominent among Singapore retail investors — blue chip stocks and Real Estate Investment Trusts (REITs). Understanding what these are and how they differ helps you decide whether the STI ETF alone is sufficient or whether individual stocks or REITs deserve a place in your portfolio.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Real Estate Investment Trust (REIT)',
+                    definition: 'A listed fund that owns and operates income-producing real estate — shopping malls, offices, industrial properties, or hospitals. REITs are required by law to distribute at least 90% of their taxable income to unitholders as dividends, making them a popular source of regular income in Singapore.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'Two key SGX investment categories:',
+                    cards: [
+                      {
+                        icon: '🏦',
+                        label: 'Blue Chip Stocks',
+                        description: 'Large, established companies with a long track record of stable earnings and dividends.',
+                        color: '#4F46E5',
+                        details: [
+                          'Singapore\'s blue chips are dominated by the three local banks — DBS, OCBC, and UOB — which together make up ~40–45% of the STI.',
+                          'Other major blue chips include Singapore Telecommunications (Singtel), Jardine Matheson, and Keppel Corporation.',
+                          'Blue chips typically offer moderate dividend yields (3–5%) and lower volatility than smaller companies.',
+                          'Buying individual blue chips requires more capital than an ETF — one lot is 100 shares, meaning a single lot of DBS costs several hundred dollars.',
+                        ],
+                        example: 'DBS Bank is Singapore\'s largest bank and one of Asia\'s most profitable. It pays dividends twice yearly and has historically delivered strong total returns over a decade.',
+                      },
+                      {
+                        icon: '🏢',
+                        label: 'Singapore REITs (S-REITs)',
+                        description: 'Listed funds owning income-producing real estate, required to pay out 90%+ of income as dividends.',
+                        color: '#059669',
+                        details: [
+                          'Singapore has one of the largest and most developed REIT markets in Asia — over 40 S-REITs are listed on SGX.',
+                          'Popular S-REITs include CapitaLand Integrated Commercial Trust (CICT), Mapletree Logistics Trust, and Parkway Life REIT.',
+                          'S-REITs typically offer higher dividend yields than blue chips — historically 4–6% per year — because of the 90% distribution requirement.',
+                          'S-REIT prices are sensitive to interest rates — when rates rise, REIT prices often fall as their borrowing costs increase.',
+                        ],
+                        example: 'CapitaLand Integrated Commercial Trust owns major Singapore malls including Plaza Singapura and Bugis Junction. It distributes income quarterly and is one of the most widely held S-REITs.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'table',
+                    headers: ['', 'STI ETF', 'Blue Chip Stock', 'S-REIT'],
+                    rows: [
+                      ['What you own', '30 companies in one', 'One company', 'Portfolio of properties'],
+                      ['Typical dividend yield', '~3–4% p.a.', '~3–5% p.a.', '~4–6% p.a.'],
+                      ['Minimum investment', '~1 unit (~$3–4)', '100 shares (1 lot)', '100 units (1 lot)'],
+                      ['Diversification', 'Built-in', 'None — single stock', 'Built-in across properties'],
+                      ['Main risk', 'Singapore market concentration', 'Company-specific risk', 'Interest rate sensitivity'],
+                      ['Best for', 'Beginners wanting broad exposure', 'Conviction in a specific company', 'Regular income seekers'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'For most international students starting out, the STI ETF is the simpler and safer first step — it provides instant diversification across 30 companies for a very low minimum investment. Individual blue chips and REITs make more sense once you have a stronger understanding of the specific companies and sectors.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore REITs S-REITs best dividend yield 2025 SGX',
+                    prompt: 'Singapore REITs S-REITs SGX 2025 best dividend yield CapitaLand Mapletree Parkway Life interest rate risk',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '8-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Which SGX investment fits the goal?',
+                    scenarios: [
+                      {
+                        icon: '🎓',
+                        situation: 'You\'re a second-year SMU student with $500 to invest. You want broad Singapore market exposure with minimal research effort and low cost.',
+                        options: [
+                          {
+                            text: 'Buy the STI ETF (ES3 or G3B) — instant exposure to Singapore\'s top 30 companies in one trade.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'The STI ETF is purpose-built for exactly this goal. Low expense ratio (~0.30%), instant diversification, and minimal ongoing effort — the ideal starting point for a student with limited capital and time.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Buy one lot of DBS Bank shares — it\'s Singapore\'s largest company and very stable.',
+                            biasLabel: 'Single-stock concentration risk',
+                            biasExplanation: 'DBS is an excellent company, but one lot of DBS is a single-stock position. The STI ETF already includes DBS as its largest constituent — and also gives you 29 other companies for the same or less capital.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Buy a S-REIT for the high dividend yield — more income than the STI ETF.',
+                            biasLabel: 'Higher yield but more complexity',
+                            biasExplanation: 'S-REITs offer higher yields, but they come with interest rate sensitivity and require understanding the specific trust\'s property portfolio. For a first investment with $500, the STI ETF\'s simplicity and built-in diversification is more appropriate.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💼',
+                        situation: 'You\'ve just started working and want a regular income stream from your investments. You\'re comfortable with some research and can invest $2,000 upfront.',
+                        options: [
+                          {
+                            text: 'Invest in one or two established S-REITs — they distribute 90%+ of income and yield 4–6% historically.',
+                            biasLabel: 'Best fit for income ✓',
+                            biasExplanation: 'S-REITs are Singapore\'s most popular income instrument for a reason — the 90% distribution requirement means high, consistent payouts. With $2,000 and a research mindset, a well-chosen S-REIT aligns directly with the income goal.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Buy the STI ETF — it pays dividends twice a year so it also generates income.',
+                            biasLabel: 'Lower yield for income focus',
+                            biasExplanation: 'The STI ETF does pay dividends, but at ~3–4% yield it generates less income than S-REITs. For someone specifically targeting regular income, S-REITs are the more efficient instrument.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Keep the $2,000 in a high-yield savings account — safer and still earns interest.',
+                            biasLabel: 'Avoids investment risk but misses the goal',
+                            biasExplanation: 'A savings account is safe but doesn\'t provide investment income with growth potential. Given a $2,000 amount and a clear income goal, S-REITs are the appropriate next step beyond cash savings.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📉',
+                        situation: 'Interest rates in Singapore have risen sharply. You\'re reviewing your portfolio and notice your S-REIT holdings have dropped 15% in price. What is the most likely explanation?',
+                        options: [
+                          {
+                            text: 'S-REITs are sensitive to interest rates — higher rates increase borrowing costs and make their yields less attractive relative to bonds.',
+                            biasLabel: 'Correct understanding ✓',
+                            biasExplanation: 'S-REITs borrow heavily to fund property acquisitions. When rates rise, their borrowing costs increase and their dividends become less attractive compared to lower-risk bonds. This typically pushes REIT prices down — it is a known structural risk of the asset class.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'The properties must have dropped in value — real estate always falls when interest rates rise.',
+                            biasLabel: 'Incomplete explanation',
+                            biasExplanation: 'Property values may or may not fall — the primary driver of S-REIT price drops in a rate rise environment is the increased cost of debt and the relative attractiveness of bonds, not necessarily a direct fall in property valuations.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'The drop is random market noise — S-REITs are unaffected by interest rate movements.',
+                            biasLabel: 'Incorrect — REITs are rate-sensitive',
+                            biasExplanation: 'S-REITs are among the most interest-rate-sensitive instruments on SGX. Understanding this relationship is essential before investing in them — rate sensitivity is a core feature, not a random event.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Buying Your First SGX Stock ───────────────────────────
+              {
+                key: 'buying',
+                title: 'Buying Your First SGX Stock',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Buying Your First SGX Stock',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Having a CDP account and a brokerage account is only half the picture — you also need to know how to actually place a trade on SGX. The mechanics of buying Singapore stocks have a few Singapore-specific features that differ from other markets, particularly around lot sizes and settlement.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'SGX Lot Sizes',
+                  },
+                  {
+                    type: 'text',
+                    text: 'On SGX, shares are traded in lots of 100 shares each. This means you cannot buy 50 shares of DBS — the minimum purchase is 100 shares (one lot). For higher-priced stocks, this can mean a meaningful minimum outlay. There is an exception: the SGX Unit Share Market (USM) allows trading in single shares for certain counters, but liquidity is much lower.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'ETFs on SGX — including the STI ETF — trade at much lower unit prices than most individual stocks. The Nikko AM STI ETF (G3B) typically trades at around $3–4 per unit, meaning you can start with as little as $300–$400 for 100 units. Compare this to one lot of DBS at ~$30+ per share = $3,000+ minimum.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'How to Place a Trade',
+                  },
+                  {
+                    type: 'steps',
+                    steps: [
+                      'Log in to your brokerage app (Tiger Brokers, POEMS, DBS Vickers, etc.)',
+                      'Search for the stock or ETF by name or ticker — e.g. "G3B" for Nikko AM STI ETF, "D05" for DBS Bank',
+                      'Select "Buy" and choose your order type — Market Order (execute immediately at current price) or Limit Order (set your maximum price)',
+                      'Enter the number of lots (minimum 1 lot = 100 shares/units)',
+                      'Review the estimated total cost including commission, then confirm the trade',
+                      'Wait for T+2 settlement — cash is debited from your linked bank 2 business days later; shares appear in your CDP account',
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Regular Savings Plans — An Alternative to Lump Sum',
+                  },
+                  {
+                    type: 'text',
+                    text: 'For students investing small amounts monthly, Regular Savings Plans (RSPs) offered by brokerages like POEMS, OCBC, and POSB are often more practical than placing individual trades. RSPs automatically invest a fixed dollar amount each month into your chosen ETF or blue chip — bypassing the 100-share lot requirement entirely.',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'Lump sum trade vs Regular Savings Plan — tap to compare:',
+                    variant: 'neutral',
+                    cards: [
+                      {
+                        frontLabel: '💰 Lump Sum Trade',
+                        backLabel: '📋 What to watch for',
+                        front: 'Buy a fixed number of lots in one trade — full control over price and timing. Subject to brokerage commission per trade.',
+                        back: 'Best when you have a meaningful sum to deploy at once ($1,000+). Commission as a percentage of trade value is lower on larger amounts — the $10 minimum commission at some brokers makes small lump sums expensive.',
+                        tag: 'Control over price and timing',
+                      },
+                      {
+                        frontLabel: '📅 Regular Savings Plan',
+                        backLabel: '📋 What to watch for',
+                        front: 'Fixed dollar amount invested automatically each month — ignores lot sizes, averages your purchase price over time (dollar-cost averaging).',
+                        back: 'Best for students investing $100–$500/month who want automation and don\'t want to think about timing. RSP fees vary — POSB Invest-Saver charges 1% per transaction; POEMS RSP charges 0.2–0.5%. Check the fee structure before committing.',
+                        tag: 'Automation and DCA built in',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'POSB Invest-Saver is one of the simplest RSP options for students already banking with DBS/POSB — it invests automatically into the Nikko AM STI ETF or ABF Singapore Bond Index Fund from $100/month with no brokerage account needed. However, its 1% fee is higher than trading directly — worth reviewing as your investment amount grows.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Regular Savings Plan Singapore POSB POEMS OCBC STI ETF 2025',
+                    prompt: 'Regular Savings Plan Singapore 2025 POSB Invest-Saver POEMS RSP OCBC Blue Chip Investment Plan STI ETF fees comparison',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '8-2-s3-mcq',
+                    fincoins: 10,
+                    icon: '📅',
+                    title: 'Regular Savings Plan Quiz',
+                    question: 'An NTU student wants to invest $200/month into the STI ETF automatically without worrying about lot sizes or timing. Which approach is most suitable?',
+                    options: [
+                      'Place a lump sum trade every month through DBS Vickers — CDP-linked and safe',
+                      'Use a Regular Savings Plan like POSB Invest-Saver or POEMS RSP — fixed monthly amount, no lot size requirement',
+                      'Wait until they have $3,000 saved to buy one lot of DBS Bank shares instead',
+                      'Use Interactive Brokers — lowest commissions make monthly investing cheapest',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'A Regular Savings Plan is purpose-built for this situation — it invests a fixed dollar amount monthly without requiring a full lot, and automates the process entirely. DBS Vickers\' ~$10 minimum commission would represent 5% of a $200 trade, and waiting to accumulate $3,000 before investing sacrifices months of compounding. IBKR is better suited to global ETFs rather than SGX-listed instruments via RSP.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'STI ETF & Singapore Stocks',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: STI ETF & Singapore Stocks',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered what the STI ETF is and why it suits beginners, how blue chips and S-REITs differ, and the mechanics of buying your first SGX stock. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 STI ETF vs Singapore blue chips vs S-REITs — which is right for me 2025',
+                    prompt: 'STI ETF vs blue chip stocks vs S-REITs Singapore 2025 beginner investor comparison which to buy first',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '8-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'STI ETF & SG Stocks',
+                    questions: [
+                      {
+                        concept: 'STI ETF Basics',
+                        question: 'Which of the following best describes what you own when you buy one unit of the STI ETF?',
+                        options: [
+                          'A single share in Singapore Exchange (SGX) itself',
+                          'Proportional exposure to the top 30 SGX-listed companies by market cap',
+                          'A fixed deposit with a guaranteed annual return of 3–4%',
+                          'Ownership of Singapore government bonds and treasury bills',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The STI ETF tracks the Straits Times Index — Singapore\'s benchmark index of the top 30 companies by market cap. Buying one unit gives you proportional exposure to all 30 constituents, including DBS, OCBC, UOB, and Singtel, in a single trade.',
+                      },
+                      {
+                        concept: 'Blue Chips vs S-REITs',
+                        question: 'Why are S-REIT prices particularly sensitive to interest rate increases?',
+                        options: [
+                          'S-REITs are required by law to reduce dividends when interest rates rise',
+                          'Higher rates increase REITs\' borrowing costs and make their yields less attractive relative to bonds',
+                          'SGX automatically suspends REIT trading during periods of rising interest rates',
+                          'S-REITs hold fixed deposits that mature at lower rates when interest rises',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'S-REITs borrow heavily to fund property acquisitions. When interest rates rise, their borrowing costs increase and compress profits. At the same time, bonds become more attractive alternatives to REIT distributions — pushing REIT prices down. This rate sensitivity is a core structural feature of S-REITs.',
+                      },
+                      {
+                        concept: 'Buying SGX Stocks',
+                        question: 'A student wants to start investing $150/month into the STI ETF. Why is a Regular Savings Plan more suitable than placing individual trades each month?',
+                        options: [
+                          'RSPs guarantee a fixed return regardless of market performance',
+                          'RSPs bypass the 100-share lot requirement and invest automatically at a fixed monthly amount',
+                          'Individual trades are not permitted on SGX for amounts under $1,000',
+                          'RSPs are exempt from Singapore capital gains tax, whereas individual trades are not',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'SGX stocks trade in lots of 100 shares — a single lot of the STI ETF costs $300–$400, making a $150/month lump sum trade impossible. RSPs bypass this entirely by investing a fixed dollar amount monthly regardless of lot size, and automate the process. Singapore has no capital gains tax for individuals regardless of how trades are executed.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What does the STI ETF track and why does it suit Singapore beginners?', a: 'The STI ETF tracks the Straits Times Index — Singapore\'s top 30 listed companies by market cap. It gives instant diversification across Singapore\'s largest companies in one trade, at a low expense ratio of ~0.30% per year.' },
+              { q: 'What are the two STI ETFs available on SGX and how do they differ?', a: 'SPDR STI ETF (ES3) and Nikko AM STI ETF (G3B) — both track the same index with similar expense ratios (~0.30%). The choice between them is largely one of preference; both are suitable for long-term investors.' },
+              { q: 'What is an S-REIT and why do they typically offer higher dividend yields than blue chips?', a: 'An S-REIT is a listed fund owning income-producing real estate. Singapore law requires REITs to distribute at least 90% of taxable income to unitholders — this high distribution requirement drives yields of ~4–6%, higher than most blue chips.' },
+              { q: 'What is the minimum lot size for SGX stocks and how do Regular Savings Plans help?', a: 'SGX stocks trade in lots of 100 shares. Regular Savings Plans (RSPs) bypass this by investing a fixed dollar amount monthly regardless of lot size — ideal for students investing $100–$500/month who cannot afford a full lot each time.' },
+              { q: 'Why do Singapore individuals have a tax advantage when investing in SGX-listed ETFs vs US-listed ETFs?', a: 'Singapore does not impose withholding tax on dividends from SGX-listed stocks and ETFs for individuals. US-listed ETFs are subject to 30% US dividend withholding tax — a meaningful drag on income returns over time.' },
+            ],
+          },
+          {
+            id: '8-3',
+            title: 'Robo-Advisors in Singapore',
+            icon: '🤖',
+            topic: 'Syfe StashAway Endowus robo advisor Singapore',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+              // ─── Section 1: What is a Robo-Advisor? ──────────────────────────────
+              {
+                key: 'what',
+                title: 'What is a Robo-Advisor?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is a Robo-Advisor?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'A robo-advisor is a digital investment platform that builds and manages a diversified portfolio on your behalf — automatically. Instead of researching individual stocks or ETFs yourself, you answer a short questionnaire about your goals and risk tolerance, and the platform constructs a portfolio suited to your profile. For international students in Singapore with limited investing experience and small starting amounts, robo-advisors lower the barrier to entry significantly.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Robo-Advisor',
+                    definition: 'A digital platform that automatically builds, manages, and rebalances a diversified investment portfolio based on your risk profile and goals. You deposit money; the platform does the investing. No stock-picking, no manual rebalancing, no brokerage account required.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Singapore has three major MAS-regulated robo-advisors — Syfe, StashAway, and Endowus. All three allow you to start with as little as $1–$100, charge no sales fees, and invest primarily in low-cost ETFs. Combined, they manage billions of dollars for hundreds of thousands of Singapore investors.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'How a robo-advisor works:',
+                    nodes: [
+                      {
+                        icon: '📋',
+                        label: 'Answer Questions',
+                        sublabel: 'Risk profile and goal setting',
+                        color: '#4F46E5',
+                        examples: ['Time horizon: 1 year vs 20 years', 'Risk tolerance: conservative vs aggressive', 'Goal: wealth accumulation, income, or capital preservation'],
+                        details: [
+                          'You complete a short onboarding questionnaire covering your investment goals, time horizon, and comfort with risk.',
+                          'Based on your answers, the platform assigns you a risk profile — typically ranging from conservative to very aggressive.',
+                          'Your profile determines the mix of asset classes in your portfolio — more equities for aggressive profiles, more bonds for conservative ones.',
+                        ],
+                        tip: 'Be honest about your risk tolerance. If a 20% portfolio drop would make you want to sell everything, choose a more conservative profile — panic-selling in a downturn is the single most damaging investing mistake.',
+                      },
+                      {
+                        icon: '🏗️',
+                        label: 'Portfolio Built',
+                        sublabel: 'Automatic ETF allocation',
+                        color: '#0891B2',
+                        examples: ['Global equities ETF (e.g. VWRA)', 'Bond ETF for stability', 'Singapore or Asia-focused allocation'],
+                        details: [
+                          'The platform automatically builds a diversified portfolio of low-cost ETFs matching your risk profile.',
+                          'Most Singapore robo-advisors invest in globally diversified ETFs — giving you exposure to thousands of companies across 50+ countries.',
+                          'You do not need to choose any individual securities — the entire portfolio construction is handled for you.',
+                        ],
+                        tip: 'Check what ETFs your robo-advisor actually holds — most platforms display this in the app. Knowing the underlying funds helps you understand what you own and compare costs with a DIY approach.',
+                      },
+                      {
+                        icon: '🔄',
+                        label: 'Auto-Rebalanced',
+                        sublabel: 'Portfolio maintained over time',
+                        color: '#059669',
+                        examples: ['Drift correction when allocations shift', 'Dividends reinvested automatically', 'No manual action required from you'],
+                        details: [
+                          'As markets move, your portfolio allocations drift from their targets — equities may grow to 70% when the target was 60%.',
+                          'The robo-advisor automatically rebalances back to your target allocation — selling what has grown and buying what has lagged.',
+                          'Dividends from underlying ETFs are automatically reinvested, compounding your returns without any action on your part.',
+                        ],
+                        tip: 'Automatic rebalancing removes one of the hardest behavioural challenges in investing — the temptation to let winners run and never buy more of what is underperforming. Rebalancing enforces discipline mechanically.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How do robo-advisors work Singapore Syfe StashAway Endowus 2025',
+                    prompt: 'How robo-advisors work Singapore 2025 Syfe StashAway Endowus MAS regulated automatic investing ETF portfolio',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '8-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'Robo-Advisors — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Robo-advisors in Singapore require a minimum investment of at least $10,000 before you can open an account.',
+                        isTrue: false,
+                        explanation: 'Singapore robo-advisors have very low minimums — Syfe and StashAway allow you to start with as little as $1–$100. This is one of their key advantages for students with limited starting capital.',
+                      },
+                      {
+                        text: 'All three major Singapore robo-advisors — Syfe, StashAway, and Endowus — are regulated by MAS.',
+                        isTrue: true,
+                        explanation: 'Correct — Syfe, StashAway, and Endowus are all licensed by the Monetary Authority of Singapore (MAS). MAS regulation means they must meet capital requirements, segregate client assets, and adhere to investor protection rules.',
+                      },
+                      {
+                        text: 'A robo-advisor automatically rebalances your portfolio back to its target allocation when market movements cause it to drift.',
+                        isTrue: true,
+                        explanation: 'Automatic rebalancing is one of the core features of robo-advisors. When your equity allocation grows above target due to market gains, the platform sells some equities and buys bonds to restore the intended balance — without any action from you.',
+                      },
+                      {
+                        text: 'Using a robo-advisor means you need to manually reinvest dividends from the underlying ETFs.',
+                        isTrue: false,
+                        explanation: 'Robo-advisors automatically reinvest dividends from underlying ETFs back into your portfolio. This hands-off compounding is one of the key conveniences of using a robo-advisor versus managing ETFs yourself.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Syfe vs StashAway vs Endowus ─────────────────────────
+              {
+                key: 'options',
+                title: 'Syfe vs StashAway vs Endowus',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Syfe vs StashAway vs Endowus',
+                  },
+                  {
+                    type: 'text',
+                    text: 'While all three platforms are MAS-regulated and invest in low-cost ETFs, they differ meaningfully in their fee structures, portfolio philosophies, minimum investments, and what they are best suited for. Choosing the right platform depends on your goals — whether that is simple wealth accumulation, income, or access to CPF funds.',
+                  },
+                  {
+                    type: 'appcards',
+                    title: 'Singapore robo-advisors compared — tap to explore:',
+                    apps: [
+                      {
+                        icon: '🟢',
+                        name: 'Syfe',
+                        color: '#059669',
+                        tagline: 'Flexible portfolios with a strong Singapore income option',
+                        cost: '0.35–0.65% p.a. (tiered by AUM)',
+                        rating: 4.4,
+                        keyFeature: 'Offers Core portfolios (globally diversified ETFs), REIT+ (Singapore and Asian REITs for income), and Cash+ (high-yield cash management). One of the few robo-advisors with a dedicated S-REIT portfolio.',
+                        bestFor: 'Students who want simple global investing or are interested in S-REIT income without picking individual REITs themselves.',
+                        singaporeTip: 'Syfe\'s Cash+ account earns competitive interest on uninvested cash — useful as a higher-yielding alternative to a savings account for your emergency fund or short-term savings while you decide where to invest.',
+                      },
+                      {
+                        icon: '🔵',
+                        name: 'StashAway',
+                        color: '#0891B2',
+                        tagline: 'Goal-based investing with proprietary risk management',
+                        cost: '0.20–0.80% p.a. (tiered by AUM)',
+                        rating: 4.3,
+                        keyFeature: 'Uses a proprietary Economic Regime-based Asset Allocation (ERAA) framework that adjusts portfolio composition based on macroeconomic conditions. Strong goal-based planning tools — set separate portfolios for different goals.',
+                        bestFor: 'Students who want separate portfolios for different goals (emergency fund, travel, retirement) and prefer a data-driven allocation approach.',
+                        singaporeTip: 'StashAway Simple is a cash management product earning competitive interest with no lock-in — a popular alternative to fixed deposits for students who want better returns on idle cash without commitment.',
+                      },
+                      {
+                        icon: '🟣',
+                        name: 'Endowus',
+                        color: '#7C3AED',
+                        tagline: 'The only platform that invests CPF and SRS funds',
+                        cost: '0.25–0.60% p.a. (tiered by AUM)',
+                        rating: 4.5,
+                        keyFeature: 'The only Singapore robo-advisor that allows investment of CPF Ordinary Account (OA) and Supplementary Retirement Scheme (SRS) funds in addition to cash. Access to institutional-class funds not available to retail investors elsewhere.',
+                        bestFor: 'Graduates and working adults who want to put CPF-OA funds above $20,000 to work in a diversified portfolio, or optimise SRS contributions for retirement.',
+                        singaporeTip: 'As an international student, CPF is not yet relevant — but once you start working in Singapore, Endowus becomes uniquely valuable. It is the platform to revisit when you receive your first CPF statement.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'table',
+                    headers: ['', 'Syfe', 'StashAway', 'Endowus'],
+                    rows: [
+                      ['Min. investment', '$1', '$1', '$1,000 (cash)'],
+                      ['Fee range', '0.35–0.65% p.a.', '0.20–0.80% p.a.', '0.25–0.60% p.a.'],
+                      ['CPF/SRS investing', '❌', '❌', '✅'],
+                      ['Cash management', 'Cash+ (~3–4%)', 'Simple (~3–4%)', 'Cash Smart (~3–4%)'],
+                      ['REIT portfolio', '✅ REIT+', '❌', '❌'],
+                      ['Best for', 'REITs + global ETFs', 'Goal-based planning', 'CPF/SRS + institutional funds'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'All three platforms charge a management fee on top of the underlying ETF expense ratios. Always check the total all-in cost — platform fee plus ETF expense ratio. For a $5,000 portfolio, the difference between 0.20% and 0.80% p.a. is only $30/year, but this gap compounds significantly on larger portfolios over time.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Syfe vs StashAway vs Endowus Singapore 2025 — fees and portfolios compared',
+                    prompt: 'Syfe vs StashAway vs Endowus Singapore 2025 fees portfolio comparison CPF cash management which is best',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '8-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Which robo-advisor fits the situation?',
+                    scenarios: [
+                      {
+                        icon: '🎓',
+                        situation: 'You\'re a first-year NUS student with $500 to start investing. You want a simple globally diversified portfolio, low fees, and the ability to top up from $50/month. You have no CPF contributions yet.',
+                        options: [
+                          {
+                            text: 'Syfe Core — globally diversified ETF portfolio, $1 minimum, low management fee.',
+                            biasLabel: 'Best fit ✓',
+                            biasExplanation: 'Syfe Core is purpose-built for this situation — globally diversified, very low minimum, and simple to set up. At $500 with $50/month top-ups, the fee difference between platforms is negligible, making simplicity the deciding factor.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Endowus — best platform overall with the lowest fees at higher AUM.',
+                            biasLabel: 'Minimum too high for starting amount',
+                            biasExplanation: 'Endowus requires a $1,000 minimum for cash investing. More importantly, its key advantage — CPF and SRS investing — is not relevant for a student without CPF contributions. Syfe or StashAway are more appropriate at this stage.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'StashAway — set up separate goal portfolios for different purposes.',
+                            biasLabel: 'Good option, slight overkill at this stage',
+                            biasExplanation: 'StashAway is an excellent platform and goal-based portfolios are a genuine advantage. However, for a first-year student with $500 and a single goal, the added complexity is unnecessary. Start simple — multiple goal portfolios make more sense once you have more to manage.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💼',
+                        situation: 'You\'ve just graduated and started your first job in Singapore. You want to invest your CPF Ordinary Account balance above $20,000 in a diversified portfolio rather than leaving it at 2.5%.',
+                        options: [
+                          {
+                            text: 'Endowus — the only Singapore robo-advisor that allows investment of CPF-OA funds.',
+                            biasLabel: 'Only option for CPF investing ✓',
+                            biasExplanation: 'Endowus is uniquely positioned here — it is the only MAS-regulated robo-advisor in Singapore that allows you to invest CPF Ordinary Account funds above $20,000 via the CPFIS scheme. Syfe and StashAway do not offer this.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Syfe — lower minimum and a REIT+ option for income from CPF funds.',
+                            biasLabel: 'Cannot invest CPF funds',
+                            biasExplanation: 'Syfe does not support CPF investment. Your CPF-OA funds would remain in CPF earning 2.5% — you cannot channel them into Syfe\'s portfolios.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Leave CPF-OA at 2.5% — it\'s risk-free and guaranteed by the government.',
+                            biasLabel: 'Opportunity cost of inaction',
+                            biasExplanation: 'The CPF-OA\'s 2.5% guaranteed rate is below the long-term expected return of a diversified equity portfolio. For funds you do not need for housing in the near term, investing via CPFIS through Endowus has historically outperformed the 2.5% floor over a long horizon.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏖️',
+                        situation: 'You have $3,000 sitting in your savings account earning 0.05% interest. You want to put it somewhere safer than stocks but earning more than a regular savings account — you may need it within 12 months.',
+                        options: [
+                          {
+                            text: 'Use Syfe Cash+, StashAway Simple, or Endowus Cash Smart — cash management products earning ~3–4% with no lock-in.',
+                            biasLabel: 'Best fit for short-term idle cash ✓',
+                            biasExplanation: 'All three platforms offer cash management products investing in money market funds or short-duration bonds — earning ~3–4% p.a. with no lock-in period. This is meaningfully better than a 0.05% savings account for funds you may need within a year.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest in Syfe Core Equity100 — higher long-term returns than cash management.',
+                            biasLabel: 'Too risky for a 12-month horizon',
+                            biasExplanation: 'A 100% equity portfolio can drop 20–30% in a year. For funds you may need within 12 months, equity exposure is inappropriate — a temporary market downturn could force you to sell at a loss exactly when you need the money.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Leave it in a regular savings account — at least the principal is guaranteed.',
+                            biasLabel: 'Unnecessary sacrifice of returns',
+                            biasExplanation: 'Cash management products from MAS-regulated robo-advisors also protect your principal (they invest in money market funds) while earning substantially more. There is no meaningful additional safety in leaving money at 0.05% versus earning 3–4% in a cash management account.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Getting Started with $100 ────────────────────────────
+              {
+                key: 'start',
+                title: 'Getting Started with $100',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Getting Started with $100',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Opening a robo-advisor account takes about 15 minutes and requires no prior investing knowledge. Here is exactly what to expect — from onboarding to your first deposit — and how to think about robo-advisors as your portfolio grows over time.',
+                  },
+                  {
+                    type: 'steps',
+                    steps: [
+                      'Download the app — Syfe, StashAway, or Endowus are all available on iOS and Android',
+                      'Complete the onboarding questionnaire — answer questions about your goals, time horizon, and risk tolerance honestly',
+                      'Review the suggested portfolio — check the underlying ETFs and their expense ratios before proceeding',
+                      'Verify your identity — upload your passport and student pass as required by MAS regulations',
+                      'Link your Singapore bank account — DBS, OCBC, or UOB are accepted by all three platforms',
+                      'Make your first deposit — as little as $1 on Syfe or StashAway; $1,000 minimum on Endowus cash portfolios',
+                      'Set up a recurring transfer — automate a monthly top-up to build the dollar-cost averaging habit',
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Robo-Advisor vs DIY ETF Investing — When to Switch',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Robo-advisors are an excellent starting point, but as your portfolio grows, their management fees become more significant in absolute dollar terms. Understanding when a DIY ETF approach starts to make financial sense helps you plan your investing journey beyond university.',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'Robo-advisor vs DIY ETFs — tap to compare:',
+                    variant: 'neutral',
+                    cards: [
+                      {
+                        frontLabel: '🤖 Robo-Advisor',
+                        backLabel: '📋 When it makes sense',
+                        front: 'Platform manages everything — portfolio construction, rebalancing, dividend reinvestment. You just deposit money. Annual fee of ~0.20–0.65% on top of ETF costs.',
+                        back: 'Best when starting out with small amounts ($100–$20,000), when you have limited time or knowledge, or when you want the discipline of automatic investing without manual effort. The convenience premium is worth it at this stage.',
+                        tag: 'Best for beginners and small portfolios',
+                      },
+                      {
+                        frontLabel: '📊 DIY ETF Investing',
+                        backLabel: '📋 When it makes sense',
+                        front: 'You buy ETFs directly through a broker — Tiger Brokers, Moomoo, or IBKR. No platform management fee, just brokerage commissions. You handle rebalancing manually.',
+                        back: 'Best when your portfolio exceeds $20,000–$50,000 and the robo-advisor fee becomes meaningful in dollar terms. A 0.50% fee on $50,000 is $250/year — enough to justify the effort of managing a simple two-ETF portfolio yourself.',
+                        tag: 'Better value at larger portfolio sizes',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'slider',
+                    icon: '📉',
+                    title: 'Robo-Advisor Fee Calculator',
+                    description: 'Drag to your portfolio size to see how much you pay annually in robo-advisor management fees at 0.40% (mid-range) versus the cost of managing a DIY ETF portfolio at 0.06% brokerage commission.',
+                    min: 1000,
+                    max: 100000,
+                    step: 1000,
+                    initialValue: 10000,
+                    prefix: '$',
+                    calculateResult: (portfolio) => {
+                      const roboFee = portfolio * 0.004;
+                      const diyFee = portfolio * 0.0006;
+                      const difference = roboFee - diyFee;
+                      return [
+                        { label: '🤖 Robo-advisor fee (0.40% p.a.)', value: `$${roboFee.toFixed(2)}/year`, color: '#0891B2' },
+                        { label: '📊 DIY ETF cost (0.06% commission)', value: `$${diyFee.toFixed(2)}/year`, color: '#059669' },
+                        { label: '💡 Convenience premium you pay', value: `$${difference.toFixed(2)}/year`, color: '#7C3AED' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'As a student with a small starting portfolio, the robo-advisor convenience premium is minimal in dollar terms — $40/year on a $10,000 portfolio. Focus on building the investing habit first. You can always migrate to a DIY ETF strategy once your portfolio and confidence grow.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Syfe StashAway Endowus how to open account Singapore student 2025',
+                    prompt: 'How to open Syfe StashAway Endowus account Singapore 2025 international student documents required minimum deposit steps',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '8-3-s3-mcq',
+                    fincoins: 10,
+                    icon: '🤖',
+                    title: 'Robo-Advisor Cost Quiz',
+                    question: 'A student has $8,000 in a Syfe Core portfolio and is wondering whether to switch to buying ETFs directly through Tiger Brokers. The robo-advisor charges 0.50% p.a. What is the annual management fee, and is switching likely worth it at this portfolio size?',
+                    options: [
+                      '$400/year — yes, switching to DIY is clearly worth it at $8,000',
+                      '$40/year — probably not worth the added complexity of DIY investing at this size',
+                      '$80/year — borderline, depends on how confident you are managing it yourself',
+                      '$800/year — definitely switch to DIY immediately',
+                    ],
+                    correctIndex: 1,
+                    explanation: '0.50% of $8,000 = $40/year. At this portfolio size, the convenience of automatic rebalancing, dividend reinvestment, and hands-off management is almost certainly worth $40/year. The DIY switch makes more financial sense once the portfolio grows to $30,000–$50,000, where the same fee rate becomes $150–$250/year.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Robo-Advisors in Singapore',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Robo-Advisors in Singapore',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how robo-advisors work, the key differences between Syfe, StashAway, and Endowus, and when to consider switching to DIY ETF investing. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Syfe vs StashAway vs Endowus Singapore 2025 — which robo-advisor should I use?',
+                    prompt: 'Syfe StashAway Endowus Singapore 2025 comparison which robo-advisor best for students CPF fees portfolio',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '8-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '🤖',
+                    title: 'Robo-Advisor Challenge',
+                    questions: [
+                      {
+                        concept: 'How Robo-Advisors Work',
+                        question: 'What does automatic rebalancing do in a robo-advisor portfolio?',
+                        options: [
+                          'It switches your portfolio to cash whenever markets fall by more than 10%',
+                          'It sells outperforming assets and buys underperforming ones to restore your target allocation',
+                          'It automatically increases your monthly deposit when your income rises',
+                          'It changes your risk profile each year as you get older',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Automatic rebalancing restores your portfolio to its target allocation when market movements cause it to drift. If equities grow to 70% when your target is 60%, the platform sells some equities and buys more bonds — enforcing discipline without requiring any action from you.',
+                      },
+                      {
+                        concept: 'Choosing the Right Platform',
+                        question: 'Which Singapore robo-advisor is the only one that allows investment of CPF Ordinary Account funds?',
+                        options: [
+                          'Syfe — via its REIT+ portfolio',
+                          'StashAway — via its goal-based planning framework',
+                          'Endowus — via the CPF Investment Scheme (CPFIS)',
+                          'All three platforms support CPF investing equally',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Endowus is the only MAS-regulated robo-advisor in Singapore that allows investment of CPF Ordinary Account and SRS funds via the CPFIS scheme. Syfe and StashAway are cash-only platforms — they cannot access your CPF balance.',
+                      },
+                      {
+                        concept: 'Robo-Advisor vs DIY ETFs',
+                        question: 'At which approximate portfolio size does the annual management fee of a robo-advisor (0.50% p.a.) become significant enough to seriously consider switching to DIY ETF investing?',
+                        options: [
+                          '$1,000 — the fee is already too high from the very beginning',
+                          '$5,000 — switch as soon as you have a meaningful amount',
+                          '$30,000–$50,000 — when the fee becomes $150–$250/year in absolute terms',
+                          '$500,000 — robo-advisors are always worth it for the convenience',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'At $10,000, a 0.50% fee is $50/year — the convenience of automatic rebalancing and dividend reinvestment is likely worth that. At $30,000–$50,000, the same rate becomes $150–$250/year — enough to justify the effort of managing a simple two-ETF portfolio yourself through a low-cost broker like Tiger or IBKR.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What is a robo-advisor and what does it do automatically?', a: 'A robo-advisor builds and manages a diversified ETF portfolio based on your risk profile. It handles portfolio construction, automatic rebalancing, and dividend reinvestment — you just deposit money. No stock-picking or manual management required.' },
+              { q: 'Which of the three major Singapore robo-advisors can invest your CPF Ordinary Account funds?', a: 'Endowus — it is the only MAS-regulated robo-advisor in Singapore that allows investment of CPF-OA and SRS funds via the CPFIS scheme. Syfe and StashAway are cash-only platforms.' },
+              { q: 'What is the key difference between Syfe, StashAway, and Endowus for a student with no CPF yet?', a: 'For cash investing, all three are broadly similar. Syfe stands out for its REIT+ income portfolio and Cash+ account. StashAway offers strong goal-based planning tools. Endowus has a $1,000 minimum but offers access to institutional-class funds.' },
+              { q: 'At what portfolio size does switching from a robo-advisor to DIY ETF investing typically make financial sense?', a: 'Around $30,000–$50,000 — where a 0.50% p.a. robo-advisor fee becomes $150–$250/year in absolute terms. Below this, the convenience of automatic rebalancing and dividend reinvestment is generally worth the fee.' },
+              { q: 'What are the cash management products offered by Singapore\'s three robo-advisors, and what do they typically earn?', a: 'Syfe Cash+, StashAway Simple, and Endowus Cash Smart — all invest in money market funds or short-duration bonds, earning approximately 3–4% p.a. with no lock-in period. A meaningful upgrade over a standard savings account for idle cash.' },
+            ],
+          },
         ],
       },
       {
