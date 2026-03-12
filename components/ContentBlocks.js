@@ -35,12 +35,25 @@ export function TextBlock({ text }) {
 // ─── Key Term (tap to expand) ─────────────────────────
 export function KeyTermBlock({ term, definition }) {
   const [open, setOpen] = useState(false);
+  const [measuredHeight, setMeasuredHeight] = useState(0);
   const anim = useRef(new Animated.Value(0)).current;
+  const hasMeasured = useRef(false);
+
   const toggle = () => {
-    Animated.timing(anim, { toValue: open ? 0 : 1, duration: 220, useNativeDriver: false }).start();
+    const toValue = open ? 0 : 1;
     setOpen(!open);
+    Animated.timing(anim, {
+      toValue,
+      duration: 220,
+      useNativeDriver: false,
+    }).start();
   };
-  const maxH = anim.interpolate({ inputRange: [0, 1], outputRange: [0, 100] });
+
+  const maxH = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, measuredHeight || 200],
+  });
+
   return (
     <TouchableOpacity style={s.keytermBox} onPress={toggle} activeOpacity={0.85}>
       <View style={s.keytermRow}>
@@ -49,23 +62,32 @@ export function KeyTermBlock({ term, definition }) {
         <Text style={s.chevron}>{open ? '▲' : '▼'}</Text>
       </View>
       <Animated.View style={{ maxHeight: maxH, overflow: 'hidden' }}>
-        <Text style={s.keytermDef}>{definition}</Text>
+        <Text
+          style={s.keytermDef}
+          onLayout={e => {
+            if (hasMeasured.current) return;
+            hasMeasured.current = true;
+            setMeasuredHeight(e.nativeEvent.layout.height);
+          }}
+        >
+          {definition}
+        </Text>
       </Animated.View>
     </TouchableOpacity>
   );
 }
 
 // ─── Smart Table — auto-picks the right layout ────────
-export function SmartTable({ headers, rows }) {
+export function SmartTable({ headers, rows, firstColAccent }) {
   const colCount = headers.length;
   const rowCount = rows.length;
-  if (colCount === 2) return <PillTable headers={headers} rows={rows} />;
+  if (colCount === 2) return <PillTable headers={headers} rows={rows} firstColAccent={firstColAccent} />;
   if (colCount === 3 && rowCount <= 3) return <IconRowCards headers={headers} rows={rows} />;
   return <ScrollTable headers={headers} rows={rows} />;
 }
 
 // ─── 1. Pill layout (2 columns) ───────────────────────
-function PillTable({ headers, rows }) {
+function PillTable({ headers, rows, firstColAccent }) {
   return (
     <View style={t.pillWrapper}>
       <View style={t.pillHeaderRow}>
@@ -78,15 +100,13 @@ function PillTable({ headers, rows }) {
       </View>
       {rows.map((row, i) => (
         <View key={i} style={[t.pillRow, i % 2 === 1 && t.pillRowAlt]}>
-          <Text style={[t.pillCell, t.pillCellLeft]}>{row[0]}</Text>
-          <View style={t.pillDivider} />
+          <Text style={[t.pillCell, t.pillCellLeft, firstColAccent && t.pillCellLeftAccent]}>{row[0]}</Text>
           <Text style={[t.pillCell, t.pillCellRight]}>{row[1]}</Text>
         </View>
       ))}
     </View>
   );
 }
-
 // ─── 2. Icon row cards (3 cols, ≤3 rows) ─────────────
 function IconRowCards({ headers, rows }) {
   const colors = ['#4F46E5', '#059669', '#F59E0B', '#DC2626'];
@@ -1675,6 +1695,8 @@ export function FlipCardDeck({ title, cards }) {
   // cards: [{ front, back, backLabel }]
   const SW = Dimensions.get('window').width - 48;
   const [flipped, setFlipped] = useState({});
+  const [cardHeight, setCardHeight] = useState(180);
+  const measuredHeights = useRef({});
   const anims = useRef(cards.map(() => new Animated.Value(0))).current;
   const scrollRef = useRef(null);
 
@@ -1697,6 +1719,15 @@ export function FlipCardDeck({ title, cards }) {
     });
     a.start();
     setFlipped(f => ({ ...f, [i]: !f[i] }));
+  };
+
+  const onCardLayout = (e, key) => {
+    const h = e.nativeEvent.layout.height;
+    measuredHeights.current[key] = h;
+    const allHeights = Object.values(measuredHeights.current);
+    if (allHeights.length === cards.length * 2) {
+      setCardHeight(Math.max(...allHeights));
+    }
   };
 
   return (
@@ -1736,13 +1767,16 @@ export function FlipCardDeck({ title, cards }) {
               key={i}
               onPress={() => flip(i)}
               activeOpacity={1}
-              style={[fd.cardContainer, { width: SW }]}
+              style={[fd.cardContainer, { width: SW, height: cardHeight }]}
             >
-              {/* Front — Fixed mindset */}
-              <Animated.View style={[
-                fd.card, fd.cardFront,
-                { width: SW, opacity: frontOpacity, transform: [{ perspective: 1000 }, { rotateY: frontRotate }] }
-              ]}>
+              {/* Front */}
+              <Animated.View
+                onLayout={(e) => onCardLayout(e, `front-${i}`)}
+                style={[
+                  fd.card, fd.cardFront,
+                  { width: SW, minHeight: cardHeight, opacity: frontOpacity, transform: [{ perspective: 1000 }, { rotateY: frontRotate }] }
+                ]}
+              >
                 <View style={fd.cardTopRow}>
                   <View style={fd.badgeFront}><Text style={fd.badgeText}>{card.frontLabel || '❌ Fixed'}</Text></View>
                   <Text style={fd.cardNum}>{i + 1}/{cards.length}</Text>
@@ -1751,11 +1785,14 @@ export function FlipCardDeck({ title, cards }) {
                 <Text style={fd.tapHintFront}>Tap to see the reframe →</Text>
               </Animated.View>
 
-              {/* Back — Growth mindset */}
-              <Animated.View style={[
-                fd.card, fd.cardBack,
-                { width: SW, opacity: backOpacity, transform: [{ perspective: 1000 }, { rotateY: backRotate }] }
-              ]}>
+              {/* Back */}
+              <Animated.View
+                onLayout={(e) => onCardLayout(e, `back-${i}`)}
+                style={[
+                  fd.card, fd.cardBack,
+                  { width: SW, minHeight: cardHeight, opacity: backOpacity, transform: [{ perspective: 1000 }, { rotateY: backRotate }] }
+                ]}
+              >
                 <View style={fd.cardTopRow}>
                   <View style={fd.badgeBack}><Text style={fd.badgeText}>{card.backLabel || '✅ Growth'}</Text></View>
                   <Text style={fd.cardNum}>{i + 1}/{cards.length}</Text>
@@ -1786,10 +1823,10 @@ const fd = StyleSheet.create({
   wrapper: { marginBottom: 14 },
   title: { fontSize: 14, fontWeight: '700', color: '#111827', marginBottom: 4 },
   hint: { fontSize: 12, color: '#9CA3AF', marginBottom: 10 },
-  cardContainer: { position: 'relative', height: 180 },
+  cardContainer: { position: 'relative' },
   card: {
     position: 'absolute', top: 0, left: 0,
-    height: 180, borderRadius: 18, padding: 20,
+    borderRadius: 18, padding: 20,
     justifyContent: 'space-between',
     backfaceVisibility: 'hidden',
     shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
@@ -2371,17 +2408,16 @@ export function TrueFalseExercise({ icon, title, statements }) {
 export function SliderExercise({ icon, title, description, min, max, step, initialValue, prefix, calculateResult }) {
   const [value, setValue] = useState(initialValue);
   const result = calculateResult(value);
-
   const lightBg = (color) =>
     color === '#4F46E5' ? '#EEF2FF' :
     color === '#F59E0B' ? '#FFFBEB' :
-    color === '#059669' ? '#ECFDF5' : '#F3F4F6';
-
+    color === '#059669' ? '#ECFDF5' :
+    color === '#DC2626' ? '#FEF2F2' : '#F3F4F6';
   return (
     <ExerciseWrapper icon={icon} title={title}>
       <Text style={ex.question}>{description}</Text>
       <View style={ex.sliderValueRow}>
-        <Text style={ex.sliderValueLabel}>Monthly Income</Text>
+        <Text style={ex.sliderValueLabel}>Amount</Text>
         <Text style={ex.sliderValue}>{prefix || '$'}{value.toLocaleString()}</Text>
       </View>
       <Slider
@@ -2396,8 +2432,8 @@ export function SliderExercise({ icon, title, description, min, max, step, initi
         thumbTintColor="#4F46E5"
       />
       <View style={ex.sliderMinMax}>
-        <Text style={ex.sliderMinMaxText}>{prefix}${min.toLocaleString()}</Text>
-        <Text style={ex.sliderMinMaxText}>{prefix}${max.toLocaleString()}</Text>
+        <Text style={ex.sliderMinMaxText}>{prefix}{min.toLocaleString()}</Text>
+        <Text style={ex.sliderMinMaxText}>{prefix}{max.toLocaleString()}</Text>
       </View>
       <View style={ex.sliderResult}>
         {result.map((row, i) => (
@@ -2625,11 +2661,12 @@ const t = StyleSheet.create({
   pillHeaderRow: { flexDirection: 'row' },
   pillHeaderCell: { flex: 1, padding: 10, alignItems: 'center' },
   pillHeaderText: { fontSize: 12, fontWeight: '800', color: '#fff', letterSpacing: 0.3 },
-  pillRow: { flexDirection: 'row', backgroundColor: '#fff', alignItems: 'stretch' },
+  pillRow: { flexDirection: 'row', backgroundColor: '#fff', alignItems: 'stretch', borderTopWidth: 1, borderTopColor: '#E5E7EB' },
   pillRowAlt: { backgroundColor: '#F9FAFB' },
   pillCell: { flex: 1, fontSize: 13, color: '#374151', padding: 12, lineHeight: 18 },
-  pillCellLeft: { borderRightWidth: 1, borderRightColor: '#E5E7EB', color: '#DC2626' },
-  pillCellRight: { color: '#059669' },
+  pillCellLeft: { borderRightWidth: 1, borderRightColor: '#E5E7EB' },
+  pillCellRight: {},
+  pillCellLeftAccent: { backgroundColor: '#EEF2FF', fontWeight: '700', color: '#3730A3' },
   pillDivider: { width: 1, backgroundColor: '#E5E7EB' },
   iconCardsWrapper: { marginBottom: 14, gap: 8 },
   iconCard: { backgroundColor: '#fff', borderRadius: 12, borderLeftWidth: 4, overflow: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
@@ -2752,10 +2789,10 @@ const ex = StyleSheet.create({
   slider: { width: '100%', height: 40 },
   sliderMinMax: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
   sliderMinMaxText: { fontSize: 12, color: '#9CA3AF' },
-  sliderResult: { gap: 6 },
-  sliderResultRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderRadius: 10, padding: 12, borderLeftWidth: 4 },
-  sliderResultLabel: { fontSize: 14, color: '#374151', fontWeight: '500' },
-  sliderResultValue: { fontSize: 16, fontWeight: '800' },
+  sliderResult: { gap: 8 },
+  sliderResultRow: { flexDirection: 'column', borderRadius: 10, padding: 12, borderLeftWidth: 4 },
+  sliderResultLabel: { fontSize: 13, color: '#374151', fontWeight: '500', lineHeight: 19, marginBottom: 6 },
+  sliderResultValue: { fontSize: 20, fontWeight: '800' },
   matchGrid: { flexDirection: 'row', gap: 8, marginBottom: 8 },
   matchCol: { flex: 1, gap: 6 },
   matchItem: { borderRadius: 10, padding: 10, borderWidth: 1.5, borderColor: '#E5E7EB', backgroundColor: '#F9FAFB', minHeight: 52, justifyContent: 'center' },
