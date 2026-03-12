@@ -8031,585 +8031,1298 @@ export const MODULES = [
         icon: '🌱',
         description: 'Core concepts every investor must understand first',
         lessons: [
-          { id: '7-1', title: 'Why Invest at All?', icon: '🤔', topic: 'Why investing beats saving alone', duration: '5 min', fincoins: 80, sections: [{ key: 'why', heading: 'Inflation Erodes Savings' }, { key: 'power', heading: 'The Power of Compounding' }, { key: 'start', heading: 'Starting Early' }], 
-          content: [
-            {
-              type: 'text',
-              text: 'Saving money is necessary — but it is not enough. A savings account preserves the number in your balance. Investing grows what that number can actually buy. The silent enemy of savings is inflation — and most people don\'t feel its effect until years of purchasing power have already been lost.',
-            },
-            {
-              type: 'callout',
-              variant: 'fact',
-              text: 'Singapore\'s average inflation rate has historically run at 2–3% p.a. A basic savings account earning 0.05% means your money is losing purchasing power every single year — not gaining it.',
-            },
-            {
-              type: 'keyterm',
-              term: 'Real Return',
-              definition: 'Your investment return after subtracting inflation. A savings account earning 0.05% with inflation at 2.5% has a real return of -2.45% — meaning your money buys less every year, even as the balance grows.',
-            },
-            {
-              type: 'timeline',
-              title: 'Why saving alone isn\'t enough:',
-              nodes: [
-                {
-                  icon: '📉',
-                  label: 'Inflation Erodes',
-                  sublabel: 'Your money buys less every year',
-                  color: '#DC2626',
-                  examples: ['2.5% inflation p.a.', '$10,000 today = ~$7,800 in 10 years', 'Prices rise, savings don\'t'],
-                  details: [
-                    'Inflation is the rate at which prices rise over time — meaning the same amount of money buys less as years pass.',
-                    'At 2.5% inflation, $10,000 today has the purchasing power of approximately $7,800 in 10 years.',
-                    'Even if your savings balance stays at $10,000, what it can buy has shrunk by 22%.',
-                  ],
-                  tip: 'Think of inflation not as prices going up — but as your money\'s value quietly going down. The effect is invisible month to month but devastating over a decade.',
-                },
-                {
-                  icon: '🏦',
-                  label: 'Saving Alone',
-                  sublabel: 'The gap between savings and inflation',
-                  color: '#F59E0B',
-                  examples: ['Basic account: 0.05% p.a.', 'HYSA (optimised): ~3–4% p.a.', 'Still barely beats inflation'],
-                  details: [
-                    'A basic savings account at 0.05% does almost nothing to offset inflation — you are falling behind by roughly 2.45% every year.',
-                    'Even an optimised HYSA at 3–4% p.a. barely keeps pace with inflation — it preserves purchasing power but does not grow it.',
-                    'Saving is essential for liquidity and security — but it cannot build long-term wealth on its own.',
-                  ],
-                  tip: 'HYSAs are for your emergency fund and short-term goals. For long-term wealth, you need returns that meaningfully outpace inflation — and that means investing.',
-                },
-                {
-                  icon: '📈',
-                  label: 'Investing Bridges the Gap',
-                  sublabel: 'Historical returns outpace inflation',
-                  color: '#059669',
-                  examples: ['S&P 500: ~10% p.a. historical avg', 'STI: ~7–8% p.a. historical avg', 'Bonds: ~3–5% p.a.'],
-                  details: [
-                    'Historically, broad market investments have returned 7–10% p.a. on average — significantly outpacing inflation.',
-                    'This means invested money doesn\'t just preserve purchasing power — it compounds and grows in real terms over time.',
-                    'The risk is that returns are not guaranteed and values fluctuate — but over long horizons, the evidence strongly favours investing over saving alone.',
-                  ],
-                  tip: 'Investing doesn\'t mean gambling. A diversified, low-cost index fund has historically been one of the most reliable ways to build long-term wealth for ordinary investors.',
-                },
-              ],
-            },
-            {
-              type: 'bot',
-              label: '💬 Current Singapore inflation rate and average savings account rate',
-              prompt: 'Current Singapore inflation rate CPI 2025 and average savings account interest rate comparison',
-            },
-            {
-              type: 'slider',
-              icon: '📉',
-              title: 'Inflation Erosion vs Investment Growth',
-              description: 'Drag to your current savings amount to see the real value difference after 10 years — inflation at 2.5% p.a. vs invested at an illustrative 7% p.a.',
-              min: 1000,
-              max: 50000,
-              step: 1000,
-              initialValue: 10000,
-              prefix: '$',
-              calculateResult: (amount) => [
-                { label: '😴 Real value after 10 years (0.05% savings, 2.5% inflation)', value: `$${Math.round(amount * Math.pow(0.9755, 10)).toLocaleString()}`, color: '#DC2626' },
-                { label: '🏦 HYSA after 10 years (3% p.a., 2.5% inflation)', value: `$${Math.round(amount * Math.pow(1.005, 10)).toLocaleString()}`, color: '#F59E0B' },
-                { label: '📈 Invested after 10 years (illustrative 7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10)).toLocaleString()}`, color: '#059669' },
-              ],
-            },
-            {
-              type: 'text',
-              text: 'Even when people understand the case for investing intellectually, they often don\'t act on it. The reason is almost never a lack of information — it\'s a set of deeply ingrained mental biases that make inaction feel safer than it is.',
-            },
-            //flipcards here.
-            {
-              type: 'flipcards',
-              title: 'Biases that stop people from investing:',
-              cards: [
-                {
-                  front: '⏰ Present Bias\n\n"I\'ll start investing next year" — valuing present comfort over future gain.',
-                  back: 'Every year you delay is compounding you never get back. $10,000 at 25 grows to ~$76,000 by 65 at 7% p.a. Wait until 35 and you get only ~$38,000 — half as much from one decade of delay.',
-                },
-                {
-                  front: '😰 Loss Aversion\n\nLosses feel twice as painful as equivalent gains feel good — so potential losses loom larger than potential returns.',
-                  back: 'Not investing is also a choice with a guaranteed cost: inflation. The question is not "what if I lose money?" — it\'s "what is the cost of doing nothing?" Over 10 years, that cost is enormous.',
-                },
-                {
-                  front: '🌈 Optimism Bias\n\n"My savings account is fine for now — I\'ll worry about investing when I have more money."',
-                  back: 'There is no minimum amount required to start. Many platforms allow you to invest from $1. Waiting until you have "enough" means the best compounding years pass unused.',
-                },
-              ],
-            },
-            {
-              type: 'tindertruefalse',
-              title: 'Investing vs Saving — True or False?',
-              instruction: 'Swipe right for True · Swipe left for False',
-              statements: [
-                {
-                  text: 'A savings account with a 3% interest rate beats inflation if Singapore\'s inflation rate is 2.5% p.a.',
-                  isTrue: true,
-                  explanation: 'A 3% savings rate with 2.5% inflation gives a real return of +0.5% — your purchasing power is growing, just slowly. This is why optimised HYSAs matter even before you invest.',
-                },
-                {
-                  text: 'Keeping money in a basic savings account at 0.05% is risk-free.',
-                  isTrue: false,
-                  explanation: 'It is free of market risk — but not inflation risk. At 0.05% with 2.5% inflation, your real return is -2.45% per year. Inflation risk is real and guaranteed; market risk is variable.',
-                },
-                {
-                  text: 'Starting to invest 10 years later can roughly halve the final value of your portfolio, even with the same total amount invested.',
-                  isTrue: true,
-                  explanation: 'Compounding is exponential — the early years generate the base that later years multiply. A 10-year delay at 7% p.a. roughly halves the final portfolio value due to lost compounding time.',
-                },
-                {
-                  text: 'Present bias, loss aversion, and optimism bias are rare — most people make rational financial decisions.',
-                  isTrue: false,
-                  explanation: 'These biases are universal and well-documented in behavioural economics. They affect everyone — the goal is not to eliminate them but to recognise when they\'re driving your decisions.',
-                },
-                {
-                  text: 'Investing always requires a large lump sum — you need at least $1,000 to start.',
-                  isTrue: false,
-                  explanation: 'Many Singapore platforms — including robo-advisors like Syfe and StashAway — allow you to start with as little as $1. The barrier to entry for investing has never been lower.',
-                },
-              ],
-            },
-            {
-              type: 'bot',
-              label: '💬 CPF interest rates and historical Singapore and US market returns',
-              prompt: 'CPF OA SA interest rates 2025 Singapore STI historical returns S&P 500 average annual return comparison',
-            },
-          ],
-          flashcards: [
-            { q: 'What is real return and why does it matter?', a: 'Real return is your investment return minus inflation. A savings account at 0.05% with 2.5% inflation has a real return of -2.45% — your money buys less every year.' },
-            { q: 'Why does starting to invest early matter so much?', a: 'Compounding is exponential — early years generate the base that later years multiply. A 10-year delay can roughly halve your final portfolio value even with the same amount invested.' },
-            { q: 'What is present bias and how does it affect investing decisions?', a: 'Present bias is valuing immediate comfort over future gain — leading to "I\'ll start investing later." Every delayed year is compounding you never recover.' },
-            { q: 'Is keeping money in a savings account truly risk-free?', a: 'No — it is free of market risk but exposed to inflation risk. At 0.05% with 2.5% inflation, you lose 2.45% of purchasing power every year.' },
-            { q: 'What have broad market investments historically returned per year?', a: 'The S&P 500 has historically averaged ~10% p.a. and the Singapore STI ~7–8% p.a. — both significantly outpacing long-term inflation.' },
-          ], 
-        },
-          { id: '7-2', title: 'Risk & Return', icon: '⚖️', topic: 'Risk return tradeoff investing', duration: '6 min', fincoins: 80, sections: [{ key: 'tradeoff', heading: 'The Risk-Return Tradeoff' }, { key: 'types', heading: 'Types of Investment Risk' }, { key: 'tolerance', heading: 'Your Risk Tolerance' }], 
-          content: [
-            {
-              type: 'text',
-              text: 'Every investment involves a tradeoff between risk and return. This is not a flaw in the system — it is the system. Understanding this tradeoff, rather than trying to avoid risk entirely, is what separates informed investors from fearful ones. The goal is not zero risk — it is the right amount of risk for your situation.',
-            },
-            {
-              type: 'keyterm',
-              term: 'Risk-Return Tradeoff',
-              definition: 'The principle that higher potential returns always come with higher risk of loss. No legitimate investment offers high returns with zero risk — the two are inseparable in functioning markets.',
-            },
-            {
-              type: 'callout',
-              variant: 'warning',
-              text: 'If someone offers you a high-return, zero-risk investment — that is the definition of a scam. In legitimate financial markets, risk and return are always proportional. Promises of guaranteed high returns are the oldest financial fraud in existence.',
-            },
-            {
-              type: 'topiccards',
-              title: 'The four types of investment risk:',
-              cards: [
-                {
-                  icon: '📊',
-                  label: 'Market Risk',
-                  description: 'The risk that the whole market falls',
-                  color: '#DC2626',
-                  details: [
-                    'Market risk is the risk that broad market conditions cause your investment to fall in value — regardless of how good the individual asset is',
-                    'It cannot be eliminated through stock-picking — it affects all investments simultaneously',
-                    'Example: during the 2020 COVID crash, the S&P 500 fell ~34% in weeks — even strong companies lost value',
-                  ],
-                  example: 'How to manage it: stay invested for the long term. Market downturns are temporary — historically, markets have always recovered and gone on to new highs.',
-                },
-                {
-                  icon: '💸',
-                  label: 'Inflation Risk',
-                  description: 'The risk that returns don\'t beat inflation',
-                  color: '#F59E0B',
-                  details: [
-                    'Inflation risk is the risk that your investment returns fail to keep pace with inflation — leaving you with more dollars but less purchasing power',
-                    'This is the primary risk of being too conservative — keeping everything in cash or low-yield savings',
-                    'Example: a 2% fixed deposit with 3% inflation produces a -1% real return',
-                  ],
-                  example: 'How to manage it: ensure your overall portfolio earns a real return above inflation — which typically requires some exposure to equities.',
-                },
-                {
-                  icon: '🔒',
-                  label: 'Liquidity Risk',
-                  description: 'The risk of not being able to exit when needed',
-                  color: '#4F46E5',
-                  details: [
-                    'Liquidity risk is the risk that you cannot sell your investment quickly without accepting a significant discount to its value',
-                    'Highly liquid assets (stocks, ETFs) can be sold instantly at market price. Illiquid assets (property, private equity) may take months or years to exit',
-                    'Example: a student who invested their emergency fund in property cannot access those funds in a medical emergency',
-                  ],
-                  example: 'How to manage it: keep your emergency fund in liquid instruments (HYSA, SSB) and only lock up money you genuinely won\'t need.',
-                },
-                {
-                  icon: '🎯',
-                  label: 'Concentration Risk',
-                  description: 'The risk of being overexposed to one asset',
-                  color: '#059669',
-                  details: [
-                    'Concentration risk is the risk that a large portion of your portfolio is in a single asset, sector, or geography — so a loss there devastates your whole portfolio',
-                    'This is the most common and most avoidable risk for beginner investors',
-                    'Example: putting all savings into a single company\'s stock — if that company fails, you lose everything',
-                  ],
-                  example: 'How to manage it: diversify across asset classes, sectors, and geographies. A broad ETF eliminates concentration risk almost entirely.',
-                },
-              ],
-            },
-            {
-              type: 'bot',
-              label: '💬 Recent examples of each risk type playing out in Singapore markets',
-              prompt: 'Recent examples market risk inflation risk liquidity risk concentration risk Singapore investors 2024 2025',
-            },
-            {
-              type: 'text',
-              text: 'Your risk tolerance is how much volatility and potential loss you can handle — both financially and emotionally — without making panic decisions. It depends on your time horizon, income stability, and personality. Here are three common investor profiles.',
-            },
-            {
-              type: 'scenarios',
-              title: 'What portfolio fits your risk tolerance?',
-              scenarios: [
-                {
-                  icon: '🛡️',
-                  situation: 'You\'re a final-year student with $5,000 saved. You\'re graduating in 8 months and will need this money for relocation and initial work expenses. You cannot afford to lose any of it.',
-                  options: [
-                    {
-                      text: 'Invest the full $5,000 in an S&P 500 ETF for growth.',
-                      biasLabel: 'Wrong time horizon',
-                      biasExplanation: 'An 8-month horizon is far too short for equity investing. Markets can fall 20–30% in months — you could need this money right at the bottom of a correction.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: 'Place the full $5,000 in a 6-month T-bill or fixed deposit.',
-                      biasLabel: 'Right tool for this goal ✓',
-                      biasExplanation: 'Short-term, capital-critical money belongs in capital-protected instruments. A T-bill or FD guarantees your principal with a competitive return — perfectly matched to your 8-month horizon.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: 'Split $2,500 into an ETF and $2,500 into an FD for balance.',
-                      biasLabel: 'Still too much risk',
-                      biasExplanation: 'If you genuinely need this money in 8 months, any equity exposure is inappropriate. The split feels balanced but the equity half could drop 30% right when you need it.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-                {
-                  icon: '📈',
-                  situation: 'You\'ve just started full-time work, earning $3,500/month. You have a fully funded emergency fund and $500/month to invest. You won\'t need this money for at least 10 years.',
-                  options: [
-                    {
-                      text: 'Invest the $500/month entirely in Singapore Savings Bonds.',
-                      biasLabel: 'Too conservative for 10 years',
-                      biasExplanation: 'SSBs are excellent for short-term capital protection but are not designed for long-term wealth building. At 3% p.a. with 2.5% inflation, you\'re barely growing your real wealth over 10 years.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: 'Invest in a diversified ETF portfolio — e.g. 80% global equities, 20% bonds.',
-                      biasLabel: 'Well-matched to your profile ✓',
-                      biasExplanation: 'A 10-year horizon with stable income and a funded emergency fund is textbook equity-friendly. An 80/20 portfolio captures most equity upside while bonds cushion volatility.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: 'Put everything in a single high-growth tech stock for maximum return.',
-                      biasLabel: 'Concentration risk',
-                      biasExplanation: 'Single-stock investing introduces enormous concentration risk — one bad earnings call or sector downturn could wipe out years of gains. Diversification captures market growth without this exposure.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-                {
-                  icon: '😰',
-                  situation: 'You started investing 6 months ago. Markets have dropped 15% and your $10,000 portfolio is now worth $8,500. You\'re considering selling everything to stop further losses.',
-                  options: [
-                    {
-                      text: 'Sell everything and move to cash — you can reinvest when markets recover.',
-                      biasLabel: 'Classic loss aversion trap',
-                      biasExplanation: 'Selling at -15% locks in your loss permanently. Waiting to "reinvest when markets recover" means you miss the recovery entirely — the best market days often follow the worst.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: 'Hold your position — a 15% drawdown is normal and temporary for a long-term investor.',
-                      biasLabel: 'Correct response ✓',
-                      biasExplanation: 'Market corrections of 10–20% happen regularly and historically always recover. Staying invested is the single most important decision a long-term investor makes during downturns.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: 'Buy more while prices are lower — dollar-cost average into the dip.',
-                      biasLabel: 'Also a strong move',
-                      biasExplanation: 'If you have spare capital and a long horizon, buying during corrections is historically one of the best moves you can make. Both holding and buying more are correct — selling is the only wrong answer.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: 'tindertruefalse',
-              title: 'Risk & Return — True or False?',
-              instruction: 'Swipe right for True · Swipe left for False',
-              statements: [
-                {
-                  text: 'A guaranteed high-return, zero-risk investment is a sign of a legitimate financial opportunity.',
-                  isTrue: false,
-                  explanation: 'In legitimate markets, risk and return are always proportional. Any promise of high returns with zero risk is a defining characteristic of financial fraud.',
-                },
-                {
-                  text: 'Inflation risk means your investment could lose money even if its nominal value increases.',
-                  isTrue: true,
-                  explanation: 'If your investment returns 2% but inflation is 3%, you\'ve gained in dollar terms but lost in purchasing power. Inflation risk is the hidden cost of being too conservative.',
-                },
-                {
-                  text: 'A student who needs their savings in 8 months should invest in equities to maximise returns.',
-                  isTrue: false,
-                  explanation: 'Short time horizons are incompatible with equity investing — markets can fall 20–30% in months. Capital-critical short-term money belongs in capital-protected instruments like T-bills or FDs.',
-                },
-                {
-                  text: 'Selling your portfolio during a market downturn is the safest way to protect your money.',
-                  isTrue: false,
-                  explanation: 'Selling during a downturn locks in losses permanently. Markets have historically always recovered — staying invested is almost always the correct decision for long-term investors.',
-                },
-                {
-                  text: 'Concentration risk can be almost entirely eliminated by investing in a broad market ETF.',
-                  isTrue: true,
-                  explanation: 'A broad market ETF spreads exposure across hundreds or thousands of companies — no single company\'s failure can significantly damage your portfolio.',
-                },
-              ],
-            },
-            {
-              type: 'bot',
-              label: '💬 Historical average returns for STI, S&P 500, and bonds',
-              prompt: 'Historical average annual returns Singapore STI S&P 500 index global bonds comparison long term investing',
-            },
-          ],
-          flashcards: [
-            { q: 'What is the risk-return tradeoff?', a: 'Higher potential returns always come with higher risk. No legitimate investment offers high returns with zero risk — in functioning markets, the two are inseparable.' },
-            { q: 'What is concentration risk and how do you avoid it?', a: 'The risk of being overexposed to a single asset, sector, or geography. Avoided by diversifying across multiple assets — a broad ETF eliminates it almost entirely.' },
-            { q: 'What is liquidity risk?', a: 'The risk of not being able to sell an investment quickly without a significant loss in value. Managed by keeping emergency funds in liquid instruments and only locking up money you won\'t need.' },
-            { q: 'Why is selling during a market downturn almost always the wrong decision?', a: 'Selling locks in losses permanently. Historically, markets always recover — and the best recovery days often follow the worst drawdown days, which you miss if you\'ve sold.' },
-            { q: 'What is inflation risk and who is most exposed to it?', a: 'The risk that your returns fail to keep pace with inflation, eroding purchasing power. Most exposed: investors who keep everything in cash or low-yield savings accounts.' },
-          ],
-          },
-          { id: '7-3', title: 'Diversification', icon: '🎨', topic: 'Diversification portfolio investing strategy', duration: '5 min', fincoins: 80, sections: [{ key: 'what', heading: 'What is Diversification?' }, { key: 'how', heading: 'How to Diversify' }, { key: 'etf', heading: 'ETFs as Instant Diversification' }],
-          content: [
-            {
-              type: 'text',
-              text: 'Diversification is often called the only free lunch in investing — and for good reason. By spreading your investments across different assets, sectors, and geographies, you reduce risk without necessarily reducing your expected return. It is the single most powerful tool available to ordinary investors, and it costs nothing to implement.',
-            },
-            {
-              type: 'keyterm',
-              term: 'Diversification',
-              definition: 'Spreading investments across different assets, sectors, and geographies so that a loss in one position does not devastate your entire portfolio. When one asset falls, others may hold steady or rise — smoothing out overall returns.',
-            },
-            {
-              type: 'callout',
-              variant: 'fact',
-              text: 'A portfolio of 1 stock is entirely at the mercy of that single company. A portfolio of 500 stocks — like an S&P 500 ETF — has smoothed out individual company risk almost entirely. One company failing has a 0.2% impact instead of a 100% one.',
-            },
-            {
-              type: 'timeline',
-              title: 'Three layers of diversification:',
-              nodes: [
-                {
-                  icon: '🏛️',
-                  label: 'Asset Class Diversification',
-                  sublabel: 'Stocks, bonds, cash',
-                  color: '#4F46E5',
-                  examples: ['Stocks: high return, high volatility', 'Bonds: lower return, lower volatility', 'Cash: stable, inflation risk'],
-                  details: [
-                    'Different asset classes behave differently under the same market conditions — when stocks fall, bonds often hold steady or rise.',
-                    'A mix of stocks and bonds smooths out portfolio volatility without proportionally reducing long-term returns.',
-                    'The classic 60/40 portfolio (60% stocks, 40% bonds) has historically delivered strong risk-adjusted returns for decades.',
-                  ],
-                  tip: 'Your stock/bond split should reflect your time horizon — longer horizon means more stocks. A 25-year-old with a 30-year horizon can hold mostly equities; someone near retirement should hold more bonds.',
-                },
-                {
-                  icon: '🌍',
-                  label: 'Geographic Diversification',
-                  sublabel: 'Singapore, US, global',
-                  color: '#0891B2',
-                  examples: ['Singapore STI: local exposure', 'S&P 500: US exposure', 'Global ETF: 50+ countries'],
-                  details: [
-                    'Concentrating all investments in Singapore means your portfolio rises and falls with the Singapore economy alone.',
-                    'Geographic diversification spreads risk across multiple economies — when Singapore underperforms, the US or emerging markets may offset it.',
-                    'A global ETF provides exposure to 50+ countries in a single instrument — the simplest form of geographic diversification.',
-                  ],
-                  tip: 'Home bias — the tendency to overinvest in your own country — is one of the most common portfolio mistakes. Singapore is 0.3% of global market cap; a globally diversified portfolio reflects the actual world economy.',
-                },
-                {
-                  icon: '🧰',
-                  label: 'Instrument Diversification',
-                  sublabel: 'ETFs, unit trusts, individual stocks',
-                  color: '#059669',
-                  examples: ['ETF: low cost, instant diversification', 'Unit trust: managed, higher fees', 'Individual stocks: high risk, high effort'],
-                  details: [
-                    'The instrument you use determines how efficiently you diversify — an ETF gives you hundreds of holdings in one trade.',
-                    'Individual stocks require significant research and capital to diversify effectively — owning 5 stocks is not diversification.',
-                    'For most retail investors, a combination of low-cost ETFs is the most efficient path to broad diversification.',
-                  ],
-                  tip: 'For Singapore investors, a simple two-ETF portfolio — a global equity ETF and a Singapore bond ETF — provides broad diversification at minimal cost and complexity.',
-                },
-              ],
-            },
-            
-            {
-              type: 'bot',
-              label: '💬 Popular ETFs available to Singapore retail investors and their expense ratios',
-              prompt: 'Popular ETFs available Singapore retail investors 2025 expense ratios IWDA STI ETF Syfe StashAway comparison',
-            },
-            {
-              type: 'slider',
-              icon: '🎨',
-              title: 'Volatility: Diversified vs. Concentrated',
-              description: 'Drag to your investment amount to see the difference in estimated annual value range between a concentrated single-stock portfolio and a diversified ETF portfolio at the same illustrative 7% expected return.',
-              min: 1000,
-              max: 50000,
-              step: 1000,
-              initialValue: 10000,
-              prefix: '$',
-              calculateResult: (amount) => [
-                { label: '😴 Real value after 10 years (0.05% savings, 2.5% inflation)', value: `$${Math.round(amount * Math.pow(0.9755, 10))}`, color: '#DC2626' },
-                { label: '🏦 HYSA after 10 years (3% p.a., 2.5% inflation)', value: `$${Math.round(amount * Math.pow(1.005, 10))}`, color: '#F59E0B' },
-                { label: '📈 Invested after 10 years (illustrative 7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10))}`, color: '#059669' },
-              ],
-            },
-            {
-              type: 'scenarios',
-              title: 'Diversified or Concentrated?',
-              scenarios: [
-                {
-                  icon: '📊',
-                  situation: 'S&P 500 ETF — 500 US companies in one fund.',
-                  options: [
-                    {
-                      text: '✅ Diversified',
-                      biasLabel: 'Correct',
-                      biasExplanation: '500 companies across all sectors — no single company represents more than ~7% of the fund. This is one of the broadest diversification tools available.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: '⚠️ Concentrated',
-                      biasLabel: 'Incorrect',
-                      biasExplanation: 'An S&P 500 ETF is highly diversified by definition — sector, size, and geography within the US market all in one purchase.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-                {
-                  icon: '💻',
-                  situation: 'All savings in one tech company\'s shares.',
-                  options: [
-                    {
-                      text: '✅ Diversified',
-                      biasLabel: 'Incorrect',
-                      biasExplanation: 'One company, one sector. If it underperforms or fails, your entire portfolio suffers. This is the definition of concentration risk.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: '⚠️ Concentrated',
-                      biasLabel: 'Correct',
-                      biasExplanation: 'Single-stock portfolios live and die by one company\'s performance — no diversification benefit at all, regardless of how strong the company looks.',
-                      isIdeal: true,
-                    },
-                  ],
-                },
-                {
-                  icon: '🌍',
-                  situation: 'Global equity ETF covering 50+ countries.',
-                  options: [
-                    {
-                      text: '✅ Diversified',
-                      biasLabel: 'Correct',
-                      biasExplanation: 'A global ETF like IWDA tracks thousands of companies across dozens of countries — the broadest possible geographic and sector exposure in a single instrument.',
-                      isIdeal: true,
-                    },
-                    {
-                      text: '⚠️ Concentrated',
-                      biasLabel: 'Incorrect',
-                      biasExplanation: 'This is as diversified as it gets for a retail investor — one purchase gives you exposure to the entire global economy.',
-                      isIdeal: false,
-                    },
-                  ],
-                },
-                {
-                  icon: '₿',
-                  situation: '100% of portfolio in Bitcoin.',
-                  options: [
-                    {
-                      text: '✅ Diversified',
-                      biasLabel: 'Incorrect',
-                      biasExplanation: 'Crypto is a single asset class with extreme volatility and no income component. Holding only Bitcoin is maximum concentration regardless of past performance.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: '⚠️ Concentrated',
-                      biasLabel: 'Correct',
-                      biasExplanation: 'One asset, maximum volatility — no bonds, no equities, no geographic spread. Concentration risk is at its highest here.',
-                      isIdeal: true,
-                    },
-                  ],
-                },
-                {
-                  icon: '🏦',
-                  situation: 'Five individual Singapore bank stocks.',
-                  options: [
-                    {
-                      text: '✅ Diversified',
-                      biasLabel: 'Incorrect',
-                      biasExplanation: 'Five stocks in the same country and same sector are highly correlated — they tend to fall together when Singapore\'s banking sector faces headwinds.',
-                      isIdeal: false,
-                    },
-                    {
-                      text: '⚠️ Concentrated',
-                      biasLabel: 'Correct',
-                      biasExplanation: 'Geographic and sector concentration persists even with multiple stocks. True diversification requires spreading across different sectors, asset classes, and geographies.',
-                      isIdeal: true,
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: 'tindertruefalse',
-              title: 'Diversification — True or False?',
-              instruction: 'Swipe right for True · Swipe left for False',
-              statements: [
-                {
-                  text: 'Owning five individual stocks from the same country and sector counts as a well-diversified portfolio.',
-                  isTrue: false,
-                  explanation: 'Five stocks in the same country and sector represents significant geographic and sector concentration — not diversification. True diversification spreads across asset classes, sectors, and geographies.',
-                },
-                {
-                  text: 'A global equity ETF can provide exposure to companies in 50 or more countries in a single purchase.',
-                  isTrue: true,
-                  explanation: 'Global ETFs like IWDA track thousands of companies across developed markets worldwide — one purchase delivers broad geographic and sector diversification instantly.',
-                },
-                {
-                  text: 'Diversification eliminates all investment risk — a diversified portfolio cannot lose money.',
-                  isTrue: false,
-                  explanation: 'Diversification reduces concentration and specific risk — but market risk remains. During broad market downturns, even well-diversified portfolios fall. Diversification smooths volatility; it doesn\'t eliminate loss.',
-                },
-                {
-                  text: 'Home bias — overinvesting in your own country — is a common portfolio mistake for Singapore investors.',
-                  isTrue: true,
-                  explanation: 'Singapore represents approximately 0.3% of global market capitalisation. A portfolio heavily concentrated in Singapore stocks is dramatically underexposed to the other 99.7% of global economic activity.',
-                },
-                {
-                  text: 'For most retail investors, a combination of low-cost ETFs is the most efficient path to broad diversification.',
-                  isTrue: true,
-                  explanation: 'ETFs provide instant diversification across hundreds or thousands of holdings at minimal cost. A simple two or three ETF portfolio can achieve broader diversification than most actively managed funds at a fraction of the cost.',
-                },
-              ],
-            },
-            {
-              type: 'bot',
-              label: '💬 Latest performance comparison — STI ETF, S&P 500 ETF, and balanced portfolio for Singapore investors',
-              prompt: 'STI ETF vs S&P 500 ETF vs balanced portfolio performance comparison Singapore investors 2024 2025 returns',
-            },
-          ],
+          // ── LESSON 7-1 ──────────────────────────────
+          {
+            id: '7-1',
+            title: 'Why Invest at All?',
+            icon: '🤔',
+            topic: 'Why investing beats saving alone',
+            duration: '5 min',
+            fincoins: 55,
+            sections: [
 
-          flashcards: [
-            { q: 'Why is diversification called the only free lunch in investing?', a: 'It reduces risk without necessarily reducing expected return — spreading across assets smooths volatility at no additional cost.' },
-            { q: 'What is home bias and why is it a problem for Singapore investors?', a: 'Home bias is overinvesting in your own country. Singapore is ~0.3% of global market cap — a Singapore-heavy portfolio misses 99.7% of global economic growth.' },
-            { q: 'Does diversification eliminate all investment risk?', a: 'No — it eliminates concentration and specific risk, but market risk remains. A diversified portfolio still falls during broad market downturns.' },
-            { q: 'Why does owning five stocks in the same sector not count as diversification?', a: 'Same-sector stocks are highly correlated — they tend to fall together. True diversification requires spreading across different sectors, asset classes, and geographies.' },
-            { q: 'What is the simplest way for a Singapore retail investor to achieve broad diversification?', a: 'Buy a low-cost global equity ETF — one purchase provides exposure to thousands of companies across 50+ countries at minimal cost.' },
-          ],
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'why',
+                title: 'Inflation Erodes Savings',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Inflation Erodes Savings',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Saving money is necessary — but it is not enough. A savings account preserves the number in your balance. Investing grows what that number can actually buy. The silent enemy of savings is inflation — and most people don\'t feel its effect until years of purchasing power have already been lost.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Singapore\'s average inflation rate has historically run at 2–3% p.a. A basic savings account earning 0.05% means your money is losing purchasing power every single year — not gaining it.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Real Return',
+                    definition: 'Your investment return after subtracting inflation. A savings account earning 0.05% with inflation at 2.5% has a real return of -2.45% — meaning your money buys less every year, even as the balance grows.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'Why saving alone isn\'t enough:',
+                    nodes: [
+                      {
+                        icon: '📉',
+                        label: 'Inflation Erodes',
+                        sublabel: 'Your money buys less every year',
+                        color: '#DC2626',
+                        examples: ['2.5% inflation p.a.', '$10,000 today = ~$7,800 in 10 years', 'Prices rise, savings don\'t'],
+                        details: [
+                          'Inflation is the rate at which prices rise over time — meaning the same amount of money buys less as years pass.',
+                          'At 2.5% inflation, $10,000 today has the purchasing power of approximately $7,800 in 10 years.',
+                          'Even if your savings balance stays at $10,000, what it can buy has shrunk by 22%.',
+                        ],
+                        tip: 'Think of inflation not as prices going up — but as your money\'s value quietly going down. The effect is invisible month to month but devastating over a decade.',
+                      },
+                      {
+                        icon: '🏦',
+                        label: 'Saving Alone',
+                        sublabel: 'The gap between savings and inflation',
+                        color: '#F59E0B',
+                        examples: ['Basic account: 0.05% p.a.', 'HYSA (optimised): ~3–4% p.a.', 'Still barely beats inflation'],
+                        details: [
+                          'A basic savings account at 0.05% does almost nothing to offset inflation — you are falling behind by roughly 2.45% every year.',
+                          'Even an optimised HYSA at 3–4% p.a. barely keeps pace with inflation — it preserves purchasing power but does not grow it.',
+                          'Saving is essential for liquidity and security — but it cannot build long-term wealth on its own.',
+                        ],
+                        tip: 'HYSAs are for your emergency fund and short-term goals. For long-term wealth, you need returns that meaningfully outpace inflation — and that means investing.',
+                      },
+                      {
+                        icon: '📈',
+                        label: 'Investing Bridges the Gap',
+                        sublabel: 'Historical returns outpace inflation',
+                        color: '#059669',
+                        examples: ['S&P 500: ~10% p.a. historical avg', 'STI: ~7–8% p.a. historical avg', 'Bonds: ~3–5% p.a.'],
+                        details: [
+                          'Historically, broad market investments have returned 7–10% p.a. on average — significantly outpacing inflation.',
+                          'This means invested money doesn\'t just preserve purchasing power — it compounds and grows in real terms over time.',
+                          'The risk is that returns are not guaranteed and values fluctuate — but over long horizons, the evidence strongly favours investing over saving alone.',
+                        ],
+                        tip: 'Investing doesn\'t mean gambling. A diversified, low-cost index fund has historically been one of the most reliable ways to build long-term wealth for ordinary investors.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'slider',
+                    icon: '📉',
+                    title: 'Inflation Erosion vs Investment Growth',
+                    description: 'Drag to your current savings amount to see the real value difference after 10 years — inflation at 2.5% p.a. vs invested at an illustrative 7% p.a.',
+                    min: 1000,
+                    max: 50000,
+                    step: 1000,
+                    initialValue: 10000,
+                    prefix: '$',
+                    calculateResult: (amount) => [
+                      { label: '😴 Basic savings after 10 yrs (0.05%, 2.5% inflation)', value: `$${Math.round(amount * Math.pow(0.9755, 10)).toLocaleString()}`, color: '#DC2626' },
+                      { label: '🏦 HYSA after 10 yrs (3% p.a., 2.5% inflation)', value: `$${Math.round(amount * Math.pow(1.005, 10)).toLocaleString()}`, color: '#F59E0B' },
+                      { label: '📈 Invested after 10 yrs (illustrative 7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10)).toLocaleString()}`, color: '#059669' },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Current Singapore inflation rate and average savings account rate',
+                    prompt: 'current Singapore inflation rate CPI 2025 and average savings account interest rate comparison',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '7-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'Investing vs Saving — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Keeping money in a basic savings account at 0.05% is completely risk-free.',
+                        isTrue: false,
+                        explanation: 'It is free of market risk — but not inflation risk. At 0.05% with 2.5% inflation, your real return is -2.45% per year. Inflation risk is real and guaranteed; market risk is variable.',
+                      },
+                      {
+                        text: 'A savings account with a 3% interest rate beats inflation if Singapore\'s inflation rate is 2.5% p.a.',
+                        isTrue: true,
+                        explanation: 'A 3% savings rate with 2.5% inflation gives a real return of +0.5% — your purchasing power is growing, just slowly. This is why optimised HYSAs matter even before you invest.',
+                      },
+                      {
+                        text: 'Broad market investments like the S&P 500 have historically returned around 10% p.a. on average.',
+                        isTrue: true,
+                        explanation: 'The S&P 500 has historically averaged approximately 10% p.a. including dividends — significantly outpacing both inflation and savings account rates over long horizons.',
+                      },
+                      {
+                        text: 'Investing always requires a large lump sum — you need at least $1,000 to start in Singapore.',
+                        isTrue: false,
+                        explanation: 'Many Singapore platforms — including robo-advisors like Syfe and StashAway — allow you to start with as little as $1. The barrier to entry for investing has never been lower.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'power',
+                title: 'The Power of Compounding',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'The Power of Compounding',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Compounding is the mechanism that makes investing transformative rather than merely additive. When your returns generate their own returns, growth becomes exponential — not linear. The longer you let it run, the more dramatic the difference.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Compound Growth',
+                    definition: 'Growth where returns are reinvested and themselves generate returns. Unlike simple interest — which grows linearly — compound growth accelerates over time, making the early years of investing disproportionately valuable.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '📈',
+                    title: 'Compounding Over Time',
+                    description: 'Drag to your investment amount to see compound growth at 7% p.a. across different time horizons.',
+                    min: 1000,
+                    max: 50000,
+                    step: 1000,
+                    initialValue: 10000,
+                    prefix: '$',
+                    calculateResult: (amount) => [
+                      { label: '⏱️ After 10 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10)).toLocaleString()}`, color: '#6B7280' },
+                      { label: '⏱️ After 20 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 20)).toLocaleString()}`, color: '#0891B2' },
+                      { label: '⏱️ After 30 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 30)).toLocaleString()}`, color: '#4F46E5' },
+                      { label: '⏱️ After 40 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 40)).toLocaleString()}`, color: '#059669' },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '$10,000 invested at 7% p.a.: after 10 years → $19,672. After 20 years → $38,697. After 40 years → $149,745. The same money, 15x larger — without adding a single dollar. That is compounding.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Why Early Years Are Disproportionately Valuable',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'reframe',
+                    title: 'Biases that stop people from investing:',
+                    cards: [
+                      {
+                        frontLabel: '⏰ Present Bias',
+                        backLabel: '💡 The reality',
+                        front: '"I\'ll start investing next year" — valuing present comfort over future gain.',
+                        back: 'Every year you delay is compounding you never get back. $10,000 at 25 grows to ~$76,000 by 65 at 7% p.a. Wait until 35 and you get only ~$38,000 — half as much from one decade of delay.',
+                        tag: 'One decade = half the final value',
+                      },
+                      {
+                        frontLabel: '😰 Loss Aversion',
+                        backLabel: '💡 The reality',
+                        front: 'Losses feel twice as painful as equivalent gains feel good — so potential losses loom larger than potential returns.',
+                        back: 'Not investing is also a choice with a guaranteed cost: inflation. The question is not "what if I lose money?" — it\'s "what is the cost of doing nothing?" Over 10 years, that cost is enormous.',
+                        tag: 'Inaction has a guaranteed cost',
+                      },
+                      {
+                        frontLabel: '🌈 Optimism Bias',
+                        backLabel: '💡 The reality',
+                        front: '"My savings account is fine for now — I\'ll worry about investing when I have more money."',
+                        back: 'There is no minimum amount required to start. Many platforms allow you to invest from $1. Waiting until you have "enough" means the best compounding years pass unused.',
+                        tag: 'No minimum needed to start',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF interest rates and historical Singapore and US market returns',
+                    prompt: 'CPF OA SA interest rates 2025 Singapore STI historical returns S&P 500 average annual return comparison',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '7-1-s2-scenarios',
+                    fincoins: 10,
+                    title: 'What would you do?',
+                    scenarios: [
+                      {
+                        icon: '⏰',
+                        situation: 'You have $5,000 in savings. You\'re deciding whether to start investing now or wait 2 years until you feel "more ready" and have read more about it.',
+                        options: [
+                          {
+                            text: 'Wait 2 years — you\'ll be more informed and confident before committing.',
+                            biasLabel: 'Present bias + 2 lost years',
+                            biasExplanation: 'At 7% p.a., $5,000 invested today grows to ~$5,725 in 2 years. Waiting means that $725 in compounding is gone permanently — and the gap widens every year you delay.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Start with a small amount now — even $500 — in a low-cost index fund, and continue learning.',
+                            biasLabel: 'Best approach ✓',
+                            biasExplanation: 'Starting small removes the paralysis of perfection. You begin compounding immediately, learn from real experience, and can scale up as your confidence grows. The best time to start was yesterday — the second best is now.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Put all $5,000 in an HYSA first until you decide — at least you\'re earning something.',
+                            biasLabel: 'Better than nothing, but suboptimal',
+                            biasExplanation: 'An HYSA at 3% preserves purchasing power but barely outpaces inflation. Over 20 years, the difference between 3% and 7% on $5,000 is approximately $13,000. Time is the resource you can\'t buy back.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📉',
+                        situation: 'You invested $3,000 six months ago. The market has dropped 15% and your portfolio is now worth $2,550. A friend says "I told you investing was risky — just keep cash."',
+                        options: [
+                          {
+                            text: 'Sell everything — your friend is right, and you can\'t afford to lose more.',
+                            biasLabel: 'Loss aversion in action',
+                            biasExplanation: 'Selling after a drop locks in the loss permanently. Market drawdowns are normal — the S&P 500 has recovered from every historical decline. Selling at the bottom is how temporary losses become permanent ones.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Hold — short-term volatility is normal for long-horizon investing, and you haven\'t actually lost anything yet.',
+                            biasLabel: 'Correct approach ✓',
+                            biasExplanation: 'A paper loss is only a real loss if you sell. Long-term investors who stayed invested through historical crashes recovered fully and went on to compound significantly. Your time horizon determines your risk tolerance.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest more now — it\'s on sale.',
+                            biasLabel: 'Directionally right, but context matters',
+                            biasExplanation: 'Buying more during a dip (dollar-cost averaging) is a legitimate strategy — but only if you have the cash to spare and won\'t need it soon. Don\'t invest emergency funds or money with a short horizon.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💸',
+                        situation: 'You\'ve just received a $2,000 bursary top-up. You already have a 3-month emergency fund and no high-interest debt. What\'s the best use of this windfall?',
+                        options: [
+                          {
+                            text: 'Add it to your HYSA emergency fund to grow it to 6 months of expenses.',
+                            biasLabel: 'Good if your fund isn\'t full',
+                            biasExplanation: 'If you only have 3 months of emergency savings, building to 6 months is a reasonable priority. But if 3 months is your deliberate target, putting all $2,000 in a savings account misses a compounding opportunity.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Invest it in a low-cost index fund — your emergency fund is already covered.',
+                            biasLabel: 'Best use of a windfall ✓',
+                            biasExplanation: 'With emergency fund covered and no high-interest debt, investing is the highest-return use of a windfall you won\'t need soon. At 7% p.a., $2,000 grows to ~$7,740 in 20 years — without adding another dollar.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Spend it — you\'ve been frugal and deserve a treat.',
+                            biasLabel: 'Present bias + lost compounding',
+                            biasExplanation: 'Spending a windfall when your financial foundations are solid is a valid choice — but recognise the trade-off. $2,000 spent today is $7,740 you won\'t have in 20 years. Balance enjoyment with awareness.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'start',
+                title: 'Starting Early',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Starting Early',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The single most impactful investing decision you will ever make is not which stock to pick or which fund to choose — it\'s when you start. Time in the market is the one variable that cannot be bought, borrowed, or recovered.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The Cost of Waiting',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Start Age', 'Monthly Investment', 'Total Invested', 'Value at 65 (7% p.a.)'],
+                    rows: [
+                      ['22 (now)', '$200/month', '$103,200 over 43 yrs', '~$580,000'],
+                      ['32 (10 yrs later)', '$200/month', '$79,200 over 33 yrs', '~$277,000'],
+                      ['42 (20 yrs later)', '$200/month', '$55,200 over 23 yrs', '~$123,000'],
+                      ['52 (30 yrs later)', '$200/month', '$31,200 over 13 yrs', '~$46,000'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'Starting at 22 vs 32 — same $200/month, same 7% p.a. — produces more than double the final value ($580,000 vs $277,000). The extra decade costs only $24,000 more in total contributions but generates over $300,000 more in wealth.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'What "Starting Small" Actually Looks Like',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '📱',
+                        label: 'Robo-Advisors',
+                        description: 'Start from $1 — fully automated, diversified portfolios',
+                        color: '#4F46E5',
+                        details: [
+                          'Platforms like Syfe, StashAway, and Endowus invest your money into diversified portfolios automatically',
+                          'No investment knowledge required — set a risk level and contribute regularly',
+                          'Low fees (typically 0.2–0.65% p.a.) vs traditional fund managers (1.5–2.5% p.a.)',
+                        ],
+                        example: 'Start with $100/month via Syfe Core. It automatically rebalances and reinvests dividends — compounding without any manual action.',
+                      },
+                      {
+                        icon: '📊',
+                        label: 'Regular Shares Savings (RSS)',
+                        description: 'Buy index funds monthly from as little as $100',
+                        color: '#0891B2',
+                        details: [
+                          'RSS plans (via DBS, OCBC, or FSMOne) let you buy index ETFs on a fixed monthly schedule',
+                          'Dollar-cost averaging — you buy more units when prices are low and fewer when prices are high',
+                          'Low minimum ($100/month) and no timing decisions required',
+                        ],
+                        example: '$100/month into the Nikko AM Singapore STI ETF via OCBC Blue Chip Investment Plan — automatic exposure to Singapore\'s top 30 companies.',
+                      },
+                      {
+                        icon: '💹',
+                        label: 'CPF Investment Scheme (CPFIS)',
+                        description: 'Invest CPF-OA funds above $20,000 in eligible instruments',
+                        color: '#059669',
+                        details: [
+                          'CPF-OA funds above $20,000 can be invested in eligible unit trusts, ETFs, and stocks via CPFIS',
+                          'Returns must exceed the CPF-OA\'s 2.5% p.a. guaranteed rate to be worthwhile',
+                          'Low-cost index funds via CPFIS can compound CPF savings significantly over a working lifetime',
+                        ],
+                        example: 'If your CPF-OA exceeds $20,000, consider investing the excess in a low-cost global index fund via CPFIS — but only if your investment horizon is 10+ years.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: You don\'t need to choose between saving and investing. The framework is: emergency fund first (3–6 months in HYSA/SSB) → then invest regularly from whatever is left. Even $50–$100/month invested consistently from age 22 compounds into meaningful wealth by retirement.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Best platforms to start investing in Singapore with a small amount',
+                    prompt: 'best platforms to start investing Singapore small amount students robo-advisors ETFs 2025 Syfe StashAway FSMOne',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Why Invest at All?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on inflation\'s real cost, the power of compounding, and what the data says about starting early.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — why does investing matter more than saving alone?',
+                    prompt: 'why investing beats saving alone inflation real return compounding Singapore 2025 summary',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '7-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Why Invest at All?',
+                    questions: [
+                      {
+                        concept: 'Real return and inflation',
+                        question: 'A student has $10,000 in a basic savings account earning 0.05% p.a. Singapore\'s inflation rate is 2.5%. What is their real return?',
+                        options: [
+                          '+2.55% — savings rate plus inflation combined',
+                          '+0.05% — whatever the account earns is the real return',
+                          '-2.45% — their purchasing power is shrinking by roughly 2.45% per year',
+                          '0% — savings accounts are inflation-neutral',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Real return = nominal return minus inflation. 0.05% − 2.5% = −2.45%. Their balance grows by $5/year while the purchasing power of that $10,000 shrinks by ~$245/year. The number goes up but what it buys goes down.',
+                      },
+                      {
+                        concept: 'Power of compounding',
+                        question: 'Two students each invest $10,000 at 7% p.a. Student A starts at age 22 and Student B starts at age 32. Neither adds any more money. Approximately how much more does Student A have at age 65?',
+                        options: [
+                          'About $7,000 more — the extra 10 years adds roughly $700/year',
+                          'About $38,000 more — the same as 10 years of 7% returns on $10,000',
+                          'About $57,000 more — compounding on the early base nearly doubles the outcome',
+                          'They end up with the same amount — 10 years is negligible over a 40-year horizon',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Student A: $10,000 × (1.07)^43 ≈ $149,000. Student B: $10,000 × (1.07)^33 ≈ $76,000. The 10-year head start generates roughly $73,000 more — nearly double — from the same initial investment. That is the exponential nature of compounding.',
+                      },
+                      {
+                        concept: 'Starting early',
+                        question: 'A student says "I\'ll start investing at 32 — I\'ll invest twice as much per month to make up for lost time." Can they fully compensate for the 10-year delay by doubling their monthly contribution?',
+                        options: [
+                          'Yes — doubling contributions fully compensates for 10 lost years',
+                          'No — they can get close, but they\'ll need to contribute significantly more than double to match the same final value',
+                          'Yes — the maths works out exactly: 10 fewer years × 2x contributions = same result',
+                          'No — it\'s impossible to catch up once you\'ve missed 10 years of compounding',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Doubling contributions helps but doesn\'t fully close the gap. The lost 10 years represent lost compounding on every dollar invested — not just the principal. To match the same final value, the later starter typically needs to contribute significantly more than 2x, or accept a lower final amount.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is real return and why does it matter?',
+                a: 'Real return is your investment return minus inflation. A savings account at 0.05% with 2.5% inflation has a real return of -2.45% — your money buys less every year.',
+              },
+              {
+                q: 'Why does starting to invest early matter so much?',
+                a: 'Compounding is exponential — early years generate the base that later years multiply. A 10-year delay can roughly halve your final portfolio value even with the same amount invested.',
+              },
+              {
+                q: 'What is present bias and how does it affect investing decisions?',
+                a: 'Present bias is valuing immediate comfort over future gain — leading to "I\'ll start investing later." Every delayed year is compounding you never recover.',
+              },
+              {
+                q: 'Is keeping money in a savings account truly risk-free?',
+                a: 'No — it is free of market risk but exposed to inflation risk. At 0.05% with 2.5% inflation, you lose 2.45% of purchasing power every year.',
+              },
+              {
+                q: 'What have broad market investments historically returned per year?',
+                a: 'The S&P 500 has historically averaged ~10% p.a. and the Singapore STI ~7–8% p.a. — both significantly outpacing long-term inflation.',
+              },
+            ],
+          },
+          // ── LESSON 7-2 ──────────────────────────────
+          {
+            id: '7-2',
+            title: 'Risk & Return',
+            icon: '⚖️',
+            topic: 'Risk return tradeoff investing',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'tradeoff',
+                title: 'The Risk-Return Tradeoff',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'The Risk-Return Tradeoff',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Every investment involves a tradeoff between risk and return. This is not a flaw in the system — it is the system. Understanding this tradeoff, rather than trying to avoid risk entirely, is what separates informed investors from fearful ones. The goal is not zero risk — it is the right amount of risk for your situation.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Risk-Return Tradeoff',
+                    definition: 'The principle that higher potential returns always come with higher risk of loss. No legitimate investment offers high returns with zero risk — the two are inseparable in functioning markets.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'If someone offers you a high-return, zero-risk investment — that is the definition of a scam. In legitimate financial markets, risk and return are always proportional. Promises of guaranteed high returns are the oldest financial fraud in existence.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The Risk-Return Spectrum',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Instrument', 'Typical Return', 'Risk Level', 'Best For'],
+                    rows: [
+                      ['Cash / Savings', '0.05–4% p.a.', '🟢 Very Low', 'Emergency fund, short-term goals'],
+                      ['SSBs / T-Bills', '2.5–4% p.a.', '🟢 Very Low', 'Lump sums, capital protection'],
+                      ['Bonds / Bond ETFs', '3–5% p.a.', '🟡 Low-Medium', 'Stability, portfolio cushion'],
+                      ['Diversified Equity ETFs', '7–10% p.a. (historical)', '🟠 Medium-High', 'Long-term wealth building'],
+                      ['Individual Stocks', 'Variable, -100% to +∞', '🔴 High', 'Experienced investors only'],
+                      ['Crypto / Speculative', 'Highly variable', '🔴 Very High', 'Speculation, not investing'],
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'The S&P 500 has historically returned ~10% p.a. over the long run — but with individual years ranging from -38% (2008) to +32% (2013). Higher average returns come with higher short-term volatility. That volatility is the price of admission for long-term gains.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Historical average returns for STI, S&P 500, and bonds',
+                    prompt: 'historical average annual returns Singapore STI S&P 500 index global bonds comparison long term investing',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '7-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'Risk & Return — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'A guaranteed high-return, zero-risk investment is a sign of a legitimate financial opportunity.',
+                        isTrue: false,
+                        explanation: 'In legitimate markets, risk and return are always proportional. Any promise of high returns with zero risk is a defining characteristic of financial fraud — the oldest scam in existence.',
+                      },
+                      {
+                        text: 'Inflation risk means your investment could lose purchasing power even if its nominal value increases.',
+                        isTrue: true,
+                        explanation: 'If your investment returns 2% but inflation is 3%, you\'ve gained in dollar terms but lost in purchasing power. Inflation risk is the hidden cost of being too conservative.',
+                      },
+                      {
+                        text: 'Concentration risk can be almost entirely eliminated by investing in a broad market ETF.',
+                        isTrue: true,
+                        explanation: 'A broad market ETF spreads exposure across hundreds or thousands of companies — no single company\'s failure can significantly damage your portfolio.',
+                      },
+                      {
+                        text: 'Selling your portfolio during a market downturn is the safest way to protect your money.',
+                        isTrue: false,
+                        explanation: 'Selling during a downturn locks in losses permanently. Markets have historically always recovered — staying invested is almost always the correct decision for long-term investors.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'types',
+                title: 'Types of Investment Risk',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Types of Investment Risk',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Risk is not one thing — it has different flavours that affect your portfolio in different ways. Understanding each type tells you how to manage it, not just fear it.',
+                  },
+                  {
+                    type: 'topiccards',
+                    cards: [
+                      {
+                        icon: '📊',
+                        label: 'Market Risk',
+                        description: 'The risk that the whole market falls',
+                        color: '#DC2626',
+                        details: [
+                          'Market risk affects all investments simultaneously — it cannot be eliminated through stock-picking',
+                          'Even strong companies lose value during broad market downturns',
+                          'Example: during the 2020 COVID crash, the S&P 500 fell ~34% in weeks regardless of individual company quality',
+                        ],
+                        example: 'How to manage it: stay invested for the long term. Market downturns are temporary — historically, markets have always recovered and gone on to new highs.',
+                      },
+                      {
+                        icon: '💸',
+                        label: 'Inflation Risk',
+                        description: 'The risk that returns don\'t beat inflation',
+                        color: '#F59E0B',
+                        details: [
+                          'Inflation risk is the primary risk of being too conservative — keeping everything in cash or low-yield savings',
+                          'You can grow your balance in dollar terms while losing real purchasing power',
+                          'Example: a 2% fixed deposit with 3% inflation produces a -1% real return',
+                        ],
+                        example: 'How to manage it: ensure your overall portfolio earns a real return above inflation — which typically requires some exposure to equities.',
+                      },
+                      {
+                        icon: '🔒',
+                        label: 'Liquidity Risk',
+                        description: 'The risk of not being able to exit when needed',
+                        color: '#4F46E5',
+                        details: [
+                          'Highly liquid assets (stocks, ETFs) can be sold instantly at market price',
+                          'Illiquid assets (property, private equity) may take months or years to exit',
+                          'Example: a student who invested their emergency fund in property cannot access those funds in a medical emergency',
+                        ],
+                        example: 'How to manage it: keep your emergency fund in liquid instruments (HYSA, SSB) and only lock up money you genuinely won\'t need.',
+                      },
+                      {
+                        icon: '🎯',
+                        label: 'Concentration Risk',
+                        description: 'The risk of being overexposed to one asset',
+                        color: '#059669',
+                        details: [
+                          'Concentration risk is the most common and most avoidable risk for beginner investors',
+                          'A large position in a single company, sector, or geography means one bad outcome devastates your whole portfolio',
+                          'Example: putting all savings into a single company\'s stock — if that company fails, you lose everything',
+                        ],
+                        example: 'How to manage it: diversify across asset classes, sectors, and geographies. A broad ETF eliminates concentration risk almost entirely.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'How Each Risk Applies to You',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Risk type → what it means for a student investor:',
+                    cards: [
+                      {
+                        frontLabel: '📊 Market Risk',
+                        backLabel: '🎓 For students',
+                        front: 'Broad market falls affect all investments — even good ones.',
+                        back: 'Your biggest defence against market risk is time horizon. A student investing for 20+ years can ride out any correction — short-term drops are noise on a long-term chart.',
+                        tag: 'Time horizon is your shield',
+                      },
+                      {
+                        frontLabel: '💸 Inflation Risk',
+                        backLabel: '🎓 For students',
+                        front: 'Returns below inflation mean losing purchasing power even as your balance grows.',
+                        back: 'Students with money sitting in 0.05% accounts are already experiencing inflation risk. Optimised HYSAs and SSBs are the first line of defence — equities for the long term.',
+                        tag: 'Already affecting your savings today',
+                      },
+                      {
+                        frontLabel: '🔒 Liquidity Risk',
+                        backLabel: '🎓 For students',
+                        front: 'Illiquid investments can\'t be accessed in an emergency without a penalty or loss.',
+                        back: 'Never invest your emergency fund — it must stay liquid. Only invest money with a horizon of 3+ years that you\'re genuinely certain you won\'t need.',
+                        tag: 'Emergency fund = always liquid',
+                      },
+                      {
+                        frontLabel: '🎯 Concentration Risk',
+                        backLabel: '🎓 For students',
+                        front: 'One bad bet on a single stock can wipe out years of savings.',
+                        back: 'Beginner investors are most vulnerable here. A broad index ETF (e.g. Nikko STI ETF or a global index fund) instantly eliminates concentration risk across hundreds of companies.',
+                        tag: 'One ETF solves this entirely',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Recent examples of each risk type playing out in Singapore markets',
+                    prompt: 'recent examples market risk inflation risk liquidity risk concentration risk Singapore investors 2024 2025',
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'tolerance',
+                title: 'Your Risk Tolerance',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Your Risk Tolerance',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Your risk tolerance is how much volatility and potential loss you can handle — both financially and emotionally — without making panic decisions. It depends on your time horizon, income stability, and personality. Knowing your risk tolerance before you invest prevents the most expensive mistake in investing: selling at the bottom.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Three Factors That Shape Your Risk Tolerance',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Factor', 'Lower Risk Tolerance', 'Higher Risk Tolerance'],
+                    rows: [
+                      ['Time horizon', 'Need money within 1–3 years', 'Don\'t need money for 10+ years'],
+                      ['Income stability', 'Irregular / part-time income', 'Stable full-time salary'],
+                      ['Emergency fund', 'Not fully funded', '3–6 months fully funded'],
+                      ['Emotional resilience', 'Panic during -15% drops', 'Hold comfortably through -30%'],
+                      ['Financial dependents', 'Supporting family members', 'Supporting yourself only'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: Most robo-advisors (Syfe, StashAway, Endowus) include a risk tolerance questionnaire when you sign up — they use your answers to build a portfolio automatically matched to your profile. This is one of the most practical ways to invest at the right risk level without needing to know the details yourself.',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '7-2-s3-scenarios',
+                    fincoins: 10,
+                    title: 'What portfolio fits your risk tolerance?',
+                    scenarios: [
+                      {
+                        icon: '🛡️',
+                        situation: 'You\'re a final-year student with $5,000 saved. You\'re graduating in 8 months and will need this money for relocation and initial work expenses. You cannot afford to lose any of it.',
+                        options: [
+                          {
+                            text: 'Invest the full $5,000 in an S&P 500 ETF for growth.',
+                            biasLabel: 'Wrong time horizon',
+                            biasExplanation: 'An 8-month horizon is far too short for equity investing. Markets can fall 20–30% in months — you could need this money right at the bottom of a correction.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Place the full $5,000 in a 6-month T-bill or fixed deposit.',
+                            biasLabel: 'Right tool for this goal ✓',
+                            biasExplanation: 'Short-term, capital-critical money belongs in capital-protected instruments. A T-bill or FD guarantees your principal with a competitive return — perfectly matched to your 8-month horizon.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Split $2,500 into an ETF and $2,500 into an FD for balance.',
+                            biasLabel: 'Still too much risk',
+                            biasExplanation: 'If you genuinely need this money in 8 months, any equity exposure is inappropriate. The equity half could drop 30% right when you need it — a split feels balanced but the risk is real.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📈',
+                        situation: 'You\'ve just started full-time work, earning $3,500/month. You have a fully funded emergency fund and $500/month to invest. You won\'t need this money for at least 10 years.',
+                        options: [
+                          {
+                            text: 'Invest the $500/month entirely in Singapore Savings Bonds.',
+                            biasLabel: 'Too conservative for 10 years',
+                            biasExplanation: 'SSBs are excellent for capital protection but are not designed for long-term wealth building. At 3% p.a. with 2.5% inflation, you\'re barely growing your real wealth over a 10-year horizon.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Invest in a diversified ETF portfolio — e.g. 80% global equities, 20% bonds.',
+                            biasLabel: 'Well-matched to your profile ✓',
+                            biasExplanation: 'A 10-year horizon with stable income and a funded emergency fund is textbook equity-friendly. An 80/20 portfolio captures most equity upside while bonds cushion short-term volatility.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Put everything in a single high-growth tech stock for maximum return.',
+                            biasLabel: 'Concentration risk',
+                            biasExplanation: 'Single-stock investing introduces enormous concentration risk — one bad earnings call or sector downturn could wipe out years of gains. Diversification captures market growth without this exposure.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '😰',
+                        situation: 'You started investing 6 months ago. Markets have dropped 15% and your $10,000 portfolio is now worth $8,500. You\'re considering selling everything to stop further losses.',
+                        options: [
+                          {
+                            text: 'Sell everything and move to cash — you can reinvest when markets recover.',
+                            biasLabel: 'Classic loss aversion trap',
+                            biasExplanation: 'Selling at -15% locks in your loss permanently. Waiting to "reinvest when markets recover" means you miss the recovery entirely — the best market days often follow the worst.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Hold your position — a 15% drawdown is normal and temporary for a long-term investor.',
+                            biasLabel: 'Correct response ✓',
+                            biasExplanation: 'Market corrections of 10–20% happen regularly and historically always recover. Staying invested is the single most important decision a long-term investor makes during downturns.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Buy more while prices are lower — dollar-cost average into the dip.',
+                            biasLabel: 'Also a strong move',
+                            biasExplanation: 'If you have spare capital and a long horizon, buying during corrections is historically one of the best moves you can make. Both holding and buying more are correct — selling is the only wrong answer.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How do I assess my risk tolerance and choose the right investment portfolio in Singapore?',
+                    prompt: 'how to assess risk tolerance Singapore investor profile portfolio allocation robo-advisor 2025',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Risk & Return',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on the risk-return tradeoff, the four types of investment risk, and how to match risk tolerance to your situation.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — key concepts in investment risk and return?',
+                    prompt: 'investment risk return tradeoff types of risk market inflation liquidity concentration Singapore summary 2025',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '7-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Risk & Return',
+                    questions: [
+                      {
+                        concept: 'Risk-return tradeoff',
+                        question: 'A friend shows you an investment platform promising 18% annual returns with "guaranteed capital protection." What is the most accurate assessment?',
+                        options: [
+                          'It sounds promising — 18% is high but not impossible if it\'s a well-managed fund',
+                          'It\'s likely a scam — in legitimate markets, guaranteed high returns with zero risk do not exist',
+                          'It could be legitimate if the platform is MAS-regulated',
+                          'It\'s safe as long as you only invest a small amount to test it first',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Guaranteed high returns with capital protection is the defining characteristic of financial fraud. In legitimate markets, risk and return are always proportional — no MAS-regulated platform can promise both simultaneously. This is the oldest financial scam in existence.',
+                      },
+                      {
+                        concept: 'Types of risk',
+                        question: 'A student keeps their entire $20,000 savings in a fixed deposit earning 2% p.a. Singapore\'s inflation rate is 3%. Which risk are they most exposed to?',
+                        options: [
+                          'Market risk — fixed deposits fluctuate with market conditions',
+                          'Concentration risk — all their money is in one instrument',
+                          'Inflation risk — their real return is -1% p.a., so purchasing power is shrinking despite earning interest',
+                          'Liquidity risk — fixed deposits cannot be accessed before maturity',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'With a 2% return against 3% inflation, the student\'s real return is -1% p.a. — their purchasing power is shrinking even as their balance grows. This is inflation risk: the hidden cost of being too conservative. While liquidity risk is also present, inflation risk is the primary ongoing concern.',
+                      },
+                      {
+                        concept: 'Risk tolerance matching',
+                        question: 'A student has a 15-year investment horizon, a fully funded emergency fund, and stable income. They are deciding between 100% SSBs vs an 80% equity / 20% bond ETF portfolio. Which is more appropriate and why?',
+                        options: [
+                          '100% SSBs — capital protection is always the priority regardless of time horizon',
+                          '80/20 equity-bond portfolio — a 15-year horizon with stable income and emergency fund coverage makes equity exposure appropriate and necessary for real wealth growth',
+                          '100% SSBs for the first 5 years, then switch to equities — a staged approach is always best',
+                          '80/20 equity-bond portfolio only if the student has investment experience — beginners should stick to SSBs',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'With a 15-year horizon, stable income, and a funded emergency fund, the student has all three preconditions for equity-appropriate investing. SSBs at 3% barely beat inflation — over 15 years, an 80/20 equity-bond portfolio historically generates significantly more real wealth. Capital protection is for short horizons; long horizons can absorb volatility.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is the risk-return tradeoff?',
+                a: 'Higher potential returns always come with higher risk. No legitimate investment offers high returns with zero risk — in functioning markets, the two are inseparable.',
+              },
+              {
+                q: 'What is concentration risk and how do you avoid it?',
+                a: 'The risk of being overexposed to a single asset, sector, or geography. Avoided by diversifying across multiple assets — a broad ETF eliminates it almost entirely.',
+              },
+              {
+                q: 'What is liquidity risk?',
+                a: 'The risk of not being able to sell an investment quickly without a significant loss in value. Managed by keeping emergency funds in liquid instruments and only locking up money you won\'t need.',
+              },
+              {
+                q: 'Why is selling during a market downturn almost always the wrong decision?',
+                a: 'Selling locks in losses permanently. Historically, markets always recover — and the best recovery days often follow the worst drawdown days, which you miss if you\'ve sold.',
+              },
+              {
+                q: 'What is inflation risk and who is most exposed to it?',
+                a: 'The risk that your returns fail to keep pace with inflation, eroding purchasing power. Most exposed: investors who keep everything in cash or low-yield savings accounts.',
+              },
+            ],
+          },      
+          // ── LESSON 7-3 ──────────────────────────────
+          {
+            id: '7-3',
+            title: 'Diversification',
+            icon: '🎨',
+            topic: 'Diversification portfolio investing strategy',
+            duration: '5 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── SECTION 1 ───────────────────────────
+              {
+                key: 'what',
+                title: 'What is Diversification?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is Diversification?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Diversification is often called the only free lunch in investing — and for good reason. By spreading your investments across different assets, sectors, and geographies, you reduce risk without necessarily reducing your expected return. It is the single most powerful tool available to ordinary investors, and it costs nothing to implement.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Diversification',
+                    definition: 'Spreading investments across different assets, sectors, and geographies so that a loss in one position does not devastate your entire portfolio. When one asset falls, others may hold steady or rise — smoothing out overall returns.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'A portfolio of 1 stock is entirely at the mercy of that single company. A portfolio of 500 stocks — like an S&P 500 ETF — has smoothed out individual company risk almost entirely. One company failing has a 0.2% impact instead of a 100% one.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'Three layers of diversification:',
+                    nodes: [
+                      {
+                        icon: '🏛️',
+                        label: 'Asset Class',
+                        sublabel: 'Stocks, bonds, cash',
+                        color: '#4F46E5',
+                        examples: ['Stocks: high return, high volatility', 'Bonds: lower return, lower volatility', 'Cash: stable, inflation risk'],
+                        details: [
+                          'Different asset classes behave differently under the same market conditions — when stocks fall, bonds often hold steady or rise.',
+                          'A mix of stocks and bonds smooths out portfolio volatility without proportionally reducing long-term returns.',
+                          'The classic 60/40 portfolio (60% stocks, 40% bonds) has historically delivered strong risk-adjusted returns for decades.',
+                        ],
+                        tip: 'Your stock/bond split should reflect your time horizon — longer horizon means more stocks. A 25-year-old with a 30-year horizon can hold mostly equities; someone near retirement should hold more bonds.',
+                      },
+                      {
+                        icon: '🌍',
+                        label: 'Geography',
+                        sublabel: 'Singapore, US, global',
+                        color: '#0891B2',
+                        examples: ['Singapore STI: local exposure', 'S&P 500: US exposure', 'Global ETF: 50+ countries'],
+                        details: [
+                          'Concentrating all investments in Singapore means your portfolio rises and falls with the Singapore economy alone.',
+                          'Geographic diversification spreads risk across multiple economies — when Singapore underperforms, the US or emerging markets may offset it.',
+                          'A global ETF provides exposure to 50+ countries in a single instrument — the simplest form of geographic diversification.',
+                        ],
+                        tip: 'Home bias — the tendency to overinvest in your own country — is one of the most common portfolio mistakes. Singapore is 0.3% of global market cap; a globally diversified portfolio reflects the actual world economy.',
+                      },
+                      {
+                        icon: '🧰',
+                        label: 'Instrument',
+                        sublabel: 'ETFs, unit trusts, individual stocks',
+                        color: '#059669',
+                        examples: ['ETF: low cost, instant diversification', 'Unit trust: managed, higher fees', 'Individual stocks: high risk, high effort'],
+                        details: [
+                          'The instrument you use determines how efficiently you diversify — an ETF gives you hundreds of holdings in one trade.',
+                          'Individual stocks require significant research and capital to diversify effectively — owning 5 stocks is not diversification.',
+                          'For most retail investors, a combination of low-cost ETFs is the most efficient path to broad diversification.',
+                        ],
+                        tip: 'For Singapore investors, a simple two-ETF portfolio — a global equity ETF and a Singapore bond ETF — provides broad diversification at minimal cost and complexity.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Popular ETFs available to Singapore retail investors and their expense ratios',
+                    prompt: 'popular ETFs available Singapore retail investors 2025 expense ratios IWDA STI ETF Syfe StashAway comparison',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '7-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'Diversification — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Diversification eliminates all investment risk — a diversified portfolio cannot lose money.',
+                        isTrue: false,
+                        explanation: 'Diversification reduces concentration and specific risk — but market risk remains. During broad market downturns, even well-diversified portfolios fall. Diversification smooths volatility; it doesn\'t eliminate loss.',
+                      },
+                      {
+                        text: 'A global equity ETF can provide exposure to companies in 50 or more countries in a single purchase.',
+                        isTrue: true,
+                        explanation: 'Global ETFs like IWDA track thousands of companies across developed markets worldwide — one purchase delivers broad geographic and sector diversification instantly.',
+                      },
+                      {
+                        text: 'Home bias — overinvesting in your own country — is a common portfolio mistake for Singapore investors.',
+                        isTrue: true,
+                        explanation: 'Singapore represents approximately 0.3% of global market capitalisation. A portfolio heavily concentrated in Singapore stocks is dramatically underexposed to the other 99.7% of global economic activity.',
+                      },
+                      {
+                        text: 'Owning five individual stocks from the same country and sector counts as a well-diversified portfolio.',
+                        isTrue: false,
+                        explanation: 'Five stocks in the same country and sector represents significant geographic and sector concentration — not diversification. True diversification spreads across asset classes, sectors, and geographies.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── SECTION 2 ───────────────────────────
+              {
+                key: 'how',
+                title: 'How to Diversify',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'How to Diversify',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Knowing that diversification matters is one thing — knowing how to apply it practically is another. Most beginner investors either under-diversify (too concentrated) or accidentally over-diversify (owning many highly correlated assets they think are different). Here\'s how to do it right.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Diversified or Concentrated?',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '7-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Diversified or Concentrated?',
+                    scenarios: [
+                      {
+                        icon: '💻',
+                        situation: 'You have put all your savings into one tech company\'s shares because you believe strongly in the product.',
+                        options: [
+                          {
+                            text: '✅ Diversified — strong conviction in one company is enough.',
+                            biasLabel: 'Incorrect',
+                            biasExplanation: 'One company, one sector. If it underperforms or fails, your entire portfolio suffers. Strong conviction doesn\'t protect you from company-specific risks like management failures, regulatory changes, or sector downturns.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '⚠️ Concentrated — single-stock portfolios carry maximum company-specific risk.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Single-stock portfolios live and die by one company\'s performance — no diversification benefit at all. Even the best companies can collapse. Enron, Lehman Brothers, and Nokia were all considered unbeatable before they failed.',
+                            isIdeal: true,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏦',
+                        situation: 'You own shares in DBS, OCBC, and UOB — Singapore\'s three major banks.',
+                        options: [
+                          {
+                            text: '✅ Diversified — three different companies across the same sector.',
+                            biasLabel: 'Incorrect',
+                            biasExplanation: 'Three stocks in the same country and same sector are highly correlated — they tend to fall together when Singapore\'s banking sector faces headwinds. More companies does not mean more diversification if they move in lockstep.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '⚠️ Concentrated — same country, same sector means high correlation.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Geographic and sector concentration persists even with multiple stocks. During the 2020 COVID crash, all three Singapore bank stocks fell simultaneously. True diversification requires spreading across different sectors, asset classes, and geographies.',
+                            isIdeal: true,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🌍',
+                        situation: 'You invest in a global equity ETF covering 50+ countries and a Singapore bond ETF.',
+                        options: [
+                          {
+                            text: '✅ Diversified — two instruments covering multiple asset classes and geographies.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'A global equity ETF plus a local bond ETF achieves asset class diversification (equities vs bonds) and geographic diversification (global exposure) in just two purchases. This is a textbook low-cost diversified portfolio.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '⚠️ Concentrated — only two instruments is not enough.',
+                            biasLabel: 'Incorrect',
+                            biasExplanation: 'The number of instruments matters less than what they hold. Two ETFs covering thousands of companies across 50+ countries and multiple asset classes is more diversified than 20 individual stocks in one sector.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Common Diversification Mistakes',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'reframe',
+                    title: 'Mistakes investors make when diversifying:',
+                    cards: [
+                      {
+                        frontLabel: '❌ The Mistake',
+                        backLabel: '✅ The Fix',
+                        front: 'Owning 10 tech ETFs and thinking you\'re diversified — they all hold the same top 20 companies.',
+                        back: 'Check what your ETFs actually hold. Overlapping ETFs in the same sector or index provide no additional diversification. A single global ETF often beats five sector ETFs in terms of real spread.',
+                        tag: 'Overlap ≠ diversification',
+                      },
+                      {
+                        frontLabel: '❌ The Mistake',
+                        backLabel: '✅ The Fix',
+                        front: 'Keeping all investments in Singapore because it\'s familiar and "safer."',
+                        back: 'Singapore is ~0.3% of global market cap. Home bias means your portfolio misses 99.7% of global economic activity. A global ETF corrects this in one purchase with no additional complexity.',
+                        tag: 'Home bias costs real returns',
+                      },
+                      {
+                        frontLabel: '❌ The Mistake',
+                        backLabel: '✅ The Fix',
+                        front: 'Thinking diversification means owning many different individual stocks.',
+                        back: 'Twenty individual stocks is still underdiversified — and requires significant research to manage. One broad ETF holding 500–3,000 companies achieves far better diversification at a fraction of the effort and cost.',
+                        tag: 'ETFs beat stock-picking for diversification',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Latest performance comparison — STI ETF, S&P 500 ETF, and balanced portfolio for Singapore investors',
+                    prompt: 'STI ETF vs S&P 500 ETF vs balanced portfolio performance comparison Singapore investors 2024 2025 returns',
+                  },
+                ],
+              },
+
+              // ─── SECTION 3 ───────────────────────────
+              {
+                key: 'etf',
+                title: 'ETFs as Instant Diversification',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'ETFs as Instant Diversification',
+                  },
+                  {
+                    type: 'text',
+                    text: 'An Exchange-Traded Fund (ETF) is a single instrument that holds a basket of assets — stocks, bonds, or both — tracking an index. For retail investors, ETFs are the most efficient path to diversification: one purchase, hundreds or thousands of holdings, and minimal cost.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'ETF (Exchange-Traded Fund)',
+                    definition: 'A fund traded on a stock exchange that holds a collection of assets tracking an index. Buying one ETF unit gives you proportional ownership in all of its holdings — instant diversification at the cost of a single trade.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'ETFs Available to Singapore Retail Investors',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['ETF', 'What It Holds', 'Geographic Exposure', 'Expense Ratio'],
+                    rows: [
+                      ['Nikko AM STI ETF', '30 largest Singapore companies', '🇸🇬 Singapore only', '~0.30% p.a.'],
+                      ['SPDR S&P 500 ETF (SPY)', '500 largest US companies', '🇺🇸 US only', '~0.09% p.a.'],
+                      ['iShares MSCI World (IWDA)', '~1,500 companies, 23 developed markets', '🌍 Global (developed)', '~0.20% p.a.'],
+                      ['Vanguard Total World (VT)', '~9,500 companies, 50+ countries', '🌍 Global (all)', '~0.07% p.a.'],
+                      ['ABF Singapore Bond ETF', 'Singapore government & agency bonds', '🇸🇬 Singapore bonds', '~0.24% p.a.'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Singapore Tip: For most students, a simple two-ETF portfolio — IWDA (global equities) + ABF Singapore Bond ETF (local bonds) — achieves broad geographic and asset class diversification at under 0.25% p.a. in total fees. That\'s cheaper than almost every unit trust or robo-advisor available.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '💸',
+                    title: 'The Cost of Fees Over Time',
+                    description: 'Drag to your investment amount to see how expense ratios erode returns over 20 years — ETF fees vs typical unit trust fees at the same illustrative 7% gross return.',
+                    min: 1000,
+                    max: 50000,
+                    step: 1000,
+                    initialValue: 10000,
+                    prefix: '$',
+                    calculateResult: (amount) => [
+                      { label: '📊 ETF (0.20% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.068, 20)).toLocaleString()}`, color: '#059669' },
+                      { label: '🏦 Robo-advisor (0.65% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.0635, 20)).toLocaleString()}`, color: '#0891B2' },
+                      { label: '📋 Unit trust (1.50% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.055, 20)).toLocaleString()}`, color: '#F59E0B' },
+                      { label: '💼 Active fund (2.50% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.045, 20)).toLocaleString()}`, color: '#DC2626' },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '$10,000 invested at 7% gross return over 20 years: ETF at 0.20% → ~$37,300. Active fund at 2.50% → ~$24,100. The fee difference alone costs you over $13,000 — without adding a single dollar more.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 How to buy ETFs in Singapore — brokerage accounts and RSS plans',
+                    prompt: 'how to buy ETFs Singapore brokerage account regular shares savings plan IBKR FSMOne OCBC DBS 2025',
+                  },
+                ],
+              },
+
+              // ─── SECTION 4 ───────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Diversification',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Three questions on what diversification actually means, how to spot false diversification, and why ETFs beat individual stocks for most investors.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Quick recap — what makes a portfolio truly diversified?',
+                    prompt: 'what makes a portfolio truly diversified asset class geographic sector ETF Singapore investing 2025',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '7-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '🎯',
+                    title: 'Diversification',
+                    questions: [
+                      {
+                        concept: 'What diversification actually does',
+                        question: 'A student says "diversification means I can\'t lose money." Which statement most accurately corrects this?',
+                        options: [
+                          'Correct — a diversified portfolio across 500 stocks cannot fall in value',
+                          'Diversification eliminates concentration risk and specific risk, but market risk remains — a diversified portfolio still falls during broad downturns',
+                          'Diversification only helps if you hold at least 3 different asset classes simultaneously',
+                          'Diversification eliminates all risk as long as you include both stocks and bonds',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Diversification is a tool for reducing concentration risk — the risk that one bad position devastates your whole portfolio. It cannot eliminate market risk — the risk that all assets fall simultaneously during a broad economic shock. A diversified portfolio still fell ~34% in the 2020 COVID crash before recovering.',
+                      },
+                      {
+                        concept: 'Spotting false diversification',
+                        question: 'A student owns shares in DBS, OCBC, UOB, CapitaLand, and Singtel — five different Singapore companies across banking, property, and telecoms. Is this well-diversified?',
+                        options: [
+                          'Yes — five companies across three sectors is strong diversification',
+                          'Partially — sector diversification exists within Singapore, but geographic concentration means the portfolio rises and falls with the Singapore economy alone',
+                          'Yes — owning five stocks is the definition of a diversified portfolio',
+                          'No — you need at least 20 individual stocks to achieve any meaningful diversification',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Three sectors within one country is better than one sector — but geographic concentration remains. Singapore is ~0.3% of global market cap. If Singapore\'s economy underperforms, all five stocks are likely to suffer simultaneously regardless of sector differences. A global ETF would address this gap in a single purchase.',
+                      },
+                      {
+                        concept: 'ETFs vs individual stocks',
+                        question: 'A student has $5,000 to invest and is deciding between buying 5 individual Singapore stocks or one global ETF. Which approach provides better diversification and why?',
+                        options: [
+                          'Five individual stocks — more active management means more control over diversification',
+                          'One global ETF — it holds thousands of companies across 50+ countries, providing far broader diversification than 5 individual stocks at a fraction of the research effort',
+                          'Five individual stocks — a hands-on approach always outperforms passive ETFs over the long run',
+                          'They are equivalent — 5 stocks and one ETF provide the same level of diversification',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'A global ETF like IWDA holds ~1,500 companies across 23 developed markets. Five individual Singapore stocks hold 5 companies in one country. The ETF achieves broader asset, geographic, and sector diversification in a single trade — while research consistently shows that most active stock-pickers underperform broad index ETFs over the long term.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'Why is diversification called the only free lunch in investing?',
+                a: 'It reduces risk without necessarily reducing expected return — spreading across assets smooths volatility at no additional cost.',
+              },
+              {
+                q: 'What is home bias and why is it a problem for Singapore investors?',
+                a: 'Home bias is overinvesting in your own country. Singapore is ~0.3% of global market cap — a Singapore-heavy portfolio misses 99.7% of global economic growth.',
+              },
+              {
+                q: 'Does diversification eliminate all investment risk?',
+                a: 'No — it eliminates concentration and specific risk, but market risk remains. A diversified portfolio still falls during broad market downturns.',
+              },
+              {
+                q: 'Why does owning five stocks in the same sector not count as diversification?',
+                a: 'Same-sector stocks are highly correlated — they tend to fall together. True diversification requires spreading across different sectors, asset classes, and geographies.',
+              },
+              {
+                q: 'What is the simplest way for a Singapore retail investor to achieve broad diversification?',
+                a: 'Buy a low-cost global equity ETF — one purchase provides exposure to thousands of companies across 50+ countries at minimal cost.',
+              },
+            ],
           },
         ],
       },
