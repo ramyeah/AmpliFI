@@ -785,7 +785,7 @@ export function PieChartBlock({ title, slices, note }) {
 }
 
 // ─── Flip Card Deck ───────────────────────────────────
-export function FlipCardDeck({ title, cards }) {
+export function FlipCardDeck({ title, cards, variant = 'reframe' }) {
   const SW = Dimensions.get('window').width - 48;
   const [flipped, setFlipped] = useState({});
   const [cardHeight, setCardHeight] = useState(180);
@@ -809,6 +809,8 @@ export function FlipCardDeck({ title, cards }) {
     if (allHeights.length === cards.length * 2) setCardHeight(Math.max(...allHeights));
   };
 
+  const isNeutral = variant === 'neutral';
+
   return (
     <View style={fd.wrapper}>
       {title && <Text style={fd.title}>{title}</Text>}
@@ -819,8 +821,8 @@ export function FlipCardDeck({ title, cards }) {
         contentContainerStyle={{ gap: 16 }} style={{ overflow: 'visible' }}
       >
         {cards.map((card, i) => {
-          const frontRotate = anims[i].interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
-          const backRotate  = anims[i].interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
+          const frontRotate  = anims[i].interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
+          const backRotate   = anims[i].interpolate({ inputRange: [0, 1], outputRange: ['180deg', '360deg'] });
           const frontOpacity = anims[i].interpolate({ inputRange: [0, 0.5, 0.5, 1], outputRange: [1, 1, 0, 0] });
           const backOpacity  = anims[i].interpolate({ inputRange: [0, 0.5, 0.5, 1], outputRange: [0, 0, 1, 1] });
 
@@ -829,28 +831,51 @@ export function FlipCardDeck({ title, cards }) {
               key={i} onPress={() => flip(i)} activeOpacity={1}
               style={[fd.cardContainer, { width: SW, height: cardHeight }]}
             >
+              {/* Front */}
               <Animated.View
                 onLayout={(e) => onCardLayout(e, `front-${i}`)}
-                style={[fd.card, fd.cardFront, { width: SW, minHeight: cardHeight, opacity: frontOpacity, transform: [{ perspective: 1000 }, { rotateY: frontRotate }] }]}
+                style={[
+                  fd.card,
+                  isNeutral ? fd.cardNeutral : fd.cardFront,
+                  { width: SW, minHeight: cardHeight, opacity: frontOpacity, transform: [{ perspective: 1000 }, { rotateY: frontRotate }] },
+                ]}
               >
                 <View style={fd.cardTopRow}>
-                  <View style={fd.badgeFront}><Text style={fd.badgeText}>{card.frontLabel || '❌ Fixed'}</Text></View>
+                  <View style={isNeutral ? fd.badgeNeutral : fd.badgeFront}>
+                    <Text style={isNeutral ? fd.badgeTextNeutral : fd.badgeText}>
+                      {card.frontLabel || '❌ Fixed'}
+                    </Text>
+                  </View>
                   <Text style={fd.cardNum}>{i + 1}/{cards.length}</Text>
                 </View>
-                <Text style={fd.cardTextFront}>{card.front}</Text>
-                <Text style={fd.tapHintFront}>Tap to see the reframe →</Text>
+                <Text style={isNeutral ? fd.cardTextNeutral : fd.cardTextFront}>{card.front}</Text>
+                <Text style={isNeutral ? fd.tapHintNeutral : fd.tapHintFront}>
+                  {isNeutral ? 'Tap to flip →' : 'Tap to see the reframe →'}
+                </Text>
               </Animated.View>
+
+              {/* Back */}
               <Animated.View
                 onLayout={(e) => onCardLayout(e, `back-${i}`)}
-                style={[fd.card, fd.cardBack, { width: SW, minHeight: cardHeight, opacity: backOpacity, transform: [{ perspective: 1000 }, { rotateY: backRotate }] }]}
+                style={[
+                  fd.card,
+                  isNeutral ? fd.cardNeutral : fd.cardBack,
+                  { width: SW, minHeight: cardHeight, opacity: backOpacity, transform: [{ perspective: 1000 }, { rotateY: backRotate }] },
+                ]}
               >
                 <View style={fd.cardTopRow}>
-                  <View style={fd.badgeBack}><Text style={fd.badgeText}>{card.backLabel || '✅ Growth'}</Text></View>
+                  <View style={isNeutral ? fd.badgeNeutral : fd.badgeBack}>
+                    <Text style={isNeutral ? fd.badgeTextNeutral : fd.badgeText}>
+                      {card.backLabel || '✅ Growth'}
+                    </Text>
+                  </View>
                   <Text style={fd.cardNum}>{i + 1}/{cards.length}</Text>
                 </View>
-                <Text style={fd.cardTextBack}>{card.back}</Text>
+                <Text style={isNeutral ? fd.cardTextNeutral : fd.cardTextBack}>{card.back}</Text>
                 {card.tag && (
-                  <View style={fd.backLabel}><Text style={fd.backLabelText}>{card.tag}</Text></View>
+                  <View style={isNeutral ? fd.backLabelNeutral : fd.backLabel}>
+                    <Text style={isNeutral ? fd.backLabelTextNeutral : fd.backLabelText}>{card.tag}</Text>
+                  </View>
                 )}
               </Animated.View>
             </TouchableOpacity>
@@ -1716,26 +1741,39 @@ const pc = StyleSheet.create({
 });
 
 const fd = StyleSheet.create({
-  wrapper:      { marginBottom: 14 },
-  title:        { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  hint:         { fontSize: 12, color: C.neutral4, marginBottom: 10 },
-  cardContainer:{ position: 'relative' },
-  card:         { position: 'absolute', top: 0, left: 0, borderRadius: 18, padding: 20, justifyContent: 'space-between', backfaceVisibility: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.08, shadowRadius: 10, elevation: 3 },
-  cardFront:    { backgroundColor: C.dangerLight, borderWidth: 1.5, borderColor: C.dangerMid },
-  cardBack:     { backgroundColor: '#F0FDF4', borderWidth: 1.5, borderColor: C.successMid },
-  cardTopRow:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  badgeFront:   { backgroundColor: C.danger, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  badgeBack:    { backgroundColor: C.success, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  badgeText:    { fontSize: 11, fontWeight: '800', color: C.white },
-  cardNum:      { fontSize: 12, color: C.neutral4, fontWeight: '600' },
-  cardTextFront:{ fontSize: 16, fontWeight: '700', color: '#991B1B', lineHeight: 24, flex: 1, paddingVertical: 10 },
-  cardTextBack: { fontSize: 16, fontWeight: '700', color: C.successDark, lineHeight: 24, flex: 1, paddingVertical: 10 },
-  tapHintFront: { fontSize: 12, color: C.danger, fontWeight: '600', opacity: 0.7 },
-  backLabel:    { alignSelf: 'flex-start', backgroundColor: C.successLight, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
-  backLabelText:{ fontSize: 11, fontWeight: '700', color: C.success },
-  dots:         { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
-  dot:          { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
-  dotFlipped:   { backgroundColor: C.success },
+  wrapper:           { marginBottom: 14 },
+  title:             { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
+  hint:              { fontSize: 12, color: C.neutral4, marginBottom: 10 },
+  cardContainer:     { position: 'relative' },
+  card:              { position: 'absolute', top: 0, left: 0, borderRadius: 18, padding: 20, justifyContent: 'space-between', backfaceVisibility: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.08, shadowRadius: 10, elevation: 3 },
+
+  // ── Reframe variant (red/green) ──
+  cardFront:         { backgroundColor: C.dangerLight, borderWidth: 1.5, borderColor: C.dangerMid },
+  cardBack:          { backgroundColor: '#F0FDF4', borderWidth: 1.5, borderColor: C.successMid },
+  badgeFront:        { backgroundColor: C.danger, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  badgeBack:         { backgroundColor: C.success, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  badgeText:         { fontSize: 11, fontWeight: '800', color: C.white },
+  cardTextFront:     { fontSize: 16, fontWeight: '700', color: '#991B1B', lineHeight: 24, flex: 1, paddingVertical: 10 },
+  cardTextBack:      { fontSize: 16, fontWeight: '700', color: C.successDark, lineHeight: 24, flex: 1, paddingVertical: 10 },
+  tapHintFront:      { fontSize: 12, color: C.danger, fontWeight: '600', opacity: 0.7 },
+  backLabel:         { alignSelf: 'flex-start', backgroundColor: C.successLight, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  backLabelText:     { fontSize: 11, fontWeight: '700', color: C.success },
+
+  // ── Neutral variant (white) ──
+  cardNeutral:       { backgroundColor: C.white, borderWidth: 1.5, borderColor: C.border },
+  badgeNeutral:      { backgroundColor: C.borderLight, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  badgeTextNeutral:  { fontSize: 11, fontWeight: '700', color: C.neutral3 },
+  cardTextNeutral:   { fontSize: 16, fontWeight: '700', color: C.neutral1, lineHeight: 24, flex: 1, paddingVertical: 10 },
+  tapHintNeutral:    { fontSize: 12, color: C.neutral4, fontWeight: '600', opacity: 0.7 },
+  backLabelNeutral:  { alignSelf: 'flex-start', backgroundColor: C.borderLight, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  backLabelTextNeutral: { fontSize: 11, fontWeight: '700', color: C.neutral3 },
+
+  // ── Shared ──
+  cardTopRow:        { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  cardNum:           { fontSize: 12, color: C.neutral4, fontWeight: '600' },
+  dots:              { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
+  dot:               { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
+  dotFlipped:        { backgroundColor: C.success },
 });
 
 const tl = StyleSheet.create({
