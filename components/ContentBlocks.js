@@ -485,59 +485,88 @@ export function TopicCards({ title, cards }) {
 
 function TopicCard({ card, isOpen, onToggle }) {
   const anim = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
-    const a = Animated.spring(anim, { toValue: isOpen ? 1 : 0, friction: 8, tension: 60, useNativeDriver: false });
+    const a = Animated.spring(anim, {
+      toValue: isOpen ? 1 : 0,
+      friction: 8,
+      tension: 60,
+      useNativeDriver: false,
+    });
     a.start();
     return () => a.stop();
   }, [isOpen]);
 
-  const maxHeight = anim.interpolate({ inputRange: [0, 1], outputRange: [0, 400] });
+  // animate both height and fade
+  const height = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1], // 0 → “auto”, we will use scaleY
+  });
+  const opacity = anim;
 
   const bgColor =
-    card.color === C.primary  ? '#F5F6FF' :
-    card.color === C.warning  ? '#FFFDF5' :
-    card.color === C.success  ? '#F5FFFA' : C.white;
+    card.color === C.primary ? '#F5F6FF' :
+    card.color === C.warning ? '#FFFDF5' :
+    card.color === C.success ? '#F5FFFA' : C.white;
 
   const iconBgColor =
-    card.color === C.primary  ? C.primaryLight :
-    card.color === C.warning  ? C.warningLight :
-    card.color === C.success  ? '#ECFDF5' : C.borderLight;
+    card.color === C.primary ? C.primaryLight :
+    card.color === C.warning ? C.warningLight :
+    card.color === C.success ? '#ECFDF5' : C.borderLight;
 
   return (
     <TouchableOpacity
       style={[tc.card, { borderColor: card.color, backgroundColor: bgColor }]}
       onPress={onToggle}
-      activeOpacity={0.85}
+      activeOpacity={0.9}
     >
       <View style={tc.row}>
         <View style={tc.textSide}>
           <Text style={[tc.label, { color: card.color }]}>{card.label}</Text>
           <Text style={tc.desc}>{card.description}</Text>
-          {!isOpen && <Text style={[tc.tapHint, { color: card.color }]}>Tap to learn more →</Text>}
+          {!isOpen && (
+            <Text style={[tc.tapHint, { color: card.color }]}>
+              Tap to learn more →
+            </Text>
+          )}
         </View>
         <View style={[tc.iconBg, { backgroundColor: iconBgColor }]}>
           <Text style={tc.icon}>{card.icon}</Text>
         </View>
       </View>
-      <Animated.View style={{ maxHeight, overflow: 'hidden' }}>
-        <View style={[tc.expanded, { borderTopColor: card.color }]}>
-          {card.details && card.details.map((point, i) => (
-            <View key={i} style={tc.detailRow}>
-              <View style={[tc.detailDot, { backgroundColor: card.color }]} />
-              <Text style={tc.detailText}>{point}</Text>
-            </View>
-          ))}
-          {card.example && (
-            <View style={[tc.example, { borderLeftColor: card.color }]}>
-              <Text style={[tc.exampleLabel, { color: card.color }]}>💡 Example</Text>
-              <Text style={tc.exampleText}>{card.example}</Text>
-            </View>
-          )}
-        </View>
+
+      <Animated.View
+        style={{
+          transform: [{ scaleY: height }],
+          opacity,
+          transformOrigin: 'top',
+        }}
+      >
+        {isOpen && (
+          <View style={[tc.expanded, { borderTopColor: card.color }]}>
+            {card.details?.map((point, i) => (
+              <View key={i} style={tc.detailRow}>
+                <View
+                  style={[tc.detailDot, { backgroundColor: card.color }]}
+                />
+                <Text style={tc.detailText}>{point}</Text>
+              </View>
+            ))}
+            {card.example && (
+              <View style={[tc.example, { borderLeftColor: card.color }]}>
+                <Text style={[tc.exampleLabel, { color: card.color }]}>
+                  💡 Example
+                </Text>
+                <Text style={tc.exampleText}>{card.example}</Text>
+              </View>
+            )}
+          </View>
+        )}
       </Animated.View>
     </TouchableOpacity>
   );
 }
+
 
 // ─── App Cards ────────────────────────────────────────
 export function AppCards({ title, apps }) {
@@ -1545,23 +1574,43 @@ const t = StyleSheet.create({
 
 const tc = StyleSheet.create({
   wrapper:    { marginBottom: 14, gap: 10 },
-  title:      { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  card:       { borderRadius: 18, padding: 16, borderWidth: 1.5, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  row:        { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  textSide:   { flex: 1 },
-  label:      { fontSize: 17, fontWeight: '800', marginBottom: 4 },
-  desc:       { fontSize: 13, color: C.neutral3, lineHeight: 19 },
-  tapHint:    { fontSize: 12, fontWeight: '600', marginTop: 6, opacity: 0.8 },
-  iconBg:     { width: 64, height: 64, borderRadius: 16, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
-  icon:       { fontSize: 34 },
-  expanded:   { marginTop: 14, paddingTop: 14, borderTopWidth: 1, gap: 8 },
-  detailRow:  { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
-  detailDot:  { width: 7, height: 7, borderRadius: 4, marginTop: 7, flexShrink: 0 },
-  detailText: { flex: 1, fontSize: 14, color: C.neutral2, lineHeight: 22 },
-  example:    { borderRadius: 10, padding: 12, backgroundColor: C.cardBg, borderLeftWidth: 3, marginTop: 4 },
+  title:      { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 6 },
+
+  card: {
+    borderRadius: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderWidth: 1.3,
+    shadowColor: '#111827',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.07,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+
+  row:       { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  textSide:  { flex: 1 },
+
+  label:     { fontSize: 16, fontWeight: '800', marginBottom: 3 },
+  desc:      { fontSize: 13, color: C.neutral3, lineHeight: 19 },
+  tapHint:   { fontSize: 12, fontWeight: '600', marginTop: 5, opacity: 0.85 },
+
+  iconBg:    { width: 56, height: 56, borderRadius: 16, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
+  icon:      { fontSize: 28 },
+
+  expanded:  { marginTop: 12, paddingTop: 12, borderTopWidth: 1, gap: 8 },
+  detailRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
+  detailDot: { width: 6, height: 6, borderRadius: 3, marginTop: 6, flexShrink: 0 },
+
+  detailText:{ flex: 1, fontSize: 13, color: C.neutral2, lineHeight: 21 },
+
+  example:   { borderRadius: 11, padding: 11, backgroundColor: C.cardBg, borderLeftWidth: 3, marginTop: 3 },
   exampleLabel:{ fontSize: 11, fontWeight: '800', marginBottom: 4, letterSpacing: 0.3 },
-  exampleText:{ fontSize: 13, color: C.neutral2, lineHeight: 20 },
+  exampleText:{ fontSize: 12.5, color: C.neutral2, lineHeight: 19 },
 });
+
+
+
 
 const ba = StyleSheet.create({
   wrapper:   { marginBottom: 14, gap: 8 },

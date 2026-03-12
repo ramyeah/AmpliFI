@@ -74,10 +74,14 @@ export const MODULES = [
                     text: 'Only 59% of Singaporeans are considered financially literate — and among university students, the rate is lower still despite higher education levels. Financial literacy is not a byproduct of academic achievement.',
                     },
                     {
+                    type: 'heading',
+                    text: 'Misconceptions about Financial Literacy',
+                    },
+                    {
                     type: 'flipcards',
                     exerciseId: '1-1-s1-flip',
                     fincoins: 10,
-                    title: 'What financial literacy actually means — and what it does not:',
+                    title: 'What FL actually means — and what it doesn\'t',
                     cards: [
                         {
                         frontLabel: '❌ Common misconception',
@@ -161,9 +165,12 @@ export const MODULES = [
                     type: 'text',
                     text: 'The consequences of low financial literacy are concrete and measurable. Research consistently links poor financial literacy to higher debt levels, lower savings rates, and greater vulnerability to financial shocks. In Singapore — where the cost of living is high, financial products are increasingly complex, and retirement planning is largely self-directed — the stakes are particularly significant.',
                     },
+                                        {
+                    type: 'subheading',
+                    text: 'Three Main Impact Areas',
+                    },
                     {
                     type: 'topiccards',
-                    title: 'Three areas where financial literacy has the greatest impact:',
                     cards: [
                         {
                         icon: '💰',
@@ -210,6 +217,10 @@ export const MODULES = [
                     type: 'bot',
                     label: '💬 Research on financial literacy and financial behaviour outcomes',
                     prompt: 'Financial literacy impact financial behaviour outcomes research evidence saving investing debt management 2024',
+                    },
+                    {
+                    type: 'subheading',
+                    text: 'Put it into Practice',
                     },
                     {
                     type: 'scenarios',

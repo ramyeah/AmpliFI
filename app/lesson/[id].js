@@ -291,24 +291,60 @@ export default function LessonScreen() {
       <FinCoinToast amount={toastAmount} visible={toastVisible} />
 
       {/* ── Static header ── */}
-      <View style={[s.header, { backgroundColor: moduleColor, paddingTop: insets.top }]}>
-        <TouchableOpacity onPress={() => router.replace('/(tabs)/learn')} style={s.backBtn}>
-          <Text style={s.backText}>← Back</Text>
+      // inside LessonScreen return, replace your current header View with:
+      <View
+        style={[
+          s.header,
+          { backgroundColor: moduleColor, paddingTop: insets.top + 8 },
+        ]}
+      >
+        {/* Back button with more spacing below */}
+        <TouchableOpacity
+          onPress={() => router.replace('/tabs/learn')}
+          style={s.backBtn}
+          activeOpacity={0.7}
+        >
+          <Text style={s.backIcon}>←</Text>
+          <Text style={s.backText}>Back</Text>
         </TouchableOpacity>
-        <Text style={s.breadcrumb} numberOfLines={1}>
-          {module?.title} · {chapter?.title}
+
+        <View style={s.breadcrumbRow}>
+          <Text numberOfLines={1} style={s.breadcrumbModule}>
+            {module?.title}
+          </Text>
+          <Text style={s.breadcrumbDot}>·</Text>
+          <Text numberOfLines={1} style={s.breadcrumbChapter}>
+            {chapter?.title}
+          </Text>
+        </View>
+
+        <Text
+          numberOfLines={2}
+          style={s.lessonTitle}
+        >
+          {lesson.icon} {lesson.title}
         </Text>
-        <Text style={s.lessonTitle} numberOfLines={1}>
-          {lesson.icon}  {lesson.title}
-        </Text>
+
         <View style={s.metaRow}>
-          <Text style={s.meta}>⏱ {lesson.duration}</Text>
-          <Text style={s.meta}>💰 {lesson.xp} XP</Text>
+          <View style={s.metaPill}>
+            <Text style={s.metaIcon}>⏱</Text>
+            <Text style={s.metaText}>{lesson.duration}</Text>
+          </View>
+          <View style={s.metaPill}>
+            <Text style={s.metaIcon}>⭐</Text>
+            <Text style={s.metaText}>{lesson.xp} XP</Text>
+          </View>
           {flashcards.length > 0 && (
-            <Text style={s.meta}>🗂 {flashcards.length} cards</Text>
+            <View style={s.metaPill}>
+              <Text style={s.metaIcon}>🃏</Text>
+              <Text style={s.metaText}>{flashcards.length} cards</Text>
+            </View>
           )}
         </View>
       </View>
+
+
+
 
       {/* ── Scrollable content ── */}
       <ScrollView
@@ -409,21 +445,88 @@ export default function LessonScreen() {
 // STYLESHEETS
 // ═══════════════════════════════════════════════════════
 
-const s = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#F8F7FF' },
 
-  // ── Header ──
-  header: {
-    paddingHorizontal: 20, paddingBottom: 20,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12, shadowRadius: 8, elevation: 6, zIndex: 10,
+
+const s = StyleSheet.create({
+    root: { flex: 1, backgroundColor: '#F8F7FF' },
+
+    header: {
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  backBtn:     { marginBottom: 8 },
-  backText:    { color: 'rgba(255,255,255,0.85)', fontSize: 14, fontWeight: '600' },
-  breadcrumb:  { fontSize: 11, color: 'rgba(255,255,255,0.6)', marginBottom: 6 },
-  lessonTitle: { fontSize: 20, fontWeight: '800', color: '#fff', marginBottom: 10 },
-  metaRow:     { flexDirection: 'row', gap: 16 },
-  meta:        { fontSize: 12, color: 'rgba(255,255,255,0.85)', fontWeight: '600' },
+
+  backBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderRadius: 999,
+    backgroundColor: 'rgba(15,23,42,0.18)',
+    marginBottom: 12, // more space below back button
+  },
+
+  backIcon: { color: '#F9FAFB', fontSize: 16, marginRight: 2 },
+  backText: { color: '#E5E7EB', fontSize: 13, fontWeight: '600' },
+
+  breadcrumbRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+
+  breadcrumbModule: {
+    fontSize: 11,
+    color: 'rgba(226,232,240,0.9)',
+    fontWeight: '600',
+  },
+  breadcrumbDot: {
+    fontSize: 11,
+    color: 'rgba(226,232,240,0.8)',
+    marginHorizontal: 4,
+  },
+  breadcrumbChapter: {
+    fontSize: 11,
+    color: 'rgba(226,232,240,0.8)',
+    fontWeight: '500',
+  },
+
+  lessonTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    lineHeight: 26,
+    marginBottom: 14, // more space above meta pills
+  },
+
+  metaRow: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+
+  metaPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 999,
+    backgroundColor: 'rgba(15,23,42,0.25)',
+  },
+
+  metaIcon: {
+    fontSize: 11,
+    marginRight: 4,
+  },
+  metaText: {
+    fontSize: 11,
+    color: '#F9FAFB',
+    fontWeight: '600',
+  },
 
   // ── Scroll ──
   scroll:        { flex: 1 },
