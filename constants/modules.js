@@ -4034,549 +4034,1331 @@ export const MODULES = [
           icon: '🗺️',
           description: 'Navigate Singapore\'s local and digital banking options',
           lessons: [
+            // ── LESSON 4-1 ──────────────────────────────
             {
-              id: '4-1', title: 'The Big Three Local Banks', icon: '🏛️',
+              id: '4-1',
+              title: 'The Big Three Local Banks',
+              icon: '🏛️',
               topic: 'DBS OCBC UOB Singapore banking overview',
-              duration: '6 min', fincoins: 70,
-              sections: [{ key: 'overview', heading: 'DBS, OCBC & UOB Overview' }, { key: 'accounts', heading: 'Account Types' }, { key: 'choose', heading: 'Which Bank Should You Choose?' }],
-              content: [
+              duration: '6 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Singapore has three local banks that dominate its financial system — DBS, OCBC, and UOB. All three are SGX-listed, regulated by the Monetary Authority of Singapore (MAS), and your deposits are protected up to $75,000 per bank by the Singapore Deposit Insurance Corporation (SDIC).',
-                },
-                {
-                  type: 'callout',
-                  variant: 'fact',
-                  text: 'Singapore\'s Big Three are consistently ranked among the safest banks in Asia and the world — DBS has been named World\'s Best Bank multiple times by Global Finance magazine.',
-                },
-                {
-                  type: 'text',
-                  text: 'Each bank has its own personality, strengths, and product ecosystem. As an international student, your first decision is simply: which one do I open my main account with?',
-                },
-                {
-                  type: 'timeline',
-                  title: 'Meet the Big Three:',
-                  nodes: [
+                  key: 'overview',
+                  title: 'DBS, OCBC & UOB Overview',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '🔴',
-                      label: 'DBS',
-                      sublabel: 'Largest in SEA',
-                      color: '#DC2626',
-                      examples: ['digibank app', 'PayLah!', 'DBS Multiplier'],
-                      details: [
-                        'Largest bank in Southeast Asia by assets.',
-                        'Best-in-class digital banking app (digibank) and most ATMs in Singapore.',
-                        'Home of the DBS Multiplier high-yield account and strong PayLah! integration.',
-                      ],
-                      tip: 'Best for: students who want the widest ATM network and the most polished app experience.',
+                      type: 'heading',
+                      text: 'DBS, OCBC & UOB Overview',
                     },
                     {
-                      icon: '🟠',
-                      label: 'OCBC',
-                      sublabel: 'Student-friendly',
-                      color: '#EA580C',
-                      examples: ['OCBC 360', 'Savings Pockets', 'OCBC Digital'],
-                      details: [
-                        'Second largest local bank — popular with students for its low barrier to entry.',
-                        'Home of the OCBC 360 high-yield account with Savings Pockets for goal-based saving.',
-                        'OCBC Digital app rated highly for UX and ease of use.',
-                      ],
-                      tip: 'Best for: students who want to separate money into named savings goals without opening multiple accounts.',
+                      type: 'text',
+                      text: 'Singapore has three local banks that dominate its financial system — DBS, OCBC, and UOB. All three are SGX-listed, regulated by the Monetary Authority of Singapore (MAS), and your deposits are protected up to $75,000 per bank by the Singapore Deposit Insurance Corporation (SDIC).',
                     },
                     {
-                      icon: '🔵',
-                      label: 'UOB',
-                      sublabel: 'Regional reach',
-                      color: '#1D4ED8',
-                      examples: ['UOB One', 'UOB TMRW', 'Credit rewards'],
-                      details: [
-                        'Third largest local bank with wide regional presence across Southeast Asia.',
-                        'Home of the UOB One high-yield account — simple conditions, strong interest.',
-                        'UOB TMRW app aimed at younger users with strong credit card rewards ecosystem.',
+                      type: 'keyterm',
+                      term: 'SDIC (Singapore Deposit Insurance Corporation)',
+                      definition: 'A government-backed scheme that protects deposits up to $75,000 per depositor per bank — so your savings are safe even in the unlikely event a bank fails.',
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'Singapore\'s Big Three are consistently ranked among the safest banks in Asia and the world — DBS has been named World\'s Best Bank multiple times by Global Finance magazine.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Meet the Big Three',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Each bank has its own personality, strengths, and product ecosystem. As an international student, your first decision is simply: which one do I open my main account with?',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'Meet the Big Three:',
+                      nodes: [
+                        {
+                          icon: '🔴',
+                          label: 'DBS',
+                          sublabel: 'Largest bank in SEA',
+                          color: '#DC2626',
+                          examples: ['digibank app', 'PayLah!', 'DBS Multiplier'],
+                          details: [
+                            'Largest bank in Southeast Asia by assets.',
+                            'Best-in-class digital banking app (digibank) and most ATMs in Singapore.',
+                            'Home of the DBS Multiplier high-yield account and strong PayLah! integration.',
+                          ],
+                          tip: 'Best for: students who want the widest ATM network and the most polished app experience.',
+                        },
+                        {
+                          icon: '🟠',
+                          label: 'OCBC',
+                          sublabel: 'Student-friendly',
+                          color: '#EA580C',
+                          examples: ['OCBC 360', 'Savings Pockets', 'OCBC Digital'],
+                          details: [
+                            'Second largest local bank — popular with students for its low barrier to entry.',
+                            'Home of the OCBC 360 high-yield account with Savings Pockets for goal-based saving.',
+                            'OCBC Digital app rated highly for UX and ease of use.',
+                          ],
+                          tip: 'Best for: students who want to separate money into named savings goals without opening multiple accounts.',
+                        },
+                        {
+                          icon: '🔵',
+                          label: 'UOB',
+                          sublabel: 'Regional reach',
+                          color: '#1D4ED8',
+                          examples: ['UOB One', 'UOB TMRW', 'Credit rewards'],
+                          details: [
+                            'Third largest local bank with wide regional presence across Southeast Asia.',
+                            'Home of the UOB One high-yield account — simple conditions, strong interest.',
+                            'UOB TMRW app aimed at younger users with a strong credit card rewards ecosystem.',
+                          ],
+                          tip: 'Best for: students who already spend consistently each month and want to earn interest on that spending.',
+                        },
                       ],
-                      tip: 'Best for: students who already spend consistently each month and want to earn interest on that spending.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current student account opening requirements for DBS, OCBC and UOB',
+                      prompt: 'student account opening requirements welcome offers DBS OCBC UOB Singapore 2025',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '4-1-s1-tinder',
+                      fincoins: 10,
+                      title: 'Bank Knowledge Check',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'All three local banks are regulated by MAS.',
+                          isTrue: true,
+                          explanation: 'DBS, OCBC, and UOB are all licensed and regulated by MAS — Singapore\'s central bank and financial regulator.',
+                        },
+                        {
+                          text: 'SDIC protects your deposits up to $75,000 per bank.',
+                          isTrue: true,
+                          explanation: 'The Singapore Deposit Insurance Corporation insures up to $75,000 per depositor per bank — so your money is safe even if a bank fails.',
+                        },
+                        {
+                          text: 'DBS has the largest ATM network in Singapore.',
+                          isTrue: true,
+                          explanation: 'DBS/POSB has the most extensive ATM and branch network in Singapore, including on most university campuses.',
+                        },
+                        {
+                          text: 'You need SingPass to open a bank account as an international student.',
+                          isTrue: false,
+                          explanation: 'As an international student, you can open an account with your passport and student pass — SingPass is helpful but not always required.',
+                        },
+                      ],
                     },
                   ],
                 },
+
+                // ─── SECTION 2 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Every bank offers a similar set of core account types. Understanding the differences helps you avoid fees and maximise what your money earns.',
-                },
-                {
-                  type: 'table',
-                  headers: ['Account Type', 'Purpose', 'Interest Rate', 'Best For'],
-                  rows: [
-                    ['Savings Account', 'Everyday banking & saving', '0.05% – 7.65% p.a.', 'Primary account'],
-                    ['Current Account', 'High-volume transactions, cheques', '0% (no interest)', 'Business / freelancers'],
-                    ['Fixed Deposit', 'Lock away funds for higher return', '2.5% – 3.5% p.a.', 'Lump sums you won\'t need'],
-                    ['Multi-Currency Account', 'Hold & transact in foreign currencies', 'Varies by currency', 'International students / remittances'],
-                  ],
-                },
-                {
-                  type: 'callout',
-                  variant: 'tip',
-                  text: 'As an international student, a Savings Account is your starting point. If you regularly send money home or receive funds from overseas, ask about a Multi-Currency Account — it can save you a lot on FX conversion fees.',
-                },
-                {
-                  type: 'text',
-                  text: 'There is no single "best" bank — the right choice depends on how you use your account. Here are some common student scenarios:',
-                },
-                {
-                  type: 'scenarios',
-                  title: 'Which Bank Fits You?',
-                  scenarios: [
+                  key: 'accounts',
+                  title: 'Account Types',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '📱',
-                      situation: 'You want the best mobile app experience and the most ATMs on campus.',
-                      options: [
+                      type: 'heading',
+                      text: 'Account Types',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Every bank offers a similar set of core account types. Understanding the differences helps you avoid fees and maximise what your money earns.',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Account Type', 'Purpose', 'Interest Rate', 'Best For'],
+                      rows: [
+                        ['Savings Account', 'Everyday banking & saving', '0.05% – 7.65% p.a.', 'Primary account'],
+                        ['Current Account', 'High-volume transactions, cheques', '0% (no interest)', 'Business / freelancers'],
+                        ['Fixed Deposit', 'Lock away funds for higher return', '2.5% – 3.5% p.a.', 'Lump sums you won\'t need'],
+                        ['Multi-Currency Account', 'Hold & transact in foreign currencies', 'Varies by currency', 'International students / remittances'],
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'As an international student, a Savings Account is your starting point. If you regularly send money home or receive funds from overseas, ask about a Multi-Currency Account — it can save you significantly on FX conversion fees.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'High-Yield Savings Accounts Explained',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Each of the Big Three has a flagship high-yield savings account. These pay significantly more interest than standard accounts — but come with conditions you need to meet monthly.',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'neutral',
+                      title: 'High-yield accounts — what are the conditions?',
+                      cards: [
                         {
-                          text: 'DBS digibank',
-                          biasLabel: 'Best choice ✓',
-                          biasExplanation: 'DBS digibank is consistently rated the best digital banking app in Singapore, and DBS has the widest ATM network — including on most university campuses.',
-                          isIdeal: true,
+                          frontLabel: '🔴 DBS',
+                          backLabel: '📋 Conditions',
+                          front: 'DBS Multiplier — up to 4.1% p.a.',
+                          back: 'Earn bonus interest by crediting salary + transacting across categories (credit card, insurance, investments). Interest scales with how many DBS products you use.',
+                          tag: 'Best once you start working',
                         },
                         {
-                          text: 'UOB TMRW',
-                          biasLabel: 'Good but limited ATMs',
-                          biasExplanation: 'UOB TMRW is a solid app for younger users but UOB has fewer ATMs than DBS island-wide.',
-                          isIdeal: false,
+                          frontLabel: '🟠 OCBC',
+                          backLabel: '📋 Conditions',
+                          front: 'OCBC 360 — up to 4.65% p.a.',
+                          back: 'Earn bonus tiers by crediting salary, spending on OCBC card, and holding insurance or investments. Includes free Savings Pockets for goal-based saving.',
+                          tag: 'Best for goal-based savers',
                         },
                         {
-                          text: 'OCBC Digital',
-                          biasLabel: 'Great UX, fewer ATMs',
-                          biasExplanation: 'OCBC Digital is highly rated but OCBC\'s ATM footprint is smaller than DBS.',
-                          isIdeal: false,
+                          frontLabel: '🔵 UOB',
+                          backLabel: '📋 Conditions',
+                          front: 'UOB One — up to 4% p.a.',
+                          back: 'Simplest conditions: spend $500/month on UOB card + set up one GIRO debit. Your phone bill or MRT top-up GIRO counts — easy to qualify as a student.',
+                          tag: 'Easiest to qualify for as a student',
                         },
                       ],
                     },
                     {
+                      type: 'slider',
+                      icon: '🏦',
+                      title: 'Interest Earnings Comparison',
+                      description: 'Drag to your savings amount and see what each account earns you per year.',
+                      min: 500,
+                      max: 10000,
+                      step: 100,
+                      initialValue: 2000,
+                      prefix: '$',
+                      calculateResult: (amount) => [
+                        { label: '🔴 DBS Multiplier (base 0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#DC2626' },
+                        { label: '🟠 OCBC 360 (base 0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#EA580C' },
+                        { label: '🔵 UOB One (with $500 spend + GIRO)', value: `$${(amount * 0.04).toFixed(2)}/yr`, color: '#1D4ED8' },
+                        { label: '🟢 GXS / Trust (base ~3%)', value: `$${(amount * 0.03).toFixed(2)}/yr`, color: '#059669' },
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'warning',
+                      text: 'As a student without a salary, you may not hit the bonus interest tiers on DBS or OCBC. UOB One is often the easiest to qualify for — $500/month card spend and one GIRO debit is achievable on a student budget.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 What are the current interest rates for DBS Multiplier, OCBC 360 and UOB One?',
+                      prompt: 'DBS Multiplier OCBC 360 UOB One current interest rates conditions 2025',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 3 ───────────────────────────
+                {
+                  key: 'choose',
+                  title: 'Which Bank Should You Choose?',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Which Bank Should You Choose?',
+                    },
+                    {
+                      type: 'text',
+                      text: 'There is no single "best" bank — the right choice depends on how you use your account. Here are the most common student scenarios and which bank fits each one best.',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '4-1-s3-scenarios',
+                      fincoins: 10,
+                      title: 'Which Bank Fits You?',
+                      scenarios: [
+                        {
+                          icon: '📱',
+                          situation: 'You want the best mobile app experience and the most ATMs on campus.',
+                          options: [
+                            {
+                              text: 'DBS digibank',
+                              biasLabel: 'Best choice ✓',
+                              biasExplanation: 'DBS digibank is consistently rated the best digital banking app in Singapore, and DBS has the widest ATM network — including on most university campuses.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'UOB TMRW',
+                              biasLabel: 'Good but fewer ATMs',
+                              biasExplanation: 'UOB TMRW is a solid app for younger users but UOB has fewer ATMs than DBS island-wide.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'OCBC Digital',
+                              biasLabel: 'Great UX, fewer ATMs',
+                              biasExplanation: 'OCBC Digital is highly rated but OCBC\'s ATM footprint is smaller than DBS.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🎯',
+                          situation: 'You want to set up multiple savings goals (holiday fund, laptop fund, emergency fund) in separate named pockets.',
+                          options: [
+                            {
+                              text: 'UOB One',
+                              biasLabel: 'No pockets feature',
+                              biasExplanation: 'UOB One is excellent for interest but doesn\'t offer goal-based savings pockets.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'OCBC 360 with Savings Pockets',
+                              biasLabel: 'Best choice ✓',
+                              biasExplanation: 'OCBC\'s Savings Pockets feature lets you create named sub-accounts within your 360 account — perfect for goal-based saving without opening multiple accounts.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'DBS Multiplier',
+                              biasLabel: 'No pockets feature',
+                              biasExplanation: 'DBS Multiplier is excellent for interest but lacks a built-in savings pockets feature.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '✈️',
+                          situation: 'You send money home to family every month and want to minimise transfer fees.',
+                          options: [
+                            {
+                              text: 'DBS Remit',
+                              biasLabel: 'Best bank option ✓',
+                              biasExplanation: 'DBS Remit offers zero-fee transfers to many countries with competitive exchange rates — the best option among the three local banks for overseas remittances.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Standard OCBC or UOB international transfer',
+                              biasLabel: 'Higher fees',
+                              biasExplanation: 'Standard international transfers through OCBC or UOB typically incur higher fees and less competitive FX rates than DBS Remit.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'ATM cash withdrawal and manual overseas transfer',
+                              biasLabel: 'Most expensive option',
+                              biasExplanation: 'Withdrawing cash and transferring manually incurs the highest fees and worst exchange rates of any option.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Quick Reference — Bank to Use Case',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Priority', 'Best Bank'],
+                      rows: [
+                        ['Best app + most ATMs', 'DBS (digibank)'],
+                        ['Goal-based savings pockets', 'OCBC (360 Pockets)'],
+                        ['Easiest interest to qualify for', 'UOB (One Account)'],
+                        ['Sending money home', 'DBS (DBS Remit)'],
+                        ['Multi-currency / FX needs', 'DBS or OCBC'],
+                      ],
+                      firstColAccent: true,
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: There\'s no rule against having accounts at more than one bank. Many students use DBS as their daily account for ATM access, and OCBC 360 for savings pockets — the best of both.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Can international students open a bank account online in Singapore?',
+                      prompt: 'international student open bank account online Singapore DBS OCBC UOB requirements 2025',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: The Big Three Local Banks',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions covering Singapore\'s banking landscape, account types, and choosing the right bank for your situation.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — key facts about Singapore\'s Big Three banks?',
+                      prompt: 'DBS OCBC UOB Singapore key differences student banking summary 2025',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '4-1-s4-mcq',
+                      fincoins: 25,
                       icon: '🎯',
-                      situation: 'You want to set up multiple savings goals (holiday fund, laptop fund, emergency fund) in separate pockets.',
-                      options: [
+                      title: 'The Big Three Local Banks',
+                      questions: [
                         {
-                          text: 'UOB One',
-                          biasLabel: 'No pockets feature',
-                          biasExplanation: 'UOB One is great for interest but doesn\'t offer goal-based savings pockets.',
-                          isIdeal: false,
+                          concept: 'Deposit protection',
+                          question: 'A student has $90,000 split across two banks — $60,000 in DBS and $30,000 in OCBC. How much is protected by SDIC?',
+                          options: [
+                            '$75,000 total — SDIC covers across all banks combined',
+                            '$60,000 — only the DBS portion is under the limit',
+                            '$90,000 — the full amount is protected',
+                            '$75,000 in DBS and $30,000 in OCBC — $105,000 total protected',
+                          ],
+                          correctIndex: 3,
+                          explanation: 'SDIC protects up to $75,000 per depositor per bank. DBS holds $60,000 (fully protected), OCBC holds $30,000 (fully protected). Total protected: $90,000 — the full amount.',
                         },
                         {
-                          text: 'OCBC 360 with Savings Pockets',
-                          biasLabel: 'Best choice ✓',
-                          biasExplanation: 'OCBC\'s Savings Pockets feature lets you create named sub-accounts within your 360 account — perfect for goal-based saving without opening multiple accounts.',
-                          isIdeal: true,
+                          concept: 'Account types',
+                          question: 'An international student receives money from overseas parents monthly and wants to avoid FX fees. Which account type should they ask about?',
+                          options: [
+                            'Current Account — designed for high transaction volume',
+                            'Fixed Deposit — best interest rate available',
+                            'Multi-Currency Account — holds and transacts in foreign currencies',
+                            'Savings Account — standard starting point for all students',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'A Multi-Currency Account lets you receive, hold, and send money in foreign currencies without converting every time — significantly reducing FX fees for students who regularly transact internationally.',
                         },
                         {
-                          text: 'DBS Multiplier',
-                          biasLabel: 'No pockets feature',
-                          biasExplanation: 'DBS Multiplier is excellent for interest but lacks a built-in savings pockets feature.',
-                          isIdeal: false,
-                        },
-                      ],
-                    },
-                    {
-                      icon: '✈️',
-                      situation: 'You send money home to family every month and want to minimise fees.',
-                      options: [
-                        {
-                          text: 'DBS Remit',
-                          biasLabel: 'Best bank option ✓',
-                          biasExplanation: 'DBS Remit offers zero-fee transfers to many countries with competitive exchange rates — the best option among the three local banks.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Standard OCBC/UOB transfer',
-                          biasLabel: 'Higher fees',
-                          biasExplanation: 'Standard international transfers through OCBC or UOB typically incur higher fees and less competitive FX rates.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'ATM cash withdrawal + overseas transfer',
-                          biasLabel: 'Most expensive option',
-                          biasExplanation: 'Withdrawing cash and transferring manually incurs the highest fees and worst exchange rates.',
-                          isIdeal: false,
+                          concept: 'Choosing the right bank',
+                          question: 'A student spends $600/month on their UOB card and has a phone bill on GIRO. Which account should they prioritise to earn the most interest on savings?',
+                          options: [
+                            'OCBC 360 — highest headline rate at 4.65% p.a.',
+                            'DBS Multiplier — best for salary credit and multi-product use',
+                            'UOB One — $500/month card spend + one GIRO qualifies for bonus interest',
+                            'Standard savings account — simplest option with no conditions',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'UOB One has the simplest qualifying conditions — $500/month card spend and one GIRO debit. This student already meets both criteria, making UOB One the easiest path to bonus interest.',
                         },
                       ],
                     },
                   ],
-                },
-                {
-                  type: 'tindertruefalse',
-                  title: 'Bank Knowledge Check',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
-                    { text: 'All three local banks are regulated by MAS.', isTrue: true, explanation: 'DBS, OCBC, and UOB are all licensed and regulated by MAS — Singapore\'s central bank and financial regulator.' },
-                    { text: 'A current account earns higher interest than a savings account.', isTrue: false, explanation: 'Current accounts typically earn 0% interest — they\'re designed for frequent transactions, not saving.' },
-                    { text: 'SDIC protects your deposits up to $75,000 per bank.', isTrue: true, explanation: 'The Singapore Deposit Insurance Corporation insures up to $75,000 per depositor per bank — so your money is safe even if a bank fails.' },
-                    { text: 'You need SingPass to open a bank account as an international student.', isTrue: false, explanation: 'As an international student, you can open an account with your passport and student pass — SingPass is helpful but not always required.' },
-                    { text: 'DBS has the largest ATM network in Singapore.', isTrue: true, explanation: 'DBS/POSB has the most extensive ATM and branch network in Singapore, including on most university campuses.' },
-                  ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Current student account opening requirements for DBS, OCBC and UOB',
-                  prompt: 'What are the current student account opening requirements and any welcome offers for DBS, OCBC, and UOB in Singapore?',
                 },
               ],
+
               flashcards: [
-                { q: 'What are Singapore\'s three local banks?', a: 'DBS, OCBC, and UOB — all SGX-listed and regulated by MAS.' },
-                { q: 'How much do the SDIC protect per depositor per bank?', a: 'Up to $75,000 — so your savings are safe even if a bank fails.' },
-                { q: 'What is the difference between a savings account and a current account?', a: 'Savings accounts earn interest (0.05%–7.65%); current accounts earn 0% but support high-volume transactions and cheques.' },
-                { q: 'Which local bank has the best digital app and widest ATM network?', a: 'DBS — its digibank app is consistently rated top in Singapore, and it has the most ATMs island-wide.' },
-                { q: 'What account type is best for international students sending money home?', a: 'A Multi-Currency Account or using DBS Remit — both reduce FX conversion fees on overseas transfers.' },
+                {
+                  q: 'What are Singapore\'s three local banks?',
+                  a: 'DBS, OCBC, and UOB — all SGX-listed and regulated by MAS.',
+                },
+                {
+                  q: 'How much does SDIC protect per depositor per bank?',
+                  a: 'Up to $75,000 — so your savings are safe even if a bank fails.',
+                },
+                {
+                  q: 'What is the difference between a savings account and a current account?',
+                  a: 'Savings accounts earn interest (0.05%–7.65%); current accounts earn 0% but support high-volume transactions and cheques.',
+                },
+                {
+                  q: 'Which local bank has the best digital app and widest ATM network?',
+                  a: 'DBS — its digibank app is consistently rated top in Singapore, and it has the most ATMs island-wide.',
+                },
+                {
+                  q: 'What account type is best for international students sending money home?',
+                  a: 'A Multi-Currency Account or DBS Remit — both reduce FX conversion fees on overseas transfers.',
+                },
               ],
             },
+
+            // ── LESSON 4-2 ──────────────────────────────
             {
               id: '4-2',
               title: 'Digital Banks & Fintech',
               icon: '📱',
               topic: 'Singapore digital banks GXS Trust MariBank',
               duration: '5 min',
-              fincoins: 70,
+              fincoins: 55,
               sections: [
-                { key: 'digital', heading: 'Digital Banks in Singapore' },
-                { key: 'compare', heading: 'Digital vs Traditional' },
-                { key: 'pick', heading: 'When to Use Each' },
+
+                // ─── SECTION 1 ───────────────────────────
+                {
+                  key: 'digital',
+                  title: 'Digital Banks in Singapore',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Digital Banks in Singapore',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Singapore\'s banking landscape changed in 2022 when the Monetary Authority of Singapore (MAS) granted digital full bank licences to a new wave of challengers. These digital banks have no physical branches — everything happens on your phone.',
+                    },
+                    {
+                      type: 'keyterm',
+                      term: 'Digital Full Bank',
+                      definition: 'A MAS-licensed bank that operates entirely online with no physical branches — offering savings accounts, loans, and payments through a mobile app, with the same deposit protection as traditional banks.',
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'MAS granted 4 digital bank licences in 2020 — the first new bank licences in Singapore in over 20 years. GXS, Trust, and MariBank all launched between 2022 and 2023.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Meet Singapore\'s Three Digital Banks',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Each digital bank is backed by a major tech or retail ecosystem — which shapes who it\'s built for and what it does best.',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'Singapore\'s three digital banks:',
+                      nodes: [
+                        {
+                          icon: '🟢',
+                          label: 'GXS Bank',
+                          sublabel: 'Grab + Singtel',
+                          color: '#059669',
+                          examples: ['GXS FlexiLoan', 'Up to 3.48% p.a.', 'Grab ecosystem'],
+                          details: [
+                            'Backed by Grab and Singtel — targets gig workers and underserved earners.',
+                            'Offers a high-yield savings account with tiered interest up to 3.48% p.a.',
+                            'GXS FlexiLoan provides small personal loans without requiring a formal credit history — useful for students.',
+                          ],
+                          tip: 'Best for: Grab users and gig economy workers who want flexible credit and competitive savings rates.',
+                        },
+                        {
+                          icon: '🔵',
+                          label: 'Trust Bank',
+                          sublabel: 'Standard Chartered + FairPrice',
+                          color: '#1D4ED8',
+                          examples: ['No minimum balance', 'FairPrice rewards', 'Up to 2.5% p.a.'],
+                          details: [
+                            'Backed by Standard Chartered and NTUC FairPrice — deeply integrated with Singapore\'s largest supermarket chain.',
+                            'No minimum balance, no fall-below fees, and no foreign transaction fees.',
+                            'Earns LinkPoints at FairPrice and Kopitiam — useful for everyday student spending.',
+                          ],
+                          tip: 'Best for: students who shop at FairPrice regularly and want a zero-fee account with grocery rewards.',
+                        },
+                        {
+                          icon: '🟡',
+                          label: 'MariBank',
+                          sublabel: 'Sea Limited (Shopee)',
+                          color: '#D97706',
+                          examples: ['Up to 3.19% p.a.', 'Shopee ecosystem', 'Sea Money'],
+                          details: [
+                            'Backed by Sea Limited — the parent company of Shopee, Garena, and SeaMoney.',
+                            'Currently invite-only via the Shopee app, targeting Shopee\'s existing user base.',
+                            'Offers competitive savings rates with a simple, no-frills interface.',
+                          ],
+                          tip: 'Best for: frequent Shopee users already in the Sea ecosystem looking for a simple high-yield savings option.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current interest rates for GXS, Trust, and MariBank savings accounts',
+                      prompt: 'current savings account interest rates GXS Bank Trust Bank MariBank Singapore 2025',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '4-2-s1-tinder',
+                      fincoins: 10,
+                      title: 'Digital Bank Facts',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'Digital banks in Singapore are not protected by SDIC.',
+                          isTrue: false,
+                          explanation: 'All MAS-licensed digital banks — including GXS, Trust, and MariBank — are SDIC-insured up to $75,000, just like traditional banks.',
+                        },
+                        {
+                          text: 'GXS Bank is backed by Grab and Singtel.',
+                          isTrue: true,
+                          explanation: 'GXS Bank is a joint venture between Grab and Singtel — targeting gig workers, frequent Grab users, and those without formal credit histories.',
+                        },
+                        {
+                          text: 'MariBank is backed by Sea Limited, the parent company of Shopee.',
+                          isTrue: true,
+                          explanation: 'MariBank is Sea Limited\'s digital banking arm — leveraging the Shopee and SeaMoney ecosystem to reach its existing user base.',
+                        },
+                        {
+                          text: 'Trust Bank charges a fall-below fee if your balance drops below $1,000.',
+                          isTrue: false,
+                          explanation: 'Trust Bank has no minimum balance requirement and no fall-below fees — one of its key advantages over traditional banks.',
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 2 ───────────────────────────
+                {
+                  key: 'compare',
+                  title: 'Digital vs Traditional',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Digital vs Traditional',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Digital banks and traditional banks serve different purposes. Neither is strictly better — knowing the trade-offs is what lets you use both strategically.',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Feature', 'Digital Banks', 'Traditional Banks'],
+                      rows: [
+                        ['Branches & ATMs', 'None — fully app-based', 'Island-wide network'],
+                        ['Minimum balance', 'Usually $0', '$0–$3,000 depending on account'],
+                        ['Fall-below fees', 'None', 'Up to $5/month if below minimum'],
+                        ['Base interest rates', 'Competitive (2–3%+)', 'Low (~0.05%) without bonuses'],
+                        ['Bonus interest', 'Simpler conditions', 'Higher ceiling with salary/spend bonuses'],
+                        ['Overseas transfers', 'Limited or via partners', 'DBS Remit, OCBC, UOB transfer'],
+                        ['Student credit', 'GXS FlexiLoan (no history needed)', 'Requires formal credit history'],
+                        ['SDIC protected', '✅ Yes — up to $75,000', '✅ Yes — up to $75,000'],
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: Digital banks are SDIC-insured just like traditional banks — your deposits up to $75,000 are equally protected. The difference is convenience and fee structure, not safety.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Where Each Type Wins',
+                    },
+                    {
+                      type: 'topiccards',
+                      cards: [
+                        {
+                          icon: '📱',
+                          label: 'Digital Banks Win',
+                          description: 'Lower friction, fewer fees, competitive base rates with no conditions.',
+                          color: '#059669',
+                          details: [
+                            'No minimum balance or fall-below fees — ideal for students with variable income',
+                            'Competitive base interest rates without needing salary credit',
+                            'GXS FlexiLoan gives credit access without a formal credit history',
+                            'Seamless integration with ecosystems you already use (Grab, Shopee, FairPrice)',
+                          ],
+                          example: 'A student with $800 in savings earns ~$24/year at Trust Bank\'s 3% base rate vs $0.40 in a standard savings account at 0.05%.',
+                        },
+                        {
+                          icon: '🏦',
+                          label: 'Traditional Banks Win',
+                          description: 'Higher interest ceilings, ATM access, overseas transfers, and full product range.',
+                          color: '#4F46E5',
+                          details: [
+                            'Island-wide ATM network — essential when you need cash',
+                            'Higher bonus interest tiers (up to 4.65%) when you meet salary/spend conditions',
+                            'Better overseas remittance options (DBS Remit — zero fees to many countries)',
+                            'Full product ecosystem: credit cards, loans, investments, insurance',
+                          ],
+                          example: 'A student crediting salary to OCBC 360 and spending $500/month on the card can earn 4%+ — significantly higher than any digital bank.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do digital banks in Singapore compare to traditional banks for students?',
+                      prompt: 'digital banks vs traditional banks Singapore students comparison GXS Trust MariBank 2025',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 3 ───────────────────────────
+                {
+                  key: 'pick',
+                  title: 'When to Use Each',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'When to Use Each',
+                    },
+                    {
+                      type: 'text',
+                      text: 'The smartest strategy isn\'t choosing one over the other — it\'s using both. A traditional bank handles your primary transactions; a digital bank makes your idle savings work harder.',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Common mistakes → smarter approach',
+                      cards: [
+                        {
+                          frontLabel: '❌ Common mistake',
+                          backLabel: '✅ Smarter approach',
+                          front: 'Putting all your money in one bank and hoping for the best interest rate.',
+                          back: 'Use a traditional bank for your primary account (salary, bills, ATM access) and a digital bank for a high-yield savings pot earning 2–3%+.',
+                          tag: 'Split your money strategically',
+                        },
+                        {
+                          frontLabel: '❌ Common mistake',
+                          backLabel: '✅ Smarter approach',
+                          front: 'Ignoring digital banks because they\'re "new" and seem risky.',
+                          back: 'All MAS-licensed digital banks are SDIC-insured. GXS and Trust have been operating since 2022 with no issues — licensed means protected.',
+                          tag: 'Licensed = protected',
+                        },
+                        {
+                          frontLabel: '❌ Common mistake',
+                          backLabel: '✅ Smarter approach',
+                          front: 'Keeping your emergency fund in a standard savings account earning 0.05%.',
+                          back: 'Park your emergency fund in a digital bank or high-yield account earning 2–3%+ while keeping it fully accessible. Idle money should always be earning.',
+                          tag: 'Make idle money work',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'The Two-Bank Strategy',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Account Role', 'Best Option'],
+                      rows: [
+                        ['Primary daily account', 'DBS / OCBC / UOB (ATM access, bill payments)'],
+                        ['High-yield savings pot', 'GXS, Trust, or MariBank (2–3%+ base rate, no conditions)'],
+                        ['Emergency fund', 'Trust Bank or GXS (zero fees, accessible, earns interest)'],
+                        ['Grocery rewards', 'Trust Bank (LinkPoints at FairPrice and Kopitiam)'],
+                        ['Grab user savings', 'GXS Bank (ecosystem benefits, FlexiLoan if needed)'],
+                      ],
+                      firstColAccent: true,
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: Opening a Trust Bank account takes under 5 minutes in-app — no paperwork, no branch visit, no minimum balance. It\'s the lowest-friction way to start earning 2%+ on your savings today.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do I open a GXS or Trust Bank account in Singapore?',
+                      prompt: 'how to open GXS Bank Trust Bank account Singapore steps requirements 2025',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '4-2-s3-scenarios',
+                      fincoins: 10,
+                      title: 'Digital or Traditional?',
+                      scenarios: [
+                        {
+                          icon: '💰',
+                          situation: 'You have $1,200 sitting in your standard DBS savings account earning 0.05%. You don\'t need this money for at least 6 months. What\'s the best move?',
+                          options: [
+                            {
+                              text: 'Leave it — DBS is safer than digital banks.',
+                              biasLabel: 'Safety misconception',
+                              biasExplanation: 'All MAS-licensed digital banks are SDIC-insured to the same $75,000 limit as DBS. Safety is equal — but you\'re leaving ~$35/year in interest on the table.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Move it to a GXS or Trust account earning 2–3%+ while keeping it accessible.',
+                              biasLabel: 'Smart move ✓',
+                              biasExplanation: 'Same protection, significantly higher interest. $1,200 at 3% earns $36/year vs $0.60 at 0.05%. No minimum balance, fully accessible — zero downside.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Invest it in a robo-advisor for even better returns.',
+                              biasLabel: 'Wrong horizon',
+                              biasExplanation: 'If you might need this money in 6 months, it\'s too short to invest — markets can drop 20%+ in that window. A high-yield savings account is the right tool.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🛒',
+                          situation: 'You do most of your grocery shopping at FairPrice and Kopitiam every week. You\'re looking for a new bank account. Which digital bank adds the most value?',
+                          options: [
+                            {
+                              text: 'GXS Bank — best interest rates in the market.',
+                              biasLabel: 'Mismatched ecosystem',
+                              biasExplanation: 'GXS is great for Grab users, but doesn\'t integrate with FairPrice. You\'d miss out on the grocery rewards that directly match your spending habits.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Trust Bank — earns LinkPoints at FairPrice and Kopitiam.',
+                              biasLabel: 'Best fit ✓',
+                              biasExplanation: 'Trust Bank is backed by NTUC FairPrice — it earns LinkPoints on exactly where you already spend. Competitive interest rates plus grocery rewards is the right combination.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'MariBank — simplest interface, no complications.',
+                              biasLabel: 'No grocery integration',
+                              biasExplanation: 'MariBank is Shopee-focused and offers no FairPrice integration or grocery rewards. It\'s a good account but not the best fit for this spending pattern.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🎓',
+                          situation: 'You\'re a student with no credit history and need a small loan to cover a laptop before your allowance arrives next month. Which bank is most likely to help?',
+                          options: [
+                            {
+                              text: 'DBS — largest bank, most likely to approve.',
+                              biasLabel: 'Credit history required',
+                              biasExplanation: 'Traditional banks require a formal credit history for loans — as a student with none, DBS is unlikely to approve a personal loan application.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'GXS Bank — FlexiLoan doesn\'t require a formal credit history.',
+                              biasLabel: 'Best fit ✓',
+                              biasExplanation: 'GXS FlexiLoan is specifically designed for underserved earners without credit history — including students. It\'s the most accessible credit product for this situation.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Trust Bank — zero fees mean lowest borrowing cost.',
+                              biasLabel: 'No loan product',
+                              biasExplanation: 'Trust Bank doesn\'t currently offer a loan product equivalent to GXS FlexiLoan. Zero fees applies to the savings account, not credit.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: Digital Banks & Fintech',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions on Singapore\'s digital banks, how they compare to traditional banks, and when to use each.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — key facts about Singapore\'s digital banks?',
+                      prompt: 'GXS Trust MariBank Singapore digital banks key facts summary comparison 2025',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '4-2-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'Digital Banks & Fintech',
+                      questions: [
+                        {
+                          concept: 'Digital bank landscape',
+                          question: 'Which digital bank is best suited for a student who regularly uses Grab for transport and food delivery?',
+                          options: [
+                            'Trust Bank — backed by Standard Chartered and FairPrice',
+                            'MariBank — backed by Sea Limited and Shopee',
+                            'GXS Bank — backed by Grab and Singtel',
+                            'DBS digibank — widest ATM network and best app',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'GXS Bank is Grab and Singtel\'s digital banking arm — built specifically for the Grab ecosystem. Frequent Grab users get the most value from GXS\'s savings rates and FlexiLoan product.',
+                        },
+                        {
+                          concept: 'Digital vs traditional',
+                          question: 'A student says "I won\'t use digital banks — they\'re not as safe as DBS or OCBC." What\'s the accurate response?',
+                          options: [
+                            'They\'re correct — digital banks carry more risk as they\'re newer institutions',
+                            'Digital banks are safer because they have lower fees',
+                            'All MAS-licensed digital banks are SDIC-insured to the same $75,000 limit as traditional banks',
+                            'Digital banks are only safe for deposits under $10,000',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'SDIC insurance applies equally to all MAS-licensed banks — digital or traditional. GXS, Trust, and MariBank all carry the same $75,000 deposit protection as DBS, OCBC, and UOB.',
+                        },
+                        {
+                          concept: 'Two-bank strategy',
+                          question: 'A student uses DBS as their main account but keeps $2,000 in a standard DBS savings account at 0.05% p.a. What should they do with that $2,000?',
+                          options: [
+                            'Leave it in DBS — convenience outweighs the interest difference',
+                            'Move it to a fixed deposit for 12 months for higher returns',
+                            'Invest it in a robo-advisor — better long-term returns',
+                            'Move it to a digital bank savings account earning 2–3%+ with no lock-in',
+                          ],
+                          correctIndex: 3,
+                          explanation: 'Idle savings in a 0.05% account costs you ~$39/year in foregone interest vs a 2% digital bank account on $2,000. Digital banks have no lock-in and equal SDIC protection — it\'s a straightforward upgrade.',
+                        },
+                      ],
+                    },
+                  ],
+                },
               ],
-              content: [
-                {
-                  type: 'text',
-                  text: 'Singapore\'s banking landscape changed in 2022 when the Monetary Authority of Singapore (MAS) granted digital full bank licences to a new wave of challengers. These digital banks have no physical branches — everything happens on your phone.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'fact',
-                  text: 'MAS granted 4 digital bank licences in 2020 — the first new bank licences in Singapore in over 20 years. GXS, Trust, and MariBank all launched between 2022 and 2023.',
-                },
-                {
-                  type: 'text',
-                  text: 'Three digital banks are now live in Singapore. Each is backed by a major tech or retail ecosystem — which shapes who they\'re best for.',
-                },
-                {
-                  type: 'timeline',
-                  title: 'Singapore\'s three digital banks:',
-                  nodes: [
-                    {
-                      icon: '🟢',
-                      label: 'GXS Bank',
-                      sublabel: 'Grab + Singtel',
-                      color: '#059669',
-                      examples: ['GXS FlexiLoan', 'Up to 3.48% p.a.', 'Grab ecosystem'],
-                      details: [
-                        'Backed by Grab and Singtel — targets gig workers and underserved earners.',
-                        'Offers a high-yield savings account with tiered interest up to 3.48% p.a.',
-                        'GXS FlexiLoan provides small personal loans without requiring a formal credit history — useful for students.',
-                      ],
-                      tip: 'Best for: Grab users and gig economy workers who want flexible credit and competitive savings rates.',
-                    },
-                    {
-                      icon: '🔵',
-                      label: 'Trust Bank',
-                      sublabel: 'Standard Chartered + FairPrice',
-                      color: '#1D4ED8',
-                      examples: ['No minimum balance', 'FairPrice linkup', 'Up to 2.5% p.a.'],
-                      details: [
-                        'Backed by Standard Chartered and NTUC FairPrice — deeply integrated with Singapore\'s largest supermarket chain.',
-                        'No minimum balance, no fall-below fees, and no foreign transaction fees.',
-                        'Earns LinkPoints at FairPrice and Kopitiam — useful for everyday student spending.',
-                      ],
-                      tip: 'Best for: students who shop at FairPrice regularly and want a zero-fee account with grocery rewards.',
-                    },
-                    {
-                      icon: '🟡',
-                      label: 'MariBank',
-                      sublabel: 'Sea Limited (Shopee)',
-                      color: '#D97706',
-                      examples: ['Up to 3.19% p.a.', 'Shopee ecosystem', 'Sea Money'],
-                      details: [
-                        'Backed by Sea Limited — the parent company of Shopee, Garena, and SeaMoney.',
-                        'Currently invite-only via the Shopee app, targeting Shopee\'s existing user base.',
-                        'Offers competitive savings rates with a simple, no-frills interface.',
-                      ],
-                      tip: 'Best for: frequent Shopee users already in the Sea ecosystem looking for a simple high-yield savings option.',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Digital banks and traditional banks serve different purposes. Neither is strictly better — knowing when to use each is the key.',
-                },
-                {
-                  type: 'table',
-                  headers: ['Feature', 'Digital Banks', 'Traditional Banks (DBS/OCBC/UOB)'],
-                  rows: [
-                    ['Branches & ATMs', 'None — fully app-based', 'Island-wide network'],
-                    ['Minimum balance', 'Usually $0', '$0–$3,000 depending on account'],
-                    ['Fall-below fees', 'None', 'Up to $5/month if below minimum'],
-                    ['Interest rates', 'Competitive base rates', 'Higher with salary credit/spend bonuses'],
-                    ['Overseas transfers', 'Limited or via partners', 'DBS Remit, OCBC, UOB overseas transfer'],
-                    ['Student loans / credit', 'GXS FlexiLoan available', 'Requires formal credit history'],
-                    ['SDIC protected', 'Yes — up to $75,000', 'Yes — up to $75,000'],
-                  ],
-                },
-                {
-                  type: 'callout',
-                  variant: 'tip',
-                  text: 'Singapore Tip: Digital banks are SDIC-insured just like traditional banks — your deposits up to $75,000 are equally protected. The difference is convenience and fee structure, not safety.',
-                },
-                {
-                  type: 'text',
-                  text: 'The smartest strategy isn\'t choosing one over the other — it\'s using both. Here\'s how to think about it.',
-                },
-                {
-                  type: 'flipcards',
-                  title: 'How to use both types together:',
-                  cards: [
-                    {
-                      frontLabel: '❌ Common mistake',
-                      backLabel: '✅ Smarter approach',
-                      front: 'Putting all your money in one bank and hoping for the best interest rate.',
-                      back: 'Use a traditional bank for your primary account (salary, bills, ATM access) and a digital bank for a high-yield savings pot.',
-                      tag: 'Split your money strategically',
-                    },
-                    {
-                      frontLabel: '❌ Common mistake',
-                      backLabel: '✅ Smarter approach',
-                      front: 'Ignoring digital banks because they\'re "new" and seem risky.',
-                      back: 'All MAS-licensed digital banks are SDIC-insured. GXS and Trust have been operating since 2022 without issues.',
-                      tag: 'Licensed = protected',
-                    },
-                    {
-                      frontLabel: '❌ Common mistake',
-                      backLabel: '✅ Smarter approach',
-                      front: 'Using a traditional savings account earning 0.05% for your emergency fund.',
-                      back: 'Park your emergency fund in a digital bank or high-yield account earning 2–3%+ while keeping it accessible.',
-                      tag: 'Make idle money work',
-                    },
-                  ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Current interest rates for GXS, Trust, and MariBank savings accounts',
-                  prompt: 'Current savings account interest rates GXS Bank Trust Bank MariBank Singapore 2025',
-                },
-                {
-                  type: 'text',
-                  text: 'Test your understanding — swipe right for True, left for False.',
-                },
-                {
-                  type: 'tindertruefalse',
-                  title: 'Digital Bank Facts',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
-                    {
-                      text: 'Digital banks in Singapore are not protected by SDIC.',
-                      isTrue: false,
-                      explanation: 'All MAS-licensed digital banks — including GXS, Trust, and MariBank — are SDIC-insured up to $75,000, just like traditional banks.',
-                    },
-                    {
-                      text: 'GXS Bank is backed by Grab and Singtel.',
-                      isTrue: true,
-                      explanation: 'GXS Bank is a joint venture between Grab and Singtel — targeting gig workers, frequent Grab users, and those without formal credit histories.',
-                    },
-                    {
-                      text: 'Trust Bank charges a fall-below fee if your balance drops below $1,000.',
-                      isTrue: false,
-                      explanation: 'Trust Bank has no minimum balance requirement and no fall-below fees — one of its key advantages over traditional banks.',
-                    },
-                    {
-                      text: 'Digital banks typically offer higher base interest rates than traditional savings accounts.',
-                      isTrue: true,
-                      explanation: 'Digital banks generally offer more competitive base rates (2–3%+) compared to traditional banks\' base rates (~0.05%), though traditional banks can offer higher rates with salary credit bonuses.',
-                    },
-                    {
-                      text: 'MariBank is backed by Sea Limited, the parent company of Shopee.',
-                      isTrue: true,
-                      explanation: 'MariBank is Sea Limited\'s digital banking arm — leveraging the Shopee and SeaMoney ecosystem to reach its existing user base.',
-                    },
-                  ],
-                },
-              ],
+
               flashcards: [
-                { q: 'Name Singapore\'s three licensed digital banks.', a: 'GXS Bank (Grab + Singtel), Trust Bank (Standard Chartered + FairPrice), and MariBank (Sea Limited / Shopee).' },
-                { q: 'Are digital bank deposits in Singapore protected by SDIC?', a: 'Yes — all MAS-licensed digital banks are SDIC-insured up to $75,000, the same as traditional banks.' },
-                { q: 'What is GXS FlexiLoan?', a: 'A small personal loan product from GXS Bank that doesn\'t require a formal credit history — useful for students and gig workers.' },
-                { q: 'What is the smart two-bank strategy for students?', a: 'Use a traditional bank for your primary account (salary, ATM, bills) and a digital bank for a high-yield savings pot earning 2–3%+.' },
-                { q: 'Which digital bank is linked to FairPrice and earns grocery rewards?', a: 'Trust Bank — backed by Standard Chartered and NTUC FairPrice, it earns LinkPoints on everyday spending.' },
+                {
+                  q: 'Name Singapore\'s three licensed digital banks.',
+                  a: 'GXS Bank (Grab + Singtel), Trust Bank (Standard Chartered + FairPrice), and MariBank (Sea Limited / Shopee).',
+                },
+                {
+                  q: 'Are digital bank deposits in Singapore protected by SDIC?',
+                  a: 'Yes — all MAS-licensed digital banks are SDIC-insured up to $75,000, the same as traditional banks.',
+                },
+                {
+                  q: 'What is GXS FlexiLoan?',
+                  a: 'A small personal loan product from GXS Bank that doesn\'t require a formal credit history — useful for students and gig workers.',
+                },
+                {
+                  q: 'What is the smart two-bank strategy for students?',
+                  a: 'Use a traditional bank for your primary account (salary, ATM, bills) and a digital bank for a high-yield savings pot earning 2–3%+.',
+                },
+                {
+                  q: 'Which digital bank is linked to FairPrice and earns grocery rewards?',
+                  a: 'Trust Bank — backed by Standard Chartered and NTUC FairPrice, it earns LinkPoints on everyday spending.',
+                },
               ],
             },
+            // ── LESSON 4-3 ──────────────────────────────
             {
               id: '4-3',
               title: 'PayNow & Mobile Payments',
               icon: '💳',
               topic: 'PayNow SGQR Singapore cashless payments',
               duration: '4 min',
-              fincoins: 60,
+              fincoins: 55,
               sections: [
-                { key: 'paynow', heading: 'How PayNow Works' },
-                { key: 'safety', heading: 'Staying Safe' },
-                { key: 'tips', heading: 'Smart Usage Tips' },
+
+                // ─── SECTION 1 ───────────────────────────
+                {
+                  key: 'paynow',
+                  title: 'How PayNow Works',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'How PayNow Works',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Singapore is one of the most cashless societies in the world. PayNow, SGQR, and e-wallets have replaced cash for most daily transactions — from hawker centres to university canteens. As an international student, understanding these systems is essential from day one.',
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'In 2023, PayNow processed over 270 million transactions worth more than $170 billion — an average of over 700,000 transfers every single day.',
+                    },
+                    {
+                      type: 'keyterm',
+                      term: 'PayNow',
+                      definition: 'Singapore\'s instant, free bank-to-bank transfer system. Link your mobile number or NRIC to your bank account and send or receive money in seconds — no account numbers needed.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Singapore\'s Three Cashless Layers',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Singapore\'s cashless ecosystem has three main layers. Understanding each one helps you use the right tool in the right situation.',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'Singapore\'s three cashless layers:',
+                      nodes: [
+                        {
+                          icon: '⚡',
+                          label: 'PayNow',
+                          sublabel: 'Instant bank transfer',
+                          color: '#4F46E5',
+                          examples: ['Split bills', 'Pay friends', 'Receive allowance'],
+                          details: [
+                            'Links your mobile number or NRIC to your bank account — no account number needed.',
+                            'Transfers are instant, free, and available 24/7 across all major Singapore banks.',
+                            'Supported by DBS, OCBC, UOB, GXS, Trust, and more.',
+                          ],
+                          tip: 'Register your PayNow via your bank\'s app in under 2 minutes — you\'ll use it every day.',
+                        },
+                        {
+                          icon: '📱',
+                          label: 'SGQR',
+                          sublabel: 'Scan to pay anywhere',
+                          color: '#0891B2',
+                          examples: ['Hawker centres', 'Retail shops', 'Campus canteens'],
+                          details: [
+                            'SGQR is Singapore\'s unified QR code standard — one QR code accepts payments from any app.',
+                            'Scan with your bank app, GrabPay, FavePay, or any supported e-wallet.',
+                            'Widely accepted at hawker centres, coffee shops, and retail outlets island-wide.',
+                          ],
+                          tip: 'Most hawker stalls now display an SGQR code — scan with DBS PayLah!, OCBC, or UOB TMRW and pay instantly.',
+                        },
+                        {
+                          icon: '👛',
+                          label: 'E-Wallets',
+                          sublabel: 'App-based spending',
+                          color: '#059669',
+                          examples: ['GrabPay', 'FavePay', 'Shopee Pay'],
+                          details: [
+                            'E-wallets like GrabPay, FavePay, and Shopee Pay store a balance you top up from your bank.',
+                            'Often offer cashback and rewards that your bank account doesn\'t — useful for everyday spending.',
+                            'Not the same as PayNow — e-wallet balances are not SDIC insured, so don\'t store large amounts.',
+                          ],
+                          tip: 'Use e-wallets for small daily spending to earn rewards, but keep your main savings in your bank account.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do I register for PayNow as an international student in Singapore?',
+                      prompt: 'how to register PayNow international student Singapore bank app steps 2025',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '4-3-s1-tinder',
+                      fincoins: 10,
+                      title: 'PayNow & Cashless Basics',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'PayNow transfers between Singapore banks are free and instant at all hours.',
+                          isTrue: true,
+                          explanation: 'PayNow is free, instant, and available 24/7 — there are no transfer fees between participating banks regardless of the time or day.',
+                        },
+                        {
+                          text: 'SGQR is a QR code system that only works with DBS PayLah!.',
+                          isTrue: false,
+                          explanation: 'SGQR is a unified standard — one QR code accepts payments from any bank app or supported e-wallet, including DBS, OCBC, UOB, GrabPay, and more.',
+                        },
+                        {
+                          text: 'E-wallet balances like GrabPay and Shopee Pay are SDIC insured up to $75,000.',
+                          isTrue: false,
+                          explanation: 'E-wallet balances are NOT SDIC insured — only licensed bank deposits are. Keep large sums in your bank account, not an e-wallet.',
+                        },
+                        {
+                          text: 'You can register PayNow using your mobile number without sharing your bank account number.',
+                          isTrue: true,
+                          explanation: 'Your mobile number acts as a proxy for your bank account — the sender only needs your number, not your actual account details.',
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 2 ───────────────────────────
+                {
+                  key: 'safety',
+                  title: 'Staying Safe',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Staying Safe',
+                    },
+                    {
+                      type: 'text',
+                      text: 'PayNow is safe — but only if you know the common attack vectors. Singapore\'s cashless convenience comes with scam risks that catch new users off guard.',
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'warning',
+                      text: 'Scam alert: In 2023, PayNow-related scams cost Singaporeans over $13 million. The most common tactic is a fake "PayNow confirmation" screenshot — always verify transfers in your bank app, never via a screenshot.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'The Most Common PayNow Scams',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Scam tactic → how to protect yourself',
+                      cards: [
+                        {
+                          frontLabel: '🚨 Scam tactic',
+                          backLabel: '🛡️ Protection',
+                          front: 'Buyer sends a fake PayNow confirmation screenshot when buying something from you on Carousell.',
+                          back: 'Never release an item based on a screenshot. Open your bank app and confirm the transfer has actually arrived before handing anything over.',
+                          tag: 'Always verify in-app',
+                        },
+                        {
+                          frontLabel: '🚨 Scam tactic',
+                          backLabel: '🛡️ Protection',
+                          front: 'Someone claims to have sent you too much money by mistake and asks you to return the excess via PayNow.',
+                          back: 'Verify any incoming transfer first. Scammers send a fake amount or use a reversible payment, collect your "refund", then reverse the original.',
+                          tag: 'Verify before returning',
+                        },
+                        {
+                          frontLabel: '🚨 Scam tactic',
+                          backLabel: '🛡️ Protection',
+                          front: 'A message claiming your bank account is suspended — click this link and verify via PayNow to restore it.',
+                          back: 'Banks never ask you to verify accounts via PayNow transfers. Go directly to your bank\'s official app — never click links in SMS or WhatsApp messages.',
+                          tag: 'Go direct, never click links',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Your PayNow Safety Setup',
+                    },
+                    {
+                      type: 'checklist',
+                      title: '✅ Your PayNow setup checklist:',
+                      items: [
+                        'Register PayNow with your mobile number via your bank app — takes under 2 minutes.',
+                        'Set a daily transaction limit of $200–$500 for safety while studying.',
+                        'Enable push notifications for every transfer so you spot unauthorised transactions immediately.',
+                        'Never confirm a payment based on a screenshot — always check your bank app directly.',
+                        'Keep your e-wallet balance small — top up weekly and treat it like a physical wallet.',
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 What are the most common PayNow scams in Singapore and how to avoid them?',
+                      prompt: 'PayNow scams Singapore 2025 most common types how to avoid students',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '4-3-s2-scenarios',
+                      fincoins: 10,
+                      title: 'Safe or Scam?',
+                      scenarios: [
+                        {
+                          icon: '📸',
+                          situation: 'You\'re selling your old laptop on Carousell for $400. The buyer sends a screenshot showing a PayNow transfer to your number. They\'re waiting outside. What do you do?',
+                          options: [
+                            {
+                              text: 'Hand it over — the screenshot looks legitimate.',
+                              biasLabel: 'High scam risk',
+                              biasExplanation: 'PayNow screenshots are trivially easy to fake. Handing over $400 of goods based on a screenshot is one of the most common Carousell scam scenarios in Singapore.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Open your bank app and check if $400 has actually arrived before handing it over.',
+                              biasLabel: 'Correct approach ✓',
+                              biasExplanation: 'This takes 10 seconds and protects you completely. A legitimate buyer will not mind waiting while you verify. Anyone who refuses this is a red flag.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Ask them to send the transfer again just to be safe.',
+                              biasLabel: 'Doesn\'t solve the problem',
+                              biasExplanation: 'Asking for another transfer doesn\'t help if you\'re still verifying via screenshots. Always check your bank app — not the screenshots, even multiple ones.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '💸',
+                          situation: 'A stranger PayNows you $50 and messages saying it was a mistake — asking you to return it. You check your bank app and the $50 is indeed there.',
+                          options: [
+                            {
+                              text: 'Return the $50 immediately — it\'s the right thing to do.',
+                              biasLabel: 'Potential scam',
+                              biasExplanation: 'Some scammers send real money via a reversible payment method, collect your "refund" via PayNow (which is instant and non-reversible), then reverse the original. Contact your bank before taking any action.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Ignore it — not your problem.',
+                              biasLabel: 'Also risky',
+                              biasExplanation: 'If it\'s a genuine mistake, keeping the money could have legal implications. The right move is to contact your bank — not to decide unilaterally.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Contact your bank to report the situation and follow their guidance before taking action.',
+                              biasLabel: 'Correct approach ✓',
+                              biasExplanation: 'Your bank can verify the transaction\'s legitimacy and advise the correct process. This protects you legally whether it\'s a scam or a genuine mistake.',
+                              isIdeal: true,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '📱',
+                          situation: 'You receive an SMS: "Your DBS account has been suspended. Verify your identity by sending $1 via PayNow to restore access." What do you do?',
+                          options: [
+                            {
+                              text: 'Send the $1 — it\'s only a dollar and you need your account.',
+                              biasLabel: 'Classic scam',
+                              biasExplanation: 'This is a well-documented scam format. The $1 "verification" confirms your account is live and hands your details to scammers. Banks never verify identity via PayNow transfers.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Click the link in the SMS to check if your account is really suspended.',
+                              biasLabel: 'Phishing risk',
+                              biasExplanation: 'SMS links from unknown numbers are a primary phishing vector. Clicking them can install malware or steal your banking credentials.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Ignore the SMS and log into your bank app directly to check your account status.',
+                              biasLabel: 'Correct approach ✓',
+                              biasExplanation: 'If your account were actually suspended, you\'d see it immediately in the app. Going direct — never via SMS links — is the only safe response.',
+                              isIdeal: true,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 3 ───────────────────────────
+                {
+                  key: 'tips',
+                  title: 'Smart Usage Tips',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Smart Usage Tips',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Different situations call for different payment tools. Knowing which to use not only saves you money — it can earn you rewards and keep your spending naturally in check.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'What\'s the Smartest Way to Pay?',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'neutral',
+                      title: 'Situation → smartest payment approach',
+                      cards: [
+                        {
+                          frontLabel: '📍 Situation',
+                          backLabel: '✅ Smartest approach',
+                          front: 'Splitting an $80 group dinner with 4 friends.',
+                          back: 'Collect via PayNow to your mobile number — instant, free, and works across all banks. No need for cash or a third-party app.',
+                          tag: 'PayNow is always free',
+                        },
+                        {
+                          frontLabel: '📍 Situation',
+                          backLabel: '✅ Smartest approach',
+                          front: 'Paying $4.50 for chicken rice at a hawker centre.',
+                          back: 'Scan the SGQR code with your bank app — faster than cash, no change needed, and some banks offer cashback on QR payments.',
+                          tag: 'SGQR works everywhere',
+                        },
+                        {
+                          frontLabel: '📍 Situation',
+                          backLabel: '✅ Smartest approach',
+                          front: 'Receiving your monthly allowance from your parents overseas.',
+                          back: 'Ask them to use Wise for the international transfer — and register PayNow so local top-ups and transfers land instantly once the money arrives in Singapore.',
+                          tag: 'PayNow local, Wise overseas',
+                        },
+                        {
+                          frontLabel: '📍 Situation',
+                          backLabel: '✅ Smartest approach',
+                          front: 'Ordering GrabFood and taking Grab rides daily.',
+                          back: 'Top up GrabPay wallet with a fixed weekly budget — you earn GrabRewards points and the wallet balance naturally caps your Grab spending for the week.',
+                          tag: 'E-wallet as a spending cap',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'E-Wallet vs PayNow — Which to Use When',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Scenario', 'Best Tool'],
+                      rows: [
+                        ['Splitting bills with friends', 'PayNow (free, instant, universal)'],
+                        ['Paying at hawker / canteen', 'SGQR scan via bank app'],
+                        ['Daily Grab rides and food', 'GrabPay wallet (rewards + spending cap)'],
+                        ['Receiving money from overseas', 'Wise → then PayNow locally'],
+                        ['Large transfers (rent, fees)', 'Bank transfer or PayNow (not e-wallet)'],
+                      ],
+                      firstColAccent: true,
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: Current daily PayNow limits for most banks are $200,000. For personal security while studying, consider lowering yours to $1,000–$2,000 — you can raise it instantly in-app whenever you need to.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current PayNow daily transaction limits and recent scam statistics',
+                      prompt: 'PayNow daily transaction limit Singapore banks 2025 scam statistics safety tips',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: PayNow & Mobile Payments',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions on how Singapore\'s cashless system works, how to stay safe, and which payment tool to use in which situation.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — key PayNow safety rules for students in Singapore?',
+                      prompt: 'PayNow safety rules best practices students Singapore cashless 2025',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '4-3-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'PayNow & Mobile Payments',
+                      questions: [
+                        {
+                          concept: 'How PayNow works',
+                          question: 'What makes PayNow different from a standard bank transfer?',
+                          options: [
+                            'PayNow requires the recipient\'s full bank account number and branch code',
+                            'PayNow uses your mobile number or NRIC as a proxy — no account details needed, transfers are instant and free',
+                            'PayNow transfers are batched and processed the next business day',
+                            'PayNow can only be used between accounts at the same bank',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'PayNow maps your mobile number or NRIC to your bank account — senders only need your number. Transfers are instant, free, and work across all participating banks 24/7.',
+                        },
+                        {
+                          concept: 'Staying safe',
+                          question: 'You\'re selling textbooks and a buyer sends a PayNow confirmation screenshot. What is the correct next step?',
+                          options: [
+                            'Accept the screenshot — PayNow confirmations can\'t be faked',
+                            'Ask for a second screenshot from a different angle to verify',
+                            'Open your bank app and confirm the funds have actually arrived before releasing the item',
+                            'Call the buyer to verify — a phone call is enough confirmation',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'Screenshots are trivially easy to fake and are the most common Carousell scam vector. The only reliable verification is checking your bank app directly — takes 10 seconds and protects you completely.',
+                        },
+                        {
+                          concept: 'Smart usage',
+                          question: 'A student spends heavily on Grab rides and GrabFood and wants to limit their monthly Grab spending naturally. What is the smartest approach?',
+                          options: [
+                            'Pay each Grab transaction directly from your bank account for full visibility',
+                            'Top up GrabPay wallet with a fixed weekly amount — when it\'s empty, spending stops',
+                            'Delete the Grab app at the start of each month until the budget resets',
+                            'Use a credit card for all Grab payments for better rewards',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'Topping up GrabPay with a weekly fixed amount creates a natural hard limit — once the wallet is empty, you can\'t spend more without a conscious top-up decision. It also earns GrabRewards points on every transaction.',
+                        },
+                      ],
+                    },
+                  ],
+                },
               ],
-              content: [
-                {
-                  type: 'text',
-                  text: 'Singapore is one of the most cashless societies in the world. PayNow, SGQR, and e-wallets have replaced cash for most daily transactions — from hawker centres to university canteens. As an international student, understanding these systems is essential from day one.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'fact',
-                  text: 'In 2023, PayNow processed over 270 million transactions worth more than $170 billion — an average of over 700,000 transfers every single day.',
-                },
-                {
-                  type: 'keyterm',
-                  term: 'PayNow',
-                  definition: 'Singapore\'s instant, free bank-to-bank transfer system. Link your mobile number or NRIC to your bank account and send or receive money in seconds — no account numbers needed.',
-                },
-                {
-                  type: 'text',
-                  text: 'Singapore\'s cashless ecosystem has three main layers. Understanding each one helps you use the right tool in the right situation.',
-                },
-                {
-                  type: 'timeline',
-                  title: 'Singapore\'s three cashless layers:',
-                  nodes: [
-                    {
-                      icon: '⚡',
-                      label: 'PayNow',
-                      sublabel: 'Instant bank transfer',
-                      color: '#4F46E5',
-                      examples: ['Split bills', 'Pay friends', 'Receive allowance'],
-                      details: [
-                        'Links your mobile number or NRIC to your bank account — no account number needed.',
-                        'Transfers are instant, free, and available 24/7 across all major Singapore banks.',
-                        'Supported by DBS, OCBC, UOB, GXS, Trust, and more.',
-                      ],
-                      tip: 'Register your PayNow via your bank\'s app in under 2 minutes — you\'ll use it every day.',
-                    },
-                    {
-                      icon: '📱',
-                      label: 'SGQR',
-                      sublabel: 'Scan to pay anywhere',
-                      color: '#0891B2',
-                      examples: ['Hawker centres', 'Retail shops', 'Campus canteens'],
-                      details: [
-                        'SGQR is Singapore\'s unified QR code standard — one QR code accepts payments from any app.',
-                        'Scan with your bank app, GrabPay, FavePay, or any supported e-wallet.',
-                        'Widely accepted at hawker centres, coffee shops, and retail outlets island-wide.',
-                      ],
-                      tip: 'Most hawker stalls now display an SGQR code — scan with DBS PayLah!, OCBC, or UOB TMRW and pay instantly.',
-                    },
-                    {
-                      icon: '👛',
-                      label: 'E-Wallets',
-                      sublabel: 'App-based spending',
-                      color: '#059669',
-                      examples: ['GrabPay', 'FavePay', 'Shopee Pay'],
-                      details: [
-                        'E-wallets like GrabPay, FavePay, and Shopee Pay store a balance you top up from your bank.',
-                        'Often offer cashback and rewards that your bank account doesn\'t — useful for everyday spending.',
-                        'Not the same as PayNow — e-wallet balances are not SDIC insured, so don\'t store large amounts.',
-                      ],
-                      tip: 'Use e-wallets for small daily spending to earn rewards, but keep your main savings in your bank account.',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Different situations call for different payment tools. Swipe through to see the smartest approach for each common student scenario.',
-                },
-                {
-                  type: 'flipcards',
-                  title: 'What\'s the smartest way to pay?',
-                  cards: [
-                    {
-                      frontLabel: '📍 Situation',
-                      backLabel: '✅ Smartest approach',
-                      front: 'Splitting an $80 group dinner with 4 friends.',
-                      back: 'Collect via PayNow to your mobile number — instant, free, and works across all banks. No need for cash or a third-party app.',
-                      tag: 'PayNow is always free',
-                    },
-                    {
-                      frontLabel: '📍 Situation',
-                      backLabel: '✅ Smartest approach',
-                      front: 'Paying $4.50 for chicken rice at a hawker centre.',
-                      back: 'Scan the SGQR code with your bank app — faster than cash, no change needed, and some banks offer cashback on QR payments.',
-                      tag: 'SGQR works everywhere',
-                    },
-                    {
-                      frontLabel: '📍 Situation',
-                      backLabel: '✅ Smartest approach',
-                      front: 'Receiving your monthly allowance from your parents overseas.',
-                      back: 'Ask them to use Wise or your bank\'s international transfer link — and register PayNow so local transfers land instantly once the money arrives in Singapore.',
-                      tag: 'PayNow for local, Wise for overseas',
-                    },
-                    {
-                      frontLabel: '📍 Situation',
-                      backLabel: '✅ Smartest approach',
-                      front: 'Ordering Grab Food and paying for your Grab rides daily.',
-                      back: 'Top up GrabPay wallet with a set weekly budget — you earn GrabRewards points and it naturally limits your Grab spending.',
-                      tag: 'E-wallet as a spending cap',
-                    },
-                  ],
-                },
-                {
-                  type: 'callout',
-                  variant: 'warning',
-                  text: 'Scam alert: In 2023, PayNow-related scams cost Singaporeans over $13 million. The most common tactic is a fake "PayNow confirmation" screenshot — always verify transfers in your bank app, never via a screenshot.',
-                },
-                {
-                  type: 'text',
-                  text: 'PayNow is safe — but only if you use it correctly. Test your knowledge on safe payment behaviour.',
-                },
-                {
-                  type: 'tindertruefalse',
-                  title: 'Safe Payment Habits',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
-                    {
-                      text: 'A PayNow transfer confirmation screenshot is proof that you have received money.',
-                      isTrue: false,
-                      explanation: 'Screenshots can be faked. Always verify incoming transfers directly in your bank app — never release goods or services based on a screenshot alone.',
-                    },
-                    {
-                      text: 'You should register PayNow with your mobile number so people can pay you without knowing your bank account number.',
-                      isTrue: true,
-                      explanation: 'That\'s exactly what PayNow is for — your mobile number acts as a proxy, so you never need to share sensitive account details.',
-                    },
-                    {
-                      text: 'E-wallet balances (GrabPay, Shopee Pay) are protected by SDIC up to $75,000.',
-                      isTrue: false,
-                      explanation: 'E-wallet balances are NOT SDIC insured — only licensed bank deposits are. Keep large sums in your bank account, not your e-wallet.',
-                    },
-                    {
-                      text: 'Setting a daily PayNow transaction limit in your bank app reduces your risk if your phone is stolen.',
-                      isTrue: true,
-                      explanation: 'Most banks let you set a daily transfer limit. Lowering it means a thief can only move a small amount even if they access your app.',
-                    },
-                    {
-                      text: 'PayNow transfers between Singapore banks are free and instant at all hours.',
-                      isTrue: true,
-                      explanation: 'PayNow is free, instant, and available 24/7 — there are no transfer fees between participating banks regardless of the time or day.',
-                    },
-                  ],
-                },
-                {
-                  type: 'checklist',
-                  title: '✅ Your PayNow setup checklist:',
-                  items: [
-                    'Register PayNow with your mobile number via your bank app — takes under 2 minutes.',
-                    'Set a daily transaction limit of $200–$500 for safety while studying.',
-                    'Enable push notifications for every transfer so you spot unauthorised transactions immediately.',
-                    'Never confirm a payment based on a screenshot — always check your bank app directly.',
-                    'Keep your e-wallet balance small — top up weekly and treat it like a physical wallet.',
-                  ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Current PayNow daily transaction limits and recent scam statistics',
-                  prompt: 'PayNow daily transaction limit Singapore banks 2025 scam statistics',
-                },
-              ],
+
               flashcards: [
-                { q: 'What is PayNow?', a: 'Singapore\'s instant, free bank transfer system — link your mobile number or NRIC to your bank account and send money in seconds.' },
-                { q: 'What is SGQR?', a: 'Singapore\'s unified QR code standard — one QR code accepts payments from any bank app or e-wallet.' },
-                { q: 'Are e-wallet balances (GrabPay, Shopee Pay) SDIC insured?', a: 'No — only licensed bank deposits are SDIC insured. Keep large sums in your bank account, not an e-wallet.' },
-                { q: 'How do you verify a PayNow transfer safely?', a: 'Always check your bank app directly — never accept a screenshot as proof of payment.' },
-                { q: 'What is one smart way to limit Grab overspending?', a: 'Top up your GrabPay wallet with a fixed weekly budget — it naturally caps your spending and earns rewards.' },
+                {
+                  q: 'What is PayNow?',
+                  a: 'Singapore\'s instant, free bank transfer system — link your mobile number or NRIC to your bank account and send money in seconds.',
+                },
+                {
+                  q: 'What is SGQR?',
+                  a: 'Singapore\'s unified QR code standard — one QR code accepts payments from any bank app or e-wallet.',
+                },
+                {
+                  q: 'Are e-wallet balances (GrabPay, Shopee Pay) SDIC insured?',
+                  a: 'No — only licensed bank deposits are SDIC insured. Keep large sums in your bank account, not an e-wallet.',
+                },
+                {
+                  q: 'How do you verify a PayNow transfer safely?',
+                  a: 'Always check your bank app directly — never accept a screenshot as proof of payment.',
+                },
+                {
+                  q: 'What is one smart way to limit Grab overspending?',
+                  a: 'Top up your GrabPay wallet with a fixed weekly budget — it naturally caps your spending and earns rewards.',
+                },
               ],
             },
           ],
