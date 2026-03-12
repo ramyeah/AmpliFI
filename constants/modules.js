@@ -6665,851 +6665,1350 @@ export const MODULES = [
           icon: '📜',
           description: 'Safe, government-backed options for your savings',
           lessons: [
+            // ── LESSON 6-1 ──────────────────────────────
             {
-              id: '6-1', title: 'Singapore Savings Bonds Explained', icon: '🇸🇬',
+              id: '6-1',
+              title: 'Singapore Savings Bonds Explained',
+              icon: '🇸🇬',
               topic: 'Singapore Savings Bond SSB how it works',
-              duration: '6 min', fincoins: 80,
-              sections: [{ key: 'what', heading: 'What Are SSBs?' }, { key: 'how', heading: 'How to Apply' }, { key: 'when', heading: 'When SSBs Make Sense' }],
-              content: [
+              duration: '6 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Singapore Savings Bonds are one of the best-kept secrets in personal finance for Singapore residents. Government-backed, flexible, and consistently competitive rates — yet most students have never considered them. If you have a lump sum sitting in a basic savings account earning 0.05%, SSBs are worth understanding.',
-                },
-                {
-                  type: 'callout',
-                  variant: 'fact',
-                  text: 'SSBs are issued by the Singapore government via MAS — they carry zero default risk. In over 50 years of independence, Singapore has never defaulted on a financial obligation. SSBs are the safest investment instrument available to retail investors in Singapore.',
-                },
-                {
-                  type: 'keyterm',
-                  term: 'Singapore Savings Bond (SSB)',
-                  definition: 'A retail savings instrument issued monthly by the Singapore government. Offers step-up interest over 10 years, full capital protection, and penalty-free redemption any month — with a minimum investment of $500.',
-                },
-                {
-                  type: 'text',
-                  text: 'SSBs sit in a unique position — safer than a savings account in terms of issuer risk, more flexible than a fixed deposit, and competitive with HYSAs for lump sum savings. Here\'s how the three core features work.',
-                },
-                {
-                  type: 'timeline',
-                  title: 'The three features that make SSBs unique:',
-                  nodes: [
+                  key: 'what',
+                  title: 'What Are SSBs?',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '📈',
-                      label: 'Step-Up Interest',
-                      sublabel: 'Earn more each year',
-                      color: '#4F46E5',
-                      examples: ['Year 1: ~2.5% p.a.', 'Year 5: ~3.0% p.a.', 'Year 10: ~3.2% p.a.'],
-                      details: [
-                        'SSB interest increases every year you hold the bond — the longer you stay, the more you earn.',
-                        'Interest is paid out every 6 months directly to your bank account — you don\'t need to wait until maturity.',
-                        'The average rate over 10 years is typically competitive with or better than fixed deposits.',
-                      ],
-                      tip: 'Check the MAS website each month for the current SSB tranche\'s interest schedule — rates vary by issue and are fixed at the time of application.',
+                      type: 'heading',
+                      text: 'What Are SSBs?',
                     },
                     {
-                      icon: '🛡️',
-                      label: 'Capital Protection',
-                      sublabel: 'Get back exactly what you put in',
-                      color: '#059669',
-                      examples: ['Zero default risk', 'Government-guaranteed', 'No market risk'],
-                      details: [
-                        'SSBs are backed by the full faith and credit of the Singapore government — your principal is 100% protected.',
-                        'Unlike stocks or unit trusts, SSB values do not fluctuate — you will always get back exactly what you invested.',
-                        'This makes SSBs ideal for money you cannot afford to lose, such as an emergency fund top-up or a savings goal.',
-                      ],
-                      tip: 'SSBs are not SDIC-insured — they don\'t need to be. Being government-issued means they carry a higher guarantee than any bank deposit insurance scheme.',
+                      type: 'text',
+                      text: 'Singapore Savings Bonds are one of the best-kept secrets in personal finance for Singapore residents. Government-backed, flexible, and consistently competitive rates — yet most students have never considered them. If you have a lump sum sitting in a basic savings account earning 0.05%, SSBs are worth understanding.',
                     },
                     {
-                      icon: '🔓',
-                      label: 'Full Flexibility',
-                      sublabel: 'Redeem any month, no penalty',
-                      color: '#F59E0B',
-                      examples: ['Redeem in any month', 'No lock-in period', 'No early redemption fee'],
-                      details: [
-                        'Unlike fixed deposits which lock up your money, SSBs can be redeemed in any month with no penalty.',
-                        'Submit a redemption request by the 4th last business day of the month — funds arrive in your account by the 2nd business day of the following month.',
-                        'You keep all interest earned up to the point of redemption — there is no penalty for leaving early.',
-                      ],
-                      tip: 'The 10-year tenor is the maximum, not a commitment. Think of an SSB like a savings account that earns more the longer you leave it — but you can always take your money out.',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'How do SSBs compare to the other savings instruments you already know? Here\'s a side-by-side breakdown.',
-                },
-                {
-                  type: 'table',
-                  headers: ['Feature', 'SSB', 'Fixed Deposit', 'HYSA'],
-                  rows: [
-                    ['Issued by', 'Singapore Government', 'Commercial bank', 'Commercial bank'],
-                    ['Default risk', 'Zero', 'Low (SDIC up to $75k)', 'Low (SDIC up to $75k)'],
-                    ['Minimum investment', '$500', '$1,000–$10,000', '$0'],
-                    ['Liquidity', 'Redeem any month', 'Locked until maturity', 'Fully liquid'],
-                    ['Interest rate', 'Step-up, ~2.5–3.5% p.a.', 'Fixed, ~2.5–3.5% p.a.', 'Up to ~4.65% with conditions'],
-                    ['Interest payment', 'Every 6 months to bank', 'At maturity', 'Monthly'],
-                    ['Early exit penalty', 'None', 'Lose all interest', 'None'],
-                    ['Maximum investment', '$200,000 per person', 'No limit', 'No limit'],
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Buying an SSB is straightforward — but there are a few steps to set up before your first application.',
-                },
-                {
-                  type: 'steps',
-                  title: 'How to buy your first SSB:',
-                  steps: [
-                    'Open a CDP (Central Depository) account at SGX — free, takes 3–5 business days. You need a CDP account to hold SSBs.',
-                    'Link your CDP account to your bank account (DBS, OCBC, or UOB) via internet banking.',
-                    'Check the current month\'s SSB tranche on the MAS website — note the interest rate schedule and closing date.',
-                    'Apply via your bank\'s internet banking or ATM — select "Singapore Savings Bonds" and enter your desired amount (min. $500, multiples of $500).',
-                    'Wait for allotment — results are announced after the application closes. You may receive less than requested if the tranche is oversubscribed.',
-                    'Interest is credited to your linked bank account every 6 months automatically.',
-                  ],
-                },
-                {
-                  type: 'callout',
-                  variant: 'tip',
-                  text: 'Singapore Tip: SSBs are frequently oversubscribed — especially in months with attractive rates. Apply for slightly more than you want, as allotment may be less than your full request. You are never charged for the unallotted amount.',
-                },
-                {
-                  type: 'flipcards',
-                  title: 'Common SSB misconceptions → the reality:',
-                  cards: [
-                    {
-                      frontLabel: '❌ Misconception',
-                      backLabel: '✅ Reality',
-                      front: '"SSBs lock up my money for 10 years — I can\'t afford to tie up my savings that long."',
-                      back: 'The 10-year tenor is the maximum, not a commitment. You can redeem in any month with no penalty and keep all interest earned. Think of it as a flexible savings account that rewards patience.',
-                      tag: 'Redeem any month, no penalty',
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'SSBs are issued by the Singapore government via MAS — they carry zero default risk. In over 50 years of independence, Singapore has never defaulted on a financial obligation. SSBs are the safest investment instrument available to retail investors in Singapore.',
                     },
                     {
-                      frontLabel: '❌ Misconception',
-                      backLabel: '✅ Reality',
-                      front: '"SSBs are complicated investments — I need to know a lot about bonds before buying one."',
-                      back: 'SSBs are specifically designed for retail investors with no investment experience. There is no market risk, no price fluctuation, and no complex terms — you put in $500 and get back $500 plus interest.',
-                      tag: 'Simplest investment product in Singapore',
+                      type: 'keyterm',
+                      term: 'Singapore Savings Bond (SSB)',
+                      definition: 'A retail savings instrument issued monthly by the Singapore government. Offers step-up interest over 10 years, full capital protection, and penalty-free redemption any month — with a minimum investment of $500.',
                     },
                     {
-                      frontLabel: '❌ Misconception',
-                      backLabel: '✅ Reality',
-                      front: '"I should wait for interest rates to go up before buying an SSB."',
-                      back: 'Trying to time SSB rates is counterproductive — money sitting in a 0.05% savings account while you wait is losing value. Apply for what makes sense now and redeem and reapply if rates improve significantly.',
-                      tag: 'Idle cash always loses to SSB rates',
+                      type: 'text',
+                      text: 'SSBs sit in a unique position — safer than a savings account in terms of issuer risk, more flexible than a fixed deposit, and competitive with HYSAs for lump sum savings. Here\'s how the three core features work.',
                     },
                     {
-                      frontLabel: '❌ Misconception',
-                      backLabel: '✅ Reality',
-                      front: '"As an international student, I can\'t buy SSBs — they\'re only for Singaporeans."',
-                      back: 'SSBs are available to all Singapore residents aged 18 and above — including international students on a valid student pass. You just need a CDP account and a local bank account.',
-                      tag: 'Available to all Singapore residents',
-                    },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'SSBs aren\'t the right tool for every situation — but when the conditions are right, they\'re hard to beat. Here are three common student scenarios.',
-                },
-                {
-                  type: 'scenarios',
-                  title: 'Does an SSB make sense here?',
-                  scenarios: [
-                    {
-                      icon: '🛡️',
-                      situation: 'You\'ve built a $3,000 emergency fund sitting in a basic savings account earning 0.05%. You\'re unlikely to need it in the next few months.',
-                      options: [
+                      type: 'timeline',
+                      title: 'The three features that make SSBs unique:',
+                      nodes: [
                         {
-                          text: 'Keep it in the basic savings account — it\'s already set up and accessible.',
-                          biasLabel: 'Costly inaction',
-                          biasExplanation: 'On $3,000 at 0.05%, you earn $1.50/year. An SSB at ~3% earns $90/year — with the same flexibility. There\'s no reason to leave emergency funds in a basic account.',
-                          isIdeal: false,
+                          icon: '📈',
+                          label: 'Step-Up Interest',
+                          sublabel: 'Earn more each year',
+                          color: '#4F46E5',
+                          examples: ['Year 1: ~2.5% p.a.', 'Year 5: ~3.0% p.a.', 'Year 10: ~3.2% p.a.'],
+                          details: [
+                            'SSB interest increases every year you hold the bond — the longer you stay, the more you earn.',
+                            'Interest is paid out every 6 months directly to your bank account — you don\'t need to wait until maturity.',
+                            'The average rate over 10 years is typically competitive with or better than fixed deposits.',
+                          ],
+                          tip: 'Check the MAS website each month for the current SSB tranche\'s interest schedule — rates vary by issue and are fixed at the time of application.',
                         },
                         {
-                          text: 'Move $2,000 to an SSB and keep $1,000 in a liquid savings account for immediate access.',
-                          biasLabel: 'Smart split ✓',
-                          biasExplanation: 'SSBs take about a month to redeem — keeping $1,000 liquid covers immediate emergencies while the $2,000 in SSB earns significantly more. Best of both worlds.',
-                          isIdeal: true,
+                          icon: '🛡️',
+                          label: 'Capital Protection',
+                          sublabel: 'Get back exactly what you put in',
+                          color: '#059669',
+                          examples: ['Zero default risk', 'Government-guaranteed', 'No market risk'],
+                          details: [
+                            'SSBs are backed by the full faith and credit of the Singapore government — your principal is 100% protected.',
+                            'Unlike stocks or unit trusts, SSB values do not fluctuate — you will always get back exactly what you invested.',
+                            'This makes SSBs ideal for money you cannot afford to lose, such as an emergency fund top-up or a savings goal.',
+                          ],
+                          tip: 'SSBs are not SDIC-insured — they don\'t need to be. Being government-issued means they carry a higher guarantee than any bank deposit insurance scheme.',
                         },
                         {
-                          text: 'Put all $3,000 in an SSB since you can redeem any month.',
-                          biasLabel: 'Slightly risky',
-                          biasExplanation: 'SSB redemption takes up to one month to process — in a true emergency, a one-month wait could be a problem. Always keep some portion in an instantly liquid account.',
-                          isIdeal: false,
+                          icon: '🔓',
+                          label: 'Full Flexibility',
+                          sublabel: 'Redeem any month, no penalty',
+                          color: '#F59E0B',
+                          examples: ['Redeem in any month', 'No lock-in period', 'No early redemption fee'],
+                          details: [
+                            'Unlike fixed deposits which lock up your money, SSBs can be redeemed in any month with no penalty.',
+                            'Submit a redemption request by the 4th last business day of the month — funds arrive in your account by the 2nd business day of the following month.',
+                            'You keep all interest earned up to the point of redemption — there is no penalty for leaving early.',
+                          ],
+                          tip: 'The 10-year tenor is the maximum, not a commitment. Think of an SSB like a savings account that earns more the longer you leave it — but you can always take your money out.',
                         },
                       ],
                     },
                     {
-                      icon: '🧧',
-                      situation: 'You received $800 in ang bao money during Chinese New Year and want to put it to work. You won\'t need it for at least 12 months.',
-                      options: [
-                        {
-                          text: 'Put it in an HYSA — you already have one set up.',
-                          biasLabel: 'Good option',
-                          biasExplanation: 'If your HYSA is earning 3%+ with conditions already met, this is perfectly reasonable. But if your HYSA conditions aren\'t met, the base rate is only 0.05% — worse than an SSB.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Apply for an SSB with the full $800 — minimum is $500, and you can apply in multiples of $500.',
-                          biasLabel: 'Best use of a windfall ✓',
-                          biasExplanation: 'A lump sum you won\'t need for 12+ months is exactly what SSBs are designed for. Government-backed, ~3% p.a., and redeemable if plans change. Perfect windfall vehicle.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Wait and save until you have $5,000 before investing.',
-                          biasLabel: 'Opportunity cost',
-                          biasExplanation: 'There\'s no reason to wait — SSBs accept from $500. Every month you wait, your $800 earns nothing. Apply now and add to it when you have more.',
-                          isIdeal: false,
-                        },
+                      type: 'subheading',
+                      text: 'SSBs vs Fixed Deposits vs HYSAs',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Feature', 'SSB', 'Fixed Deposit', 'HYSA'],
+                      rows: [
+                        ['Issued by', 'Singapore Government', 'Commercial bank', 'Commercial bank'],
+                        ['Default risk', 'Zero', 'Low (SDIC up to $75k)', 'Low (SDIC up to $75k)'],
+                        ['Minimum investment', '$500', '$1,000–$10,000', '$0'],
+                        ['Liquidity', 'Redeem any month', 'Locked until maturity', 'Fully liquid'],
+                        ['Interest rate', 'Step-up, ~2.5–3.5% p.a.', 'Fixed, ~2.5–3.5% p.a.', 'Up to ~4.65% with conditions'],
+                        ['Interest payment', 'Every 6 months to bank', 'At maturity', 'Monthly'],
+                        ['Early exit penalty', 'None', 'Lose all interest', 'None'],
+                        ['Maximum investment', '$200,000 per person', 'No limit', 'No limit'],
                       ],
                     },
                     {
-                      icon: '⚖️',
-                      situation: 'You have $5,000 to save for 6 months. You\'re comparing a 6-month fixed deposit at 3% p.a. vs an SSB at ~3% p.a. average.',
-                      options: [
+                      type: 'bot',
+                      label: '💬 Current SSB interest rates and latest tranche details',
+                      prompt: 'Singapore Savings Bond current interest rates latest tranche allotment results MAS 2025',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '6-1-s1-tinder',
+                      fincoins: 10,
+                      title: 'Singapore Savings Bonds — True or False?',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
                         {
-                          text: 'Choose the fixed deposit — same rate, simpler process.',
-                          biasLabel: 'Reasonable but inflexible',
-                          biasExplanation: 'Fixed deposits lock your money — if you need it before maturity, you lose all interest. For a 6-month horizon, the SSB\'s flexibility is a meaningful advantage at the same rate.',
-                          isIdeal: false,
+                          text: 'SSBs are issued by the Singapore government and carry zero default risk.',
+                          isTrue: true,
+                          explanation: 'SSBs are backed by the full faith and credit of the Singapore government — the same entity that has never defaulted on a financial obligation in over 50 years of independence.',
                         },
                         {
-                          text: 'Choose the SSB — same rate, but you can redeem early with no penalty if plans change.',
-                          biasLabel: 'Better risk-adjusted choice ✓',
-                          biasExplanation: 'When rates are equal, flexibility always wins. The SSB gives you the same return as the fixed deposit but lets you exit without penalty if your plans change — a free option.',
-                          isIdeal: true,
+                          text: 'You must hold an SSB for the full 10-year tenor to receive your interest.',
+                          isTrue: false,
+                          explanation: 'SSB interest is paid every 6 months to your bank account. You can redeem in any month and keep all interest earned up to that point — the 10-year tenor is the maximum, not a requirement.',
                         },
                         {
-                          text: 'Split $2,500 into each — diversify between the two products.',
-                          biasLabel: 'Unnecessary complexity',
-                          biasExplanation: 'Both products carry minimal risk. Splitting adds no meaningful diversification benefit — if the rates are equal, the SSB\'s flexibility makes it the better choice for the full amount.',
-                          isIdeal: false,
+                          text: 'International students on a valid student pass are eligible to buy SSBs in Singapore.',
+                          isTrue: true,
+                          explanation: 'SSBs are available to all Singapore residents aged 18 and above — including international students. You need a CDP account and a local bank account to apply.',
+                        },
+                        {
+                          text: 'You can invest an unlimited amount in SSBs — there is no maximum per person.',
+                          isTrue: false,
+                          explanation: 'Each person can hold a maximum of $200,000 in SSBs at any one time. For most students this is not a constraint, but it\'s worth knowing the limit exists.',
                         },
                       ],
                     },
                   ],
                 },
+
+                // ─── SECTION 2 ───────────────────────────
                 {
-                  type: 'tindertruefalse',
-                  title: 'Singapore Savings Bonds — True or False?',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
+                  key: 'how',
+                  title: 'How to Apply',
+                  fincoins: 10,
+                  content: [
                     {
-                      text: 'SSBs are issued by the Singapore government and carry zero default risk.',
-                      isTrue: true,
-                      explanation: 'SSBs are backed by the full faith and credit of the Singapore government — the same entity that has never defaulted on a financial obligation in over 50 years.',
+                      type: 'heading',
+                      text: 'How to Apply',
                     },
                     {
-                      text: 'You must hold an SSB for the full 10-year tenor to receive your interest.',
-                      isTrue: false,
-                      explanation: 'SSB interest is paid every 6 months to your bank account. You can redeem in any month and keep all interest earned up to that point — the 10-year tenor is the maximum, not a requirement.',
+                      type: 'text',
+                      text: 'Buying an SSB is straightforward — but there are a few steps to set up before your first application. Most students can complete the full setup in under a week.',
                     },
                     {
-                      text: 'International students on a valid student pass are eligible to buy SSBs in Singapore.',
-                      isTrue: true,
-                      explanation: 'SSBs are available to all Singapore residents aged 18 and above — including international students. You need a CDP account and a local bank account to apply.',
+                      type: 'steps',
+                      steps: [
+                        'Open a CDP (Central Depository) account at SGX — free to open, takes 3–5 business days. A CDP account is required to hold SSBs.',
+                        'Link your CDP account to your bank account via internet banking — DBS, OCBC, or UOB. This is where interest payments and redemption proceeds will be credited.',
+                        'Check the current month\'s SSB tranche on the MAS website — note the interest rate schedule and application closing date.',
+                        'Apply via your bank\'s internet banking or ATM — select "Singapore Savings Bonds" and enter your desired amount. Minimum is $500, in multiples of $500.',
+                        'Wait for allotment results — announced after the application closes. If the tranche is oversubscribed, you may receive less than requested. You are never charged for the unallotted amount.',
+                        'Interest is credited to your linked bank account every 6 months automatically — no action required.',
+                      ],
+                    },
+
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: SSBs are frequently oversubscribed — especially in months with attractive rates. Apply for slightly more than you want, as allotment may be less than your full request. You are never charged for the unallotted amount.',
                     },
                     {
-                      text: 'SSB interest rates are fixed for life at the time of purchase and never change.',
-                      isTrue: true,
-                      explanation: 'Once you buy an SSB, your interest rate schedule is locked in for the life of that bond. New tranches may have different rates, but your existing SSB is unaffected by rate changes.',
+                      type: 'subheading',
+                      text: 'Common SSB Misconceptions',
                     },
                     {
-                      text: 'You can invest an unlimited amount in SSBs — there is no maximum per person.',
-                      isTrue: false,
-                      explanation: 'Each person can hold a maximum of $200,000 in SSBs at any one time. For most students this is not a constraint, but it\'s worth knowing the limit exists.',
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Common misconceptions → the reality:',
+                      cards: [
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"SSBs lock up my money for 10 years — I can\'t afford to tie up my savings that long."',
+                          back: 'The 10-year tenor is the maximum, not a commitment. You can redeem in any month with no penalty and keep all interest earned. Think of it as a flexible savings account that rewards patience.',
+                          tag: 'Redeem any month, no penalty',
+                        },
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"SSBs are complicated investments — I need to know a lot about bonds before buying one."',
+                          back: 'SSBs are specifically designed for retail investors with no investment experience. No market risk, no price fluctuation, no complex terms — you put in $500 and get back $500 plus interest.',
+                          tag: 'Simplest investment product in Singapore',
+                        },
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"I should wait for interest rates to go up before buying an SSB."',
+                          back: 'Trying to time SSB rates is counterproductive — money sitting in a 0.05% savings account while you wait is losing value. Apply now and redeem and reapply if rates improve significantly.',
+                          tag: 'Idle cash always loses to SSB rates',
+                        },
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"As an international student, I can\'t buy SSBs — they\'re only for Singaporeans."',
+                          back: 'SSBs are available to all Singapore residents aged 18 and above — including international students on a valid student pass. You just need a CDP account and a local bank account.',
+                          tag: 'Available to all Singapore residents',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do I open a CDP account and apply for an SSB as an international student in Singapore?',
+                      prompt: 'how to open CDP account Singapore SGX apply Singapore Savings Bond international student steps 2025',
                     },
                   ],
                 },
+
+                // ─── SECTION 3 ───────────────────────────
                 {
-                  type: 'bot',
-                  label: '💬 Current SSB interest rates and latest tranche details',
-                  prompt: 'Singapore Savings Bond current interest rates latest tranche allotment results MAS 2025',
+                  key: 'when',
+                  title: 'When SSBs Make Sense',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'When SSBs Make Sense',
+                    },
+                    {
+                      type: 'text',
+                      text: 'SSBs aren\'t the right tool for every situation — but when the conditions are right, they\'re hard to beat. Here\'s how to think about when to use them.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'SSB vs Your Other Options',
+                    },
+                    {
+                      type: 'topiccards',
+                      cards: [
+                        {
+                          icon: '✅',
+                          label: 'SSBs Work Best When...',
+                          description: 'You have a lump sum you don\'t need for at least 1–2 months',
+                          color: '#059669',
+                          details: [
+                            'You have savings above your emergency fund that are just sitting in a basic account',
+                            'You want a safe, no-conditions alternative to an HYSA for excess savings',
+                            'You\'ve received a windfall (ang bao, bonus, bursary) and won\'t need it for 12+ months',
+                            'You want a government-backed instrument with no market risk whatsoever',
+                          ],
+                          example: '$5,000 sitting unused in a basic savings account → move to SSB, earn ~$150/year with zero risk and full flexibility.',
+                        },
+                        {
+                          icon: '⚠️',
+                          label: 'SSBs Are Less Ideal When...',
+                          description: 'You need instant access or expect to use the money within weeks',
+                          color: '#D97706',
+                          details: [
+                            'You need truly instant liquidity — SSB redemption takes up to one month to process',
+                            'Your HYSA is fully optimised and earning 4%+ — the SSB rate may be lower',
+                            'The money is your primary emergency fund — always keep at least 1 month of expenses in an instantly liquid account',
+                            'You\'re actively investing and need flexibility to deploy capital quickly',
+                          ],
+                          example: 'Your $1,000 emergency buffer should stay in a liquid account — not an SSB where a one-month redemption window could leave you stuck.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '6-1-s3-scenarios',
+                      fincoins: 10,
+                      title: 'Does an SSB make sense here?',
+                      scenarios: [
+                        {
+                          icon: '🛡️',
+                          situation: 'You\'ve built a $3,000 emergency fund sitting in a basic savings account earning 0.05%. You\'re unlikely to need it in the next few months.',
+                          options: [
+                            {
+                              text: 'Keep it all in the basic savings account — it\'s already set up and accessible.',
+                              biasLabel: 'Costly inaction',
+                              biasExplanation: 'On $3,000 at 0.05%, you earn $1.50/year. An SSB at ~3% earns $90/year — with similar flexibility. There\'s no reason to leave funds in a basic account when better options exist.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Move $2,000 to an SSB and keep $1,000 in a liquid savings account for immediate access.',
+                              biasLabel: 'Smart split ✓',
+                              biasExplanation: 'SSBs take about a month to redeem — keeping $1,000 liquid covers immediate emergencies while the $2,000 in SSB earns significantly more. Best of both worlds.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Put all $3,000 in an SSB since you can redeem any month.',
+                              biasLabel: 'Slightly risky',
+                              biasExplanation: 'SSB redemption takes up to one month to process — in a true emergency, a one-month wait could be a problem. Always keep some portion in an instantly liquid account.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🧧',
+                          situation: 'You received $800 in ang bao money during Chinese New Year and want to put it to work. You won\'t need it for at least 12 months.',
+                          options: [
+                            {
+                              text: 'Put it in an HYSA — you already have one set up.',
+                              biasLabel: 'Good option',
+                              biasExplanation: 'If your HYSA is earning 3%+ with conditions already met, this is perfectly reasonable. But if your HYSA conditions aren\'t met, the base rate is only 0.05% — worse than an SSB.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Apply for an SSB with the full $800 — minimum is $500, in multiples of $500.',
+                              biasLabel: 'Best use of a windfall ✓',
+                              biasExplanation: 'A lump sum you won\'t need for 12+ months is exactly what SSBs are designed for. Government-backed, ~3% p.a., redeemable if plans change. Perfect windfall vehicle.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Wait and save until you have $5,000 before investing.',
+                              biasLabel: 'Opportunity cost',
+                              biasExplanation: 'There\'s no reason to wait — SSBs accept from $500. Every month you wait, your $800 earns nothing. Apply now and add to a new tranche when you have more.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '⚖️',
+                          situation: 'You have $5,000 to save for 6 months. You\'re comparing a 6-month fixed deposit at 3% p.a. vs an SSB at ~3% p.a. average.',
+                          options: [
+                            {
+                              text: 'Choose the fixed deposit — same rate, simpler process.',
+                              biasLabel: 'Reasonable but inflexible',
+                              biasExplanation: 'Fixed deposits lock your money — if you need it before maturity, you lose all interest. For a 6-month horizon, the SSB\'s flexibility is a meaningful advantage at the same rate.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Choose the SSB — same rate, but you can redeem early with no penalty if plans change.',
+                              biasLabel: 'Better risk-adjusted choice ✓',
+                              biasExplanation: 'When rates are equal, flexibility always wins. The SSB gives you the same return as the fixed deposit but lets you exit without penalty if plans change — a free option.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Split $2,500 into each — diversify between the two products.',
+                              biasLabel: 'Unnecessary complexity',
+                              biasExplanation: 'Both products carry minimal risk. Splitting adds no meaningful diversification benefit — when rates are equal, the SSB\'s flexibility makes it the better choice for the full amount.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: SSB interest rates are fixed at the time you buy — new tranches may be higher or lower. If rates rise significantly, redeem your existing SSB (no penalty) and reinvest in the new higher-rate tranche.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do SSBs compare to fixed deposits and HYSAs for students in Singapore right now?',
+                      prompt: 'Singapore Savings Bond vs fixed deposit vs HYSA comparison students Singapore 2025 rates',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: Singapore Savings Bonds Explained',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions on what SSBs are, how to apply, and when they make more sense than the alternatives.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — key facts about Singapore Savings Bonds?',
+                      prompt: 'Singapore Savings Bond key facts summary eligibility interest how to buy 2025',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '6-1-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'Singapore Savings Bonds Explained',
+                      questions: [
+                        {
+                          concept: 'SSB fundamentals',
+                          question: 'A student says "I\'m not buying an SSB — I\'ll lose access to my money for 10 years." What\'s the accurate response?',
+                          options: [
+                            'They\'re correct — SSBs require a 10-year commitment before any redemption is allowed',
+                            'SSBs can be redeemed in any month with no penalty — the 10-year tenor is the maximum holding period, not a lock-in',
+                            'SSBs can only be redeemed after 1 year — there is a 12-month minimum holding period',
+                            'Early redemption is allowed but attracts a 1% penalty fee on the principal',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'The 10-year tenor is the maximum, not a commitment. SSBs can be redeemed in any month with no penalty — you keep all interest earned up to that point. Think of it as a flexible savings account that rewards patience.',
+                        },
+                        {
+                          concept: 'Eligibility and setup',
+                          question: 'What does an international student need to buy their first SSB in Singapore?',
+                          options: [
+                            'A Singapore PR status and a minimum $5,000 to invest',
+                            'A CDP account linked to a local bank account — available to all Singapore residents aged 18+ including student pass holders',
+                            'A brokerage account and a minimum 12-month proof of residency',
+                            'SSBs are only available to Singapore citizens — international students are not eligible',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'SSBs are open to all Singapore residents aged 18 and above — including international students on a valid student pass. The only requirements are a CDP account (free to open at SGX) and a local bank account.',
+                        },
+                        {
+                          concept: 'SSB vs alternatives',
+                          question: 'A student has $4,000 in excess savings beyond their emergency fund. Their HYSA is earning only 0.05% base rate (no conditions met). What is the most financially sound move?',
+                          options: [
+                            'Leave it in the HYSA — the account is already set up and convenient',
+                            'Invest it in the stock market for better long-term returns',
+                            'Put it in a 12-month fixed deposit — guaranteed return and no risk',
+                            'Apply for an SSB — earns ~3% p.a. with no conditions, no market risk, and penalty-free redemption',
+                          ],
+                          correctIndex: 3,
+                          explanation: 'With the HYSA only earning the 0.05% base rate, an SSB at ~3% earns $120/year on $4,000 — for zero effort and zero risk. It\'s more flexible than a fixed deposit (no lock-in) and has no conditions to maintain like an HYSA.',
+                        },
+                      ],
+                    },
+                  ],
                 },
               ],
+
               flashcards: [
-                { q: 'Who issues Singapore Savings Bonds?', a: 'The Singapore government via MAS — they carry zero default risk and are the safest retail investment instrument in Singapore.' },
-                { q: 'What is the minimum investment for an SSB?', a: '$500, in multiples of $500. The maximum any one person can hold is $200,000.' },
-                { q: 'Can you redeem an SSB before the 10-year tenor ends?', a: 'Yes — SSBs can be redeemed in any month with no penalty. You keep all interest earned up to the point of redemption.' },
-                { q: 'How is SSB interest paid?', a: 'Every 6 months, directly credited to your linked bank account — you don\'t need to wait until maturity.' },
-                { q: 'Are international students in Singapore eligible to buy SSBs?', a: 'Yes — SSBs are available to all Singapore residents aged 18 and above, including those on a valid student pass.' },
+                {
+                  q: 'Who issues Singapore Savings Bonds?',
+                  a: 'The Singapore government via MAS — they carry zero default risk and are the safest retail investment instrument in Singapore.',
+                },
+                {
+                  q: 'What is the minimum investment for an SSB?',
+                  a: '$500, in multiples of $500. The maximum any one person can hold is $200,000.',
+                },
+                {
+                  q: 'Can you redeem an SSB before the 10-year tenor ends?',
+                  a: 'Yes — SSBs can be redeemed in any month with no penalty. You keep all interest earned up to the point of redemption.',
+                },
+                {
+                  q: 'How is SSB interest paid?',
+                  a: 'Every 6 months, directly credited to your linked bank account — no action needed on your part.',
+                },
+                {
+                  q: 'Are international students in Singapore eligible to buy SSBs?',
+                  a: 'Yes — SSBs are available to all Singapore residents aged 18 and above, including those on a valid student pass.',
+                },
               ],
             },
+            // ── LESSON 6-2 ──────────────────────────────
             {
-              id: '6-2', title: 'Fixed Deposits in Singapore', icon: '🔒',
+              id: '6-2',
+              title: 'Fixed Deposits in Singapore',
+              icon: '🔒',
               topic: 'Fixed deposit Singapore banks rates comparison',
-              duration: '5 min', fincoins: 80,
-              sections: [{ key: 'what', heading: 'How Fixed Deposits Work' }, { key: 'rates', heading: 'Current Rates' }, { key: 'vs', heading: 'FD vs SSB vs HYSA' }],
-              content: [
+              duration: '5 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
                 {
-                  type: 'text',
-                  text: 'Fixed deposits are the simplest savings instrument in Singapore. You lock away a lump sum for a fixed period and earn a guaranteed rate. No conditions to meet, no spending thresholds, no ecosystem to buy into — just a rate and a term. The trade-off is liquidity: your money is locked until maturity.',
-                },
-                {
-                  type: 'keyterm',
-                  term: 'Fixed Deposit (FD)',
-                  definition: 'A savings instrument where you deposit a lump sum for a fixed term — typically 1 to 36 months — at a guaranteed interest rate. You cannot access the funds without penalty until the term ends.',
-                },
-                {
-                  type: 'text',
-                  text: 'Fixed deposits work in three stages — choosing your term, locking in your rate, and deciding what happens at maturity.',
-                },
-                {
-                  type: 'timeline',
-                  title: 'How a fixed deposit works:',
-                  nodes: [
+                  key: 'what',
+                  title: 'How Fixed Deposits Work',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '📅',
-                      label: 'Choose Your Term',
-                      sublabel: 'Longer = higher rate',
-                      color: '#4F46E5',
-                      examples: ['1 month', '3–6 months', '12–24 months'],
-                      details: [
-                        'FD terms typically range from 1 month to 36 months — the longer the term, the higher the rate offered.',
-                        'Most students opt for 3–12 month terms to balance rate and flexibility.',
-                        'Promotional rates are often available for specific tenors — banks frequently run limited-time offers on 3 or 6 month FDs.',
-                      ],
-                      tip: 'Only lock away money you are confident you won\'t need for the full term. If there\'s any chance you\'ll need it early, an SSB is a better choice.',
+                      type: 'heading',
+                      text: 'How Fixed Deposits Work',
                     },
                     {
+                      type: 'text',
+                      text: 'Fixed deposits are the simplest savings instrument in Singapore. You lock away a lump sum for a fixed period and earn a guaranteed rate. No conditions to meet, no spending thresholds, no ecosystem to buy into — just a rate and a term. The trade-off is liquidity: your money is locked until maturity.',
+                    },
+                    {
+                      type: 'keyterm',
+                      term: 'Fixed Deposit (FD)',
+                      definition: 'A savings instrument where you deposit a lump sum for a fixed term — typically 1 to 36 months — at a guaranteed interest rate. You cannot access the funds without penalty until the term ends.',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Fixed deposits work in three stages — choosing your term, locking in your rate, and deciding what happens at maturity.',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'How a fixed deposit works:',
+                      nodes: [
+                        {
+                          icon: '📅',
+                          label: 'Choose Your Term',
+                          sublabel: 'Longer = higher rate',
+                          color: '#4F46E5',
+                          examples: ['1 month', '3–6 months', '12–24 months'],
+                          details: [
+                            'FD terms typically range from 1 month to 36 months — the longer the term, the higher the rate offered.',
+                            'Most students opt for 3–12 month terms to balance rate and flexibility.',
+                            'Promotional rates are often available for specific tenors — banks frequently run limited-time offers on 3 or 6 month FDs.',
+                          ],
+                          tip: 'Only lock away money you are confident you won\'t need for the full term. If there\'s any chance you\'ll need it early, an SSB is a better choice.',
+                        },
+                        {
+                          icon: '🔒',
+                          label: 'Lock In Your Rate',
+                          sublabel: 'Guaranteed at placement',
+                          color: '#0891B2',
+                          examples: ['Rate fixed at placement', 'Immune to rate cuts', 'Miss rate rises'],
+                          details: [
+                            'Your interest rate is fixed at the time you place the deposit — market rate changes after that date do not affect your FD.',
+                            'This is both a strength and a weakness: if rates rise after you lock in, you miss out. If rates fall, you\'re protected.',
+                            'FD rates are quoted per annum — a 3% p.a. rate on a 6-month FD earns approximately 1.5% for that 6-month period.',
+                          ],
+                          tip: 'If interest rates are expected to rise, consider shorter FD terms so you can reinvest at a higher rate sooner.',
+                        },
+                        {
+                          icon: '🏁',
+                          label: 'Maturity',
+                          sublabel: 'Auto-renew or withdraw',
+                          color: '#059669',
+                          examples: ['Auto-renewal default', 'Principal + interest paid', 'New rate applies'],
+                          details: [
+                            'At maturity, most banks automatically renew your FD at the prevailing rate unless you instruct otherwise.',
+                            'Auto-renewal at a lower rate is one of the most common FD mistakes — always review before your FD matures.',
+                            'Set a calendar reminder 1 week before maturity to decide: withdraw, renew at the new rate, or move to a different instrument.',
+                          ],
+                          tip: 'Never let an FD auto-renew without checking the new rate first. Rates at renewal may be significantly lower than your original rate.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'warning',
+                      text: 'Early withdrawal penalty: most Singapore banks forfeit all interest earned if you break a fixed deposit before maturity. Some banks may also charge an administrative fee. Only place money in an FD that you are certain you won\'t need until the term ends.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current fixed deposit rates across Singapore banks',
+                      prompt: 'current fixed deposit interest rates DBS OCBC UOB Singapore 2025 comparison best rates',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '6-2-s1-tinder',
+                      fincoins: 10,
+                      title: 'Fixed Deposits — True or False?',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'Breaking a fixed deposit before maturity in Singapore typically results in forfeiting all interest earned.',
+                          isTrue: true,
+                          explanation: 'Most Singapore banks forfeit all interest — and some charge an administrative fee — if you withdraw from an FD before the term ends. Always be certain you won\'t need the money before placing.',
+                        },
+                        {
+                          text: 'FD interest rates are variable and can change during your deposit term.',
+                          isTrue: false,
+                          explanation: 'FD rates are locked in at the time of placement. Rate changes after you place the deposit do not affect your return — this is one of the FD\'s key advantages over variable-rate instruments.',
+                        },
+                        {
+                          text: 'A 6-month FD at 3% p.a. earns 3% of your deposit amount at maturity.',
+                          isTrue: false,
+                          explanation: 'A 3% p.a. rate on a 6-month FD earns approximately 1.5% for that period — rates are quoted per annum, so you divide by the fraction of the year the money is held.',
+                        },
+                        {
+                          text: 'When a fixed deposit auto-renews, it renews at the same interest rate as the original deposit.',
+                          isTrue: false,
+                          explanation: 'Auto-renewal applies the prevailing rate at the time of renewal — which may be significantly lower or higher than your original rate. Always review before maturity and instruct the bank accordingly.',
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 2 ───────────────────────────
+                {
+                  key: 'rates',
+                  title: 'Current Rates',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Current Rates',
+                    },
+                    {
+                      type: 'text',
+                      text: 'FD rates change frequently and vary across banks. The figures below are illustrative — use the bot chip at the bottom for today\'s exact rates. Here\'s how the major banks typically compare.',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Bank', 'Typical Term', 'Illustrative Rate', 'Min. Deposit', 'Early Withdrawal'],
+                      rows: [
+                        ['DBS', '3–12 months', '~2.5–3.5% p.a.', '$1,000', 'Forfeit all interest'],
+                        ['OCBC', '3–12 months', '~2.5–3.5% p.a.', '$1,000', 'Forfeit all interest'],
+                        ['UOB', '3–12 months', '~2.5–3.5% p.a.', '$1,000', 'Forfeit all interest'],
+                        ['GXS / Trust', '3–12 months', '~2.5–3.8% p.a.', '$500–$1,000', 'Varies by product'],
+                        ['Finance companies (e.g. Sing Investments)', '1–24 months', '~3.0–4.0% p.a.', '$5,000–$10,000', 'Forfeit all interest'],
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Singapore Tip: Finance companies like Sing Investments & Finance often offer higher FD rates than the big three banks — but require higher minimums ($5,000–$10,000) and are SDIC-insured separately. Worth checking if you have a larger lump sum.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'How Much Could You Earn?',
+                    },
+                    {
+                      type: 'slider',
                       icon: '🔒',
-                      label: 'Lock In Your Rate',
-                      sublabel: 'Guaranteed at placement',
-                      color: '#0891B2',
-                      details: [
-                        'Your interest rate is fixed at the time you place the deposit — market rate changes after that date do not affect your FD.',
-                        'This is both a strength and a weakness: if rates rise after you lock in, you miss out. If rates fall, you\'re protected.',
-                        'FD rates are quoted per annum — a 3% p.a. rate on a 6-month FD earns approximately 1.5% for that 6-month period.',
+                      title: 'Fixed Deposit Interest Calculator',
+                      description: 'Drag to your deposit amount to see illustrative returns across three common FD tenors at 3% p.a.',
+                      min: 1000,
+                      max: 50000,
+                      step: 1000,
+                      initialValue: 10000,
+                      prefix: '$',
+                      calculateResult: (amount) => [
+                        { label: '3-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 3/12).toFixed(2)} interest`, color: '#4F46E5' },
+                        { label: '6-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 6/12).toFixed(2)} interest`, color: '#0891B2' },
+                        { label: '12-month FD (~3% p.a.)', value: `$${(amount * 0.03).toFixed(2)} interest`, color: '#059669' },
                       ],
-                      examples: ['Rate fixed at placement', 'Immune to rate cuts', 'Miss rate rises'],
-                      tip: 'If interest rates are expected to rise, consider shorter FD terms so you can reinvest at a higher rate sooner.',
                     },
                     {
-                      icon: '🏁',
-                      label: 'Maturity',
-                      sublabel: 'Auto-renew or withdraw',
-                      color: '#059669',
-                      examples: ['Auto-renewal default', 'Principal + interest paid', 'New rate applies'],
-                      details: [
-                        'At maturity, most banks automatically renew your FD at the prevailing rate unless you instruct otherwise.',
-                        'Auto-renewal at a lower rate is one of the most common FD mistakes — always review before your FD matures.',
-                        'Set a calendar reminder 1 week before maturity to decide: withdraw, renew at the new rate, or move to a different instrument.',
+                      type: 'subheading',
+                      text: 'Common FD Mistakes',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Common FD mistakes → what to do instead:',
+                      cards: [
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Locking money in a 12-month FD without being certain you won\'t need it early.',
+                          back: 'Only commit to an FD term you\'re 100% confident about. If there\'s any chance you\'ll need early access, use an SSB instead — same rate, no penalty for early exit.',
+                          tag: 'Uncertain timeline = use SSB',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Letting your FD auto-renew without checking the new rate first.',
+                          back: 'Set a calendar reminder 1 week before your FD matures. Auto-renewal at a lower rate is one of the most common and avoidable FD mistakes.',
+                          tag: 'Always review before maturity',
+                        },
+                        {
+                          frontLabel: '❌ Mistake',
+                          backLabel: '✅ Fix',
+                          front: 'Assuming a 3% p.a. FD earns 3% of your deposit for any term.',
+                          back: 'Rates are quoted per annum. A 3% p.a. rate on a 6-month FD earns ~1.5% for that period. Always calculate the actual dollar return for your specific term.',
+                          tag: 'p.a. = per year, not per term',
+                        },
                       ],
-                      tip: 'Never let an FD auto-renew without checking the new rate first. Rates at renewal may be significantly lower than your original rate.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Which Singapore bank has the best fixed deposit rates right now?',
+                      prompt: 'best fixed deposit rates Singapore DBS OCBC UOB GXS Trust finance companies 2025 comparison',
                     },
                   ],
                 },
+
+                // ─── SECTION 3 ───────────────────────────
                 {
-                  type: 'callout',
-                  variant: 'warning',
-                  text: 'Early withdrawal penalty: most Singapore banks forfeit all interest earned if you break a fixed deposit before maturity. Some banks may also charge an administrative fee. Only place money in an FD that you are certain you won\'t need until the term ends.',
-                },
-                {
-                  type: 'text',
-                  text: 'FD rates change frequently and vary across banks. The figures below are illustrative — use the bot chip at the bottom for today\'s exact rates. Here\'s how the major banks typically compare.',
-                },
-                {
-                  type: 'table',
-                  headers: ['Bank', 'Typical Term', 'Illustrative Rate', 'Min. Deposit', 'Early Withdrawal'],
-                  rows: [
-                    ['DBS', '3–12 months', '~2.5–3.5% p.a.', '$1,000', 'Forfeit all interest'],
-                    ['OCBC', '3–12 months', '~2.5–3.5% p.a.', '$1,000', 'Forfeit all interest'],
-                    ['UOB', '3–12 months', '~2.5–3.5% p.a.', '$1,000', 'Forfeit all interest'],
-                    ['GXS / Trust', '3–12 months', '~2.5–3.8% p.a.', '$500–$1,000', 'Varies by product'],
-                    ['Finance companies (e.g. Sing Investments)', '1–24 months', '~3.0–4.0% p.a.', '$5,000–$10,000', 'Forfeit all interest'],
-                  ],
-                },
-                {
-                  type: 'slider',
-                  icon: '🔒',
-                  title: 'Fixed Deposit Interest Calculator',
-                  description: 'Drag to your deposit amount to see illustrative returns across three common FD tenors at 3% p.a.',
-                  min: 1000,
-                  max: 50000,
-                  step: 1000,
-                  initialValue: 10000,
-                  prefix: '$',
-                  calculateResult: (amount) => [
-                    { label: '3-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 3/12).toFixed(2)} interest`, color: '#4F46E5' },
-                    { label: '6-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 6/12).toFixed(2)} interest`, color: '#0891B2' },
-                    { label: '12-month FD (~3% p.a.)', value: `$${(amount * 0.03).toFixed(2)} interest`, color: '#059669' },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Fixed deposits, SSBs, and HYSAs can all earn similar headline rates — but they behave very differently. The right choice depends on how long you can commit, whether you need flexibility, and whether you can meet HYSA conditions.',
-                },
-                {
-                  type: 'slider',
-                  icon: '⚖️',
-                  title: 'FD vs SSB vs HYSA — Annual Returns Comparison',
-                  description: 'Drag to your savings amount to compare illustrative annual returns across all three instruments.',
-                  min: 1000,
-                  max: 50000,
-                  step: 1000,
-                  initialValue: 10000,
-                  prefix: '$',
-                  calculateResult: (amount) => [
-                    { label: '🔒 Fixed Deposit (~3% p.a.)', value: `$${(amount * 0.03).toFixed(0)}/yr`, color: '#4F46E5' },
-                    { label: '🇸🇬 SSB (~3% p.a. avg)', value: `$${(amount * 0.03).toFixed(0)}/yr`, color: '#059669' },
-                    { label: '✅ HYSA with conditions (~3.5% p.a.)', value: `$${(amount * 0.035).toFixed(0)}/yr`, color: '#0891B2' },
-                    { label: '😴 HYSA without conditions (0.05%)', value: `$${(amount * 0.0005).toFixed(0)}/yr`, color: '#9CA3AF' },
-                  ],
-                },
-                {
-                  type: 'topiccards',
-                  title: 'Which instrument suits your situation?',
-                  cards: [
+                  key: 'vs',
+                  title: 'FD vs SSB vs HYSA',
+                  fincoins: 10,
+                  content: [
                     {
-                      icon: '🔒',
-                      label: 'Fixed Deposit',
-                      description: 'Best for committed lump sums',
-                      color: '#4F46E5',
-                      details: [
-                        'Guaranteed rate locked in at placement — immune to rate cuts during the term',
-                        'No conditions to meet — the rate is unconditional',
-                        'Zero flexibility — early withdrawal forfeits all interest',
-                      ],
-                      example: 'Best for: a lump sum you are 100% certain you won\'t need for the full term — e.g. $5,000 saved from internship, parked for 6 months while you focus on studies.',
+                      type: 'heading',
+                      text: 'FD vs SSB vs HYSA',
                     },
                     {
-                      icon: '🇸🇬',
-                      label: 'Singapore Savings Bond',
-                      description: 'Best for flexible lump sums',
-                      color: '#059669',
-                      details: [
-                        'Government-backed — zero default risk, higher guarantee than any bank deposit',
-                        'Redeem any month with no penalty — full flexibility without sacrificing safety',
-                        'Step-up interest rewards long-term holding but doesn\'t penalise early exit',
-                      ],
-                      example: 'Best for: emergency fund top-up, ang bao windfalls, or any lump sum where you want competitive rates but might need access within 12 months.',
+                      type: 'text',
+                      text: 'Fixed deposits, SSBs, and HYSAs can all earn similar headline rates — but they behave very differently. The right choice depends on how long you can commit, whether you need flexibility, and whether you can meet HYSA conditions.',
                     },
                     {
-                      icon: '🏦',
-                      label: 'HYSA',
-                      description: 'Best for active savers meeting conditions',
-                      color: '#0891B2',
-                      details: [
-                        'Highest potential rates — but only when conditions (salary, spend, GIRO) are consistently met',
-                        'Fully liquid — no lock-in, no redemption delay',
-                        'Base rate (0.05%) is the worst of all three if conditions aren\'t met',
+                      type: 'slider',
+                      icon: '⚖️',
+                      title: 'FD vs SSB vs HYSA — Annual Returns Comparison',
+                      description: 'Drag to your savings amount to compare illustrative annual returns across all three instruments.',
+                      min: 1000,
+                      max: 50000,
+                      step: 1000,
+                      initialValue: 10000,
+                      prefix: '$',
+                      calculateResult: (amount) => [
+                        { label: '🔒 Fixed Deposit (~3% p.a.)', value: `$${(amount * 0.03).toFixed(0)}/yr`, color: '#4F46E5' },
+                        { label: '🇸🇬 SSB (~3% p.a. avg)', value: `$${(amount * 0.03).toFixed(0)}/yr`, color: '#059669' },
+                        { label: '✅ HYSA with conditions (~3.5% p.a.)', value: `$${(amount * 0.035).toFixed(0)}/yr`, color: '#0891B2' },
+                        { label: '😴 HYSA without conditions (0.05%)', value: `$${(amount * 0.0005).toFixed(0)}/yr`, color: '#9CA3AF' },
                       ],
-                      example: 'Best for: your primary account once employed — salary credit and card spend unlock rates that beat both FDs and SSBs when conditions are consistently met.',
                     },
-                  ],
-                },
-                {
-                  type: 'text',
-                  text: 'Here are three common student scenarios — which instrument makes the most sense in each?',
-                },
-                {
-                  type: 'scenarios',
-                  title: 'FD, SSB, or HYSA?',
-                  scenarios: [
                     {
-                      icon: '💰',
-                      situation: 'You have $8,000 saved from your internship. You\'re starting full-time work in exactly 6 months and plan to use this money as a housing deposit then.',
-                      options: [
+                      type: 'subheading',
+                      text: 'Which Instrument Suits Your Situation?',
+                    },
+                    {
+                      type: 'topiccards',
+                      cards: [
                         {
-                          text: 'Place it in a 6-month fixed deposit at ~3% p.a.',
-                          biasLabel: 'Best fit ✓',
-                          biasExplanation: 'You have a known 6-month horizon and won\'t need the money early — exactly what FDs are designed for. Guaranteed rate, no conditions, and the timing aligns perfectly with your housing plan.',
-                          isIdeal: true,
+                          icon: '🔒',
+                          label: 'Fixed Deposit',
+                          description: 'Best for committed lump sums with a known horizon',
+                          color: '#4F46E5',
+                          details: [
+                            'Guaranteed rate locked in at placement — immune to rate cuts during the term',
+                            'No conditions to meet — the rate is unconditional',
+                            'Zero flexibility — early withdrawal forfeits all interest',
+                          ],
+                          example: 'Best for: $5,000 saved from internship, parked for exactly 6 months while you focus on studies — known timeline, no chance of needing it early.',
                         },
                         {
-                          text: 'Put it in an SSB for flexibility.',
-                          biasLabel: 'Good but slightly suboptimal',
-                          biasExplanation: 'An SSB is a reasonable choice given its flexibility, but SSB redemption takes up to one month to process — cutting it close for a hard 6-month deadline.',
-                          isIdeal: false,
+                          icon: '🇸🇬',
+                          label: 'Singapore Savings Bond',
+                          description: 'Best for flexible lump sums without a fixed timeline',
+                          color: '#059669',
+                          details: [
+                            'Government-backed — zero default risk, higher guarantee than any bank deposit',
+                            'Redeem any month with no penalty — flexibility without sacrificing safety',
+                            'Step-up interest rewards long-term holding but doesn\'t penalise early exit',
+                          ],
+                          example: 'Best for: emergency fund top-up, ang bao windfalls, or any lump sum where you want competitive rates but might need access within 12 months.',
                         },
                         {
-                          text: 'Leave it in your HYSA since it\'s already there.',
-                          biasLabel: 'Depends on your conditions',
-                          biasExplanation: 'If your HYSA is earning 3%+ with conditions met, this is acceptable. But an FD guarantees the rate unconditionally — no risk of missing a condition and dropping to 0.05% in a key month.',
-                          isIdeal: false,
+                          icon: '🏦',
+                          label: 'HYSA',
+                          description: 'Best for active savers who consistently meet conditions',
+                          color: '#0891B2',
+                          details: [
+                            'Highest potential rates — but only when conditions (salary, spend, GIRO) are consistently met',
+                            'Fully liquid — no lock-in, no redemption delay',
+                            'Base rate (0.05%) is the worst of all three if conditions aren\'t met',
+                          ],
+                          example: 'Best for: your primary account once employed — salary credit and card spend unlock rates that beat both FDs and SSBs when conditions are consistently met.',
                         },
                       ],
                     },
                     {
-                      icon: '🧧',
-                      situation: 'You received $1,500 in Chinese New Year ang bao money. You have no immediate plans for it but might need it if an unexpected expense comes up.',
-                      options: [
-                        {
-                          text: 'Place it in a 12-month fixed deposit for the highest rate.',
-                          biasLabel: 'Too inflexible',
-                          biasExplanation: 'If you might need the money for an unexpected expense, locking it in a 12-month FD is risky — early withdrawal forfeits all interest, potentially leaving you worse off than a savings account.',
-                          isIdeal: false,
-                        },
-                        {
-                          text: 'Apply for an SSB with the full $1,500.',
-                          biasLabel: 'Best fit ✓',
-                          biasExplanation: 'An SSB gives you a competitive rate with full flexibility — if an unexpected expense arises, you can redeem with no penalty. Perfect for windfall money with no fixed timeline.',
-                          isIdeal: true,
-                        },
-                        {
-                          text: 'Add it to your HYSA balance.',
-                          biasLabel: 'Good if conditions are met',
-                          biasExplanation: 'If your HYSA is actively earning bonus interest, this is a solid choice. But if your conditions aren\'t met, the SSB\'s unconditional rate beats the HYSA base rate easily.',
-                          isIdeal: false,
-                        },
-                      ],
+                      type: 'bot',
+                      label: '💬 Should I put my savings in a fixed deposit, SSB, or HYSA in Singapore right now?',
+                      prompt: 'fixed deposit vs Singapore Savings Bond vs HYSA comparison which is better students Singapore 2025',
                     },
                     {
-                      icon: '📊',
-                      situation: 'You have $20,000 in savings. You\'re employed, meet all HYSA conditions, and want to optimise returns on the full amount.',
-                      options: [
+                      type: 'scenarios',
+                      exerciseId: '6-2-s3-scenarios',
+                      fincoins: 10,
+                      title: 'FD, SSB, or HYSA?',
+                      scenarios: [
                         {
-                          text: 'Put everything in your HYSA to maximise the bonus interest rate.',
-                          biasLabel: 'Good but check the cap',
-                          biasExplanation: 'Most HYSAs offer the highest rates on balances up to a certain cap — often $50,000–$75,000. At $20,000 you\'re well within that cap, so this is a strong choice if conditions are consistently met.',
-                          isIdeal: false,
+                          icon: '💰',
+                          situation: 'You have $8,000 saved from your internship. You\'re starting full-time work in exactly 6 months and plan to use this money as a housing deposit then.',
+                          options: [
+                            {
+                              text: 'Place it in a 6-month fixed deposit at ~3% p.a.',
+                              biasLabel: 'Best fit ✓',
+                              biasExplanation: 'You have a known 6-month horizon and won\'t need the money early — exactly what FDs are designed for. Guaranteed rate, no conditions, and the timing aligns perfectly with your housing plan.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Put it in an SSB for flexibility.',
+                              biasLabel: 'Good but slightly suboptimal',
+                              biasExplanation: 'An SSB is reasonable given its flexibility, but SSB redemption takes up to one month to process — cutting it close for a hard 6-month deadline. The FD matures on an exact date.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Leave it in your HYSA since it\'s already there.',
+                              biasLabel: 'Depends on your conditions',
+                              biasExplanation: 'If your HYSA is earning 3%+ with conditions met, this is acceptable. But an FD guarantees the rate unconditionally — no risk of missing a condition and dropping to 0.05% in a key month.',
+                              isIdeal: false,
+                            },
+                          ],
                         },
                         {
-                          text: 'Keep $10,000 in the HYSA for daily banking and put $10,000 in an SSB.',
-                          biasLabel: 'Smart diversification ✓',
-                          biasExplanation: 'Splitting across instruments reduces the risk of a missed HYSA condition affecting your full savings. The SSB earns a similar rate unconditionally while the HYSA handles active salary and spend conditions.',
-                          isIdeal: true,
+                          icon: '🧧',
+                          situation: 'You received $1,500 in Chinese New Year ang bao money. You have no immediate plans for it but might need it if an unexpected expense comes up.',
+                          options: [
+                            {
+                              text: 'Place it in a 12-month fixed deposit for the highest rate.',
+                              biasLabel: 'Too inflexible',
+                              biasExplanation: 'If you might need the money for an unexpected expense, locking it in a 12-month FD is risky — early withdrawal forfeits all interest, potentially leaving you worse off than a savings account.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Apply for an SSB with the full $1,500.',
+                              biasLabel: 'Best fit ✓',
+                              biasExplanation: 'An SSB gives you a competitive rate with full flexibility — if an unexpected expense arises, you can redeem with no penalty. Perfect for windfall money with no fixed timeline.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Add it to your HYSA balance.',
+                              biasLabel: 'Good if conditions are met',
+                              biasExplanation: 'If your HYSA is actively earning bonus interest, this is a solid choice. But if conditions aren\'t met, the SSB\'s unconditional rate easily beats the HYSA base rate of 0.05%.',
+                              isIdeal: false,
+                            },
+                          ],
                         },
                         {
-                          text: 'Put the full $20,000 in a 12-month FD for a guaranteed rate.',
-                          biasLabel: 'Too inflexible',
-                          biasExplanation: 'Locking your full savings in an FD removes all liquidity. If you\'re employed and meeting HYSA conditions, your HYSA likely matches or beats the FD rate — with far more flexibility.',
-                          isIdeal: false,
+                          icon: '📊',
+                          situation: 'You have $20,000 in savings. You\'re employed, meet all HYSA conditions, and want to optimise returns on the full amount.',
+                          options: [
+                            {
+                              text: 'Put everything in your HYSA to maximise the bonus interest rate.',
+                              biasLabel: 'Good but check the cap',
+                              biasExplanation: 'Most HYSAs offer the highest rates on balances up to a certain cap. At $20,000 you\'re likely within that cap — but concentrating everything in one instrument means a missed condition affects all your savings.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Keep $10,000 in the HYSA for daily banking and put $10,000 in an SSB.',
+                              biasLabel: 'Smart diversification ✓',
+                              biasExplanation: 'Splitting across instruments reduces the risk of a missed HYSA condition affecting your full savings. The SSB earns a similar rate unconditionally while the HYSA handles active conditions.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Put the full $20,000 in a 12-month FD for a guaranteed rate.',
+                              biasLabel: 'Too inflexible',
+                              biasExplanation: 'Locking your full savings in an FD removes all liquidity. If you\'re employed and meeting HYSA conditions, your HYSA likely matches or beats the FD rate — with far more flexibility.',
+                              isIdeal: false,
+                            },
+                          ],
                         },
                       ],
                     },
                   ],
                 },
+
+                // ─── SECTION 4 ───────────────────────────
                 {
-                  type: 'tindertruefalse',
-                  title: 'Fixed Deposits — True or False?',
-                  instruction: 'Swipe right for True · Swipe left for False',
-                  statements: [
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
                     {
-                      text: 'Breaking a fixed deposit before maturity in Singapore typically results in forfeiting all interest earned.',
-                      isTrue: true,
-                      explanation: 'Most Singapore banks forfeit all interest — and some charge an administrative fee — if you withdraw from an FD before the term ends. Always be certain you won\'t need the money before placing.',
+                      type: 'heading',
+                      text: 'Challenge: Fixed Deposits in Singapore',
                     },
                     {
-                      text: 'FD interest rates are variable and can change during your deposit term.',
-                      isTrue: false,
-                      explanation: 'FD rates are locked in at the time of placement. Rate changes after you place the deposit do not affect your return — this is one of the FD\'s key advantages over variable-rate instruments.',
+                      type: 'text',
+                      text: 'Three questions on how fixed deposits work, how to calculate FD returns, and when to choose an FD over an SSB or HYSA.',
                     },
                     {
-                      text: 'A 6-month FD at 3% p.a. earns 3% of your deposit amount at maturity.',
-                      isTrue: false,
-                      explanation: 'A 3% p.a. rate on a 6-month FD earns approximately 1.5% for that period — rates are quoted per annum, so you divide by the fraction of the year the money is held.',
+                      type: 'bot',
+                      label: '💬 Quick recap — how do fixed deposits work in Singapore?',
+                      prompt: 'how do fixed deposits work Singapore rates terms early withdrawal SDIC 2025 summary',
                     },
                     {
-                      text: 'Fixed deposits in Singapore banks are protected by SDIC up to $75,000.',
-                      isTrue: true,
-                      explanation: 'FDs held at MAS-licensed banks are SDIC-insured up to $75,000 per depositor per bank — the same protection as savings accounts.',
-                    },
-                    {
-                      text: 'When a fixed deposit auto-renews, it renews at the same interest rate as the original deposit.',
-                      isTrue: false,
-                      explanation: 'Auto-renewal applies the prevailing rate at the time of renewal — which may be significantly lower or higher than your original rate. Always review before maturity and instruct the bank accordingly.',
+                      type: 'multistepmcq',
+                      exerciseId: '6-2-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'Fixed Deposits in Singapore',
+                      questions: [
+                        {
+                          concept: 'How FDs work',
+                          question: 'A student places $5,000 in a 6-month fixed deposit at 3% p.a. How much interest will they earn at maturity?',
+                          options: [
+                            '$150 — 3% of $5,000',
+                            '$75 — 3% p.a. for 6 months is 1.5% of $5,000',
+                            '$50 — FDs charge a placement fee which reduces the return',
+                            '$300 — FD interest compounds monthly',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'FD rates are quoted per annum. A 3% p.a. rate on a 6-month FD earns half the annual rate — 1.5% — which is $75 on a $5,000 deposit. Always calculate for your actual term, not the headline annual rate.',
+                        },
+                        {
+                          concept: 'FD risks',
+                          question: 'A student places $8,000 in a 12-month FD. Three months later, an unexpected expense arises and they need $3,000. What is the most likely outcome if they break the FD?',
+                          options: [
+                            'They can withdraw $3,000 and the remaining $5,000 continues earning interest normally',
+                            'They lose only the interest earned on the $3,000 withdrawn — the rest is unaffected',
+                            'They forfeit all interest earned on the full $8,000 and may pay an administrative fee',
+                            'They pay a 1% early withdrawal penalty on the amount withdrawn only',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'Most Singapore banks treat an FD as a single contract — breaking it early forfeits all interest earned, not just on the portion withdrawn. This is why FDs should only hold money you are 100% certain you won\'t need early.',
+                        },
+                        {
+                          concept: 'FD vs SSB',
+                          question: 'A student has $6,000 to save. They might need it within the next year but aren\'t sure exactly when. Both a 12-month FD and an SSB offer ~3% p.a. Which is the better choice and why?',
+                          options: [
+                            'Fixed deposit — the guaranteed rate makes it safer than an SSB',
+                            'SSB — same rate, but redeemable any month with no penalty if plans change',
+                            'Fixed deposit — SSBs are only available to Singaporeans, not international students',
+                            'Split evenly between both — diversification always reduces risk',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'When rates are equal, flexibility always wins. The SSB gives the same return as the FD but lets you exit any month without penalty — a free option that the FD doesn\'t offer. The FD\'s early exit forfeits all interest, making it the wrong tool for an uncertain timeline.',
+                        },
+                      ],
                     },
                   ],
-                },
-                {
-                  type: 'bot',
-                  label: '💬 Current fixed deposit rates across Singapore banks',
-                  prompt: 'Current fixed deposit interest rates DBS OCBC UOB Singapore 2025 comparison best rates',
                 },
               ],
+
               flashcards: [
-                { q: 'What is the main trade-off of a fixed deposit?', a: 'Higher guaranteed interest rate, but your money is locked for the full term — early withdrawal typically forfeits all interest earned.' },
-                { q: 'How is FD interest calculated for a term shorter than 12 months?', a: 'FD rates are quoted per annum — divide by the fraction of the year. A 3% p.a. rate on a 6-month FD earns approximately 1.5% for that period.' },
-                { q: 'What happens when a fixed deposit auto-renews?', a: 'It renews at the prevailing rate on the renewal date — which may be lower or higher than your original rate. Always review before maturity.' },
-                { q: 'When is a fixed deposit a better choice than an SSB?', a: 'When you have a known fixed horizon and are 100% certain you won\'t need the money early — FDs offer an unconditional guaranteed rate with no redemption delay.' },
-                { q: 'Are fixed deposits in Singapore banks protected by SDIC?', a: 'Yes — FDs at MAS-licensed banks are SDIC-insured up to $75,000 per depositor per bank, the same as savings accounts.' },
+                {
+                  q: 'What is the main trade-off of a fixed deposit?',
+                  a: 'Higher guaranteed interest rate, but your money is locked for the full term — early withdrawal typically forfeits all interest earned.',
+                },
+                {
+                  q: 'How is FD interest calculated for a term shorter than 12 months?',
+                  a: 'FD rates are quoted per annum — divide by the fraction of the year. A 3% p.a. rate on a 6-month FD earns approximately 1.5% for that period.',
+                },
+                {
+                  q: 'What happens when a fixed deposit auto-renews?',
+                  a: 'It renews at the prevailing rate on the renewal date — which may be lower or higher than your original rate. Always review before maturity.',
+                },
+                {
+                  q: 'When is a fixed deposit a better choice than an SSB?',
+                  a: 'When you have a known fixed horizon and are 100% certain you won\'t need the money early — FDs offer an unconditional guaranteed rate with no redemption delay.',
+                },
+                {
+                  q: 'Are fixed deposits in Singapore banks protected by SDIC?',
+                  a: 'Yes — FDs at MAS-licensed banks are SDIC-insured up to $75,000 per depositor per bank, the same as savings accounts.',
+                },
               ],
             },
+            // ── LESSON 6-3 ──────────────────────────────
             {
-              id: '6-3', title: 'T-Bills & Low-Risk Instruments', icon: '📑',
+              id: '6-3',
+              title: 'T-Bills & Low-Risk Instruments',
+              icon: '📑',
               topic: 'Singapore T-bills treasury bills how to buy',
-              duration: '5 min', fincoins: 80,
-              sections: [{ key: 'what', heading: 'What Are T-Bills?' }, { key: 'apply', heading: 'Applying via CPF/Cash' }, { key: 'vs',heading: 'T-Bills vs SSB vs FD' }], 
-              content: [
-              {
-                type: 'text',
-                text: 'T-bills are the shortest-term government securities available in Singapore — 6 months or 1 year. Unlike SSBs which pay step-up interest over time, T-bills work differently: you buy them at a discount to their face value and receive the full face value at maturity. The difference between what you pay and what you receive is your return. No monthly interest, no coupons — just buy low, redeem high.',
-              },
-              {
-                type: 'keyterm',
-                term: 'Treasury Bill (T-Bill)',
-                definition: 'A short-term Singapore government security with a 6-month or 1-year tenor, sold at a discount to its face value of $1 via a competitive auction. Your return is the difference between the discounted purchase price and the $1 face value received at maturity.',
-              },
-              {
-                type: 'callout',
-                variant: 'fact',
-                text: 'T-bills are issued by MAS and backed by the Singapore government — the same zero default risk as SSBs. The key difference is tenor and mechanic: T-bills are shorter (6 months or 1 year) and sold via auction rather than at a fixed rate.',
-              },
-              {
-                type: 'text',
-                text: 'T-bills have three mechanics that make them different from every other savings instrument covered so far — the auction, the discount pricing, and the maturity payout.',
-              },
-              {
-                type: 'timeline',
-                title: 'How T-bills work:',
-                nodes: [
-                  {
-                    icon: '🏛️',
-                    label: 'The Auction',
-                    sublabel: 'Competitive vs non-competitive',
-                    color: '#4F46E5',
-                    examples: ['Held every 2–4 weeks', 'Non-competitive bid recommended', 'Cut-off yield determined by market'],
-                    details: [
-                      'T-bills are sold via auction — buyers submit bids indicating the yield they are willing to accept.',
-                      'Competitive bids specify a yield — if your bid yield is higher than the cut-off, you are shut out.',
-                      'Non-competitive bids accept whatever cut-off yield the auction determines — you are guaranteed allotment at the market rate.',
-                    ],
-                    tip: 'Always submit a non-competitive bid. Competitive bids risk being shut out entirely if the market clears at a lower yield than you specified.',
-                  },
-                  {
-                    icon: '💹',
-                    label: 'Discount Pricing',
-                    sublabel: 'Buy below face value',
-                    color: '#0891B2',
-                    examples: ['Face value: $1 per unit', 'Min. application: $1,000', 'You pay less than $1,000'],
-                    details: [
-                      'T-bills have a face value of $1 per unit. You apply for a minimum of $1,000 face value.',
-                      'The actual amount you pay is less than $1,000 — the discount reflects the yield.',
-                      'Example: a 6-month T-bill at 3.5% p.a. means you pay approximately $982.50 for $1,000 face value — earning $17.50 over 6 months.',
-                    ],
-                    tip: 'Your bank account is debited the discounted amount — not the full $1,000. The difference is your return, credited at maturity.',
-                  },
-                  {
-                    icon: '🏁',
-                    label: 'Maturity',
-                    sublabel: 'Receive full face value',
-                    color: '#059669',
-                    examples: ['Receive exactly $1 per unit', 'Credited to bank account', 'No reinvestment by default'],
-                    details: [
-                      'At maturity — 6 months or 1 year after issuance — you receive the full face value of $1 per unit.',
-                      'The maturity proceeds are credited directly to your linked bank account.',
-                      'Unlike FDs, T-bills do not auto-renew — you must apply for a new T-bill if you want to reinvest.',
-                    ],
-                    tip: 'Set a calendar reminder before your T-bill matures — if you want to reinvest, you need to actively apply for the next auction.',
-                  },
-                ],
-              },
-              {
-                type: 'table',
-                firstColAccent: true,
-                headers: ['Feature', 'Details'],
-                rows: [
-                  ['Issued by', 'Monetary Authority of Singapore (MAS)'],
-                  ['Tenor', '6 months or 1 year'],
-                  ['Minimum investment', '$1,000 (in multiples of $1,000)'],
-                  ['Maximum investment', 'No individual limit'],
-                  ['How return is paid', 'Discount at purchase — full face value at maturity'],
-                  ['Auction frequency', 'Every 2–4 weeks (6-month), monthly (1-year)'],
-                  ['CPF-OA eligible', 'Yes — can use CPF Ordinary Account funds'],
-                  ['SRS eligible', 'Yes — can use Supplementary Retirement Scheme funds'],
-                  ['Default risk', 'Zero — Singapore government backed'],
-                  ['Early redemption', 'Not redeemable before maturity (can sell on secondary market)'],
-                ],
-              },
-              {
-                type: 'text',
-                text: 'One of T-bills\' most distinctive features is that they can be purchased using CPF Ordinary Account (OA) funds — making them one of the few short-term instruments where your CPF savings can earn a competitive market rate.',
-              },
-              {
-                type: 'steps',
-                title: 'How to apply for a T-bill:',
-                steps: [
-                  'Ensure you have a CDP account linked to your bank account (DBS, OCBC, or UOB). The same CDP account used for SSBs works for T-bills.',
-                  'Check the upcoming T-bill auction schedule on the MAS website — note the application opening and closing dates.',
-                  'Log into your bank\'s internet banking. Navigate to "Investments" or "Singapore Government Securities" and select T-bill application.',
-                  'Enter your application amount (minimum $1,000, multiples of $1,000) and select "Non-Competitive Bid" to guarantee allotment at the cut-off yield.',
-                  'If using CPF-OA funds, select CPF as the funding source — your CPF-OA will be debited the discounted amount instead of your bank account.',
-                  'Wait for allotment results — announced 1–2 business days after the auction closes. Your account is debited the discounted purchase price.',
-                  'At maturity, the full face value ($1,000 per unit) is credited to your linked bank account or CPF-OA automatically.',
-                ],
-              },
-              {
-                type: 'callout',
-                variant: 'tip',
-                text: 'Always submit a non-competitive bid. Competitive bids specify a yield — if the auction clears at a lower yield than you specified, your bid is rejected and you receive nothing. Non-competitive bids guarantee allotment at whatever yield the market determines.',
-              },
-              {
-                type: 'flipcards',
-                title: 'Common T-bill misconceptions → the reality:',
-                cards: [
-                  {
-                    frontLabel: '❌ Misconception',
-                    backLabel: '✅ Reality',
-                    front: '"I need to know the right yield to bid — T-bills are too complicated for a beginner."',
-                    back: 'Submit a non-competitive bid and you automatically receive the cut-off yield determined by the auction. You don\'t need to know anything about yields to participate — just enter your amount and select non-competitive.',
-                    tag: 'Non-competitive bids remove all complexity',
-                  },
-                  {
-                    frontLabel: '❌ Misconception',
-                    backLabel: '✅ Reality',
-                    front: '"T-bills charge interest like a loan — I\'m paying a discount, which means I\'m losing money upfront."',
-                    back: 'The discount is your return, not a fee. You pay $982.50 for $1,000 face value — at maturity you receive $1,000. The $17.50 difference is your interest earned. You are always better off at maturity than at purchase.',
-                    tag: 'Discount = your return, not a cost',
-                  },
-                  {
-                    frontLabel: '❌ Misconception',
-                    backLabel: '✅ Reality',
-                    front: '"I can redeem my T-bill early if I need the money — just like an SSB."',
-                    back: 'T-bills cannot be redeemed early through MAS. If you need the money before maturity, you would need to sell on the secondary market — which may be at a discount and involves transaction fees. Only invest money you won\'t need.',
-                    tag: 'T-bills are not redeemable early',
-                  },
-                  {
-                    frontLabel: '❌ Misconception',
-                    backLabel: '✅ Reality',
-                    front: '"Using CPF-OA for T-bills means my CPF money is locked away and I lose the 2.5% OA interest."',
-                    back: 'You give up the CPF-OA\'s 2.5% p.a. guaranteed rate while the funds are in the T-bill. This only makes sense when T-bill yields exceed 2.5% p.a. — always compare the T-bill cut-off yield against 2.5% before using CPF funds.',
-                    tag: 'Only use CPF if T-bill yield > 2.5% p.a.',
-                  },
-                ],
-              },
-              {
-                type: 'text',
-                text: 'T-bills, SSBs, and fixed deposits are all low-risk instruments — but they suit different situations. Here\'s how they compare across the dimensions that matter most.',
-              },
-              {
-                type: 'table',
-                headers: ['Feature', 'T-Bill', 'SSB', 'Fixed Deposit'],
-                rows: [
-                  ['Tenor', '6 months or 1 year', 'Up to 10 years', '1–36 months'],
-                  ['Minimum investment', '$1,000', '$500', '$1,000'],
-                  ['How return is paid', 'Discount at purchase', 'Every 6 months to bank', 'At maturity'],
-                  ['Early exit', 'Secondary market only', 'Redeem any month, no penalty', 'Forfeit all interest'],
-                  ['CPF-OA eligible', 'Yes', 'No', 'No'],
-                  ['SRS eligible', 'Yes', 'Yes', 'Yes'],
-                  ['Rate determined by', 'Market auction', 'MAS (fixed monthly)', 'Bank (fixed at placement)'],
-                  ['Default risk', 'Zero', 'Zero', 'Low (SDIC up to $75k)'],
-                  ['Auto-renewal', 'No — manual reapplication', 'No', 'Yes — at prevailing rate'],
-                ],
-              },
-              {
-                type: 'scenarios',
-                title: 'T-Bill, SSB, or Fixed Deposit?',
-                scenarios: [
-                  {
-                    icon: '💼',
-                    situation: 'You have $10,000 in your CPF Ordinary Account earning 2.5% p.a. The latest 6-month T-bill cut-off yield is 3.8% p.a. You won\'t need these CPF funds for at least 6 months.',
-                    options: [
-                      {
-                        text: 'Leave the CPF-OA funds earning 2.5% p.a. — it\'s guaranteed and hassle-free.',
-                        biasLabel: 'Leaving money behind',
-                        biasExplanation: 'At 3.8% vs 2.5%, the T-bill earns an additional 1.3% p.a. — on $10,000 for 6 months, that\'s an extra $65. When T-bill yields meaningfully exceed 2.5%, using CPF-OA funds is worth the effort.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Apply for the 6-month T-bill using CPF-OA funds via internet banking.',
-                        biasLabel: 'Best use of CPF-OA ✓',
-                        biasExplanation: 'When T-bill yields exceed the CPF-OA rate of 2.5%, applying with CPF funds earns a better return on money that would otherwise sit idle. The process is straightforward via your bank\'s internet banking.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Put the $10,000 in an SSB instead — same government backing, more flexibility.',
-                        biasLabel: 'SSBs can\'t use CPF funds',
-                        biasExplanation: 'SSBs are not eligible for CPF-OA investment — you can only apply with cash or SRS funds. To deploy CPF-OA savings at a higher rate, T-bills are the primary option.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '🎓',
-                    situation: 'You have $3,000 in cash savings. You\'re graduating in 7 months and plan to use this money for initial work expenses. You want the best return with minimal risk.',
-                    options: [
-                      {
-                        text: 'Apply for a 6-month T-bill — government-backed and matures before graduation.',
-                        biasLabel: 'Strong choice ✓',
-                        biasExplanation: 'A 6-month T-bill aligns with your 7-month horizon, carries zero default risk, and typically offers competitive yields. Just ensure the maturity date is before you need the funds.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Put it in an SSB for flexibility in case plans change.',
-                        biasLabel: 'Also reasonable',
-                        biasExplanation: 'An SSB is a solid alternative — especially if your timeline might shift. The trade-off is that SSB redemption takes up to one month, so plan accordingly if your graduation date is fixed.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Place it in a 6-month fixed deposit at the same rate.',
-                        biasLabel: 'Similar outcome, less flexible',
-                        biasExplanation: 'An FD at the same rate as a T-bill is functionally equivalent — but T-bills are government-backed while FDs rely on SDIC insurance. For the same rate, T-bills carry marginally lower risk.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                  {
-                    icon: '🔄',
-                    situation: 'You\'ve been rolling T-bills every 6 months for a year. The latest auction cut-off yield has dropped to 2.3% p.a. — below your HYSA\'s effective rate of 3.2%.',
-                    options: [
-                      {
-                        text: 'Continue rolling T-bills — consistency is important.',
-                        biasLabel: 'Loyalty over returns',
-                        biasExplanation: 'Rolling T-bills when yields fall below your HYSA rate means accepting a lower return for no additional benefit. There\'s no loyalty reward — always compare current yields before each application.',
-                        isIdeal: false,
-                      },
-                      {
-                        text: 'Skip this T-bill cycle and leave the funds in your HYSA instead.',
-                        biasLabel: 'Best move ✓',
-                        biasExplanation: 'When T-bill yields fall below your HYSA effective rate, your HYSA is the better instrument — with full liquidity on top. Review each T-bill cycle independently rather than rolling automatically.',
-                        isIdeal: true,
-                      },
-                      {
-                        text: 'Switch to an SSB for a longer-term rate lock.',
-                        biasLabel: 'Reasonable if rates are falling',
-                        biasExplanation: 'If you expect yields to continue falling, locking into an SSB\'s step-up structure could make sense. But if your HYSA is already outperforming, that\'s the simpler choice for now.',
-                        isIdeal: false,
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                type: 'tindertruefalse',
-                title: 'T-Bills — True or False?',
-                instruction: 'Swipe right for True · Swipe left for False',
-                statements: [
-                  {
-                    text: 'A non-competitive T-bill bid guarantees you will receive allotment at the auction\'s cut-off yield.',
-                    isTrue: true,
-                    explanation: 'Non-competitive bids accept whatever yield the auction determines — you are guaranteed allotment. Competitive bids specify a yield and risk being shut out if the auction clears lower.',
-                  },
-                  {
-                    text: 'T-bills pay interest every 6 months like SSBs.',
-                    isTrue: false,
-                    explanation: 'T-bills do not pay periodic interest. They are sold at a discount to face value — your return is the difference between what you pay and the $1 face value you receive at maturity.',
-                  },
-                  {
-                    text: 'You can use CPF Ordinary Account funds to apply for Singapore T-bills.',
-                    isTrue: true,
-                    explanation: 'T-bills are CPF-OA eligible — one of the few short-term instruments that allows CPF funds to be deployed at market rates. This only makes sense when T-bill yields exceed the CPF-OA\'s 2.5% p.a. guaranteed rate.',
-                  },
-                  {
-                    text: 'T-bills can be redeemed early through MAS with no penalty, similar to SSBs.',
-                    isTrue: false,
-                    explanation: 'T-bills cannot be redeemed early through MAS. If you need funds before maturity, you would need to sell on the secondary market — which may be at a discount and involves transaction costs.',
-                  },
-                  {
-                    text: 'Using CPF-OA funds for T-bills always makes financial sense regardless of the cut-off yield.',
-                    isTrue: false,
-                    explanation: 'CPF-OA funds earn a guaranteed 2.5% p.a. Using them for T-bills only makes sense when the T-bill cut-off yield exceeds 2.5%. If yields are below this, you are better off leaving funds in CPF-OA.',
-                  },
-                ],
-              },
-              {
-                type: 'bot',
-                label: '💬 Current T-bill cut-off yields and upcoming auction dates',
-                prompt: 'Singapore T-bill latest cut-off yield 6-month 1-year upcoming auction dates MAS 2025',
-              },
-            ],
-            flashcards: [
-              { q: 'What is a T-bill and how does it generate a return?', a: 'A short-term Singapore government security sold at a discount to face value. You pay less than $1,000 and receive $1,000 at maturity — the difference is your return.' },
-              { q: 'What is the difference between a competitive and non-competitive T-bill bid?', a: 'A competitive bid specifies a yield and risks being shut out. A non-competitive bid accepts whatever cut-off yield the auction determines and guarantees allotment — always choose non-competitive.' },
-              { q: 'Can you use CPF Ordinary Account funds to buy T-bills?', a: 'Yes — T-bills are CPF-OA eligible. It only makes sense when the T-bill cut-off yield exceeds the CPF-OA\'s guaranteed rate of 2.5% p.a.' },
-              { q: 'Can T-bills be redeemed early like SSBs?', a: 'No — T-bills cannot be redeemed early through MAS. Early exit requires selling on the secondary market, which may be at a discount and involves transaction costs.' },
-              { q: 'When should you choose a T-bill over an SSB?', a: 'When you want a shorter fixed horizon (6 months or 1 year), want to deploy CPF-OA funds, or when T-bill auction yields are more attractive than the current SSB rate.' },
-            ],
+              duration: '5 min',
+              fincoins: 55,
+              sections: [
+
+                // ─── SECTION 1 ───────────────────────────
+                {
+                  key: 'what',
+                  title: 'What Are T-Bills?',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'What Are T-Bills?',
+                    },
+                    {
+                      type: 'text',
+                      text: 'T-bills are the shortest-term government securities available in Singapore — 6 months or 1 year. Unlike SSBs which pay step-up interest over time, T-bills work differently: you buy them at a discount to their face value and receive the full face value at maturity. The difference between what you pay and what you receive is your return. No monthly interest, no coupons — just buy low, redeem high.',
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'T-bills are issued by MAS and backed by the Singapore government — the same zero default risk as SSBs. The key difference is tenor and mechanic: T-bills are shorter (6 months or 1 year) and sold via auction rather than at a fixed rate.',
+                    },
+                    {
+                      type: 'keyterm',
+                      term: 'Treasury Bill (T-Bill)',
+                      definition: 'A short-term Singapore government security with a 6-month or 1-year tenor, sold at a discount to its face value of $1. Your return is the difference between the discounted purchase price and the $1 face value received at maturity.',
+                    },
+                    {
+                      type: 'text',
+                      text: 'T-bills have three mechanics that make them different from every other savings instrument covered so far — the auction, the discount pricing, and the maturity payout.',
+                    },
+                    {
+                      type: 'timeline',
+                      title: 'How T-bills work:',
+                      nodes: [
+                        {
+                          icon: '🏛️',
+                          label: 'The Auction',
+                          sublabel: 'Competitive vs non-competitive',
+                          color: '#4F46E5',
+                          examples: ['Held every 2–4 weeks', 'Non-competitive bid recommended', 'Cut-off yield set by market'],
+                          details: [
+                            'T-bills are sold via auction — buyers submit bids indicating the yield they are willing to accept.',
+                            'Competitive bids specify a yield — if your bid yield is higher than the cut-off, you are shut out entirely.',
+                            'Non-competitive bids accept whatever cut-off yield the auction determines — you are guaranteed allotment at the market rate.',
+                          ],
+                          tip: 'Always submit a non-competitive bid. Competitive bids risk being shut out entirely if the market clears at a lower yield than you specified.',
+                        },
+                        {
+                          icon: '💹',
+                          label: 'Discount Pricing',
+                          sublabel: 'Buy below face value',
+                          color: '#0891B2',
+                          examples: ['Face value: $1 per unit', 'Min. application: $1,000', 'You pay less than $1,000'],
+                          details: [
+                            'T-bills have a face value of $1 per unit. You apply for a minimum of $1,000 face value.',
+                            'The actual amount you pay is less than $1,000 — the discount reflects the yield.',
+                            'Example: a 6-month T-bill at 3.5% p.a. means you pay approximately $982.50 for $1,000 face value — earning $17.50 over 6 months.',
+                          ],
+                          tip: 'Your bank account is debited the discounted amount — not the full $1,000. The $17.50 difference is your return, credited at maturity.',
+                        },
+                        {
+                          icon: '🏁',
+                          label: 'Maturity',
+                          sublabel: 'Receive full face value',
+                          color: '#059669',
+                          examples: ['Receive exactly $1 per unit', 'Credited to bank account', 'No auto-renewal'],
+                          details: [
+                            'At maturity — 6 months or 1 year after issuance — you receive the full face value of $1 per unit.',
+                            'The maturity proceeds are credited directly to your linked bank account or CPF-OA.',
+                            'Unlike FDs, T-bills do not auto-renew — you must actively apply for a new T-bill if you want to reinvest.',
+                          ],
+                          tip: 'Set a calendar reminder before your T-bill matures — if you want to reinvest, you need to actively apply for the next auction.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'T-Bill Quick Reference',
+                    },
+                    {
+                      type: 'table',
+                      firstColAccent: true,
+                      headers: ['Feature', 'Details'],
+                      rows: [
+                        ['Issued by', 'Monetary Authority of Singapore (MAS)'],
+                        ['Tenor', '6 months or 1 year'],
+                        ['Minimum investment', '$1,000 (in multiples of $1,000)'],
+                        ['How return is paid', 'Discount at purchase — full face value at maturity'],
+                        ['Auction frequency', 'Every 2–4 weeks (6-month), monthly (1-year)'],
+                        ['CPF-OA eligible', 'Yes — can use CPF Ordinary Account funds'],
+                        ['SRS eligible', 'Yes — can use Supplementary Retirement Scheme funds'],
+                        ['Default risk', 'Zero — Singapore government backed'],
+                        ['Early redemption', 'Not redeemable — secondary market sale only'],
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Current T-bill cut-off yields and upcoming auction dates',
+                      prompt: 'Singapore T-bill latest cut-off yield 6-month 1-year upcoming auction dates MAS 2025',
+                    },
+                    {
+                      type: 'tindertruefalse',
+                      exerciseId: '6-3-s1-tinder',
+                      fincoins: 10,
+                      title: 'T-Bills — True or False?',
+                      instruction: 'Swipe right for True · Swipe left for False',
+                      statements: [
+                        {
+                          text: 'A non-competitive T-bill bid guarantees you will receive allotment at the auction\'s cut-off yield.',
+                          isTrue: true,
+                          explanation: 'Non-competitive bids accept whatever yield the auction determines — you are guaranteed allotment. Competitive bids specify a yield and risk being shut out if the auction clears lower.',
+                        },
+                        {
+                          text: 'T-bills pay interest every 6 months like SSBs.',
+                          isTrue: false,
+                          explanation: 'T-bills do not pay periodic interest. They are sold at a discount to face value — your return is the difference between what you pay and the $1 face value you receive at maturity.',
+                        },
+                        {
+                          text: 'You can use CPF Ordinary Account funds to apply for Singapore T-bills.',
+                          isTrue: true,
+                          explanation: 'T-bills are CPF-OA eligible — one of the few short-term instruments that allows CPF funds to be deployed at market rates. This only makes sense when T-bill yields exceed the CPF-OA\'s 2.5% p.a. guaranteed rate.',
+                        },
+                        {
+                          text: 'T-bills can be redeemed early through MAS with no penalty, similar to SSBs.',
+                          isTrue: false,
+                          explanation: 'T-bills cannot be redeemed early through MAS. If you need funds before maturity, you would need to sell on the secondary market — which may be at a discount and involves transaction costs.',
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 2 ───────────────────────────
+                {
+                  key: 'apply',
+                  title: 'Applying via CPF/Cash',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Applying via CPF/Cash',
+                    },
+                    {
+                      type: 'text',
+                      text: 'One of T-bills\' most distinctive features is that they can be purchased using CPF Ordinary Account (OA) funds — making them one of the few short-term instruments where your CPF savings can earn a competitive market rate. Here\'s how to apply, whether using cash or CPF.',
+                    },
+                    {
+                      type: 'steps',
+                      steps: [
+                        'Ensure you have a CDP account linked to your bank account (DBS, OCBC, or UOB). The same CDP account used for SSBs works for T-bills.',
+                        'Check the upcoming T-bill auction schedule on the MAS website — note the application opening and closing dates.',
+                        'Log into your bank\'s internet banking. Navigate to "Investments" or "Singapore Government Securities" and select T-bill application.',
+                        'Enter your application amount (minimum $1,000, multiples of $1,000) and select "Non-Competitive Bid" to guarantee allotment at the cut-off yield.',
+                        'Choose your funding source — cash (bank account debited) or CPF-OA (CPF account debited the discounted amount).',
+                        'Wait for allotment results — announced 1–2 business days after auction closes. Your account is debited the discounted purchase price.',
+                        'At maturity, the full face value ($1,000 per unit) is credited to your linked bank account or CPF-OA automatically.',
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'tip',
+                      text: 'Always submit a non-competitive bid. Competitive bids specify a yield — if the auction clears at a lower yield than you specified, your bid is rejected and you receive nothing. Non-competitive bids guarantee allotment at whatever yield the market determines.',
+                    },
+                    {
+                      type: 'subheading',
+                      text: 'Common T-Bill Misconceptions',
+                    },
+                    {
+                      type: 'flipcards',
+                      variant: 'reframe',
+                      title: 'Common misconceptions → the reality:',
+                      cards: [
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"I need to know the right yield to bid — T-bills are too complicated for a beginner."',
+                          back: 'Submit a non-competitive bid and you automatically receive the cut-off yield. You don\'t need to know anything about yields to participate — just enter your amount and select non-competitive.',
+                          tag: 'Non-competitive bids remove all complexity',
+                        },
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"I\'m paying a discount upfront — that means I\'m losing money from the start."',
+                          back: 'The discount is your return, not a fee. You pay $982.50 for $1,000 face value — at maturity you receive $1,000. The $17.50 difference is interest earned. You are always better off at maturity than at purchase.',
+                          tag: 'Discount = your return, not a cost',
+                        },
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"I can redeem my T-bill early if I need the money — just like an SSB."',
+                          back: 'T-bills cannot be redeemed early through MAS. Early exit requires selling on the secondary market — which may be at a discount and involves transaction fees. Only invest money you won\'t need before maturity.',
+                          tag: 'T-bills are not redeemable early',
+                        },
+                        {
+                          frontLabel: '❌ Misconception',
+                          backLabel: '✅ Reality',
+                          front: '"Using CPF-OA for T-bills always makes sense — it\'s still government-backed money."',
+                          back: 'CPF-OA already earns a guaranteed 2.5% p.a. Using it for T-bills only makes sense when the T-bill cut-off yield exceeds 2.5%. Always compare before deploying CPF funds.',
+                          tag: 'Only use CPF if T-bill yield > 2.5% p.a.',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do I apply for a T-bill using CPF OA funds in Singapore?',
+                      prompt: 'how to apply Singapore T-bill CPF OA funds internet banking steps 2025',
+                    },
+                  ],
+                },
+
+                // ─── SECTION 3 ───────────────────────────
+                {
+                  key: 'vs',
+                  title: 'T-Bills vs SSB vs FD',
+                  fincoins: 10,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'T-Bills vs SSB vs FD',
+                    },
+                    {
+                      type: 'text',
+                      text: 'T-bills, SSBs, and fixed deposits are all low-risk instruments — but they suit different situations. Here\'s how they compare across the dimensions that matter most.',
+                    },
+                    {
+                      type: 'table',
+                      headers: ['Feature', 'T-Bill', 'SSB', 'Fixed Deposit'],
+                      rows: [
+                        ['Tenor', '6 months or 1 year', 'Up to 10 years', '1–36 months'],
+                        ['Minimum investment', '$1,000', '$500', '$1,000'],
+                        ['Return paid', 'Discount at purchase', 'Every 6 months to bank', 'At maturity'],
+                        ['Early exit', 'Secondary market only', 'Redeem any month, no penalty', 'Forfeit all interest'],
+                        ['CPF-OA eligible', '✅ Yes', '❌ No', '❌ No'],
+                        ['SRS eligible', '✅ Yes', '✅ Yes', '✅ Yes'],
+                        ['Rate set by', 'Market auction', 'MAS (fixed monthly)', 'Bank (fixed at placement)'],
+                        ['Default risk', 'Zero', 'Zero', 'Low (SDIC up to $75k)'],
+                        ['Auto-renewal', 'No — manual reapplication', 'No', 'Yes — at prevailing rate'],
+                      ],
+                    },
+                    {
+                      type: 'callout',
+                      variant: 'fact',
+                      text: 'The CPF-OA eligibility column is the key differentiator — T-bills are the only short-term low-risk instrument that lets you deploy CPF Ordinary Account funds at a market-determined rate.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 How do T-bills compare to SSBs and fixed deposits in Singapore right now?',
+                      prompt: 'Singapore T-bills vs SSB vs fixed deposit comparison rates 2025 which is better students',
+                    },
+                    {
+                      type: 'scenarios',
+                      exerciseId: '6-3-s3-scenarios',
+                      fincoins: 10,
+                      title: 'T-Bill, SSB, or Fixed Deposit?',
+                      scenarios: [
+                        {
+                          icon: '💼',
+                          situation: 'You have $10,000 in your CPF Ordinary Account earning 2.5% p.a. The latest 6-month T-bill cut-off yield is 3.8% p.a. You won\'t need these CPF funds for at least 6 months.',
+                          options: [
+                            {
+                              text: 'Leave the CPF-OA funds earning 2.5% p.a. — it\'s guaranteed and hassle-free.',
+                              biasLabel: 'Leaving money behind',
+                              biasExplanation: 'At 3.8% vs 2.5%, the T-bill earns an additional 1.3% p.a. — on $10,000 for 6 months, that\'s an extra $65. When T-bill yields meaningfully exceed 2.5%, using CPF-OA funds is worth the effort.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Apply for the 6-month T-bill using CPF-OA funds via internet banking.',
+                              biasLabel: 'Best use of CPF-OA ✓',
+                              biasExplanation: 'When T-bill yields exceed the CPF-OA rate of 2.5%, applying with CPF funds earns a better return on money that would otherwise sit idle. The process is straightforward via your bank\'s internet banking.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Put the $10,000 in an SSB instead — same government backing, more flexibility.',
+                              biasLabel: 'SSBs can\'t use CPF funds',
+                              biasExplanation: 'SSBs are not eligible for CPF-OA investment — you can only apply with cash or SRS funds. To deploy CPF-OA savings at a higher rate, T-bills are the primary option.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🎓',
+                          situation: 'You have $3,000 in cash savings. You\'re graduating in 7 months and plan to use this money for initial work expenses. You want the best return with minimal risk.',
+                          options: [
+                            {
+                              text: 'Apply for a 6-month T-bill — government-backed and matures before graduation.',
+                              biasLabel: 'Strong choice ✓',
+                              biasExplanation: 'A 6-month T-bill aligns with your 7-month horizon, carries zero default risk, and typically offers competitive yields. Just ensure the maturity date falls before you need the funds.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Put it in an SSB for flexibility in case plans change.',
+                              biasLabel: 'Also reasonable',
+                              biasExplanation: 'An SSB is a solid alternative — especially if your timeline might shift. Note that SSB redemption takes up to one month, so plan accordingly if your graduation date is fixed.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Place it in a 6-month fixed deposit at the same rate.',
+                              biasLabel: 'Similar outcome, less safe',
+                              biasExplanation: 'An FD at the same rate is functionally similar — but T-bills are government-backed while FDs rely on SDIC insurance. For the same rate, T-bills carry marginally lower issuer risk.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                        {
+                          icon: '🔄',
+                          situation: 'You\'ve been rolling T-bills every 6 months for a year. The latest auction cut-off yield has dropped to 2.3% p.a. — below your HYSA\'s effective rate of 3.2%.',
+                          options: [
+                            {
+                              text: 'Continue rolling T-bills — consistency is important.',
+                              biasLabel: 'Loyalty over returns',
+                              biasExplanation: 'Rolling T-bills when yields fall below your HYSA rate means accepting a lower return for no additional benefit. There\'s no loyalty reward — always compare current yields before each application.',
+                              isIdeal: false,
+                            },
+                            {
+                              text: 'Skip this T-bill cycle and leave the funds in your HYSA instead.',
+                              biasLabel: 'Best move ✓',
+                              biasExplanation: 'When T-bill yields fall below your HYSA effective rate, your HYSA is the better instrument — with full liquidity on top. Review each T-bill cycle independently rather than rolling automatically.',
+                              isIdeal: true,
+                            },
+                            {
+                              text: 'Switch to an SSB for a longer-term rate lock.',
+                              biasLabel: 'Reasonable if rates are falling',
+                              biasExplanation: 'If you expect yields to continue falling, locking into an SSB\'s step-up structure could make sense. But if your HYSA is already outperforming, that\'s the simpler choice for now.',
+                              isIdeal: false,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // ─── SECTION 4 ───────────────────────────
+                {
+                  key: 'challenge',
+                  title: 'Challenge',
+                  fincoins: 25,
+                  content: [
+                    {
+                      type: 'heading',
+                      text: 'Challenge: T-Bills & Low-Risk Instruments',
+                    },
+                    {
+                      type: 'text',
+                      text: 'Three questions on how T-bills work, how to apply, and when to choose them over SSBs or fixed deposits.',
+                    },
+                    {
+                      type: 'bot',
+                      label: '💬 Quick recap — key facts about Singapore T-bills?',
+                      prompt: 'Singapore T-bills key facts summary how to buy CPF eligible non-competitive bid 2025',
+                    },
+                    {
+                      type: 'multistepmcq',
+                      exerciseId: '6-3-s4-mcq',
+                      fincoins: 25,
+                      icon: '🎯',
+                      title: 'T-Bills & Low-Risk Instruments',
+                      questions: [
+                        {
+                          concept: 'How T-bills work',
+                          question: 'A student applies for $5,000 face value of a 6-month T-bill at a cut-off yield of 3.6% p.a. Approximately how much is debited from their bank account at allotment?',
+                          options: [
+                            '$5,000 — you pay the full face value upfront and receive interest separately at maturity',
+                            '$4,910 — the discount reflects 3.6% p.a. for 6 months (1.8%) applied to $5,000',
+                            '$4,820 — T-bills apply a 1% placement fee on top of the discount',
+                            '$5,180 — you pay a premium above face value and receive a rebate at maturity',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'T-bills are sold at a discount. A 3.6% p.a. yield over 6 months is 1.8% — so you pay approximately $5,000 × (1 − 0.018) = $4,910. At maturity you receive the full $5,000. The $90 difference is your return.',
+                        },
+                        {
+                          concept: 'CPF and T-bills',
+                          question: 'A student has $8,000 in CPF-OA earning 2.5% p.a. The latest 6-month T-bill cut-off yield is 2.2% p.a. Should they deploy their CPF-OA into the T-bill?',
+                          options: [
+                            'Yes — T-bills are government-backed so any rate is worth it',
+                            'Yes — CPF-OA funds are idle and any additional return is a bonus',
+                            'No — the T-bill yield of 2.2% is below the CPF-OA\'s guaranteed 2.5% p.a., so deploying CPF funds would reduce their return',
+                            'No — CPF-OA funds cannot be used for T-bills under any circumstances',
+                          ],
+                          correctIndex: 2,
+                          explanation: 'CPF-OA already earns a guaranteed 2.5% p.a. A T-bill yielding only 2.2% would earn less — making it counterproductive to deploy CPF funds. Only use CPF-OA for T-bills when the cut-off yield meaningfully exceeds 2.5%.',
+                        },
+                        {
+                          concept: 'T-bill vs alternatives',
+                          question: 'A student needs their $4,000 savings in approximately 6 months. They are comparing a 6-month T-bill vs a 6-month fixed deposit at the same rate. What is the key advantage of the T-bill?',
+                          options: [
+                            'T-bills pay higher interest than fixed deposits for the same term',
+                            'T-bills are backed by the Singapore government while fixed deposits rely on SDIC insurance up to $75,000 — lower issuer risk for the same rate',
+                            'T-bills can be redeemed early with no penalty while fixed deposits cannot',
+                            'T-bills have no minimum investment while fixed deposits require $10,000',
+                          ],
+                          correctIndex: 1,
+                          explanation: 'At the same rate, T-bills carry marginally lower issuer risk — they are direct government obligations vs bank FDs which are SDIC-insured up to $75,000. For a student with $4,000, both instruments are functionally safe, but T-bills represent the cleaner government guarantee.',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+
+              flashcards: [
+                {
+                  q: 'What is a T-bill and how does it generate a return?',
+                  a: 'A short-term Singapore government security sold at a discount to face value. You pay less than $1,000 and receive $1,000 at maturity — the difference is your return.',
+                },
+                {
+                  q: 'What is the difference between a competitive and non-competitive T-bill bid?',
+                  a: 'A competitive bid specifies a yield and risks being shut out. A non-competitive bid accepts whatever cut-off yield the auction determines and guarantees allotment — always choose non-competitive.',
+                },
+                {
+                  q: 'Can you use CPF Ordinary Account funds to buy T-bills?',
+                  a: 'Yes — T-bills are CPF-OA eligible. It only makes sense when the T-bill cut-off yield exceeds the CPF-OA\'s guaranteed rate of 2.5% p.a.',
+                },
+                {
+                  q: 'Can T-bills be redeemed early like SSBs?',
+                  a: 'No — T-bills cannot be redeemed early through MAS. Early exit requires selling on the secondary market, which may be at a discount and involves transaction costs.',
+                },
+                {
+                  q: 'When should you choose a T-bill over an SSB?',
+                  a: 'When you want a shorter fixed horizon (6 months or 1 year), want to deploy CPF-OA funds, or when T-bill auction yields are more attractive than the current SSB rate.',
+                },
+              ],
             },
           ],
         },
