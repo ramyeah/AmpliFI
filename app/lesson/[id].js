@@ -7,8 +7,12 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getLessonById, getChapterByLessonId, getModuleByLessonId } from '../../constants/modules';
+import { getLessonById, getChapterByLessonId, getModuleByLessonId, getNextLesson } from '../../constants/modules';
 import { renderBlock } from '../../components/ContentBlocks';
+import { useLessonStore } from '../../store/useLessonStore';
+import useUserStore from '../../store/userStore';
+import { auth } from '../../lib/firebase';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SW = SCREEN_WIDTH - 48;
@@ -160,6 +164,12 @@ export default function LessonScreen() {
   const hasNewFormat = sections.length > 0;
   const flashcards   = lesson?.flashcards ?? [];
   const moduleColor  = module?.color || '#4F46E5';
+  const nextLesson = getNextLesson(id);
+
+  const { isLessonComplete, getSavedExercises, completeLesson } = useLessonStore();
+  const userId = useUserStore((state) => state.profile?.uid) ?? auth.currentUser?.uid;
+  const alreadyComplete = isLessonComplete(id);
+  const savedExercises  = getSavedExercises(id);
 
   // FIX 1: Build a unified progress-bar step list that appends the flashcard
   // step as a 5th node when flashcards exist. The content sections array is
@@ -168,11 +178,17 @@ export default function LessonScreen() {
 
   // ── State ────────────────────────────────────────────
   const [currentSection,     setCurrentSection]     = useState(0);
-  const [completedSections,  setCompletedSections]  = useState([]);
-  const [completedExercises, setCompletedExercises] = useState({});
+  const [completedSections,  setCompletedSections]  = useState(() =>
+    alreadyComplete ? sections.map((_, i) => i) : []
+    );
+    const [completedExercises, setCompletedExercises] = useState(() =>
+      savedExercises
+    );
+    const [showContinueCard, setShowContinueCard] = useState(
+      () => alreadyComplete
+    );
   const [attemptedExercises, setAttemptedExercises] = useState({});
   const [sectionFincoins,    setSectionFincoins]    = useState({});
-  const [showContinueCard,   setShowContinueCard]   = useState(false);
 
   // Toast
   const [toastAmount,  setToastAmount]  = useState(0);
@@ -181,7 +197,7 @@ export default function LessonScreen() {
 
   // Flashcard pager
   const [cardIndex, setCardIndex] = useState(0);
-  const highestReachedRef = useRef(0);
+  const highestReachedRef = useRef(alreadyComplete ? sections.length - 1 : 0);  const sectionFincoinsRef = useRef({});
 
   useEffect(() => {
     return () => { if (toastTimer.current) clearTimeout(toastTimer.current); };
@@ -227,10 +243,14 @@ export default function LessonScreen() {
         if (prev[exerciseId]) return prev;
         return { ...prev, [exerciseId]: true };
       });
-      setSectionFincoins(prev => ({
-        ...prev,
-        [sectionIndex]: (prev[sectionIndex] || 0) + fincoins,
-      }));
+      setSectionFincoins(prev => {
+        const updated = {
+          ...prev,
+          [sectionIndex]: (prev[sectionIndex] || 0) + fincoins,
+        };
+        sectionFincoinsRef.current = updated;
+        return updated;
+      });
       setToastAmount(fincoins);
       setToastVisible(false);
       if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -253,7 +273,11 @@ export default function LessonScreen() {
       highestReachedRef.current = Math.max(highestReachedRef.current, next);
       setCurrentSection(next);
     } else {
-      router.push(`/quiz/${id}`);
+      const totalFincoins = Object.values(sectionFincoinsRef.current).reduce((a, b) => a + b, 0);
+      if (userId) {
+        completeLesson(userId, id, totalFincoins, completedExercises);
+      }
+      router.push(`/lesson-complete/${id}?fincoins=${totalFincoins}`);
     }
   }, [sections.length, id, router]);
 
@@ -262,8 +286,9 @@ export default function LessonScreen() {
   }, []);
 
   // ── Content renderer ─────────────────────────────────
-  const renderSectionContent = (section, sectionIndex) =>
-    section.content.map((block, i) => {
+  const renderSectionContent = (section, sectionIndex) => {
+    if (!section?.content) return null;
+    return section.content.map((block, i) => {
       const EARNABLE_TYPES = new Set(['tindertruefalse', 'scenarios', 'multistepmcq', 'mcq']);
       const isExercise = EARNABLE_TYPES.has(block.type);
       const isCompleted = isExercise && !!completedExercises[block.exerciseId];
@@ -277,6 +302,7 @@ export default function LessonScreen() {
         : block;
       return renderBlock(enhanced, i);
     });
+  };
 
 
   // ── Derived flags ────────────────────────────────────
@@ -286,27 +312,58 @@ export default function LessonScreen() {
   // ─────────────────────────────────────────────────────
   return (
     <View style={s.root}>
-
       {/* FinCoin toast */}
       <FinCoinToast amount={toastAmount} visible={toastVisible} />
-
       {/* ── Static header ── */}
-      // inside LessonScreen return, replace your current header View with:
       <View
         style={[
           s.header,
           { backgroundColor: moduleColor, paddingTop: insets.top + 8 },
         ]}
       >
-        {/* Back button with more spacing below */}
-        <TouchableOpacity
-          onPress={() => router.replace('/tabs/learn')}
-          style={s.backBtn}
-          activeOpacity={0.7}
-        >
-          <Text style={s.backIcon}>←</Text>
-          <Text style={s.backText}>Back</Text>
-        </TouchableOpacity>
+        {/* Top row: Back + Next */}
+        <View style={s.headerTopRow}>
+          <TouchableOpacity
+            onPress={() => router.replace('/(tabs)/learn')}
+            style={s.backBtn}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="arrow-back" size={22} color="#fff" />
+          </TouchableOpacity>
+
+          {currentSection === sections.length - 1 && (
+          <TouchableOpacity
+            style={[
+              s.headerNextBtn,
+              (alreadyComplete || showContinueCard)
+                ? { borderColor: 'rgba(255,255,255,0.9)' }
+                : { borderColor: 'rgba(255,255,255,0.3)' },
+            ]}
+
+            onPress={() => {
+              if (alreadyComplete || showContinueCard) {
+                const totalFincoins = Object.values(sectionFincoinsRef.current).reduce((a, b) => a + b, 0);
+                if (userId) completeLesson(userId, id, totalFincoins, completedExercises);
+                if (nextLesson) {
+                  router.push(`/lesson/${nextLesson.id}`);
+                } else {
+                  router.push(`/lesson-complete/${id}?fincoins=${totalFincoins}`);
+                }
+              } else {
+                alert('Complete this section first!');
+              }
+            }}
+            activeOpacity={0.8}
+          >
+            <Text style={[
+              s.headerNextText,
+              !(alreadyComplete || showContinueCard) && { opacity: 0.4 },
+            ]}>
+              Next Lesson →
+            </Text>
+          </TouchableOpacity>
+        )}
+        </View>
 
         <View style={s.breadcrumbRow}>
           <Text numberOfLines={1} style={s.breadcrumbModule}>
@@ -317,22 +374,17 @@ export default function LessonScreen() {
             {chapter?.title}
           </Text>
         </View>
-
-        <Text
-          numberOfLines={2}
-          style={s.lessonTitle}
-        >
+        <Text numberOfLines={2} style={s.lessonTitle}>
           {lesson.icon} {lesson.title}
         </Text>
-
         <View style={s.metaRow}>
           <View style={s.metaPill}>
             <Text style={s.metaIcon}>⏱</Text>
             <Text style={s.metaText}>{lesson.duration}</Text>
           </View>
           <View style={s.metaPill}>
-            <Text style={s.metaIcon}>⭐</Text>
-            <Text style={s.metaText}>{lesson.xp} XP</Text>
+            <Text style={s.metaIcon}>🪙</Text>
+            <Text style={s.metaText}>{lesson.fincoins ?? lesson.xp} FinCoins</Text>
           </View>
           {flashcards.length > 0 && (
             <View style={s.metaPill}>
@@ -460,15 +512,24 @@ const s = StyleSheet.create({
     elevation: 4,
   },
 
+  headerTopRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
+  headerNextText: { color: '#fff', fontSize: 13, fontWeight: '700' },
+
   backBtn: {
-    flexDirection: 'row',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
-    paddingVertical: 4,
-    paddingHorizontal: 6,
+  },
+
+  headerNextBtn:  { 
+    paddingVertical: 7,
+    paddingHorizontal: 14,
     borderRadius: 999,
-    backgroundColor: 'rgba(15,23,42,0.18)',
-    marginBottom: 12, // more space below back button
+    borderWidth: 0,
+    backgroundColor: 'rgba(255,255,255,0.2)',
   },
 
   backIcon: { color: '#F9FAFB', fontSize: 16, marginRight: 2 },

@@ -5,6 +5,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import useUserStore from '../store/userStore';
 import { View, ActivityIndicator } from 'react-native';
+import { useLessonStore } from '../store/useLessonStore';
 
 export default function RootLayout() {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ export default function RootLayout() {
           const profileDoc = await getDoc(doc(db, 'users', user.uid));
           if (profileDoc.exists()) {
             setProfile(profileDoc.data());
+            await useLessonStore.getState().loadProgress(user.uid);
             setTimeout(() => router.replace('/(tabs)/home'), 100);
           } else {
             setTimeout(() => router.replace('/onboarding'), 100);
