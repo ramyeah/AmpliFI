@@ -1,19 +1,40 @@
+// app/lesson-complete/[id].js
+
 import { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getLessonById, getModuleByLessonId, getNextLesson } from '../../constants/modules';
+import { getLessonById, getModuleByLessonId, getNextLesson, MODULES } from '../../constants/modules';
 
 const C = {
   neutral1: '#111827', neutral3: '#6B7280', neutral4: '#9CA3AF',
-  border: '#E5E7EB', white: '#ffffff', success: '#059669',
-  successLight: '#DCFCE7',
+  border: '#E5E7EB', white: '#ffffff',
+};
+
+// ─── Helper: find the chapter that contains a given lesson id ─────────────────
+const getChapterByLessonId = (lessonId) => {
+  for (const mod of MODULES) {
+    for (const chapter of mod.chapters) {
+      if (chapter.lessons.some(l => l.id === lessonId)) {
+        return chapter;
+      }
+    }
+  }
+  return null;
+};
+
+// ─── Helper: is this lesson the last one in its chapter? ──────────────────────
+const isLastLessonInChapter = (lessonId) => {
+  const chapter = getChapterByLessonId(lessonId);
+  if (!chapter) return false;
+  const lastLesson = chapter.lessons[chapter.lessons.length - 1];
+  return lastLesson.id === lessonId;
 };
 
 export default function LessonCompleteScreen() {
   const { id, fincoins } = useLocalSearchParams();
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const router  = useRouter();
+  const insets  = useSafeAreaInsets();
 
   const lesson      = getLessonById(id);
   const module      = getModuleByLessonId(id);
@@ -21,7 +42,27 @@ export default function LessonCompleteScreen() {
   const moduleColor = module?.color || '#4F46E5';
   const earned      = parseInt(fincoins || '0', 10);
 
-  // ── Animations ──
+  // Determine where Continue should go:
+  // • Last lesson in chapter → chapter-complete page (bypass this screen's flow,
+  //   but since we ARE on this screen we just wire the button correctly)
+  // • Otherwise → next lesson directly
+  const isLastInChapter = isLastLessonInChapter(id);
+  const chapter         = getChapterByLessonId(id);
+
+  const handleContinue = () => {
+    if (isLastInChapter && chapter) {
+      // Go to chapter complete page
+      router.replace(`/chapter-complete/${chapter.id}`);
+    } else if (nextLesson) {
+      // Go directly to the next lesson
+      router.replace(`/lesson/${nextLesson.id}`);
+    } else {
+      // Fallback: back to learn map
+      router.replace('/(tabs)/learn');
+    }
+  };
+
+  // ── Animations ──────────────────────────────────────────────────────────────
   const fadeAnim  = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.7)).current;
   const coinAnim  = useRef(new Animated.Value(0)).current;
@@ -35,6 +76,17 @@ export default function LessonCompleteScreen() {
       Animated.spring(coinAnim, { toValue: 1, friction: 5, tension: 60, useNativeDriver: true }),
     ]).start();
   }, []);
+
+  // Continue button label
+  const continueLabel = isLastInChapter
+    ? 'Chapter Complete →'
+    : nextLesson
+      ? `Next Lesson →`
+      : 'Back to Map →';
+
+  const continueSub = !isLastInChapter && nextLesson
+    ? `${nextLesson.icon}  ${nextLesson.title}`
+    : null;
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
@@ -90,16 +142,18 @@ export default function LessonCompleteScreen() {
 
         {/* Actions */}
         <View style={s.actions}>
-          {nextLesson && (
-            <TouchableOpacity
-              style={[s.btnPrimary, { backgroundColor: moduleColor }]}
-              onPress={() => router.replace(`/lesson/${nextLesson.id}`)}
-              activeOpacity={0.85}
-            >
-              <Text style={s.btnPrimaryText}>Next Lesson →</Text>
-              <Text style={s.btnPrimarySub}>{nextLesson.icon}  {nextLesson.title}</Text>
-            </TouchableOpacity>
-          )}
+
+          {/* Primary continue button */}
+          <TouchableOpacity
+            style={[s.btnPrimary, { backgroundColor: moduleColor }]}
+            onPress={handleContinue}
+            activeOpacity={0.85}
+          >
+            <Text style={s.btnPrimaryText}>{continueLabel}</Text>
+            {continueSub && (
+              <Text style={s.btnPrimarySub}>{continueSub}</Text>
+            )}
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={s.btnSecondary}
@@ -117,61 +171,59 @@ export default function LessonCompleteScreen() {
             <Text style={s.btnGhostText}>🎮 Try the Simulation Engine</Text>
             <Text style={s.btnGhostSub}>Coming soon</Text>
           </TouchableOpacity>
-        </View>
 
+        </View>
       </ScrollView>
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  root:           { flex: 1, backgroundColor: '#F8F7FF' },
+  root:   { flex: 1, backgroundColor: '#F8F7FF' },
 
-  header:         {
-    paddingHorizontal: 24, paddingTop: 20, paddingBottom: 28,
-  },
-  headerSub:      { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '600', marginBottom: 4 },
-  headerTitle:    { fontSize: 30, fontWeight: '900', color: '#fff', marginBottom: 8 },
-  lessonName:     { fontSize: 14, color: 'rgba(255,255,255,0.85)', fontWeight: '600' },
+  header: { paddingHorizontal: 24, paddingTop: 20, paddingBottom: 28 },
+  headerSub:   { fontSize: 12, color: 'rgba(255,255,255,0.7)', fontWeight: '600', marginBottom: 4 },
+  headerTitle: { fontSize: 30, fontWeight: '900', color: '#fff', marginBottom: 8 },
+  lessonName:  { fontSize: 14, color: 'rgba(255,255,255,0.85)', fontWeight: '600' },
 
-  scroll:         { flex: 1 },
-  body:           { padding: 24, gap: 16 },
+  scroll: { flex: 1 },
+  body:   { padding: 24, gap: 16 },
 
-  coinCard:       {
+  coinCard: {
     backgroundColor: '#FFF7ED', borderRadius: 24, padding: 36,
     alignItems: 'center',
     borderWidth: 1.5, borderColor: '#FED7AA',
     shadowColor: '#EA580C', shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1, shadowRadius: 12, elevation: 4,
   },
-  coinEmoji:      { fontSize: 52, marginBottom: 8 },
-  coinAmount:     { fontSize: 52, fontWeight: '900', color: '#EA580C', lineHeight: 60 },
-  coinLabel:      { fontSize: 14, fontWeight: '700', color: '#9A3412', marginTop: 6 },
+  coinEmoji:  { fontSize: 52, marginBottom: 8 },
+  coinAmount: { fontSize: 52, fontWeight: '900', color: '#EA580C', lineHeight: 60 },
+  coinLabel:  { fontSize: 14, fontWeight: '700', color: '#9A3412', marginTop: 6 },
 
-  statsRow:       {
+  statsRow: {
     flexDirection: 'row',
     backgroundColor: C.white, borderRadius: 20,
     borderWidth: 1, borderColor: C.border,
     overflow: 'hidden',
   },
-  statBox:        { flex: 1, alignItems: 'center', paddingVertical: 16 },
-  statBoxMid:     { borderLeftWidth: 1, borderRightWidth: 1, borderColor: C.border },
-  statEmoji:      { fontSize: 20, marginBottom: 4 },
-  statValue:      { fontSize: 16, fontWeight: '800', color: C.neutral1 },
-  statLabel:      { fontSize: 10, color: C.neutral4, fontWeight: '600', marginTop: 2 },
+  statBox:    { flex: 1, alignItems: 'center', paddingVertical: 16 },
+  statBoxMid: { borderLeftWidth: 1, borderRightWidth: 1, borderColor: C.border },
+  statEmoji:  { fontSize: 20, marginBottom: 4 },
+  statValue:  { fontSize: 16, fontWeight: '800', color: C.neutral1 },
+  statLabel:  { fontSize: 10, color: C.neutral4, fontWeight: '600', marginTop: 2 },
 
   actions:        { gap: 12 },
   btnPrimary:     { borderRadius: 16, padding: 18, alignItems: 'center' },
   btnPrimaryText: { fontSize: 17, fontWeight: '800', color: C.white },
   btnPrimarySub:  { fontSize: 12, color: 'rgba(255,255,255,0.75)', marginTop: 4 },
 
-  btnSecondary:   {
+  btnSecondary: {
     borderRadius: 16, padding: 16, alignItems: 'center',
     backgroundColor: C.white, borderWidth: 1.5, borderColor: C.border,
   },
   btnSecondaryText: { fontSize: 15, fontWeight: '700', color: C.neutral1 },
 
-  btnGhost:       { borderRadius: 16, padding: 16, alignItems: 'center' },
-  btnGhostText:   { fontSize: 15, fontWeight: '700', color: C.neutral3 },
-  btnGhostSub:    { fontSize: 11, color: C.neutral4, marginTop: 2 },
+  btnGhost:    { borderRadius: 16, padding: 16, alignItems: 'center' },
+  btnGhostText: { fontSize: 15, fontWeight: '700', color: C.neutral3 },
+  btnGhostSub:  { fontSize: 11, color: C.neutral4, marginTop: 2 },
 });

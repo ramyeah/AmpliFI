@@ -1,3 +1,5 @@
+// app/chapter-complete/[chapterId].js
+
 import { useEffect, useRef, useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
@@ -38,8 +40,8 @@ function ConfettiPiece({ delay, color, startX, size }) {
         Animated.timing(y,       { toValue: SH * 0.7, duration: 2400, useNativeDriver: true }),
         Animated.timing(x,       { toValue: drift,    duration: 2400, useNativeDriver: true }),
         Animated.sequence([
-          Animated.timing(opacity, { toValue: 1,  duration: 150,  useNativeDriver: true }),
-          Animated.timing(opacity, { toValue: 0,  duration: 700, delay: 1500, useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 1, duration: 150,                      useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0, duration: 700, delay: 1500,         useNativeDriver: true }),
         ]),
         Animated.timing(rotate, { toValue: 1, duration: 2400, useNativeDriver: true }),
       ]).start();
@@ -47,21 +49,17 @@ function ConfettiPiece({ delay, color, startX, size }) {
   }, []);
 
   const spin = rotate.interpolate({
-    inputRange: [0, 1],
+    inputRange:  [0, 1],
     outputRange: ['0deg', `${Math.random() > 0.5 ? 540 : -720}deg`],
   });
 
   return (
     <Animated.View
       style={{
-        position: 'absolute',
-        left: startX,
-        top: 0,
-        width: size,
-        height: size,
+        position: 'absolute', left: startX, top: 0,
+        width: size, height: size,
         borderRadius: Math.random() > 0.5 ? size / 2 : 2,
-        backgroundColor: color,
-        opacity,
+        backgroundColor: color, opacity,
         transform: [{ translateY: y }, { translateX: x }, { rotate: spin }],
       }}
     />
@@ -71,10 +69,10 @@ function ConfettiPiece({ delay, color, startX, size }) {
 function Confetti() {
   const pieces = Array.from({ length: 50 }, (_, i) => ({
     id: i,
-    delay: Math.random() * 1000,
-    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    delay:  Math.random() * 1000,
+    color:  CONFETTI_COLORS[i % CONFETTI_COLORS.length],
     startX: Math.random() * SW,
-    size: 6 + Math.random() * 8,
+    size:   6 + Math.random() * 8,
   }));
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
@@ -88,7 +86,7 @@ function LessonRow({ lesson, isCompleted, moduleColor }) {
   return (
     <View style={[row.container, isCompleted && row.containerDone]}>
       <View style={[row.iconCircle, { backgroundColor: isCompleted ? moduleColor : '#F3F4F6' }]}>
-        <Text style={row.icon}>{isCompleted ? '✓' : lesson.icon}</Text>
+        <Text style={row.icon}>{lesson.icon}</Text>
       </View>
       <View style={row.text}>
         <Text style={row.title} numberOfLines={1}>{lesson.title}</Text>
@@ -106,27 +104,24 @@ export default function ChapterCompleteScreen() {
   const [completedLessons, setCompletedLessons] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Animations
-  const headerScale  = useRef(new Animated.Value(0.8)).current;
+  const headerScale   = useRef(new Animated.Value(0.8)).current;
   const headerOpacity = useRef(new Animated.Value(0)).current;
-  const bodyOpacity  = useRef(new Animated.Value(0)).current;
-  const badgeBounce  = useRef(new Animated.Value(-8)).current;
+  const bodyOpacity   = useRef(new Animated.Value(0)).current;
+  const badgeBounce   = useRef(new Animated.Value(-8)).current;
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    loadProgress();
-  }, []);
+  useEffect(() => { loadProgress(); }, []);
 
   useEffect(() => {
     if (!loading) {
       setShowConfetti(true);
       Animated.sequence([
         Animated.parallel([
-          Animated.spring(headerScale,   { toValue: 1,   friction: 7, tension: 70, useNativeDriver: true }),
-          Animated.timing(headerOpacity, { toValue: 1,   duration: 400,            useNativeDriver: true }),
+          Animated.spring(headerScale,   { toValue: 1, friction: 7, tension: 70, useNativeDriver: true }),
+          Animated.timing(headerOpacity, { toValue: 1, duration: 400,            useNativeDriver: true }),
         ]),
         Animated.spring(badgeBounce, { toValue: 0, friction: 5, tension: 80, useNativeDriver: true }),
-        Animated.timing(bodyOpacity,   { toValue: 1,   duration: 350,            useNativeDriver: true }),
+        Animated.timing(bodyOpacity,  { toValue: 1, duration: 350,            useNativeDriver: true }),
       ]).start();
     }
   }, [loading]);
@@ -141,21 +136,46 @@ export default function ChapterCompleteScreen() {
   if (!data || loading) return <View style={styles.container} />;
 
   const { chapter, module: mod } = data;
-  const totalFincoins = chapter.lessons.reduce((sum, l) => sum + (l.fincoins ?? 55), 0);
+
   const earnedFincoins = chapter.lessons
     .filter(l => completedLessons.includes(l.id))
     .reduce((sum, l) => sum + (l.fincoins ?? 55), 0);
 
-  // Find next chapter
+  // ── Next chapter (within same module) ──────────────────────────────────────
   const allChapters = mod.chapters;
-  const chapIdx = allChapters.findIndex(c => c.id === chapterId);
-  const nextChapter = allChapters[chapIdx + 1];
+  const chapIdx     = allChapters.findIndex(c => c.id === chapterId);
+  const nextChapter = allChapters[chapIdx + 1] ?? null;
 
-  // Find next module
-  const modIdx = MODULES.findIndex(m => m.id === mod.id);
-  const nextModule = MODULES[modIdx + 1];
+  // ── Next module ────────────────────────────────────────────────────────────
+  const modIdx     = MODULES.findIndex(m => m.id === mod.id);
+  const nextModule = MODULES[modIdx + 1] ?? null;
 
-  const handleContinue = () => router.replace('/learn');
+  // ── Is this the last chapter in the module? ───────────────────────────────
+  const isLastChapterInModule = chapIdx === allChapters.length - 1;
+
+  // ── Continue handler ───────────────────────────────────────────────────────
+  // Priority:
+  // 1. Last chapter in module → module complete page
+  // 2. Next chapter exists    → first lesson of that chapter
+  // 3. Journey complete       → back to learn map
+  const handleContinue = () => {
+    if (isLastChapterInModule) {
+      // Always show module complete when finishing the last chapter
+      router.replace(`/module-complete/${mod.id}`);
+    } else if (nextChapter) {
+      const firstLesson = nextChapter.lessons[0];
+      router.replace(`/lesson/${firstLesson.id}`);
+    } else {
+      router.replace('/(tabs)/learn');
+    }
+  };
+
+  // CTA label
+  const ctaLabel = isLastChapterInModule
+    ? `${mod.title} Complete 🏆`
+    : nextChapter
+      ? `Start ${nextChapter.title} →`
+      : 'Back to Map →';
 
   return (
     <View style={styles.container}>
@@ -166,14 +186,13 @@ export default function ChapterCompleteScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header card */}
+        {/* ── Header card ── */}
         <Animated.View
           style={[
             styles.headerCard,
             { backgroundColor: mod.color, opacity: headerOpacity, transform: [{ scale: headerScale }] },
           ]}
         >
-          {/* Back button */}
           <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
             <Text style={styles.backBtnText}>← Back</Text>
           </TouchableOpacity>
@@ -185,14 +204,13 @@ export default function ChapterCompleteScreen() {
           <Text style={styles.completeLabel}>CHAPTER COMPLETE</Text>
           <Text style={styles.chapterTitle}>{chapter.title}</Text>
 
-          {/* Fincoins earned */}
           <View style={styles.coinChip}>
             <Text style={styles.coinEmoji}>💰</Text>
             <Text style={styles.coinText}>{earnedFincoins} FinCoins earned</Text>
           </View>
         </Animated.View>
 
-        {/* Body */}
+        {/* ── Body ── */}
         <Animated.View style={[styles.body, { opacity: bodyOpacity }]}>
 
           {/* Lessons summary */}
@@ -247,16 +265,14 @@ export default function ChapterCompleteScreen() {
         </Animated.View>
       </ScrollView>
 
-      {/* Continue CTA */}
+      {/* ── Continue CTA ── */}
       <View style={styles.ctaBar}>
         <TouchableOpacity
           style={[styles.ctaBtn, { backgroundColor: mod.color }]}
           onPress={handleContinue}
           activeOpacity={0.87}
         >
-          <Text style={styles.ctaBtnText}>
-            {nextChapter ? `Start ${nextChapter.title} →` : 'Back to Map →'}
-          </Text>
+          <Text style={styles.ctaBtnText}>{ctaLabel}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -265,8 +281,8 @@ export default function ChapterCompleteScreen() {
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F7FF' },
-  scroll:    { flex: 1 },
+  container:     { flex: 1, backgroundColor: '#F8F7FF' },
+  scroll:        { flex: 1 },
   scrollContent: { paddingBottom: 120 },
 
   headerCard: {
@@ -275,7 +291,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 36, borderBottomRightRadius: 36,
     marginBottom: 8,
   },
-  backBtn: { position: 'absolute', top: 56, left: 20, padding: 8 },
+  backBtn:     { position: 'absolute', top: 56, left: 20, padding: 8 },
   backBtnText: { fontSize: 15, fontWeight: '600', color: 'rgba(255,255,255,0.85)' },
 
   badge: {
@@ -347,7 +363,7 @@ const row = StyleSheet.create({
     width: 40, height: 40, borderRadius: 20,
     justifyContent: 'center', alignItems: 'center',
   },
-  icon:  { fontSize: 18, color: '#fff' },
+  icon:  { fontSize: 18 },
   text:  { flex: 1 },
   title: { fontSize: 14, fontWeight: '600', color: '#111827' },
   meta:  { fontSize: 12, color: '#6B7280', marginTop: 2 },

@@ -273,6 +273,12 @@ export default function LessonScreen() {
   const nextLesson  = getNextLesson(id);
   const hasNewFormat = sections.length > 0;
 
+  // True when this is the last lesson in its chapter — used to bypass
+  // the lesson-complete modal and go straight to chapter-complete.
+  const isLastInChapter =
+    chapter != null &&
+    chapter.lessons[chapter.lessons.length - 1]?.id === id;
+
   // ── Stores ───────────────────────────────────────────
   const { isLessonComplete, getSavedExercises, completeLesson } = useLessonStore();
   const userId = useUserStore((state) => state.profile?.uid) ?? auth.currentUser?.uid;
@@ -412,25 +418,23 @@ export default function LessonScreen() {
   const handleModalContinue = useCallback(() => {
     setShowLessonModal(false);
 
-    if (!lessonResult) {
-      // Fallback — just go to learn map
-      router.replace('/(tabs)/learn');
-      return;
-    }
+    // Always derive chapter/module completion locally — don't rely solely on
+    // lessonResult from Firestore, which may be null if the write failed.
+    const moduleCompleted = lessonResult?.moduleCompleted;
+    const moduleId        = lessonResult?.moduleId ?? module?.id;
+    const chapterId       = chapter?.id;
 
-    if (lessonResult.moduleCompleted) {
-      // Module complete — go to module complete screen
-      router.push(`/module-complete/${lessonResult.moduleId}`);
-    } else if (lessonResult.chapterCompleted) {
-      // Chapter complete — go to chapter complete screen
-      router.push(`/chapter-complete/${lessonResult.chapterId}`);
+    if (moduleCompleted && moduleId) {
+      router.push(`/module-complete/${moduleId}`);
+    } else if (isLastInChapter && chapterId) {
+      // Last lesson in this chapter — always go to chapter complete
+      router.push(`/chapter-complete/${chapterId}`);
     } else if (nextLesson) {
-      // Next lesson in chapter
       router.push(`/lesson/${nextLesson.id}`);
     } else {
       router.replace('/(tabs)/learn');
     }
-  }, [lessonResult, nextLesson, router]);
+  }, [lessonResult, isLastInChapter, chapter, module, nextLesson, router]);
 
   const handleDotPress = useCallback((index) => {
     setCurrentSection(index);

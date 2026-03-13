@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, Animated, Dimensions,
+  StyleSheet, Animated, Dimensions, Image,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MODULES } from '../../constants/modules';
@@ -40,7 +40,7 @@ export default function LearnScreen() {
   const router           = useRouter();
   const { scrollTo }     = useLocalSearchParams();
   const scrollRef        = useRef(null);
-  const itemLayoutsRef   = useRef({}); // id → y-offset for scrollTo
+  const itemLayoutsRef   = useRef({});
 
   const [completedLessons,  setCompletedLessons]  = useState([]);
   const [completedChapters, setCompletedChapters] = useState([]);
@@ -77,9 +77,7 @@ export default function LearnScreen() {
     if (!loading && scrollTo) {
       setTimeout(() => {
         const y = itemLayoutsRef.current[scrollTo];
-        if (y != null) {
-          scrollRef.current?.scrollTo({ y, animated: true });
-        }
+        if (y != null) scrollRef.current?.scrollTo({ y, animated: true });
       }, 350);
     }
   }, [loading, scrollTo]);
@@ -126,19 +124,29 @@ export default function LearnScreen() {
     let lessonIndex   = 0;
     let prevChapterId = null;
     let prevModuleId  = null;
+    let modNumber     = 0; // 1-based, increments each new module
+    let chapNumber    = 0; // 1-based, resets each new module
 
     allLessons.forEach((lesson, i) => {
 
       // Module banner
       if (lesson.moduleId !== prevModuleId) {
-        const mod = MODULES.find(m => m.id === lesson.moduleId);
-        items.push({ type: 'module-banner', module: mod, key: `mod-${lesson.moduleId}` });
+        modNumber++;
+        chapNumber    = 0;
+        const mod     = MODULES.find(m => m.id === lesson.moduleId);
+        items.push({
+          type:      'module-banner',
+          module:    mod,
+          modNumber,
+          key:       `mod-${lesson.moduleId}`,
+        });
         prevModuleId  = lesson.moduleId;
         prevChapterId = null;
       }
 
       // Chapter banner
       if (lesson.chapterId !== prevChapterId) {
+        chapNumber++;
         items.push({
           type:               'chapter-banner',
           chapterId:          lesson.chapterId,
@@ -147,6 +155,8 @@ export default function LearnScreen() {
           chapterDescription: lesson.chapterDescription,
           moduleColor:        lesson.moduleColor,
           isDone:             completedChapters.includes(lesson.chapterId),
+          modNumber,
+          chapNumber,
           key:                `chap-${lesson.chapterId}`,
         });
         prevChapterId = lesson.chapterId;
@@ -156,32 +166,18 @@ export default function LearnScreen() {
       const done     = completedLessons.includes(lesson.id);
       const unlocked = isLessonUnlocked(i);
       items.push({
-        type:             'lesson',
+        type:        'lesson',
         lesson,
-        position:         PATH_POSITIONS[lessonIndex % PATH_POSITIONS.length],
+        position:    PATH_POSITIONS[lessonIndex % PATH_POSITIONS.length],
         done,
         unlocked,
-        isCurrent:        i === currentIndex,
-        moduleColor:      lesson.moduleColor,
-        key:              lesson.id,
+        isCurrent:   i === currentIndex,
+        moduleColor: lesson.moduleColor,
+        key:         lesson.id,
       });
       lessonIndex++;
 
-      // Chapter trophy (after last lesson in chapter, if chapter complete)
-      const isLastInChapter =
-        i === allLessons.length - 1 ||
-        allLessons[i + 1].chapterId !== lesson.chapterId;
-
-      if (isLastInChapter && completedChapters.includes(lesson.chapterId)) {
-        items.push({
-          type:         'chapter-trophy',
-          chapterId:    lesson.chapterId,
-          chapterTitle: lesson.chapterTitle,
-          chapterIcon:  lesson.chapterIcon,
-          moduleColor:  lesson.moduleColor,
-          key:          `ctrophy-${lesson.chapterId}`,
-        });
-      }
+      // Chapter trophies removed — chapter done state is shown in the banner only
 
       // Module trophy (after last lesson in module, if module complete)
       const isLastInModule =
@@ -246,7 +242,7 @@ export default function LearnScreen() {
               >
                 <Text style={s.moduleBannerIcon}>{item.module.icon}</Text>
                 <View style={s.moduleBannerText}>
-                  <Text style={s.moduleBannerLabel}>MODULE</Text>
+                  <Text style={s.moduleBannerLabel}>MODULE {item.modNumber}</Text>
                   <Text style={s.moduleBannerTitle} numberOfLines={2}>{item.module.title}</Text>
                   <Text style={s.moduleBannerDesc}  numberOfLines={2}>{item.module.description}</Text>
                 </View>
@@ -261,6 +257,8 @@ export default function LearnScreen() {
 
           // ── Chapter banner ───────────────────────────────────────
           if (item.type === 'chapter-banner') {
+            // e.g. "1-2" = module 1, chapter 2 within that module
+            const chapLabel = `${item.modNumber}-${item.chapNumber}`;
             return (
               <View
                 key={item.key}
@@ -270,44 +268,28 @@ export default function LearnScreen() {
                   item.isDone && { borderColor: item.moduleColor + '60', borderWidth: 1.5 },
                 ]}
               >
+                {/* Numbered badge: e.g. "1-2" */}
+                <View style={[s.chapNumBadge, { backgroundColor: item.moduleColor + '18' }]}>
+                  <Text style={[s.chapNumText, { color: item.moduleColor }]}>{chapLabel}</Text>
+                </View>
+
                 <Text style={s.chapterBannerIcon}>{item.chapterIcon}</Text>
+
                 <View style={s.chapterBannerText}>
-                  <Text style={[s.chapterBannerTitle, { color: item.moduleColor }]} numberOfLines={2}>
+                  <Text style={[s.chapterBannerTitle, { color: item.moduleColor }]}>
                     {item.chapterTitle}
                   </Text>
                   {!!item.chapterDescription && (
                     <Text style={s.chapterBannerDesc} numberOfLines={1}>{item.chapterDescription}</Text>
                   )}
                 </View>
+
                 {item.isDone && (
                   <View style={[s.chapterDonePill, { backgroundColor: item.moduleColor }]}>
                     <Text style={s.chapterDoneText}>✓ Done</Text>
                   </View>
                 )}
               </View>
-            );
-          }
-
-          // ── Chapter trophy ───────────────────────────────────────
-          if (item.type === 'chapter-trophy') {
-            return (
-              <TouchableOpacity
-                key={item.key}
-                style={s.chapterTrophyRow}
-                onPress={() => router.push(`/chapter-complete/${item.chapterId}`)}
-                activeOpacity={0.8}
-              >
-                <View style={[s.chapterTrophyBadge, { borderColor: item.moduleColor }]}>
-                  <Text style={s.chapterTrophyEmoji}>🎖️</Text>
-                  <View style={s.chapterTrophyMid}>
-                    <Text style={[s.chapterTrophyLabel, { color: item.moduleColor }]}>
-                      CHAPTER COMPLETE
-                    </Text>
-                    <Text style={s.chapterTrophyTitle} numberOfLines={1}>{item.chapterTitle}</Text>
-                  </View>
-                  <Text style={[s.chapterTrophyArrow, { color: item.moduleColor }]}>›</Text>
-                </View>
-              </TouchableOpacity>
             );
           }
 
@@ -348,10 +330,18 @@ export default function LearnScreen() {
 
             const nodeStyle = [
               s.node,
-              done      && { backgroundColor: moduleColor, borderColor: moduleColor },
-              isCurrent && unlocked && { borderColor: moduleColor, borderWidth: 4 },
+              // Unlocked + incomplete: plain white bg, colored border
+              unlocked && !done && { borderColor: moduleColor },
+              // Current: slightly thicker colored border
+              isCurrent && unlocked && !done && { borderColor: moduleColor, borderWidth: 4 },
+              // Done: solid filled background
+              done && { backgroundColor: moduleColor, borderColor: moduleColor },
+              // Locked: grey + faded
               !unlocked && s.nodeLocked,
             ];
+
+            // Always show lesson icon — never a tick, even when done
+            const iconToShow = unlocked ? lesson.icon : '🔒';
 
             return (
               <View key={item.key} style={[s.nodeOuter, positionStyle]}>
@@ -364,19 +354,21 @@ export default function LearnScreen() {
                         <Text style={s.chipText}>NEXT</Text>
                       </View>
                     )}
-                    {done && (
-                      <View style={[s.chip, s.chipDone]}>
-                        <Text style={[s.chipText, { color: '#059669' }]}>✓ Done</Text>
-                      </View>
-                    )}
                     <Text
                       style={[s.nodeLabelText, !unlocked && s.nodeLabelLocked]}
                       numberOfLines={2}
                     >
                       {lesson.title}
                     </Text>
+                    {/* Meta row: coin.jpg + amount + duration */}
                     <View style={s.nodeMetaRow}>
-                      <Text style={s.nodeMeta}>🪙 {lesson.fincoins ?? lesson.xp}</Text>
+                      <View style={s.metaCoinRow}>
+                        <Image
+                          source={require('../../assets/coin.png')}
+                          style={s.coinImg}
+                        />
+                        <Text style={s.nodeMeta}>{lesson.fincoins ?? lesson.xp ?? 55}</Text>
+                      </View>
                       {!!lesson.duration && (
                         <Text style={s.nodeMeta}>⏱ {lesson.duration}</Text>
                       )}
@@ -395,9 +387,7 @@ export default function LearnScreen() {
                       </Animated.View>
                     ) : (
                       <View style={nodeStyle}>
-                        <Text style={s.nodeIcon}>
-                          {done ? '✓' : unlocked ? lesson.icon : '🔒'}
-                        </Text>
+                        <Text style={s.nodeIcon}>{iconToShow}</Text>
                       </View>
                     )}
                   </TouchableOpacity>
@@ -452,10 +442,13 @@ const s = StyleSheet.create({
   finishEmoji:  { fontSize: 36, marginBottom: 6 },
   finishText:   { fontSize: 14, color: '#9CA3AF', fontWeight: '600' },
 
+  // ── Module banner ──────────────────────────────────────────────────────────
   moduleBanner: {
     flexDirection: 'row', alignItems: 'center',
     marginHorizontal: 20, marginTop: 28, marginBottom: 8,
     borderRadius: 20, padding: 20, gap: 14,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.12, shadowRadius: 8, elevation: 4,
   },
   moduleBannerIcon:  { fontSize: 36 },
   moduleBannerText:  { flex: 1 },
@@ -472,37 +465,30 @@ const s = StyleSheet.create({
   },
   moduleDoneText: { fontSize: 16, color: '#fff', fontWeight: '800' },
 
+  // ── Chapter banner ─────────────────────────────────────────────────────────
   chapterBanner: {
-    flexDirection: 'row', alignItems: 'center',
+    flexDirection: 'row', alignItems: 'flex-start',
     marginHorizontal: 24, marginBottom: 6, marginTop: 4,
-    backgroundColor: '#fff', borderRadius: 14, padding: 14, gap: 12,
+    backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10,
     borderWidth: 1, borderColor: 'transparent',
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05, shadowRadius: 4, elevation: 1,
   },
-  chapterBannerIcon:  { fontSize: 20 },
+  // Numbered badge showing e.g. "1-2"
+  chapNumBadge: {
+    borderRadius: 8, paddingHorizontal: 8, paddingVertical: 5,
+    minWidth: 36, alignItems: 'center', justifyContent: 'center',
+    marginTop: 1,
+  },
+  chapNumText:        { fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
+  chapterBannerIcon:  { fontSize: 20, marginTop: 2 },
   chapterBannerText:  { flex: 1 },
-  chapterBannerTitle: { fontSize: 13, fontWeight: '700', marginBottom: 1 },
+  chapterBannerTitle: { fontSize: 13, fontWeight: '700', marginBottom: 3, lineHeight: 19 },
   chapterBannerDesc:  { fontSize: 11, color: '#6B7280', lineHeight: 16 },
-  chapterDonePill: {
-    borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3,
-  },
-  chapterDoneText: { fontSize: 10, fontWeight: '800', color: '#fff' },
+  chapterDonePill:    { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3, marginTop: 2 },
+  chapterDoneText:    { fontSize: 10, fontWeight: '800', color: '#fff' },
 
-  chapterTrophyRow: { paddingHorizontal: 24, marginVertical: 10 },
-  chapterTrophyBadge: {
-    flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#fff', borderRadius: 14, padding: 14,
-    borderWidth: 2, gap: 10,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.06, shadowRadius: 6, elevation: 2,
-  },
-  chapterTrophyEmoji: { fontSize: 26 },
-  chapterTrophyMid:   { flex: 1 },
-  chapterTrophyLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5, marginBottom: 2 },
-  chapterTrophyTitle: { fontSize: 13, fontWeight: '700', color: '#374151' },
-  chapterTrophyArrow: { fontSize: 24, fontWeight: '700' },
-
+  // ── Module trophy ──────────────────────────────────────────────────────────
   moduleTrophyRow: {
     flexDirection: 'row', alignItems: 'center',
     justifyContent: 'center', marginVertical: 20, gap: 16,
@@ -519,6 +505,7 @@ const s = StyleSheet.create({
   moduleTrophyTitle:     { fontSize: 15, fontWeight: '800', marginBottom: 3 },
   moduleTrophySub:       { fontSize: 12, color: '#9CA3AF' },
 
+  // ── Lesson nodes ───────────────────────────────────────────────────────────
   nodeOuter:       { marginVertical: 8 },
   nodeRow:         { flexDirection: 'row', alignItems: 'center', gap: 12 },
   nodeRowReversed: { flexDirection: 'row-reverse' },
@@ -531,7 +518,7 @@ const s = StyleSheet.create({
     shadowOpacity: 0.1, shadowRadius: 6, elevation: 4,
   },
   nodeLocked: { backgroundColor: '#F9FAFB', opacity: 0.4 },
-  nodeIcon:   { fontSize: 26, color: '#fff' },
+  nodeIcon:   { fontSize: 26 },
 
   nodeLabel:      { width: SW * 0.38 },
   nodeLabelLeft:  { alignItems: 'flex-end' },
@@ -547,9 +534,14 @@ const s = StyleSheet.create({
 
   nodeLabelText:   { fontSize: 13, fontWeight: '600', color: '#111827', lineHeight: 18 },
   nodeLabelLocked: { color: '#9CA3AF' },
-  nodeMetaRow:     { flexDirection: 'row', gap: 8, marginTop: 4, flexWrap: 'wrap' },
-  nodeMeta:        { fontSize: 11, color: '#6B7280' },
 
+  // Coin image + meta
+  nodeMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 5, flexWrap: 'wrap' },
+  metaCoinRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  coinImg:     { width: 14, height: 14, borderRadius: 7 },
+  nodeMeta:    { fontSize: 11, color: '#6B7280' },
+
+  // ── Origin node ────────────────────────────────────────────────────────────
   originNode: { alignItems: 'center', paddingVertical: 32 },
   originCircle: {
     width: 72, height: 72, borderRadius: 36,
