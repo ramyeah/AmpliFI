@@ -3,20 +3,29 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet,
-  FlatList, Animated, Dimensions
+  FlatList, Animated, Dimensions, Modal,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getLessonById, getChapterByLessonId, getModuleByLessonId, getNextLesson } from '../../constants/modules';
+import {
+  getLessonById, getChapterByLessonId,
+  getModuleByLessonId, getNextLesson,
+} from '../../constants/modules';
 import { renderBlock } from '../../components/ContentBlocks';
 import { useLessonStore } from '../../store/useLessonStore';
 import useUserStore from '../../store/userStore';
 import { auth } from '../../lib/firebase';
 import { Ionicons } from '@expo/vector-icons';
+import {
+  completeSection as completeSectionInFirestore,
+  buildSectionId,
+  getProgress,
+} from '../../lib/progress';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SW = SCREEN_WIDTH - 48;
-// ─── Shared theme tokens ──────────────────────────────
+
+// ─── Theme tokens ──────────────────────────────────────
 const C = {
   success: '#059669', successLight: '#DCFCE7',
   warning: '#F59E0B', warningLight: '#FFFBEB',
@@ -24,6 +33,7 @@ const C = {
   border: '#E5E7EB', borderLight: '#F3F4F6', white: '#ffffff',
 };
 const EARNABLE_TYPES = new Set(['tindertruefalse', 'scenarios', 'multistepmcq', 'mcq']);
+
 // ═══════════════════════════════════════════════════════
 // FLASHCARD
 // ═══════════════════════════════════════════════════════
@@ -76,7 +86,6 @@ function FinCoinToast({ amount, visible }) {
   }, [visible, amount]);
 
   if (!visible) return null;
-
   return (
     <Animated.View style={[
       toastSt.wrapper,
@@ -91,12 +100,114 @@ function FinCoinToast({ amount, visible }) {
 }
 
 // ═══════════════════════════════════════════════════════
+// LESSON COMPLETE MODAL
+// ═══════════════════════════════════════════════════════
+function LessonCompleteModal({ visible, lesson, moduleColor, sectionCount, onContinue }) {
+  const scale   = useRef(new Animated.Value(0.8)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  // Dot sweep animation — each dot fills in sequence
+  const dotAnims = useRef(
+    Array.from({ length: sectionCount }, () => new Animated.Value(0))
+  ).current;
+
+  useEffect(() => {
+    if (visible) {
+      // Reset
+      dotAnims.forEach(a => a.setValue(0));
+      scale.setValue(0.8);
+      opacity.setValue(0);
+
+      // Card entrance
+      Animated.parallel([
+        Animated.spring(scale,   { toValue: 1, friction: 7, tension: 70, useNativeDriver: true }),
+        Animated.timing(opacity, { toValue: 1, duration: 300, useNativeDriver: true }),
+      ]).start(() => {
+        // Sweep dots one by one
+        Animated.stagger(
+          120,
+          dotAnims.map(a =>
+            Animated.spring(a, { toValue: 1, friction: 6, tension: 80, useNativeDriver: true })
+          )
+        ).start();
+      });
+    } else {
+      scale.setValue(0.8);
+      opacity.setValue(0);
+    }
+  }, [visible]);
+
+  if (!lesson) return null;
+
+  return (
+    <Modal transparent visible={visible} animationType="none" statusBarTranslucent>
+      <View style={lcm.backdrop}>
+        <Animated.View style={[lcm.card, { transform: [{ scale }], opacity }]}>
+
+          {/* Top accent */}
+          <View style={[lcm.accent, { backgroundColor: moduleColor }]}>
+            <Text style={lcm.accentEmoji}>🎉</Text>
+          </View>
+
+          <View style={lcm.body}>
+            <Text style={lcm.completeLabel}>LESSON COMPLETE</Text>
+            <Text style={lcm.lessonTitle} numberOfLines={2}>
+              {lesson.icon} {lesson.title}
+            </Text>
+
+            {/* Fincoins earned */}
+            <View style={[lcm.coinRow, { backgroundColor: moduleColor + '15' }]}>
+              <Text style={lcm.coinEmoji}>💰</Text>
+              <Text style={[lcm.coinAmount, { color: moduleColor }]}>
+                +{lesson.fincoins ?? 55} FinCoins
+              </Text>
+              <Text style={lcm.coinLabel}>earned</Text>
+            </View>
+
+            {/* Section dots sweeping in */}
+            <Text style={lcm.dotsLabel}>All sections complete</Text>
+            <View style={lcm.dotsRow}>
+              {dotAnims.map((anim, i) => {
+                const bg = anim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: ['#E5E7EB', moduleColor],
+                });
+                return (
+                  <Animated.View
+                    key={i}
+                    style={[
+                      lcm.dot,
+                      { backgroundColor: bg, transform: [{ scale: anim.interpolate({ inputRange: [0, 1], outputRange: [0.6, 1] }) }] },
+                    ]}
+                  >
+                    <Animated.Text style={[lcm.dotCheck, { opacity: anim }]}>✓</Animated.Text>
+                  </Animated.View>
+                );
+              })}
+            </View>
+
+            <TouchableOpacity
+              style={[lcm.continueBtn, { backgroundColor: moduleColor }]}
+              onPress={onContinue}
+              activeOpacity={0.85}
+            >
+              <Text style={lcm.continueBtnText}>Continue →</Text>
+            </TouchableOpacity>
+          </View>
+
+        </Animated.View>
+      </View>
+    </Modal>
+  );
+}
+
+// ═══════════════════════════════════════════════════════
 // STICKY BOTTOM PROGRESS BAR
 // ═══════════════════════════════════════════════════════
 function BottomProgressBar({ sections, currentSection, completedSections, highestReached, moduleColor, onDotPress, insetBottom }) {
-  const total = sections.length;
+  const total     = sections.length;
   const doneCount = completedSections.length;
-  const progress = total > 1 ? doneCount / (total - 1) : doneCount / total;
+  const progress  = total > 1 ? doneCount / (total - 1) : doneCount / total;
 
   return (
     <View style={[bpb.wrapper, { paddingBottom: insetBottom + 8 }]}>
@@ -107,10 +218,7 @@ function BottomProgressBar({ sections, currentSection, completedSections, highes
         {sections.map((section, i) => {
           const isDone    = completedSections.includes(i);
           const isCurrent = i === currentSection;
-          // FIX 2: lock only sections strictly ahead of where the user currently is.
-          // This allows free backward AND forward revisiting of any already-reached section.
-          const isLocked = i > highestReached;
-
+          const isLocked  = i > highestReached;
 
           return (
             <TouchableOpacity
@@ -121,14 +229,14 @@ function BottomProgressBar({ sections, currentSection, completedSections, highes
             >
               <View style={[
                 bpb.dot,
-                isDone    && { backgroundColor: C.success, borderColor: C.success },
-                isCurrent && { backgroundColor: moduleColor, borderColor: moduleColor, transform: [{ scale: 1.2 }] },
+                isDone    && { backgroundColor: C.success,     borderColor: C.success },
+                isCurrent && { backgroundColor: moduleColor,   borderColor: moduleColor, transform: [{ scale: 1.2 }] },
                 isLocked  && { backgroundColor: C.borderLight, borderColor: C.border },
               ]}>
                 <Text style={[
                   bpb.dotText,
                   (isDone || isCurrent) && { color: C.white },
-                  isLocked && { color: C.border },
+                  isLocked              && { color: C.border },
                 ]}>
                   {isDone ? '✓' : isLocked ? '🔒' : i + 1}
                 </Text>
@@ -150,45 +258,47 @@ function BottomProgressBar({ sections, currentSection, completedSections, highes
 // MAIN SCREEN
 // ═══════════════════════════════════════════════════════
 export default function LessonScreen() {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const { id, section: sectionParam } = useLocalSearchParams();
+  const router  = useRouter();
+  const insets  = useSafeAreaInsets();
   const scrollRef = useRef(null);
 
   // ── Lesson data ──────────────────────────────────────
-  const lesson  = getLessonById(id);
-  const chapter = getChapterByLessonId(id);
-  const module  = getModuleByLessonId(id);
-
-  const sections     = lesson?.sections ?? [];
+  const lesson     = getLessonById(id);
+  const chapter    = getChapterByLessonId(id);
+  const module     = getModuleByLessonId(id);
+  const sections   = lesson?.sections ?? [];
+  const flashcards = lesson?.flashcards ?? [];
+  const moduleColor = module?.color || '#4F46E5';
+  const nextLesson  = getNextLesson(id);
   const hasNewFormat = sections.length > 0;
-  const flashcards   = lesson?.flashcards ?? [];
-  const moduleColor  = module?.color || '#4F46E5';
-  const nextLesson = getNextLesson(id);
 
+  // ── Stores ───────────────────────────────────────────
   const { isLessonComplete, getSavedExercises, completeLesson } = useLessonStore();
   const userId = useUserStore((state) => state.profile?.uid) ?? auth.currentUser?.uid;
   const alreadyComplete = isLessonComplete(id);
   const savedExercises  = getSavedExercises(id);
 
-  // FIX 1: Build a unified progress-bar step list that appends the flashcard
-  // step as a 5th node when flashcards exist. The content sections array is
-  // unchanged — only the progress bar receives this augmented list.
   const progressSteps = [...sections];
 
   // ── State ────────────────────────────────────────────
-  const [currentSection,     setCurrentSection]     = useState(0);
-  const [completedSections,  setCompletedSections]  = useState(() =>
+  // If a ?section= param was passed (from learn map dot), jump straight there
+  const initialSection = sectionParam != null
+    ? Math.min(parseInt(sectionParam, 10), sections.length - 1)
+    : 0;
+
+  const [currentSection,    setCurrentSection]    = useState(initialSection);
+  const [completedSections, setCompletedSections] = useState(() =>
     alreadyComplete ? sections.map((_, i) => i) : []
-    );
-    const [completedExercises, setCompletedExercises] = useState(() =>
-      savedExercises
-    );
-    const [showContinueCard, setShowContinueCard] = useState(
-      () => alreadyComplete
-    );
+  );
+  const [completedExercises, setCompletedExercises] = useState(() => savedExercises);
+  const [showContinueCard,   setShowContinueCard]   = useState(() => alreadyComplete);
   const [attemptedExercises, setAttemptedExercises] = useState({});
   const [sectionFincoins,    setSectionFincoins]    = useState({});
+
+  // Lesson complete modal
+  const [showLessonModal, setShowLessonModal] = useState(false);
+  const [lessonResult,    setLessonResult]    = useState(null); // result from completeSection
 
   // Toast
   const [toastAmount,  setToastAmount]  = useState(0);
@@ -197,57 +307,56 @@ export default function LessonScreen() {
 
   // Flashcard pager
   const [cardIndex, setCardIndex] = useState(0);
-  const highestReachedRef = useRef(alreadyComplete ? sections.length - 1 : 0);  const sectionFincoinsRef = useRef({});
+
+  const highestReachedRef  = useRef(alreadyComplete ? sections.length - 1 : initialSection);
+  const sectionFincoinsRef = useRef({});
+
+  // Jump to section on mount if deep-linked
+  useEffect(() => {
+    if (initialSection > 0) {
+      highestReachedRef.current = Math.max(highestReachedRef.current, initialSection);
+    }
+  }, []);
 
   useEffect(() => {
     return () => { if (toastTimer.current) clearTimeout(toastTimer.current); };
   }, []);
 
   // Scroll to top whenever section changes
-  // Only reset continue card if this section hasn't been completed before
   useEffect(() => {
-  scrollRef.current?.scrollTo({ y: 0, animated: true });
+    scrollRef.current?.scrollTo({ y: 0, animated: true });
   }, [currentSection]);
 
-  // Show Continue once all earnables in current section are attempted AND all passed.
-  // If the section has no earnables, show Continue immediately.
-  // Note: this effect only applies to content sections (0–3), not the flashcard step.
+  // Show Continue once all earnables in current section are passed
   useEffect(() => {
-  const section = sections[currentSection];
-  if (!section) return;
-  const earnables = section.content.filter(b => EARNABLE_TYPES.has(b.type));
-  if (earnables.length === 0) {
-    setShowContinueCard(true);
-    return;
-  }
-  const allPassed = earnables.every(b => completedExercises[b.exerciseId]);
-  setShowContinueCard(allPassed);
+    const section = sections[currentSection];
+    if (!section) return;
+    const earnables = section.content.filter(b => EARNABLE_TYPES.has(b.type));
+    if (earnables.length === 0) {
+      setShowContinueCard(true);
+      return;
+    }
+    const allPassed = earnables.every(b => completedExercises[b.exerciseId]);
+    setShowContinueCard(allPassed);
   }, [completedExercises, currentSection]);
 
   if (!lesson) return null;
 
-
   // ── Handlers ─────────────────────────────────────────
   const handleExerciseComplete = useCallback((exerciseId, fincoins, sectionIndex, correct = null, total = null) => {
-    console.log('handleExerciseComplete called', exerciseId, correct, total);
     const resolvedTotal   = total   ?? 1;
     const resolvedCorrect = correct ?? resolvedTotal;
     const passing = resolvedCorrect / resolvedTotal >= 0.7;
 
-    // Always mark attempted regardless of score
     setAttemptedExercises(prev => ({ ...prev, [exerciseId]: true }));
 
     if (passing) {
       setCompletedExercises(prev => {
-        // Guard against double-award using the latest state, not a stale closure
         if (prev[exerciseId]) return prev;
         return { ...prev, [exerciseId]: true };
       });
       setSectionFincoins(prev => {
-        const updated = {
-          ...prev,
-          [sectionIndex]: (prev[sectionIndex] || 0) + fincoins,
-        };
+        const updated = { ...prev, [sectionIndex]: (prev[sectionIndex] || 0) + fincoins };
         sectionFincoinsRef.current = updated;
         return updated;
       });
@@ -259,27 +368,69 @@ export default function LessonScreen() {
         toastTimer.current = setTimeout(() => setToastVisible(false), 2000);
       }, 100);
     }
-  }, []); // empty deps: all state via functional updaters, no stale closure possible
+  }, []);
 
-  // FIX 1 (continued): After the last content section (index 3), advance to the
-  // flashcard step (index 4 = sections.length) instead of immediately routing to
-  // the quiz. The quiz route is triggered from the flashcard step's Complete button.
-  const handleSectionComplete = useCallback((sectionIndex) => {
+  const handleSectionComplete = useCallback(async (sectionIndex) => {
+    // Mark section done locally
     setCompletedSections(prev =>
       prev.includes(sectionIndex) ? prev : [...prev, sectionIndex]
     );
+
     const next = sectionIndex + 1;
+
     if (next < sections.length) {
+      // ── Not the last section — just advance ──────────
       highestReachedRef.current = Math.max(highestReachedRef.current, next);
       setCurrentSection(next);
+
+      // Write section completion to Firestore (non-blocking)
+      completeSectionInFirestore(id, sectionIndex).catch(console.error);
+
     } else {
+      // ── Last section — full cascade ───────────────────
       const totalFincoins = Object.values(sectionFincoinsRef.current).reduce((a, b) => a + b, 0);
+
+      // Write to local store
       if (userId) {
         completeLesson(userId, id, totalFincoins, completedExercises);
       }
-      router.push(`/lesson-complete/${id}?fincoins=${totalFincoins}`);
+
+      // Write to Firestore and get cascade result
+      try {
+        const result = await completeSectionInFirestore(id, sectionIndex);
+        setLessonResult(result);
+        setShowLessonModal(true);
+      } catch (e) {
+        console.error('Progress save error:', e);
+        // Still show modal even if Firestore fails
+        setLessonResult(null);
+        setShowLessonModal(true);
+      }
     }
-  }, [sections.length, id, router]);
+  }, [sections.length, id, userId, completedExercises]);
+
+  const handleModalContinue = useCallback(() => {
+    setShowLessonModal(false);
+
+    if (!lessonResult) {
+      // Fallback — just go to learn map
+      router.replace('/(tabs)/learn');
+      return;
+    }
+
+    if (lessonResult.moduleCompleted) {
+      // Module complete — go to module complete screen
+      router.push(`/module-complete/${lessonResult.moduleId}`);
+    } else if (lessonResult.chapterCompleted) {
+      // Chapter complete — go to chapter complete screen
+      router.push(`/chapter-complete/${lessonResult.chapterId}`);
+    } else if (nextLesson) {
+      // Next lesson in chapter
+      router.push(`/lesson/${nextLesson.id}`);
+    } else {
+      router.replace('/(tabs)/learn');
+    }
+  }, [lessonResult, nextLesson, router]);
 
   const handleDotPress = useCallback((index) => {
     setCurrentSection(index);
@@ -289,10 +440,9 @@ export default function LessonScreen() {
   const renderSectionContent = (section, sectionIndex) => {
     if (!section?.content) return null;
     return section.content.map((block, i) => {
-      const EARNABLE_TYPES = new Set(['tindertruefalse', 'scenarios', 'multistepmcq', 'mcq']);
-      const isExercise = EARNABLE_TYPES.has(block.type);
+      const isExercise  = EARNABLE_TYPES.has(block.type);
       const isCompleted = isExercise && !!completedExercises[block.exerciseId];
-      const enhanced = isExercise
+      const enhanced    = isExercise
         ? {
             ...block,
             isCompleted,
@@ -304,9 +454,6 @@ export default function LessonScreen() {
     });
   };
 
-
-  // ── Derived flags ────────────────────────────────────
-
   const BOTTOM_BAR_HEIGHT = 80 + insets.bottom;
 
   // ─────────────────────────────────────────────────────
@@ -314,14 +461,18 @@ export default function LessonScreen() {
     <View style={s.root}>
       {/* FinCoin toast */}
       <FinCoinToast amount={toastAmount} visible={toastVisible} />
+
+      {/* Lesson complete modal */}
+      <LessonCompleteModal
+        visible={showLessonModal}
+        lesson={lesson}
+        moduleColor={moduleColor}
+        sectionCount={sections.length}
+        onContinue={handleModalContinue}
+      />
+
       {/* ── Static header ── */}
-      <View
-        style={[
-          s.header,
-          { backgroundColor: moduleColor, paddingTop: insets.top + 8 },
-        ]}
-      >
-        {/* Top row: Back + Next */}
+      <View style={[s.header, { backgroundColor: moduleColor, paddingTop: insets.top + 8 }]}>
         <View style={s.headerTopRow}>
           <TouchableOpacity
             onPress={() => router.replace('/(tabs)/learn')}
@@ -332,51 +483,38 @@ export default function LessonScreen() {
           </TouchableOpacity>
 
           {currentSection === sections.length - 1 && (
-          <TouchableOpacity
-            style={[
-              s.headerNextBtn,
-              (alreadyComplete || showContinueCard)
-                ? { borderColor: 'rgba(255,255,255,0.9)' }
-                : { borderColor: 'rgba(255,255,255,0.3)' },
-            ]}
-
-            onPress={() => {
-              if (alreadyComplete || showContinueCard) {
-                const totalFincoins = Object.values(sectionFincoinsRef.current).reduce((a, b) => a + b, 0);
-                if (userId) completeLesson(userId, id, totalFincoins, completedExercises);
-                if (nextLesson) {
-                  router.push(`/lesson/${nextLesson.id}`);
+            <TouchableOpacity
+              style={[
+                s.headerNextBtn,
+                (alreadyComplete || showContinueCard)
+                  ? { borderColor: 'rgba(255,255,255,0.9)' }
+                  : { borderColor: 'rgba(255,255,255,0.3)' },
+              ]}
+              onPress={() => {
+                if (alreadyComplete || showContinueCard) {
+                  handleSectionComplete(currentSection);
                 } else {
-                  router.push(`/lesson-complete/${id}?fincoins=${totalFincoins}`);
+                  alert('Complete this section first!');
                 }
-              } else {
-                alert('Complete this section first!');
-              }
-            }}
-            activeOpacity={0.8}
-          >
-            <Text style={[
-              s.headerNextText,
-              !(alreadyComplete || showContinueCard) && { opacity: 0.4 },
-            ]}>
-              Next Lesson →
-            </Text>
-          </TouchableOpacity>
-        )}
+              }}
+              activeOpacity={0.8}
+            >
+              <Text style={[
+                s.headerNextText,
+                !(alreadyComplete || showContinueCard) && { opacity: 0.4 },
+              ]}>
+                {nextLesson ? 'Next Lesson →' : 'Complete →'}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         <View style={s.breadcrumbRow}>
-          <Text numberOfLines={1} style={s.breadcrumbModule}>
-            {module?.title}
-          </Text>
+          <Text numberOfLines={1} style={s.breadcrumbModule}>{module?.title}</Text>
           <Text style={s.breadcrumbDot}>·</Text>
-          <Text numberOfLines={1} style={s.breadcrumbChapter}>
-            {chapter?.title}
-          </Text>
+          <Text numberOfLines={1} style={s.breadcrumbChapter}>{chapter?.title}</Text>
         </View>
-        <Text numberOfLines={2} style={s.lessonTitle}>
-          {lesson.icon} {lesson.title}
-        </Text>
+        <Text numberOfLines={2} style={s.lessonTitle}>{lesson.icon} {lesson.title}</Text>
         <View style={s.metaRow}>
           <View style={s.metaPill}>
             <Text style={s.metaIcon}>⏱</Text>
@@ -395,9 +533,6 @@ export default function LessonScreen() {
         </View>
       </View>
 
-
-
-
       {/* ── Scrollable content ── */}
       <ScrollView
         ref={scrollRef}
@@ -405,90 +540,77 @@ export default function LessonScreen() {
         contentContainerStyle={[s.scrollContent, { paddingBottom: BOTTOM_BAR_HEIGHT + 24 }]}
         removeClippedSubviews={false}
       >
-      {hasNewFormat ? (
-        <>
-
-          {/* Flashcards — shown in last section, before the continue button */}
-          {currentSection === sections.length - 1 && flashcards.length > 0 && (
-            <View>
-              <Text style={s.flashSectionTitle}>Review — Test Your Memory</Text>
-              <Text style={s.flashSectionSub}>Tap a card to flip · Swipe for next</Text>
-              <FlatList
-                data={flashcards}
-                horizontal
-                pagingEnabled
-                snapToInterval={SW + 16}
-                snapToAlignment="start"
-                decelerationRate="fast"
-                showsHorizontalScrollIndicator={false}
-                scrollEnabled
-                removeClippedSubviews={false}
-                getItemLayout={(_, index) => ({ length: SW + 16, offset: (SW + 16) * index, index })}
-                onScroll={(e) => setCardIndex(Math.round(e.nativeEvent.contentOffset.x / (SW + 16)))}
-                scrollEventThrottle={32}
-                keyExtractor={(_, i) => i.toString()}
-                renderItem={({ item, index }) => (
-                  <View style={{ width: SW, marginRight: 16 }}>
-                    <FlashCard card={item} index={index} total={flashcards.length} />
-                  </View>
-                )}
-                style={{ overflow: 'visible' }}
-                contentContainerStyle={{ gap: 0 }}
-              />
-              
-              <View style={s.flashDots}>
-                {flashcards.map((_, i) => (
-                  <View key={i} style={[s.flashDot, i === cardIndex && { backgroundColor: moduleColor, width: 16 }]} />
-                ))}
+        {hasNewFormat ? (
+          <>
+            {/* Flashcards — shown in last section */}
+            {currentSection === sections.length - 1 && flashcards.length > 0 && (
+              <View>
+                <Text style={s.flashSectionTitle}>Review — Test Your Memory</Text>
+                <Text style={s.flashSectionSub}>Tap a card to flip · Swipe for next</Text>
+                <FlatList
+                  data={flashcards}
+                  horizontal
+                  pagingEnabled
+                  snapToInterval={SW + 16}
+                  snapToAlignment="start"
+                  decelerationRate="fast"
+                  showsHorizontalScrollIndicator={false}
+                  scrollEnabled
+                  removeClippedSubviews={false}
+                  getItemLayout={(_, index) => ({ length: SW + 16, offset: (SW + 16) * index, index })}
+                  onScroll={(e) => setCardIndex(Math.round(e.nativeEvent.contentOffset.x / (SW + 16)))}
+                  scrollEventThrottle={32}
+                  keyExtractor={(_, i) => i.toString()}
+                  renderItem={({ item, index }) => (
+                    <View style={{ width: SW, marginRight: 16 }}>
+                      <FlashCard card={item} index={index} total={flashcards.length} />
+                    </View>
+                  )}
+                  style={{ overflow: 'visible' }}
+                  contentContainerStyle={{ gap: 0 }}
+                />
+                <View style={s.flashDots}>
+                  {flashcards.map((_, i) => (
+                    <View key={i} style={[s.flashDot, i === cardIndex && { backgroundColor: moduleColor, width: 16 }]} />
+                  ))}
+                </View>
               </View>
-            </View>
-          )}
-          {renderSectionContent(sections[currentSection], currentSection)}
+            )}
 
-          {showContinueCard && (
-            <TouchableOpacity
-              style={[s.continueBtn, { backgroundColor: moduleColor }]}
-              onPress={() => handleSectionComplete(currentSection)}
-              activeOpacity={0.85}
-            >
-              <Text style={s.continueBtnText}>
-                {currentSection === sections.length - 1 ? 'Complete Lesson →' : 'Continue →'}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </>
+            {renderSectionContent(sections[currentSection], currentSection)}
+
+            {showContinueCard && (
+              <TouchableOpacity
+                style={[s.continueBtn, { backgroundColor: moduleColor }]}
+                onPress={() => handleSectionComplete(currentSection)}
+                activeOpacity={0.85}
+              >
+                <Text style={s.continueBtnText}>
+                  {currentSection === sections.length - 1 ? 'Complete Lesson ✓' : 'Continue →'}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </>
         ) : (
-          // Legacy flat content[]
+          // Legacy flat content — no quiz button
           <>
             {(lesson.content ?? []).map((block, i) => renderBlock(block, i))}
-            <View style={s.ctaCard}>
-              <Text style={s.ctaTitle}>Ready to test yourself? 🎯</Text>
-              <TouchableOpacity
-                style={[s.quizBtn, { backgroundColor: moduleColor }]}
-                onPress={() => router.push(`/quiz/${id}`)}
-              >
-                <Text style={s.quizBtnText}>Take the Quiz →</Text>
-              </TouchableOpacity>
-            </View>
           </>
         )}
       </ScrollView>
 
-      {/* Sticky bottom progress bar — receives progressSteps (4 content + 1 flashcard) */}
+      {/* Sticky bottom progress bar */}
       {hasNewFormat && (
-        // In the JSX:
         <BottomProgressBar
           sections={progressSteps}
           currentSection={currentSection}
           completedSections={completedSections}
-          highestReached={highestReachedRef.current}   // ← ADD
+          highestReached={highestReachedRef.current}
           moduleColor={moduleColor}
           onDotPress={handleDotPress}
           insetBottom={insets.bottom}
         />
       )}
-      
-
     </View>
   );
 }
@@ -497,122 +619,52 @@ export default function LessonScreen() {
 // STYLESHEETS
 // ═══════════════════════════════════════════════════════
 
-
-
 const s = StyleSheet.create({
-    root: { flex: 1, backgroundColor: '#F8F7FF' },
+  root: { flex: 1, backgroundColor: '#F8F7FF' },
 
-    header: {
-    paddingHorizontal: 20,
-    paddingBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
-    elevation: 4,
+  header: {
+    paddingHorizontal: 20, paddingBottom: 16,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12, shadowRadius: 8, elevation: 4,
   },
-
   headerTopRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
   headerNextText: { color: '#fff', fontSize: 13, fontWeight: '700' },
-
   backBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 36, height: 36, borderRadius: 18,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center', alignItems: 'center',
   },
-
-  headerNextBtn:  { 
-    paddingVertical: 7,
-    paddingHorizontal: 14,
-    borderRadius: 999,
-    borderWidth: 0,
+  headerNextBtn: {
+    paddingVertical: 7, paddingHorizontal: 14,
+    borderRadius: 999, borderWidth: 0,
     backgroundColor: 'rgba(255,255,255,0.2)',
   },
-
-  backIcon: { color: '#F9FAFB', fontSize: 16, marginRight: 2 },
-  backText: { color: '#E5E7EB', fontSize: 13, fontWeight: '600' },
-
-  breadcrumbRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-
-  breadcrumbModule: {
-    fontSize: 11,
-    color: 'rgba(226,232,240,0.9)',
-    fontWeight: '600',
-  },
-  breadcrumbDot: {
-    fontSize: 11,
-    color: 'rgba(226,232,240,0.8)',
-    marginHorizontal: 4,
-  },
-  breadcrumbChapter: {
-    fontSize: 11,
-    color: 'rgba(226,232,240,0.8)',
-    fontWeight: '500',
-  },
-
-  lessonTitle: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: '#FFFFFF',
-    lineHeight: 26,
-    marginBottom: 14, // more space above meta pills
-  },
-
-  metaRow: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-
+  breadcrumbRow:    { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  breadcrumbModule: { fontSize: 11, color: 'rgba(226,232,240,0.9)', fontWeight: '600' },
+  breadcrumbDot:    { fontSize: 11, color: 'rgba(226,232,240,0.8)', marginHorizontal: 4 },
+  breadcrumbChapter:{ fontSize: 11, color: 'rgba(226,232,240,0.8)', fontWeight: '500' },
+  lessonTitle:      { fontSize: 20, fontWeight: '800', color: '#FFFFFF', lineHeight: 26, marginBottom: 14 },
+  metaRow:          { flexDirection: 'row', gap: 8 },
   metaPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 999,
-    backgroundColor: 'rgba(15,23,42,0.25)',
+    flexDirection: 'row', alignItems: 'center',
+    paddingHorizontal: 8, paddingVertical: 4,
+    borderRadius: 999, backgroundColor: 'rgba(15,23,42,0.25)',
   },
+  metaIcon: { fontSize: 11, marginRight: 4 },
+  metaText: { fontSize: 11, color: '#F9FAFB', fontWeight: '600' },
 
-  metaIcon: {
-    fontSize: 11,
-    marginRight: 4,
-  },
-  metaText: {
-    fontSize: 11,
-    color: '#F9FAFB',
-    fontWeight: '600',
-  },
-
-  // ── Scroll ──
   scroll:        { flex: 1 },
   scrollContent: { padding: 16 },
 
-  // ── Continue button ──
   continueBtn:     { borderRadius: 14, padding: 18, alignItems: 'center', marginTop: 20, marginBottom: 8 },
   continueBtnText: { color: '#ffffff', fontSize: 17, fontWeight: '800' },
 
-  // ── CTA (legacy) ──
-  ctaCard:    { backgroundColor: C.white, borderRadius: 20, padding: 24, marginTop: 16, alignItems: 'center' },
-  ctaTitle:   { fontSize: 18, fontWeight: '800', color: C.neutral1, marginBottom: 16 },
-  quizBtn:    { borderRadius: 14, padding: 16, alignItems: 'center', width: '100%' },
-  quizBtnText:{ color: C.white, fontSize: 16, fontWeight: '800' },
-
-  // ── Flashcard step ──
-  flashSection:      { marginTop: 8, marginBottom: 8, backgroundColor: C.white, borderRadius: 20, paddingTop: 20, paddingBottom: 20, paddingHorizontal: 0, borderWidth: 1.5, borderColor: '#E0E7FF', overflow: 'hidden' },
   flashSectionTitle: { fontSize: 20, fontWeight: '800', color: C.neutral1, marginBottom: 4, marginTop: 8 },
   flashSectionSub:   { fontSize: 12, color: C.neutral4, marginBottom: 12, paddingHorizontal: 4 },
   flashDots:         { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12, marginBottom: 8 },
   flashDot:          { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
-
 });
 
-// ── Bottom progress bar ──
 const bpb = StyleSheet.create({
   wrapper: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
@@ -635,7 +687,6 @@ const bpb = StyleSheet.create({
   dotLabel: { fontSize: 9, color: C.neutral3, textAlign: 'center', lineHeight: 13, maxWidth: 72 },
 });
 
-// ── Toast ──
 const toastSt = StyleSheet.create({
   wrapper: {
     position: 'absolute', top: 70, alignSelf: 'center', zIndex: 999,
@@ -647,7 +698,6 @@ const toastSt = StyleSheet.create({
   text: { color: C.white, fontSize: 15, fontWeight: '800' },
 });
 
-// ── Flashcard ──
 const fc = StyleSheet.create({
   outer: { height: 240, marginBottom: 8 },
   card: {
@@ -657,13 +707,61 @@ const fc = StyleSheet.create({
     shadowColor: '#4F46E5', shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.1, shadowRadius: 16, elevation: 4,
   },
-  front:    { backgroundColor: C.white, borderWidth: 1.5, borderColor: '#E0E7FF' },
-  back:     { backgroundColor: '#F0FDF4', borderWidth: 1.5, borderColor: '#BBF7D0' },
-  gone:     { opacity: 0, pointerEvents: 'none' },
-  badge:    { alignSelf: 'flex-start', backgroundColor: '#EEF2FF', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 3 },
-  badgeBack:{ backgroundColor: C.successLight },
-  badgeText:{ fontSize: 11, fontWeight: '700', color: '#4F46E5' },
-  qText:    { fontSize: 16, fontWeight: '700', color: C.neutral1, lineHeight: 24, flex: 1, marginTop: 10 },
-  aText:    { fontSize: 14, color: '#374151', lineHeight: 22, flex: 1, marginTop: 10 },
-  hint:     { fontSize: 12, color: C.neutral4, textAlign: 'center' },
+  front:     { backgroundColor: C.white, borderWidth: 1.5, borderColor: '#E0E7FF' },
+  back:      { backgroundColor: '#F0FDF4', borderWidth: 1.5, borderColor: '#BBF7D0' },
+  gone:      { opacity: 0, pointerEvents: 'none' },
+  badge:     { alignSelf: 'flex-start', backgroundColor: '#EEF2FF', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 3 },
+  badgeBack: { backgroundColor: C.successLight },
+  badgeText: { fontSize: 11, fontWeight: '700', color: '#4F46E5' },
+  qText:     { fontSize: 16, fontWeight: '700', color: C.neutral1, lineHeight: 24, flex: 1, marginTop: 10 },
+  aText:     { fontSize: 14, color: '#374151', lineHeight: 22, flex: 1, marginTop: 10 },
+  hint:      { fontSize: 12, color: C.neutral4, textAlign: 'center' },
+});
+
+// Lesson complete modal styles
+const lcm = StyleSheet.create({
+  backdrop: {
+    flex: 1, backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center', alignItems: 'center',
+    paddingHorizontal: 32,
+  },
+  card: {
+    backgroundColor: '#fff', borderRadius: 28,
+    overflow: 'hidden', width: '100%',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.2, shadowRadius: 24, elevation: 20,
+  },
+  accent: {
+    height: 80, justifyContent: 'center', alignItems: 'center',
+  },
+  accentEmoji: { fontSize: 40 },
+  body: { padding: 24, alignItems: 'center', gap: 12 },
+  completeLabel: {
+    fontSize: 11, fontWeight: '800', color: '#9CA3AF',
+    letterSpacing: 1.5,
+  },
+  lessonTitle: {
+    fontSize: 17, fontWeight: '800', color: '#111827',
+    textAlign: 'center', lineHeight: 24,
+  },
+  coinRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 8,
+    borderRadius: 14, paddingHorizontal: 20, paddingVertical: 12,
+    width: '100%', justifyContent: 'center',
+  },
+  coinEmoji:  { fontSize: 24 },
+  coinAmount: { fontSize: 22, fontWeight: '800' },
+  coinLabel:  { fontSize: 14, color: '#6B7280', fontWeight: '500' },
+  dotsLabel:  { fontSize: 12, color: '#9CA3AF', fontWeight: '600', letterSpacing: 0.3 },
+  dotsRow:    { flexDirection: 'row', gap: 10, marginBottom: 4 },
+  dot: {
+    width: 36, height: 36, borderRadius: 18,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  dotCheck: { fontSize: 16, fontWeight: '800', color: '#fff' },
+  continueBtn: {
+    borderRadius: 16, paddingVertical: 16, paddingHorizontal: 32,
+    alignItems: 'center', width: '100%', marginTop: 4,
+  },
+  continueBtnText: { fontSize: 16, fontWeight: '800', color: '#fff' },
 });
