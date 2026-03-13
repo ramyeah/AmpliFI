@@ -10962,7 +10962,7 @@ export const MODULES = [
                   {
                     type: 'slider',
                     icon: '📈',
-                    title: 'The Cost of Stopping DCA During Downturns',
+                    title: 'Stopping DCA During Downturns',
                     description: 'Compare a consistent DCA investor ($300/month, never stops) against one who pauses for 6 months during a downturn. Drag to see how the gap compounds over years.',
                     min: 1,
                     max: 20,
@@ -11966,9 +11966,1371 @@ export const MODULES = [
         icon: '🏦',
         description: 'Understand Singapore\'s Central Provident Fund inside out',
         lessons: [
-          { id: '10-1', title: 'What is CPF?', icon: '❓', topic: 'CPF Central Provident Fund basics Singapore', duration: '7 min', fincoins: 100, sections: [{ key: 'what', heading: 'What CPF Is and Why It Exists' }, { key: 'accounts', heading: 'The Four CPF Accounts' }, { key: 'international', heading: 'CPF for International Graduates' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What are the four CPF accounts?', a: 'Ordinary Account (OA), Special Account (SA), MediSave Account (MA), and Retirement Account (RA — created at 55).' }] },
-          { id: '10-2', title: 'CPF Contribution Rates', icon: '💹', topic: 'CPF contribution rates employee employer Singapore', duration: '6 min', fincoins: 100, sections: [{ key: 'rates', heading: 'Employee & Employer Rates' }, { key: 'calc', heading: 'Calculating Your Contribution' }, { key: 'changes', heading: 'Rate Changes Over Your Career' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the total CPF contribution rate for employees under 55?', a: '37% of gross salary — 20% from employee, 17% from employer.' }] },
-          { id: '10-3', title: 'CPF OA: Housing & Investments', icon: '🏠', topic: 'CPF Ordinary Account housing investment CPFIS', duration: '6 min', fincoins: 100, sections: [{ key: 'oa', heading: 'What Your OA Can Be Used For' }, { key: 'housing', heading: 'Using OA for HDB' }, { key: 'invest', heading: 'Investing Your OA' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What interest rate does the CPF OA earn?', a: '2.5% per annum — guaranteed by the Singapore government.' }] },
+          {
+            id: '10-1',
+            title: 'What is CPF?',
+            icon: '❓',
+            topic: 'CPF Central Provident Fund basics Singapore',
+            duration: '7 min',
+            fincoins: 55,
+            sections: [
+              // ─── Section 1: What CPF Is and Why It Exists ─────────────────────────
+              {
+                key: 'what',
+                title: 'What CPF Is and Why It Exists',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What CPF Is and Why It Exists',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The Central Provident Fund (CPF) is Singapore\'s mandatory social security savings system — established in 1955 and today one of the most comprehensive retirement frameworks in Asia. Every Singapore citizen and Permanent Resident who works and earns above a certain threshold contributes to CPF automatically, as does their employer. The fund exists to ensure that Singaporeans can meet three fundamental needs without relying solely on the state: retirement income, housing, and healthcare.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Central Provident Fund (CPF)',
+                    definition: 'Singapore\'s mandatory social security savings system. Both employees and employers contribute a percentage of monthly wages into individual CPF accounts. The funds are ring-fenced for retirement, housing, and healthcare — they cannot be freely withdrawn for general spending.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'CPF is only applicable to Singapore citizens and Permanent Residents. International students on a student pass do not contribute to CPF — and neither do their employers. CPF becomes relevant the moment you obtain PR or citizenship and begin working in Singapore.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'The three pillars CPF is designed to fund:',
+                    cards: [
+                      {
+                        icon: '🏖️',
+                        label: 'Retirement',
+                        description: 'Building a lifelong income stream through CPF LIFE — Singapore\'s national annuity scheme.',
+                        color: '#4F46E5',
+                        details: [
+                          'CPF contributions accumulate over a working lifetime in the Ordinary and Special Accounts.',
+                          'At age 55, funds transfer into a Retirement Account (RA) — the foundation of your CPF LIFE monthly payout.',
+                          'CPF LIFE provides a guaranteed monthly income for life from your draw-down age, regardless of how long you live.',
+                          'The amount depends on how much you have saved — higher CPF balances mean higher monthly payouts.',
+                        ],
+                        example: 'A graduate who consistently contributes to CPF from age 23 can accumulate enough to receive $1,500–$2,000/month from CPF LIFE at age 65 — without any additional voluntary savings.',
+                      },
+                      {
+                        icon: '🏠',
+                        label: 'Housing',
+                        description: 'Using CPF Ordinary Account funds to finance HDB flat purchases and monthly mortgage payments.',
+                        color: '#0891B2',
+                        details: [
+                          'CPF OA funds can be used for the downpayment and monthly mortgage of HDB flats and approved private properties.',
+                          'This is the most common use of OA funds for most Singapore residents — housing typically absorbs a large share of lifetime OA contributions.',
+                          'Funds used for housing must be refunded to CPF with accrued interest upon sale of the property.',
+                          'Using OA for housing reduces what is available for investments via CPFIS — a key trade-off to understand early.',
+                        ],
+                        example: 'A couple buying a $400,000 HDB flat can use their combined OA balances for the downpayment and monthly instalments — reducing the cash outflow significantly in the early years of homeownership.',
+                      },
+                      {
+                        icon: '💊',
+                        label: 'Healthcare',
+                        description: 'Funding MediShield Life premiums and approved medical expenses through the MediSave Account.',
+                        color: '#059669',
+                        details: [
+                          'The MediSave Account (MA) is specifically for healthcare — it pays MediShield Life premiums automatically.',
+                          'MA funds can also be used for approved outpatient treatments, hospitalisation, and certain chronic disease management programmes.',
+                          'The MA has a contribution cap called the Basic Healthcare Sum (BHS) — excess contributions flow to the SA or RA.',
+                          'MA funds cannot be invested via CPFIS and cannot be withdrawn for non-medical purposes.',
+                        ],
+                        example: 'A 30-year-old\'s annual MediShield Life premium of approximately $300–$500 is deducted automatically from their MA — they never need to pay it in cash.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 What is CPF Singapore how it works purpose 2025',
+                    prompt: 'CPF Central Provident Fund Singapore 2025 what is it purpose retirement housing healthcare how it works',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '10-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'CPF Basics — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'International students on a Singapore student pass are required to contribute to CPF.',
+                        isTrue: false,
+                        explanation: 'CPF only applies to Singapore citizens and Permanent Residents. International students on a student pass — and their employers — are not required to make CPF contributions. CPF becomes relevant once you obtain PR or citizenship and begin working.',
+                      },
+                      {
+                        text: 'CPF funds can be freely withdrawn at any time for general spending purposes.',
+                        isTrue: false,
+                        explanation: 'CPF funds are ring-fenced for specific purposes — retirement, housing, and healthcare. They cannot be freely withdrawn for general spending. Withdrawal rules are strict and tied to age and purpose — the earliest most members can access retirement savings is age 55, and only the amount above the Retirement Sum.',
+                      },
+                      {
+                        text: 'Both the employee and the employer contribute to CPF each month.',
+                        isTrue: true,
+                        explanation: 'Correct — CPF contributions come from both sides. The employee contributes a percentage of their gross salary, and the employer contributes an additional percentage on top. For employees under 55, the combined rate is 37% of gross salary — 20% from the employee and 17% from the employer.',
+                      },
+                      {
+                        text: 'CPF was established recently as part of Singapore\'s Smart Nation initiative.',
+                        isTrue: false,
+                        explanation: 'CPF was established in 1955 — decades before the Smart Nation initiative. It is one of Asia\'s oldest and most established social security systems, predating Singapore\'s independence in 1965.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: The Four CPF Accounts ────────────────────────────────
+              {
+                key: 'accounts',
+                title: 'The Four CPF Accounts',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'The Four CPF Accounts',
+                  },
+                  {
+                    type: 'text',
+                    text: 'CPF is not a single account — it is a system of four separate accounts, each with a distinct purpose, interest rate, and set of rules. Three accounts are active during your working years; the fourth is created automatically at age 55. Understanding what each account does — and what it cannot do — is the foundation of every CPF decision you will make as a working adult in Singapore.',
+                  },
+                  {
+                    type: 'table',
+                    headers: ['Account', 'Interest Rate', 'Primary Purpose', 'Can Invest?', 'Created'],
+                    rows: [
+                      ['Ordinary Account (OA)', '2.5% p.a.', 'Housing, education, investments', '✅ via CPFIS (above $20k)', 'When you start working'],
+                      ['Special Account (SA)', '4% p.a.', 'Retirement savings', '✅ via CPFIS (above $40k)', 'When you start working'],
+                      ['MediSave Account (MA)', '4% p.a.', 'Healthcare, MediShield Life', '❌ Not eligible', 'When you start working'],
+                      ['Retirement Account (RA)', '4% p.a.', 'CPF LIFE retirement payouts', '❌ Not eligible', 'Automatically at age 55'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: 'The first $60,000 of combined CPF balances earns an extra 1% interest per year — with the first $20,000 in the OA eligible for this bonus. This means a member with lower balances effectively earns 3.5% on their OA and 5% on their SA/MA — higher than the base rates shown above.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'How your CPF accounts evolve over a lifetime:',
+                    nodes: [
+                      {
+                        icon: '💼',
+                        label: 'Working Years (22–55)',
+                        sublabel: 'OA, SA, MA accumulate with every payslip',
+                        color: '#4F46E5',
+                        examples: ['OA builds: housing downpayment, mortgage, CPFIS', 'SA builds: retirement savings at 4% guaranteed', 'MA builds: MediShield Life premiums, healthcare'],
+                        details: [
+                          'Every month, your employer deducts your CPF contribution and adds their own — both flow into your OA, SA, and MA according to the allocation rates for your age.',
+                          'For employees under 55, the majority of contributions go to the OA, with smaller portions to SA and MA.',
+                          'Voluntary cash top-ups to SA are possible and earn 4% — one of the highest risk-free returns available in Singapore.',
+                        ],
+                        tip: 'Your SA balance grows fastest in the early years when the allocation rate is highest and compounding has the most time to work. Every dollar in SA at 22 is worth significantly more than a dollar added at 45.',
+                      },
+                      {
+                        icon: '🎂',
+                        label: 'Age 55 — Retirement Account Created',
+                        sublabel: 'OA + SA funds transfer into new RA',
+                        color: '#0891B2',
+                        examples: ['RA created automatically — no action needed', 'OA + SA funds transferred up to the Full Retirement Sum', 'Excess above FRS stays in OA and SA'],
+                        details: [
+                          'At age 55, a Retirement Account is automatically created and funded by transferring OA and SA balances up to the Full Retirement Sum (FRS).',
+                          'Any balance above the FRS remains in OA and SA and can be withdrawn in cash if you choose.',
+                          'The RA funds the CPF LIFE annuity — the larger your RA, the higher your monthly payout from your draw-down age.',
+                        ],
+                        tip: 'The Full Retirement Sum is adjusted each year by CPF Board — in 2025 it is $205,800. Understanding this target early helps you plan contributions and top-ups decades in advance.',
+                      },
+                      {
+                        icon: '🌅',
+                        label: 'Draw-Down Age (65+)',
+                        sublabel: 'CPF LIFE monthly payouts begin',
+                        color: '#059669',
+                        examples: ['Monthly CPF LIFE payouts begin for life', 'Standard Plan: ~$1,400–$1,600/month at FRS (2025)', 'MA continues to cover healthcare costs'],
+                        details: [
+                          'From your draw-down age (currently 65), CPF LIFE pays a guaranteed monthly income for the rest of your life — regardless of how long you live.',
+                          'The amount depends on your RA balance at 55 and the CPF LIFE plan you choose (Basic, Standard, or Escalating).',
+                          'MA continues to cover MediShield Life premiums and approved medical expenses throughout retirement.',
+                        ],
+                        tip: 'CPF LIFE is one of the best retirement products available to Singapore residents — it is government-backed, inflation-partially-adjusted, and pays for life. Building your RA through consistent contributions and voluntary top-ups is one of the highest-return financial decisions you can make.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF four accounts OA SA MA RA interest rates 2025 Singapore',
+                    prompt: 'CPF four accounts Ordinary Special MediSave Retirement Account interest rates 2025 Singapore how each works',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '10-1-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Which CPF account does this involve?',
+                    scenarios: [
+                      {
+                        icon: '🏠',
+                        situation: 'You are a Singapore PR who has just started your first job. After 3 years, you have accumulated $25,000 in your OA. You want to use this towards the downpayment on an HDB flat. Which account and mechanism is involved?',
+                        options: [
+                          {
+                            text: 'Ordinary Account (OA) — OA funds can be used directly for HDB downpayment and monthly mortgage payments.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'The OA is specifically designed to allow housing use. You can apply to use your OA balance for the downpayment and ongoing mortgage instalments on an HDB flat — it is one of the primary purposes of the OA alongside investments and education.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Special Account (SA) — it earns more interest so it is better to use SA for large purchases.',
+                            biasLabel: 'SA cannot be used for housing',
+                            biasExplanation: 'The SA is ring-fenced exclusively for retirement savings. It cannot be used for housing, education, or daily expenses. Only OA funds are eligible for housing purposes.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'MediSave Account (MA) — it has the highest balance after three years of contributions.',
+                            biasLabel: 'MA cannot be used for housing',
+                            biasExplanation: 'The MA is strictly for healthcare expenses and MediShield Life premiums. It cannot be used for housing, investments, or any non-medical purpose regardless of the balance.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💊',
+                        situation: 'You are hospitalised for three days at a Class B2 ward. The bill comes to $1,800 after government subsidies. You want to pay using your CPF balance. Which account covers this?',
+                        options: [
+                          {
+                            text: 'MediSave Account (MA) — specifically designed for approved healthcare expenses and hospitalisation.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'The MA covers approved hospitalisation costs, MediShield Life premiums, and selected outpatient treatments. Hospitalisation at an approved Singapore hospital is a direct MA-eligible expense — you can apply to use MA funds to pay the bill.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Ordinary Account (OA) — it has the largest balance and can be used for most expenses.',
+                            biasLabel: 'OA cannot be used for healthcare',
+                            biasExplanation: 'The OA is for housing, education, and investments — not healthcare. Medical expenses must be funded from the MA or out-of-pocket cash. The OA balance cannot be redirected to pay hospital bills.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Retirement Account (RA) — it earns the highest interest and should be used for important expenses.',
+                            biasLabel: 'RA cannot be used for healthcare',
+                            biasExplanation: 'The RA is created at age 55 and funds CPF LIFE payouts — it cannot be used for healthcare, housing, or any other expense before the draw-down age. The MA is the correct account for medical expenses.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎂',
+                        situation: 'You turn 55 next year. You have $180,000 in your OA and $90,000 in your SA. The Full Retirement Sum is $205,800. What happens to your CPF accounts at age 55?',
+                        options: [
+                          {
+                            text: 'A Retirement Account is created and funded by transferring OA + SA balances up to $205,800 — the excess stays in OA and SA.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'At 55, the RA is automatically created and topped up to the FRS ($205,800) using SA funds first, then OA. With $90,000 SA + $180,000 OA = $270,000 combined, the RA is fully funded at $205,800 — the remaining $64,200 stays in your OA and SA and can be withdrawn in cash if you choose.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'All CPF funds are automatically paid out in cash at age 55.',
+                            biasLabel: 'CPF is not fully paid out at 55',
+                            biasExplanation: 'Only the balance above the Retirement Sum can be withdrawn at 55. The amount needed to fund the FRS is transferred to the RA and retained for CPF LIFE. Full withdrawal of all CPF funds is not permitted at 55.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'All four accounts are merged into the RA and you can no longer use OA or SA.',
+                            biasLabel: 'Accounts are not merged',
+                            biasExplanation: 'Only the amount needed to fund the FRS transfers to the RA. Balances above the FRS remain in OA and SA — you can still use OA for housing or withdraw the excess. The accounts are not merged.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: CPF for International Graduates ───────────────────────
+              {
+                key: 'international',
+                title: 'CPF for International Graduates',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'CPF for International Graduates',
+                  },
+                  {
+                    type: 'text',
+                    text: 'As an international student, CPF is not part of your life today — but it will be the moment you obtain Permanent Residency or citizenship and start working in Singapore. For many international graduates who go on to build careers here, understanding CPF before your first payslip arrives is one of the most valuable pieces of financial preparation you can do.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'Your First Payslip as a PR or Citizen',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The most common shock for new PRs receiving their first Singapore payslip is the CPF deduction. A gross salary of $4,000 becomes a take-home pay of $3,200 — with $800 deducted as your CPF contribution. This is not a tax — it is your own money, going into your OA, SA, and MA. Your employer simultaneously contributes an additional $680 on top of your salary into the same accounts. Your total CPF credited each month is $1,480 — you just cannot spend it freely.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: 'Plan your monthly budget on your take-home pay, not your gross salary. As a PR under 55, your take-home is approximately 80% of gross — the 20% CPF deduction is real and affects your cash flow from Day 1. Factor this in before signing your employment contract.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: 'The TGS Bond and CPF',
+                  },
+                  {
+                    type: 'text',
+                    text: 'International students who received the MOE Tuition Grant are subject to a 3-year Singapore employer bond — you must work for a Singapore-based employer for three years after graduation. During this bond period, you will be on an Employment Pass, not yet a PR — meaning no CPF contributions are required from you or your employer during this time. CPF only begins when you obtain PR or citizenship, which typically happens after the bond period for many international graduates.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: 'If you are on an Employment Pass during your TGS bond period, your employer is not required to make CPF contributions — and neither are you. This means you will not be building CPF balances during these years. Factor this into your retirement planning — you may start CPF contributions later than a local graduate of the same age.',
+                  },
+                  {
+                    type: 'flipcards',
+                    title: 'CPF timeline for international graduates — tap to explore:',
+                    variant: 'neutral',
+                    cards: [
+                      {
+                        frontLabel: '🎓 During Studies',
+                        backLabel: '📋 CPF Status',
+                        front: 'You are an international student on a student pass at NTU, NUS, or SMU.',
+                        back: 'No CPF involvement. You do not contribute, your employer (for part-time work) does not contribute, and you have no CPF accounts. Focus on building savings and investing via cash instruments — robo-advisors, STI ETF, SSBs.',
+                        tag: 'No CPF — invest via cash instruments',
+                      },
+                      {
+                        frontLabel: '💼 TGS Bond Period',
+                        backLabel: '📋 CPF Status',
+                        front: 'You graduate and start working in Singapore on an Employment Pass to fulfil your 3-year TGS bond obligation.',
+                        back: 'Still no mandatory CPF. Employment Pass holders are exempt from CPF. Your take-home pay is your full gross salary — no CPF deduction. Use this period to build cash savings, investments, and emergency fund aggressively before CPF begins.',
+                        tag: 'No CPF on EP — maximise cash saving',
+                      },
+                      {
+                        frontLabel: '🇸🇬 After PR / Citizenship',
+                        backLabel: '📋 CPF Status',
+                        front: 'You obtain Singapore Permanent Residency or citizenship — typically after completing your TGS bond and several years of employment.',
+                        back: 'CPF begins immediately. Your first PR payslip will show a 20% employee deduction and 17% employer contribution. You now have OA, SA, and MA accounts. Consider a voluntary SA top-up in your first year to start the retirement compounding clock as early as possible.',
+                        tag: 'CPF begins — plan for the take-home reduction',
+                      },
+                      {
+                        frontLabel: '🌏 If You Leave Singapore',
+                        backLabel: '📋 CPF Status',
+                        front: 'You decide to leave Singapore permanently and renounce your PR or citizenship.',
+                        back: 'You can withdraw your full CPF balance in cash upon renouncing PR or citizenship and leaving Singapore permanently. This includes OA, SA, MA, and RA balances. Withholding tax may apply on the MA balance. This is one of the few scenarios where full CPF withdrawal is permitted before age 55.',
+                        tag: 'Full withdrawal permitted on renunciation',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF for international graduates PR Employment Pass Singapore 2025',
+                    prompt: 'CPF Singapore 2025 international graduates Employment Pass PR when CPF starts TGS bond CPF contribution first payslip',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '10-1-s3-mcq',
+                    fincoins: 10,
+                    icon: '❓',
+                    title: 'CPF & International Graduates Quiz',
+                    question: 'An NTU international graduate receives their first Singapore job offer at $4,500/month gross. They are on an Employment Pass fulfilling their TGS bond. What is their approximate monthly take-home pay?',
+                    options: [
+                      '$3,600 — 20% CPF deduction applies from the first month of employment',
+                      '$4,500 — Employment Pass holders are not subject to mandatory CPF contributions',
+                      '$3,825 — a partial CPF rate applies during the TGS bond period',
+                      '$4,050 — only the employer CPF contribution is required, not the employee portion',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'Employment Pass holders are exempt from mandatory CPF contributions — neither the employee nor the employer is required to contribute. The full $4,500 gross salary is paid as take-home pay with no CPF deduction. CPF only begins when the graduate obtains Permanent Residency or citizenship — which typically happens after the TGS bond period is completed.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: What is CPF?',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: What is CPF?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered what CPF is and why it exists, how the four accounts work across a lifetime, and what CPF means specifically for international graduates. Time to put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF Singapore 2025 four accounts OA SA MA RA international graduate explained',
+                    prompt: 'CPF Singapore 2025 four accounts Ordinary Special MediSave Retirement international graduate PR Employment Pass explained',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '10-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '❓',
+                    title: 'CPF Challenge',
+                    questions: [
+                      {
+                        concept: 'CPF Purpose and Eligibility',
+                        question: 'Which of the following best describes who CPF applies to in Singapore?',
+                        options: [
+                          'All residents of Singapore including international students and Employment Pass holders',
+                          'Singapore citizens and Permanent Residents who are working and earning above the minimum threshold',
+                          'Only Singapore citizens — Permanent Residents are exempt from CPF contributions',
+                          'All workers in Singapore regardless of nationality or pass type',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'CPF applies specifically to Singapore citizens and Permanent Residents who are working. International students, Employment Pass holders, and other work pass holders are exempt from mandatory CPF contributions. This is why the TGS bond period — typically served on an Employment Pass — involves no CPF contributions.',
+                      },
+                      {
+                        concept: 'The Four CPF Accounts',
+                        question: 'Which CPF account is created automatically at age 55 and cannot be used for housing or investments?',
+                        options: [
+                          'MediSave Account (MA) — created at 55 for healthcare in retirement',
+                          'Special Account (SA) — converted to a retirement-only account at 55',
+                          'Retirement Account (RA) — created at 55 and funded by OA and SA transfers',
+                          'Ordinary Account (OA) — restricted to retirement use after age 55',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'The Retirement Account (RA) is automatically created at age 55 and funded by transferring OA and SA balances up to the Full Retirement Sum. It cannot be used for housing or investments — its sole purpose is to fund CPF LIFE monthly payouts from your draw-down age onwards.',
+                      },
+                      {
+                        concept: 'CPF for International Graduates',
+                        question: 'An international NUS graduate obtains Singapore PR two years after completing their TGS bond. When do mandatory CPF contributions begin?',
+                        options: [
+                          'Immediately upon graduation, regardless of pass type',
+                          'During the TGS bond period, at a reduced rate for Employment Pass holders',
+                          'Immediately upon obtaining PR — their first PR payslip will include CPF deductions',
+                          'Only at age 30, when CPF Board considers contributions financially meaningful',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'CPF contributions begin immediately upon obtaining PR — the very first payslip after PR status is granted will show the employee CPF deduction (20% for under-55) and the employer contribution (17%). There is no grace period or reduced rate — the full contribution rate applies from the first month of PR status.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            flashcards: [
+              { q: 'What is CPF and what are its three primary purposes?', a: 'CPF is Singapore\'s mandatory social security savings system for citizens and PRs. It funds three pillars: retirement income (via CPF LIFE), housing (OA funds for HDB), and healthcare (MA funds for MediShield Life and medical expenses).' },
+              { q: 'What are the four CPF accounts and their interest rates?', a: 'Ordinary Account (OA) — 2.5% p.a., used for housing, education, investments. Special Account (SA) — 4% p.a., retirement savings. MediSave Account (MA) — 4% p.a., healthcare. Retirement Account (RA) — 4% p.a., created at age 55 to fund CPF LIFE.' },
+              { q: 'What happens to your CPF OA and SA balances at age 55?', a: 'A Retirement Account is automatically created and funded by transferring OA and SA balances up to the Full Retirement Sum (FRS). Any balance above the FRS remains in OA and SA and can be withdrawn in cash.' },
+              { q: 'Do international students or Employment Pass holders need to contribute to CPF?', a: 'No — CPF only applies to Singapore citizens and Permanent Residents. International students on a student pass and Employment Pass holders are exempt. CPF begins immediately upon obtaining PR or citizenship.' },
+              { q: 'What happens to your CPF balance if you leave Singapore permanently and renounce PR or citizenship?', a: 'You can withdraw your full CPF balance — OA, SA, MA, and RA — in cash upon renouncing PR or citizenship and leaving Singapore permanently. This is one of the few scenarios where full CPF withdrawal before age 55 is permitted.' },
+            ],
+          },
+          // ─── Lesson 10-2: CPF Contribution Rates ────────────────────────────────────
+          {
+            id: '10-2',
+            title: 'CPF Contribution Rates',
+            icon: '💹',
+            topic: 'CPF contribution rates employee employer Singapore',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: Employee & Employer Rates ─────────────────────────────
+              {
+                key: 'rates',
+                title: 'Employee & Employer Rates',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Employee & Employer Rates',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Every month you work in Singapore as a PR or citizen, CPF contributions flow from two directions — your own salary and your employer\'s pocket. The combined rate for workers under 55 is 37% of gross salary. But here\'s the part most people miss: the employer\'s 17% is paid on top of your salary, not deducted from it. Your take-home pay is only reduced by your own 20% contribution.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'CPF Contribution Rate',
+                    definition: 'The percentage of gross monthly wages contributed to CPF — split between the employee (deducted from salary) and the employer (paid on top of salary). Both portions are credited into the employee\'s CPF accounts.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'CPF Contribution Rates by Age (2025)',
+                    headers: ['Age', 'Employee', 'Employer', 'Total'],
+                    rows: [
+                      ['≤ 55', '20%', '17%', '37%'],
+                      ['55 – 60', '15%', '15%', '30%'],
+                      ['60 – 65', '9.5%', '11.5%', '21%'],
+                      ['65 – 70', '7%', '9%', '16%'],
+                      ['> 70', '5%', '7.5%', '12.5%'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '💡 The employer\'s contribution is an additional cost to your employer — it does not come out of your gross salary. When you negotiate a $4,000 offer, your employer is actually paying $4,680/month in total employment cost ($4,000 + 17% CPF). Understanding this helps you negotiate more effectively.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF contribution rates 2025 employee employer breakdown Singapore',
+                    prompt: 'CPF contribution rates 2025 Singapore employee employer percentage breakdown by age under 55',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '10-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'CPF Rates — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'For a Singapore PR under 55, both the employee and employer each contribute 20% of gross salary to CPF.',
+                        isTrue: false,
+                        explanation: 'The split is 20% employee and 17% employer — not 20% each. The combined total is 37%. The employer\'s rate is lower than the employee\'s for workers under 55.',
+                      },
+                      {
+                        text: 'The employer\'s CPF contribution is paid on top of your gross salary — it does not reduce your take-home pay.',
+                        isTrue: true,
+                        explanation: 'Correct. Only your employee contribution (20% for under-55) is deducted from your gross salary to determine take-home pay. The employer\'s 17% is an additional cost borne entirely by the employer.',
+                      },
+                      {
+                        text: 'CPF contribution rates stay the same throughout your entire working life in Singapore.',
+                        isTrue: false,
+                        explanation: 'Rates decrease progressively with age — from 37% total under 55, down to 12.5% for workers above 70. This is deliberate policy to reduce labour costs for older workers and keep them employable.',
+                      },
+                      {
+                        text: 'An Employment Pass holder earning $5,000/month must contribute 20% to CPF each month.',
+                        isTrue: false,
+                        explanation: 'Employment Pass holders are exempt from CPF contributions entirely — neither the employee nor the employer contributes. CPF only applies to Singapore citizens and Permanent Residents.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Calculating Your Contribution ─────────────────────────
+              {
+                key: 'calc',
+                title: 'Calculating Your Contribution',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Calculating Your Contribution',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Knowing the total contribution rate is only half the picture. Your CPF isn\'t deposited into one account — it\'s split across your OA, SA, and MA according to a fixed allocation table. The younger you are, the more goes to your OA (for housing) and SA (for retirement). Use the slider below to see exactly how your salary flows into each account.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'CPF Allocation Rates for Members Under 55 (2025)',
+                    headers: ['Account', 'Allocation', 'Purpose'],
+                    rows: [
+                      ['Ordinary Account (OA)', '62.2% of total CPF', 'Housing, education, investments'],
+                      ['Special Account (SA)', '16.2% of total CPF', 'Retirement savings'],
+                      ['MediSave Account (MA)', '21.6% of total CPF', 'Healthcare, MediShield Life'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'slider',
+                    icon: '💹',
+                    title: 'Your CPF Breakdown',
+                    description: 'Drag to set your gross monthly salary and see how CPF is split across your accounts.',
+                    min: 1000,
+                    max: 10000,
+                    step: 500,
+                    initialValue: 4000,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      const empContrib = Math.round(value * 0.20);
+                      const emplrContrib = Math.round(value * 0.17);
+                      const totalCPF = empContrib + emplrContrib;
+                      const oa = Math.round(totalCPF * 0.622);
+                      const sa = Math.round(totalCPF * 0.162);
+                      const ma = totalCPF - oa - sa;
+                      const takeHome = value - empContrib;
+                      return [
+                        { label: 'Your CPF deduction (20%) — credited to your accounts', value: `$${empContrib.toLocaleString()}`, color: '#4F46E5' },
+                        { label: 'Employer top-up (17%) — additional, not from your salary', value: `$${emplrContrib.toLocaleString()}`, color: '#0891B2' },
+                        { label: `OA receives (62.2% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${oa.toLocaleString()}`, color: '#059669' },
+                        { label: `SA receives (16.2% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${sa.toLocaleString()}`, color: '#F59E0B' },
+                        { label: `MA receives (21.6% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${ma.toLocaleString()}`, color: '#DC2626' },
+                        { label: 'Your take-home pay (gross minus your 20%)', value: `$${takeHome.toLocaleString()}`, color: '#6B7280' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'piechart',
+                    title: 'Where Does Your Total CPF Go? (Under 55)',
+                    note: 'Based on a combined 37% contribution rate. Tap a slice to learn more.',
+                    slices: [
+                      {
+                        icon: '🏠',
+                        label: 'OA',
+                        percentage: 62,
+                        color: '#4F46E5',
+                        amount: '62.2%',
+                        description: 'The largest share goes to your OA — used for housing downpayment, monthly mortgage, education, and investments via CPFIS. For most Singapore graduates, OA funds are eventually directed toward an HDB flat.',
+                      },
+                      {
+                        icon: '💊',
+                        label: 'MA',
+                        percentage: 22,
+                        color: '#DC2626',
+                        amount: '21.6%',
+                        description: 'The MA covers MediShield Life premiums automatically and can be used for hospitalisation and approved medical treatments. It cannot be invested or withdrawn for non-medical purposes.',
+                      },
+                      {
+                        icon: '🏖️',
+                        label: 'SA',
+                        percentage: 16,
+                        color: '#F59E0B',
+                        amount: '16.2%',
+                        description: 'The smallest allocation but the most powerful for retirement — SA earns 4% guaranteed, compounding tax-free over your working lifetime. Every dollar here has decades to grow before you turn 55.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 On a $4,000 gross salary, your total CPF credited each month is $1,480 ($800 from you + $680 from employer). Of that: $920 goes to OA, $240 to SA, $320 to MA. Your take-home is $3,200 — budget from this number, not $4,000.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF OA SA MA allocation rates under 55 Singapore 2025',
+                    prompt: 'CPF allocation rates Ordinary Special MediSave Account under 55 Singapore 2025 how contributions split',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '10-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'CPF Calculation Scenarios',
+                    scenarios: [
+                      {
+                        icon: '💼',
+                        situation: 'Aisha just obtained Singapore PR and starts her first job at $3,500/month gross. She is 24 years old. What is her monthly take-home pay?',
+                        options: [
+                          {
+                            text: '$2,800 — her take-home is $3,500 minus her 20% employee CPF contribution ($700).',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'For a PR under 55, the employee contribution is 20% of gross salary. $3,500 × 20% = $700 deducted. Take-home = $3,500 − $700 = $2,800. The employer separately contributes 17% ($595) on top — this doesn\'t affect her take-home.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '$2,205 — her take-home is $3,500 minus the full 37% combined CPF rate.',
+                            biasLabel: 'Only employee share is deducted',
+                            biasExplanation: 'The 37% is the combined employee + employer rate. Only the employee\'s 20% ($700) is deducted from Aisha\'s salary. The employer\'s 17% is paid by the employer separately and never touches Aisha\'s pay.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '$3,500 — as a new PR, CPF contributions only begin after 6 months of residency.',
+                            biasLabel: 'No grace period for CPF',
+                            biasExplanation: 'There is no 6-month grace period. CPF contributions are mandatory from the very first payslip after obtaining PR. Aisha\'s employer must deduct and contribute CPF from her first month of employment as a PR.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📊',
+                        situation: 'On Aisha\'s $3,500 gross salary, her total monthly CPF (employee + employer) is $1,295. How much goes into her Special Account (SA)?',
+                        options: [
+                          {
+                            text: 'Approximately $210 — SA receives about 16.2% of total CPF contributions.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: '$1,295 × 16.2% ≈ $210 into her SA each month. While this seems small, it compounds at 4% guaranteed — tax-free. Over 30 years of contributions, this allocation alone can grow to a substantial retirement sum.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Approximately $805 — SA gets the largest share since it earns the highest interest.',
+                            biasLabel: 'OA receives the largest share',
+                            biasExplanation: 'OA receives the largest allocation at 62.2% — not SA. SA receives only 16.2%. The larger OA allocation is designed to fund housing, which is a major life expense for most Singapore residents.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Nothing — SA contributions only begin after age 30 when retirement becomes more relevant.',
+                            biasLabel: 'SA contributions begin immediately',
+                            biasExplanation: 'SA contributions begin from your very first CPF contribution, regardless of age. Starting SA accumulation early is one of the most powerful retirement moves available — compound interest needs time to work.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🎂',
+                        situation: 'Aisha\'s colleague Marcus turns 56 next month. His contribution rate will change from the under-55 rate. How does this affect his take-home pay?',
+                        options: [
+                          {
+                            text: 'His take-home increases — his employee contribution drops from 20% to 15%, so less is deducted from his gross salary.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'At 55–60, the employee rate drops from 20% to 15%. On a $5,000 gross salary, his CPF deduction falls from $1,000 to $750 — meaning his take-home increases by $250/month. However, his total CPF credited also drops (employer rate falls from 17% to 15%), meaning less goes toward retirement.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'His take-home decreases — older workers pay a higher CPF rate to compensate for fewer working years remaining.',
+                            biasLabel: 'Rates fall with age, not rise',
+                            biasExplanation: 'CPF rates decrease with age — not increase. The reduction is intentional government policy to lower the total labour cost of employing older workers, keeping them competitive in the job market.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'His take-home stays the same — only the employer\'s contribution rate changes after 55.',
+                            biasLabel: 'Both rates change at 55',
+                            biasExplanation: 'Both the employee and employer contribution rates change at each age threshold. At 55–60, the employee rate drops from 20% to 15% and the employer rate drops from 17% to 15% — both sides contribute less.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Rate Changes Over Your Career ─────────────────────────
+              {
+                key: 'changes',
+                title: 'Rate Changes Over Your Career',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Rate Changes Over Your Career',
+                  },
+                  {
+                    type: 'text',
+                    text: 'CPF contribution rates are not fixed for life — they step down at ages 55, 60, 65, and 70. This is by design. As you move from accumulation mode into drawdown mode, the CPF system shifts with you. Understanding this progression now — as a young graduate — helps you see why maximising contributions in your 20s and 30s is so disproportionately valuable.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ Lower rates after 55 mean less CPF credited each month — at a time when your salary is likely at its peak. This is why the CPF Board consistently emphasises building your SA and RA balances as early as possible, while your contribution rate is at its highest.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'CPF Rate Stages Across Your Career',
+                    cards: [
+                      {
+                        frontLabel: 'Age',
+                        backLabel: 'Rate',
+                        front: '🎓 Age 22–55 — Peak Accumulation',
+                        back: '37% total (20% employee + 17% employer). This is your highest contribution window — the longest runway for compound growth. Every dollar in your SA at 22 compounds at 4% for 33 years before you turn 55. Maximise voluntary SA top-ups during this stage.',
+                      },
+                      {
+                        frontLabel: 'Age',
+                        backLabel: 'Rate',
+                        front: '🧑 Age 55–60 — Transition Stage',
+                        back: '30% total (15% + 15%). At 55 your Retirement Account is created and funded from OA + SA up to the Full Retirement Sum. The rate drop reflects this shift — you\'re moving from building retirement savings to locking them in. Balances above the FRS remain accessible.',
+                      },
+                      {
+                        frontLabel: 'Age',
+                        backLabel: 'Rate',
+                        front: '👴 Age 60–65 — Pre-Retirement',
+                        back: '21% total (9.5% employee + 11.5% employer). Contributions slow significantly as CPF LIFE activation approaches. Your RA balance at this stage is largely set — voluntary cash top-ups to RA can still increase your eventual monthly payout.',
+                      },
+                      {
+                        frontLabel: 'Age',
+                        backLabel: 'Rate',
+                        front: '🌅 Age 65+ — Drawdown Mode',
+                        back: '16% or 12.5% total depending on exact age. CPF LIFE payouts typically begin at 65. Lower contributions reflect that CPF has shifted from saving vehicle to payout engine. Your MA continues covering MediShield Life premiums throughout retirement.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: For international graduates who obtain PR later in life — say age 30 — you have 25 years of peak-rate (37%) contributions before the first step-down at 55. That\'s still a powerful accumulation window. Start SA voluntary top-ups from your first PR payslip to maximise compounding.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF contribution rate changes age 55 60 65 Singapore why',
+                    prompt: 'CPF contribution rates change age 55 60 65 70 Singapore 2025 why rates drop retirement planning implications',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '10-2-s3-mcq',
+                    fincoins: 10,
+                    icon: '💹',
+                    title: 'Rate Changes Quiz',
+                    question: 'Why does Singapore reduce CPF contribution rates for workers above age 55?',
+                    options: [
+                      'To penalise older workers who have not saved enough for retirement',
+                      'To reduce the total labour cost of employing older workers, keeping them competitive in the job market',
+                      'Because CPF accounts are closed at age 55 and no further contributions are needed',
+                      'To encourage older workers to retire and free up jobs for younger graduates',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'The rate reduction is deliberate labour market policy — lower CPF contributions reduce the total employment cost for employers hiring older workers, making them more competitive against younger candidates. CPF accounts are not closed at 55; the Retirement Account is created then and contributions continue at the lower rate.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: CPF Contribution Rates',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: CPF Contribution Rates',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered the employee/employer rate split, how contributions are allocated across OA/SA/MA, and how rates evolve across your career. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF contribution rates allocation OA SA MA take-home pay Singapore 2025',
+                    prompt: 'CPF contribution rates 2025 Singapore employee employer OA SA MA allocation take-home pay calculation',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '10-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '💹',
+                    title: 'CPF Contribution Rates Challenge',
+                    questions: [
+                      {
+                        concept: 'Employee vs Employer Contribution',
+                        question: 'Priya is a Singapore PR aged 28 earning $5,000/month gross. Her employer offers her a $5,500/month role at a new company. Which statement correctly describes the total CPF impact of the new role?',
+                        options: [
+                          'Priya\'s take-home increases by $500 and her employer\'s total cost increases by $500',
+                          'Priya\'s take-home increases by $400 (80% of $500) and her employer\'s total cost increases by $585 ($500 + 17% employer CPF)',
+                          'Priya\'s take-home increases by $500 because CPF is always paid by the employer',
+                          'Priya\'s take-home increases by $500 and her employer\'s total cost increases by $685',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Priya\'s employee contribution is 20% — so her take-home from the additional $500 is $500 × 80% = $400. Her employer\'s total cost increases by $500 (salary) + $500 × 17% (employer CPF) = $585. Understanding both sides of this equation helps in salary negotiations.',
+                      },
+                      {
+                        concept: 'OA/SA/MA Allocation',
+                        question: 'On a $4,000 gross salary, total monthly CPF credited is $1,480. Approximately how much goes into the Special Account (SA)?',
+                        options: [
+                          'Approximately $920 — SA receives the largest share to maximise retirement savings',
+                          'Approximately $240 — SA receives about 16.2% of total CPF contributions',
+                          'Approximately $320 — SA and MA receive equal shares of total contributions',
+                          'Nothing — SA contributions only begin after the first $20,000 is accumulated in the OA',
+                        ],
+                        correctIndex: 1,
+                        explanation: '$1,480 × 16.2% ≈ $240 into SA each month. OA receives the largest share (62.2% ≈ $920) because housing is the dominant use case for most Singapore residents. SA\'s smaller allocation is offset by its higher 4% interest rate and decades of compounding.',
+                      },
+                      {
+                        concept: 'Rate Changes with Age',
+                        question: 'An international graduate obtains Singapore PR at age 35 and plans to retire at 65. For how many years will they contribute at the peak 37% combined rate?',
+                        options: [
+                          '30 years — from age 35 to age 65',
+                          '20 years — from age 35 to age 55, when rates first step down',
+                          '10 years — peak rates only apply for 10 years after obtaining PR',
+                          '25 years — the peak rate applies until age 60',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The 37% combined rate applies for workers under 55. An international graduate who obtains PR at 35 contributes at the peak rate for exactly 20 years — from age 35 to 55, when the first rate reduction occurs. This 20-year window is still significant for compounding, making early SA voluntary top-ups from age 35 especially valuable.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is the CPF contribution rate for a Singapore PR under 55, and how is it split?',
+                a: '37% total — 20% from the employee (deducted from gross salary) and 17% from the employer (paid on top of salary). On a $4,000 gross salary, take-home is $3,200 and total CPF credited is $1,480.',
+              },
+              {
+                q: 'How is the total CPF contribution allocated across the three accounts for workers under 55?',
+                a: 'OA receives 62.2%, MA receives 21.6%, and SA receives 16.2% of total contributions. On a $1,480 total CPF, approximately $920 goes to OA, $320 to MA, and $240 to SA.',
+              },
+              {
+                q: 'Does the employer\'s CPF contribution reduce your take-home pay?',
+                a: 'No — the employer\'s 17% contribution is paid on top of your gross salary. Only your own 20% employee contribution is deducted from your gross salary to determine take-home pay.',
+              },
+              {
+                q: 'At what ages do CPF contribution rates step down, and what is the total rate at each stage?',
+                a: 'Under 55: 37%. Age 55–60: 30%. Age 60–65: 21%. Age 65–70: 16%. Above 70: 12.5%. Rates decrease to reduce the labour cost of employing older workers.',
+              },
+              {
+                q: 'Why do CPF contribution rates decrease after age 55?',
+                a: 'To reduce the total employment cost of older workers, keeping them competitive in the job market. It is deliberate Singapore labour market policy — not a penalty — and coincides with the shift from CPF accumulation to retirement drawdown mode.',
+              },
+            ],
+          },
+          
+          // ─── Lesson 10-3: CPF OA — Housing & Investments ─────────────────────────────
+          {
+            id: '10-3',
+            title: 'CPF OA: Housing & Investments',
+            icon: '🏠',
+            topic: 'CPF Ordinary Account housing HDB investments Singapore',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: What Your OA Can Be Used For ──────────────────────────
+              {
+                key: 'oauses',
+                title: 'What Your OA Can Be Used For',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What Your OA Can Be Used For',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Your Ordinary Account (OA) is the most flexible of the four CPF accounts — but flexibility has limits. The OA earns 2.5% interest per year and can be used for housing, education, and investments. However, once you redirect OA funds to any of these purposes, they stop earning that 2.5%. The opportunity cost is real, and understanding it early shapes every major financial decision you will make as a Singapore resident.',
+                  },
+                  {
+                    type: 'piechart',
+                    title: 'How a Typical Graduate\'s OA Is Used Over a Lifetime',
+                    note: 'Estimates based on a typical Singapore resident who buys one HDB flat. Tap a slice to learn more.',
+                    slices: [
+                      {
+                        icon: '🏠',
+                        label: 'Housing (HDB)',
+                        percentage: 68,
+                        color: '#4F46E5',
+                        amount: '~68%',
+                        description: 'For most Singapore residents, housing absorbs the vast majority of OA funds — downpayment and monthly mortgage payments on an HDB flat over 25–30 years. This is the dominant OA use case by far.',
+                      },
+                      {
+                        icon: '📈',
+                        label: 'Investments (CPFIS)',
+                        percentage: 20,
+                        color: '#059669',
+                        amount: '~20%',
+                        description: 'Funds above the $20,000 OA minimum threshold can be invested via CPFIS in eligible instruments — STI ETF, unit trusts, bonds. In practice, many residents use little OA for investments because housing absorbs most of it.',
+                      },
+                      {
+                        icon: '🎓',
+                        label: 'Education',
+                        percentage: 7,
+                        color: '#F59E0B',
+                        amount: '~7%',
+                        description: 'OA funds can be used for approved local and overseas institution fees — NTU, NUS, SMU, and many polytechnics. This is a loan from your OA that must be repaid with 2.5% interest after graduation.',
+                      },
+                      {
+                        icon: '💰',
+                        label: 'Remaining Balance',
+                        percentage: 5,
+                        color: '#9CA3AF',
+                        amount: '~5%',
+                        description: 'A small portion remains unallocated and continues earning 2.5% interest. In practice, most residents have very little OA balance left after housing and education by the time they reach their 40s.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'The Four Uses of Your CPF OA',
+                    cards: [
+                      {
+                        icon: '🏠',
+                        label: 'Housing',
+                        description: 'HDB downpayment, monthly mortgage, and stamp duties on approved properties.',
+                        color: '#4F46E5',
+                        details: [
+                          'OA funds can cover the downpayment (typically 10–20% of flat price) and monthly HDB loan instalments.',
+                          'Only HDB flats and approved private properties are eligible — not commercial property.',
+                          'Funds used for housing must be refunded to CPF with accrued 2.5% interest when the property is sold.',
+                          'Using OA for housing is extremely common — but it comes at the cost of reducing what\'s available for investments.',
+                        ],
+                        example: 'A $400,000 HDB flat with a 10% OA downpayment uses $40,000 of OA funds upfront, then monthly mortgage payments of ~$1,200 drawn from OA for 25 years.',
+                      },
+                      {
+                        icon: '📈',
+                        label: 'Investments (CPFIS)',
+                        description: 'Invest OA funds above $20,000 in approved instruments via the CPF Investment Scheme.',
+                        color: '#059669',
+                        details: [
+                          'Only OA funds above the $20,000 threshold are eligible for CPFIS investment.',
+                          'Eligible instruments include STI ETF, selected unit trusts, Singapore Government Bonds, and gold.',
+                          'Returns above 2.5% are yours to keep — but if your investment earns less than 2.5%, you\'ve underperformed the guaranteed OA rate.',
+                          'CPFIS is best suited for low-cost index funds — high-fee unit trusts often fail to beat the 2.5% guarantee after costs.',
+                        ],
+                        example: 'With $35,000 in your OA, you can invest up to $15,000 via CPFIS — the remaining $20,000 stays in OA earning 2.5% guaranteed.',
+                      },
+                      {
+                        icon: '🎓',
+                        label: 'Education',
+                        description: 'Pay approved tuition fees at local and selected overseas institutions.',
+                        color: '#F59E0B',
+                        details: [
+                          'OA funds can be used as an education loan for approved institutions — NTU, NUS, SMU, polytechnics, and selected overseas universities.',
+                          'This is treated as a loan from your own OA — you must repay the amount used plus 2.5% interest after graduation.',
+                          'Repayment begins one year after graduation and must be completed within 12 years.',
+                          'For international students who used CPF for education as PRs, this repayment obligation applies from Day 1 of working.',
+                        ],
+                        example: 'A PR student who uses $30,000 OA for NTU tuition fees must repay $30,000 + accrued 2.5% interest — approximately $33,000–$35,000 over the repayment period.',
+                      },
+                      {
+                        icon: '🛡️',
+                        label: 'Insurance & Others',
+                        description: 'Pay CPF-approved insurance premiums and selected other approved purposes.',
+                        color: '#DC2626',
+                        details: [
+                          'OA funds can pay premiums for CPF-approved life insurance policies.',
+                          'A small portion can be used for the CPF Dependants\' Protection Scheme (DPS) — a low-cost term insurance for CPF members.',
+                          'These uses are minor compared to housing and education — most members never actively direct OA to insurance.',
+                        ],
+                        example: 'The Dependants\' Protection Scheme (DPS) premium of approximately $18–$36/year for a 30-year-old is automatically deducted from OA — providing $70,000 coverage in the event of death or total permanent disability.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ OA funds used for housing stop earning 2.5% interest — they are no longer in your CPF account. The opportunity cost over 25 years is significant. On $100,000 of OA used for housing at age 30, the forgone 2.5% compounding over 25 years is approximately $75,000 in lost interest.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF OA uses housing education CPFIS investments Singapore 2025',
+                    prompt: 'CPF Ordinary Account OA uses housing HDB education CPFIS investments Singapore 2025 what can OA be used for',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '10-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'OA Uses — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'You can use your CPF OA funds to invest in the STI ETF via CPFIS as long as your OA balance exceeds $20,000.',
+                        isTrue: true,
+                        explanation: 'Correct. CPFIS allows OA funds above the $20,000 threshold to be invested in approved instruments including the STI ETF. The $20,000 must remain in OA earning the guaranteed 2.5% — only the excess is eligible for investment.',
+                      },
+                      {
+                        text: 'OA funds used for your HDB mortgage continue to earn 2.5% CPF interest while repaying the loan.',
+                        isTrue: false,
+                        explanation: 'Once OA funds are withdrawn for housing, they leave your CPF account and stop earning interest. The opportunity cost is the 2.5% compound interest foregone on those funds for the duration they would otherwise have remained in OA.',
+                      },
+                      {
+                        text: 'All four CPF accounts — OA, SA, MA, and RA — can be used for housing purposes.',
+                        isTrue: false,
+                        explanation: 'Only the Ordinary Account (OA) can be used for housing. The SA is ring-fenced for retirement, the MA for healthcare only, and the RA (created at 55) funds CPF LIFE payouts. Housing use is exclusively an OA function.',
+                      },
+                      {
+                        text: 'An international student who used CPF OA for NTU tuition fees as a PR must repay the amount with 2.5% accrued interest.',
+                        isTrue: true,
+                        explanation: 'Correct. CPF education withdrawals are treated as loans from your own OA — not grants. The full amount withdrawn plus 2.5% accrued interest must be repaid, typically over 12 years starting one year after graduation.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Using OA for HDB ──────────────────────────────────────
+              {
+                key: 'hdb',
+                title: 'Using OA for HDB',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Using OA for HDB',
+                  },
+                  {
+                    type: 'text',
+                    text: 'For most Singapore residents, buying an HDB flat is the single largest financial decision of their lives — and CPF OA is central to how it is financed. Understanding exactly how OA integrates with HDB financing, and the accrued interest trap that catches many sellers off guard, is essential before you sign any property agreement.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '🏠 How CPF-HDB Financing Works',
+                  },
+                  {
+                    type: 'text',
+                    text: 'When you buy an HDB flat, your OA funds can cover the downpayment and monthly mortgage instalments. For an HDB loan, the downpayment is typically 10% of the flat price — payable entirely from OA if you have sufficient balance. Monthly instalments are then automatically deducted from OA each month, only drawing from cash when OA is exhausted.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '🏠',
+                    title: 'HDB OA Financing Calculator',
+                    description: 'Drag to set your flat price and see the OA downpayment, estimated monthly mortgage, and accrued interest after 10 years.',
+                    min: 200000,
+                    max: 800000,
+                    step: 50000,
+                    initialValue: 400000,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      const downpayment = Math.round(value * 0.10);
+                      const loanAmount = value - downpayment;
+                      const monthlyRate = 0.026 / 12;
+                      const months = 25 * 12;
+                      const monthly = Math.round(loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1));
+                      const totalOAused = downpayment + (monthly * 12 * 10);
+                      const accruedInterest = Math.round(totalOAused * (Math.pow(1.025, 10) - 1));
+                      return [
+                        { label: 'OA downpayment required (10% of flat price)', value: `$${downpayment.toLocaleString()}`, color: '#4F46E5' },
+                        { label: 'Estimated monthly mortgage from OA (HDB loan at 2.6%)', value: `$${monthly.toLocaleString()}/mo`, color: '#0891B2' },
+                        { label: 'Total OA used in first 10 years (downpayment + instalments)', value: `$${totalOAused.toLocaleString()}`, color: '#F59E0B' },
+                        { label: 'Accrued interest to refund CPF if sold after 10 years', value: `$${accruedInterest.toLocaleString()}`, color: '#DC2626' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'subheading',
+                    text: '⚠️ The Accrued Interest Trap',
+                  },
+                  {
+                    type: 'text',
+                    text: 'When you sell your HDB flat, you must refund your CPF OA not just the principal amount withdrawn — but also the accrued interest at 2.5% per year as if the money had stayed in your OA the whole time. This is not a penalty — it is CPF restoring your retirement savings to what they would have been. But it can significantly reduce the cash proceeds you receive from a property sale.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ The accrued interest refund is one of the most misunderstood aspects of CPF-HDB financing. Many sellers are surprised to find their cash proceeds are much lower than expected after CPF refund. On $200,000 of OA used over 20 years, the accrued interest refund could exceed $130,000 — meaning you refund $330,000 to CPF from your sale proceeds.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: The accrued interest refund goes back into your OA — it\'s still your money, just ring-fenced for retirement again. You don\'t lose it permanently. But if you were counting on large cash proceeds from a property sale to fund your next purchase or lifestyle, this refund can catch you off guard.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF OA HDB accrued interest refund Singapore how it works',
+                    prompt: 'CPF OA HDB accrued interest refund Singapore 2025 how it works selling flat CPF refund calculation',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '10-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'CPF-HDB Scenarios',
+                    scenarios: [
+                      {
+                        icon: '🏠',
+                        situation: 'Mei and her husband are buying a $450,000 HDB flat. They have a combined OA balance of $60,000. Their HDB loan requires a 10% downpayment. How should they approach the downpayment?',
+                        options: [
+                          {
+                            text: 'Use $45,000 from their combined OA for the full 10% downpayment — this is exactly what OA is designed for.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'The OA downpayment use is appropriate here. $45,000 covers the 10% downpayment, leaving $15,000 in OA as a buffer. Monthly instalments will then draw from OA automatically. This is the standard CPF-HDB financing flow.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Use their SA funds instead — SA earns 4% so it\'s better to keep OA intact and growing at 2.5%.',
+                            biasLabel: 'SA cannot be used for housing',
+                            biasExplanation: 'The SA is ring-fenced for retirement savings only — it cannot be used for housing, education, or investments. OA is the only CPF account eligible for housing purposes.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Pay the full downpayment in cash to avoid any CPF accrued interest obligation on the property.',
+                            biasLabel: 'Misunderstands accrued interest',
+                            biasExplanation: 'While avoiding CPF use does eliminate the accrued interest refund obligation, it depletes cash reserves unnecessarily. Most financial advisors recommend using OA for housing and preserving cash for emergency funds and investments — the accrued interest refund returns to your OA, not lost forever.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💸',
+                        situation: 'James bought his HDB flat 15 years ago and used $180,000 of OA in total (downpayment + instalments). He is now selling the flat for $520,000. His outstanding HDB loan is $95,000. How much does he refund to CPF?',
+                        options: [
+                          {
+                            text: 'He refunds $180,000 — just the principal OA amount used, no additional interest.',
+                            biasLabel: 'Accrued interest is also owed',
+                            biasExplanation: 'The CPF refund includes both the principal ($180,000) AND accrued interest at 2.5% per year as if the funds had stayed in OA. On $180,000 over 15 years at 2.5%, the accrued interest alone is approximately $82,000 — making the total CPF refund around $262,000.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'He refunds $180,000 principal plus approximately $82,000 accrued interest = ~$262,000 total back to CPF.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Correct. The CPF refund is always principal + accrued interest at 2.5%. After repaying his $95,000 HDB loan and refunding ~$262,000 to CPF, James\'s cash proceeds are $520,000 − $95,000 − $262,000 = ~$163,000. The $262,000 goes back into his OA — it\'s still his money for retirement.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'He refunds nothing — accrued interest only applies if he is buying a private property, not an HDB flat.',
+                            biasLabel: 'Accrued interest applies to all properties',
+                            biasExplanation: 'The CPF accrued interest refund applies to all property types — HDB flats, executive condominiums, and private property. It is a universal CPF rule, not specific to private property transactions.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📊',
+                        situation: 'Priya has $45,000 in her OA after buying her HDB flat. She wants to invest via CPFIS. How much of her OA can she invest?',
+                        options: [
+                          {
+                            text: '$25,000 — the amount above the $20,000 CPFIS minimum threshold.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'The CPFIS rule requires a minimum $20,000 to remain in OA at all times — only OA funds above this threshold are eligible for investment. With $45,000 in OA, Priya can invest up to $25,000 via CPFIS while the $20,000 floor continues earning 2.5% guaranteed.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '$45,000 — the full OA balance can be invested since CPFIS has no minimum requirement.',
+                            biasLabel: '$20,000 minimum must stay in OA',
+                            biasExplanation: 'CPFIS requires a $20,000 minimum to remain in OA at all times. You cannot invest your entire OA balance regardless of how much you have.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '$0 — OA funds used for housing are no longer eligible for CPFIS investment.',
+                            biasLabel: 'Remaining OA balance is still eligible',
+                            biasExplanation: 'Only the OA funds actually withdrawn for housing are unavailable — the remaining OA balance is still eligible for CPFIS (above the $20,000 floor). Priya\'s $45,000 remaining OA balance is fully eligible for CPFIS above the threshold.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: The OA Housing vs Investment Trade-Off ────────────────
+              {
+                key: 'tradeoff',
+                title: 'The OA Housing vs Investment Trade-Off',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'The OA Housing vs Investment Trade-Off',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The OA sits at the centre of a fundamental tension in Singapore personal finance: every dollar you use for housing is a dollar that cannot be invested via CPFIS. And every dollar in CPFIS that earns less than 2.5% would have been better left in OA. Understanding this trade-off — before your first property purchase — is one of the most valuable financial frameworks you can develop as a young graduate.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Thinking Through the OA Trade-Off',
+                    cards: [
+                      {
+                        frontLabel: '🏠 Use OA for Housing',
+                        backLabel: '📋 What This Means',
+                        front: 'You direct OA funds to your HDB downpayment and monthly mortgage payments.',
+                        back: 'Your OA balance depletes over time. Less available for CPFIS. But your housing is funded with CPF — preserving cash for emergencies and investments outside CPF. The accrued interest refund obligation grows with every dollar used.',
+                      },
+                      {
+                        frontLabel: '📈 Use OA for CPFIS',
+                        backLabel: '📋 What This Means',
+                        front: 'You keep OA above $20,000 and invest the excess in STI ETF or other CPFIS-eligible instruments.',
+                        back: 'Your benchmark is 2.5% guaranteed. If your investment returns less — after fees — you\'ve underperformed a risk-free rate. Low-cost index funds (STI ETF ~7% long-term average) can beat 2.5% meaningfully. High-fee unit trusts often cannot.',
+                      },
+                      {
+                        frontLabel: '⚖️ The Typical Graduate Path',
+                        backLabel: '📋 What This Means',
+                        front: 'Most Singapore graduates use OA primarily for housing in their 30s, leaving little for CPFIS.',
+                        back: 'This is not necessarily wrong — housing builds equity and OA housing use preserves cash. The key insight: build strong cash investments outside CPF (robo-advisors, brokerage) while your OA is absorbed by housing. Don\'t wait for OA surplus that may never come.',
+                      },
+                      {
+                        frontLabel: '🎯 The Strategic Approach',
+                        backLabel: '📋 What This Means',
+                        front: 'Is there a way to optimise both housing and investments simultaneously?',
+                        back: 'Some Singapore residents use cash (not OA) for housing instalments where possible, preserving OA for CPFIS. Others focus SA voluntary top-ups to maximise 4% retirement growth instead. The right approach depends on your income, property goals, and risk tolerance — there is no universal answer.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: For most international graduates in their late 20s entering the workforce, the priority order is: (1) build emergency fund in cash, (2) start investing via robo-advisor or brokerage in cash, (3) consider OA/CPFIS only after housing plans are clear. Don\'t over-optimise CPF before you know whether you\'ll be buying property in Singapore.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF OA housing vs CPFIS investment trade-off Singapore strategy',
+                    prompt: 'CPF OA housing CPFIS investment trade-off Singapore 2025 strategy should I use OA for housing or invest CPFIS',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '10-3-s3-mcq',
+                    fincoins: 10,
+                    icon: '🏠',
+                    title: 'OA Trade-Off Quiz',
+                    question: 'Wei has $55,000 in his OA and is deciding whether to invest $35,000 via CPFIS in a unit trust charging 1.5% annual management fee. The unit trust\'s historical return is 4% per year. Should Wei invest via CPFIS?',
+                    options: [
+                      'Yes — 4% return beats the 2.5% OA guaranteed rate, so CPFIS is always the right choice here.',
+                      'No — after the 1.5% management fee, the net return is ~2.5%, which merely matches the guaranteed OA rate with added risk.',
+                      'Yes — any investment return above 0% is better than leaving money in OA.',
+                      'No — CPFIS investments are only suitable for members above age 40 who are closer to retirement.',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'After deducting the 1.5% management fee from the 4% gross return, Wei\'s net return is approximately 2.5% — exactly what his OA earns risk-free with a government guarantee. Taking on investment risk to match a guaranteed return is poor financial reasoning. Low-cost index funds (like STI ETF at ~0.3% fee) are far better CPFIS candidates — they keep more of the return after costs.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: CPF OA',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: CPF OA',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered what your OA can be used for, how CPF-HDB financing and accrued interest works, and the housing vs investment trade-off. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF OA HDB accrued interest CPFIS investment Singapore 2025',
+                    prompt: 'CPF Ordinary Account OA HDB housing accrued interest CPFIS investment threshold Singapore 2025',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '10-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '🏠',
+                    title: 'CPF OA Challenge',
+                    questions: [
+                      {
+                        concept: 'OA Use Cases',
+                        question: 'Which of the following is NOT a permitted use of CPF Ordinary Account funds?',
+                        options: [
+                          'Paying the downpayment on an HDB flat',
+                          'Investing in STI ETF via CPFIS above the $20,000 OA threshold',
+                          'Topping up your Special Account to earn 4% interest',
+                          'Paying approved tuition fees at NTU or NUS as an education loan',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'You cannot transfer OA funds into your SA directly as a top-up — SA top-ups must come from cash, not from OA. The other three options are all legitimate OA uses: housing, CPFIS investments (above $20,000), and approved education fees. If you want to boost your SA, you must do so with cash via the Retirement Sum Topping-Up Scheme.',
+                      },
+                      {
+                        concept: 'HDB Accrued Interest',
+                        question: 'Sarah used $150,000 of OA over 20 years for her HDB flat. She sells the flat today. Approximately how much must she refund to CPF?',
+                        options: [
+                          '$150,000 — only the principal amount withdrawn needs to be refunded',
+                          '$165,000 — a flat 10% penalty applies on top of the principal',
+                          'Approximately $246,000 — principal plus 2.5% accrued interest compounded over 20 years',
+                          'Nothing — the accrued interest obligation is waived after 15 years of ownership',
+                        ],
+                        correctIndex: 2,
+                        explanation: '$150,000 compounded at 2.5% for 20 years grows to approximately $246,000. Sarah must refund this full amount to her OA from the sale proceeds. The accrued interest obligation never expires — it accumulates for as long as CPF funds were used, regardless of how long the flat was owned. The refunded amount goes back into her OA for retirement.',
+                      },
+                      {
+                        concept: 'CPFIS Investment Threshold',
+                        question: 'James has $28,000 in his OA. He wants to invest in the STI ETF via CPFIS. How much can he invest, and what is the rationale for this limit?',
+                        options: [
+                          'He can invest the full $28,000 — there is no minimum OA balance requirement for CPFIS.',
+                          'He can invest $8,000 — only the amount above the $20,000 floor is eligible for CPFIS investment.',
+                          'He cannot invest anything — OA balances below $30,000 are not eligible for CPFIS.',
+                          'He can invest $14,000 — CPFIS limits investment to 50% of the current OA balance.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'The $20,000 OA floor must remain in OA at all times — only the amount above this threshold is eligible for CPFIS. With $28,000 in OA, James can invest $8,000 ($28,000 − $20,000). The floor ensures a minimum guaranteed retirement savings buffer remains earning 2.5% even if CPFIS investments underperform.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What are the four main uses of the CPF Ordinary Account (OA)?',
+                a: 'Housing (HDB downpayment and mortgage), investments via CPFIS (above $20,000 threshold), approved education fees (treated as a loan repayable with 2.5% interest), and CPF-approved insurance premiums.',
+              },
+              {
+                q: 'What is the CPF accrued interest refund and when does it apply?',
+                a: 'When you sell a property purchased using OA funds, you must refund to CPF the principal amount withdrawn plus 2.5% accrued interest as if the funds had stayed in OA. The refund goes back into your OA — it\'s not lost, but it reduces your cash sale proceeds.',
+              },
+              {
+                q: 'What is the minimum OA balance required before you can invest via CPFIS?',
+                a: '$20,000 must remain in OA at all times. Only OA funds above this $20,000 threshold are eligible for investment via the CPF Investment Scheme (CPFIS).',
+              },
+              {
+                q: 'Why do high-fee unit trusts often make poor CPFIS investments?',
+                a: 'OA already earns a guaranteed 2.5% risk-free. A unit trust charging 1.5% annual fees needs to earn more than 4% gross just to beat the OA rate after costs. Low-cost index funds like the STI ETF (~0.3% fee) are far better CPFIS candidates.',
+              },
+              {
+                q: 'For a typical Singapore graduate, what proportion of OA is used for housing over a lifetime?',
+                a: 'Approximately 68% of a typical graduate\'s lifetime OA contributions are absorbed by housing — downpayment and 25–30 years of monthly mortgage instalments. This leaves relatively little OA for investments or other purposes.',
+              },
+            ],
+          },
+
         ],
       },
       {
@@ -11977,9 +13339,1394 @@ export const MODULES = [
         icon: '📋',
         description: 'Navigate Singapore\'s tax system and protect what you build',
         lessons: [
-          { id: '11-1', title: 'Singapore Income Tax Basics', icon: '🧾', topic: 'Singapore income tax personal relief filing', duration: '7 min', fincoins: 100, sections: [{ key: 'how', heading: 'How Singapore Tax Works' }, { key: 'rates', heading: 'Tax Rates & Brackets' }, { key: 'relief', heading: 'Key Tax Reliefs to Claim' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the first tax bracket in Singapore?', a: 'The first $20,000 of chargeable income is taxed at 0% — Singapore has very low income tax.' }] },
-          { id: '11-2', title: 'MediShield Life & Insurance', icon: '🏥', topic: 'MediShield Life insurance Singapore basics', duration: '6 min', fincoins: 100, sections: [{ key: 'medishield', heading: 'What MediShield Life Covers' }, { key: 'gap', heading: 'The Insurance Gap' }, { key: 'need', heading: 'What Insurance Do You Actually Need?' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What does MediShield Life cover?', a: 'Large hospital bills and selected outpatient treatments — all Singapore citizens and PRs are enrolled automatically.' }] },
-          { id: '11-3', title: 'Tax Relief Through CPF Top-Ups', icon: '💡', topic: 'CPF top up tax relief SA Retirement Account Singapore', duration: '5 min', fincoins: 100, sections: [{ key: 'topup', heading: 'CPF Cash Top-Up Scheme' }, { key: 'relief', heading: 'Tax Relief Amounts' }, { key: 'strategy', heading: 'Optimising Your Top-Up Strategy' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'How much tax relief can you get from CPF cash top-ups?', a: 'Up to $8,000 for self top-up + $8,000 for family members = $16,000 total relief per year.' }] },
+          {
+            id: '11-1',
+            title: 'Singapore Income Tax Basics',
+            icon: '🧾',
+            topic: 'Singapore income tax IRAS how it works',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: How Singapore Tax Works ───────────────────────────────
+              {
+                key: 'howtax',
+                title: 'How Singapore Tax Works',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'How Singapore Tax Works',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Singapore has one of the most straightforward and favourable personal income tax systems in the world. Tax is levied on chargeable income — not your gross salary — and the progressive rates are low by global standards. For most fresh graduates earning under $50,000 in their first year, the effective tax rate is under 4%. Understanding the system before your first tax filing in March saves you money and eliminates anxiety.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Chargeable Income',
+                    definition: 'Your gross income minus all applicable tax reliefs and deductions. This is the amount Singapore tax is actually calculated on — not your gross salary. A $60,000 earner claiming $15,000 in reliefs pays tax on $45,000.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'IRAS',
+                    definition: 'Inland Revenue Authority of Singapore — the government agency responsible for tax assessment and collection. IRAS sends your tax bill (Notice of Assessment) each year and operates myTax Portal where you file and pay.',
+                  },
+                  {
+                    type: 'timeline',
+                    title: 'The Singapore Tax Year at a Glance',
+                    nodes: [
+                      {
+                        icon: '📅',
+                        label: 'Jan – Dec',
+                        sublabel: 'Income year (Year of Assessment basis)',
+                        color: '#4F46E5',
+                        examples: ['Salary received Jan–Dec 2025', 'Bonuses paid in this period', 'Freelance income earned'],
+                        details: [
+                          'Singapore taxes income on a preceding-year basis. Tax for income earned in 2025 is assessed and filed in 2026.',
+                          'The tax year runs January to December — all income received in this window is reportable.',
+                          'All income types count: employment salary, freelance, rental income, and director fees.',
+                        ],
+                        tip: 'Keep records of all income sources throughout the year — salary, freelance work, rental income — so filing is straightforward in March of the following year.',
+                      },
+                      {
+                        icon: '📝',
+                        label: 'Mar – Apr',
+                        sublabel: 'Filing window at myTax Portal',
+                        color: '#0891B2',
+                        examples: ['File at mytax.iras.gov.sg', 'Deadline: 18 April (e-filing)', 'Claim all eligible reliefs'],
+                        details: [
+                          'IRAS opens the filing window in March each year.',
+                          'Most salaried employees are on the No-Filing Service (NFS) — IRAS pre-fills your return from employer data.',
+                          'You only need to log in, verify the pre-filled figures, and add any additional reliefs. E-filing deadline is 18 April.',
+                        ],
+                        tip: 'Even on NFS, log in to myTax Portal to check your pre-filled return and add reliefs IRAS may not know about — such as course fee relief or parent relief. Unclaimed reliefs mean paying more tax than necessary.',
+                      },
+                      {
+                        icon: '💳',
+                        label: 'May – Nov',
+                        sublabel: 'Notice of Assessment issued, tax due',
+                        color: '#059669',
+                        examples: ['IRAS issues Notice of Assessment (NOA)', 'Pay by GIRO, PayNow, or credit card', 'GIRO instalments available interest-free'],
+                        details: [
+                          'IRAS issues your Notice of Assessment (NOA) typically between May and September.',
+                          'Tax is due within 30 days of the NOA.',
+                          'GIRO instalment payment plans are available interest-free — spreading the payment over up to 10 months.',
+                        ],
+                        tip: 'Set up GIRO for tax payment early in your career. It spreads your tax bill across monthly deductions with no interest, making cash flow much more manageable than a single lump-sum payment.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: '🌏 Tax Resident vs Non-Resident — What International Graduates Need to Know',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Your tax treatment depends on your residency status — not your nationality or pass type. A tax resident is someone who has been physically present or employed in Singapore for 183 days or more in a calendar year. Tax residents benefit from the progressive resident rates (starting at 0%). Non-residents are taxed at a flat 15% on employment income or the resident rate — whichever is higher. Most international graduates who work in Singapore full-time qualify as tax residents from their first full year of employment.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: If you arrive mid-year and work less than 183 days in your first calendar year, you may be treated as a non-resident for that year. However, if your employment continues into the next year, IRAS may apply the "tax resident treatment" retrospectively. Check your status on myTax Portal or contact IRAS directly in your first year.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore income tax how it works IRAS tax resident 2025',
+                    prompt: 'Singapore income tax 2025 how it works IRAS chargeable income tax resident non-resident international graduate filing',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '11-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'Singapore Tax — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Singapore income tax is calculated on your gross salary.',
+                        isTrue: false,
+                        explanation: 'Tax is calculated on chargeable income — your gross income minus all applicable reliefs and deductions. A $60,000 earner who claims $13,000 in reliefs pays tax on $47,000, not $60,000. Reliefs can meaningfully reduce your tax bill.',
+                      },
+                      {
+                        text: 'The Singapore tax filing deadline for e-filing is 18 April each year.',
+                        isTrue: true,
+                        explanation: 'Correct. The e-filing deadline is 18 April for the preceding year\'s income. Most salaried employees are on the No-Filing Service (NFS) and only need to verify their pre-filled return on myTax Portal and add any additional reliefs.',
+                      },
+                      {
+                        text: 'International students who work part-time during their studies in Singapore must file income tax regardless of how little they earn.',
+                        isTrue: false,
+                        explanation: 'You only need to file if your income exceeds $22,000 in a year (or if you receive a letter from IRAS). Below this threshold, there is no filing obligation. Part-time income during studies is typically well below this threshold.',
+                      },
+                      {
+                        text: 'A tax resident in Singapore benefits from progressive tax rates starting at 0% on the first $20,000 of chargeable income.',
+                        isTrue: true,
+                        explanation: 'Correct. The first $20,000 of chargeable income is taxed at 0% for Singapore tax residents. This means fresh graduates in their first year often pay very little tax — and many pay nothing at all after reliefs bring their chargeable income below $20,000.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Tax Rates & Brackets ──────────────────────────────────
+              {
+                key: 'brackets',
+                title: 'Tax Rates & Brackets',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Tax Rates & Brackets',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Singapore\'s tax brackets are progressive — higher income is taxed at higher rates, but only the income within each bracket is taxed at that rate. This means your effective tax rate (total tax divided by total income) is always significantly lower than your marginal rate (the rate on your last dollar of income). This distinction is widely misunderstood and causes unnecessary anxiety about salary increases.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Singapore Resident Tax Rates 2025 (Year of Assessment 2026)',
+                    headers: ['Chargeable Income', 'Rate', 'Tax on Band'],
+                    rows: [
+                      ['First $20,000', '0%', '$0'],
+                      ['Next $10,000 ($20,001–$30,000)', '2%', '$200'],
+                      ['Next $10,000 ($30,001–$40,000)', '3.5%', '$350'],
+                      ['Next $40,000 ($40,001–$80,000)', '7%', '$2,800'],
+                      ['Next $40,000 ($80,001–$120,000)', '11.5%', '$4,600'],
+                      ['Next $40,000 ($120,001–$160,000)', '15%', '$6,000'],
+                      ['Next $40,000 ($160,001–$200,000)', '18%', '$7,200'],
+                      ['Above $200,000', 'Up to 24%', 'Progressive'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'slider',
+                    icon: '🧾',
+                    title: 'Your Singapore Tax Estimate',
+                    description: 'Drag to set your gross annual salary and see your estimated chargeable income, tax payable, and effective tax rate.',
+                    min: 20000,
+                    max: 200000,
+                    step: 5000,
+                    initialValue: 60000,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      const cpfRelief = Math.min(Math.round(value * 0.20), 16000);
+                      const earnedIncomeRelief = value <= 55000 ? 1000 : 2000;
+                      const chargeableIncome = Math.max(0, value - cpfRelief - earnedIncomeRelief);
+
+                      let tax = 0;
+                      if (chargeableIncome <= 20000) tax = 0;
+                      else if (chargeableIncome <= 30000) tax = (chargeableIncome - 20000) * 0.02;
+                      else if (chargeableIncome <= 40000) tax = 200 + (chargeableIncome - 30000) * 0.035;
+                      else if (chargeableIncome <= 80000) tax = 550 + (chargeableIncome - 40000) * 0.07;
+                      else if (chargeableIncome <= 120000) tax = 3350 + (chargeableIncome - 80000) * 0.115;
+                      else if (chargeableIncome <= 160000) tax = 7950 + (chargeableIncome - 120000) * 0.15;
+                      else if (chargeableIncome <= 200000) tax = 13950 + (chargeableIncome - 160000) * 0.18;
+                      else tax = 21150 + (chargeableIncome - 200000) * 0.19;
+
+                      tax = Math.round(tax);
+                      const effectiveRate = value > 0 ? ((tax / value) * 100).toFixed(1) : '0.0';
+                      const marginalRate =
+                        chargeableIncome <= 20000 ? '0%'
+                        : chargeableIncome <= 30000 ? '2%'
+                        : chargeableIncome <= 40000 ? '3.5%'
+                        : chargeableIncome <= 80000 ? '7%'
+                        : chargeableIncome <= 120000 ? '11.5%'
+                        : chargeableIncome <= 160000 ? '15%'
+                        : chargeableIncome <= 200000 ? '18%' : '19%+';
+
+                      return [
+                        { label: 'Estimated chargeable income (after CPF relief + earned income relief)', value: `$${chargeableIncome.toLocaleString()}`, color: '#4F46E5' },
+                        { label: 'Estimated annual tax payable', value: `$${tax.toLocaleString()}`, color: '#DC2626' },
+                        { label: 'Your effective tax rate (tax ÷ gross salary)', value: `${effectiveRate}%`, color: '#059669' },
+                        { label: 'Your marginal tax rate (rate on last dollar earned)', value: marginalRate, color: '#F59E0B' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 A fresh graduate earning $60,000/year pays approximately $1,150 in income tax after standard CPF and earned income reliefs — an effective rate of under 2%. Compare this to the UK (20% basic rate) or Australia (32.5% for equivalent income). Singapore\'s tax burden on young workers is among the lowest in the developed world.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Key insight: Getting a raise from $79,000 to $85,000 does NOT mean your entire salary is taxed at 11.5%. Only the $5,000 above the $80,000 threshold is taxed at 11.5% — the rest is still taxed at the lower bracket rates. A pay rise always increases your take-home pay.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore income tax brackets rates 2025 effective vs marginal rate',
+                    prompt: 'Singapore income tax brackets rates 2025 effective rate vs marginal rate fresh graduate salary calculation IRAS',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '11-1-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Tax Bracket Scenarios',
+                    scenarios: [
+                      {
+                        icon: '💼',
+                        situation: 'Aisha earns $48,000/year. After CPF relief and earned income relief, her chargeable income is $37,500. Her colleague tells her she\'s in the "3.5% tax bracket" and will pay 3.5% of her full salary in tax. Is her colleague right?',
+                        options: [
+                          {
+                            text: 'No — only the portion of chargeable income between $30,001 and $37,500 is taxed at 3.5%. The rest is taxed at lower rates.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Progressive tax means each bracket rate applies only to the income within that band. Aisha pays 0% on the first $20,000, 2% on $10,000 ($200), and 3.5% on $7,500 ($262.50) — total tax of $462.50. Her effective rate is under 1% of gross salary, not 3.5%.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Yes — once you enter the 3.5% bracket, all your income is taxed at 3.5% including the lower bands.',
+                            biasLabel: 'Marginal rate ≠ effective rate',
+                            biasExplanation: 'This is the most common tax misconception. Marginal rates only apply to the income within each band — not retroactively to all income. Entering a higher bracket never reduces your take-home pay.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Yes — 3.5% applies to the full chargeable income of $37,500 since that falls within the 3.5% bracket.',
+                            biasLabel: 'Only the top band is taxed at 3.5%',
+                            biasExplanation: 'The 3.5% rate only applies to chargeable income between $30,001 and $40,000 — not to the full $37,500. Singapore\'s progressive structure ensures lower bands are always taxed at lower rates.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📈',
+                        situation: 'Marcus is deciding between two job offers: $79,000/year and $85,000/year. He\'s worried the $85,000 salary will push him into the 11.5% bracket and he\'ll actually take home less. Should he be concerned?',
+                        options: [
+                          {
+                            text: 'No — only the $5,000 above $80,000 is taxed at 11.5%. The additional $6,000 salary will always increase his take-home pay.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'A pay rise always increases take-home pay under progressive taxation. Only the $5,000 between $80,001 and $85,000 is taxed at 11.5% ($575 additional tax). The remaining $1,000 of the $6,000 raise is taxed at 7%. His net gain is approximately $6,000 − $650 additional tax = $5,350 more take-home per year.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Yes — crossing the 11.5% bracket threshold means his entire income above $80,000 is taxed at the higher rate, reducing his net benefit.',
+                            biasLabel: 'Only income in the band is taxed at 11.5%',
+                            biasExplanation: 'Tax brackets work on marginal income only. Crossing a bracket threshold never reduces net income — it only means additional earnings above the threshold are taxed at the higher rate.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Yes — once in the 11.5% bracket, the entire chargeable income is taxed at 11.5%, which significantly reduces the benefit of the raise.',
+                            biasLabel: 'Progressive tax never works this way',
+                            biasExplanation: 'Singapore\'s tax is calculated band by band — the 11.5% rate only applies to the income within the $80,001–$120,000 band. Income in lower bands continues to be taxed at lower rates regardless of total income.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🌏',
+                        situation: 'Priya is an international graduate who arrived in Singapore in August 2025 and worked until December 2025 — only 5 months. She earned $25,000. How is she likely taxed for Year of Assessment 2026?',
+                        options: [
+                          {
+                            text: 'She may be treated as a non-resident for 2025 and taxed at a flat 15% on her $25,000 employment income — or the resident rate, whichever is higher.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Working fewer than 183 days in a calendar year typically results in non-resident tax treatment. Non-residents pay 15% flat on employment income or the resident rate — whichever yields more tax. On $25,000, resident tax would be ~$100 but 15% flat = $3,750. IRAS would apply the higher amount. Priya should verify her status on myTax Portal.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'She pays 0% tax — the first $20,000 of income is tax-free for everyone in Singapore regardless of residency.',
+                            biasLabel: '0% band only applies to tax residents',
+                            biasExplanation: 'The 0% band on the first $20,000 applies to tax residents only. Non-residents are subject to a flat 15% rate on employment income — the progressive resident bands do not apply to them.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'She is automatically a tax resident because she holds an Employment Pass and works for a Singapore-registered company.',
+                            biasLabel: 'Residency is based on days, not pass type',
+                            biasExplanation: 'Tax residency in Singapore is determined by physical presence — 183 days or more in a calendar year — not by the type of work pass held. Pass type has no bearing on tax residency status.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Key Tax Reliefs to Claim ──────────────────────────────
+              {
+                key: 'reliefs',
+                title: 'Key Tax Reliefs to Claim',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Key Tax Reliefs to Claim',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Tax reliefs reduce your chargeable income — the base on which your tax is calculated. They are not tax credits (which reduce tax directly) but they can still meaningfully lower your bill. Many reliefs are auto-applied by IRAS from employer and CPF data, but several require you to actively claim them. Unclaimed reliefs are money left on the table.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'Key Reliefs for New Graduates in Singapore',
+                    cards: [
+                      {
+                        icon: '🏦',
+                        label: 'CPF Relief',
+                        description: 'Auto-applied by IRAS — your mandatory employee CPF contributions reduce your chargeable income dollar for dollar.',
+                        color: '#4F46E5',
+                        details: [
+                          'IRAS automatically deducts your mandatory CPF employee contributions from your assessable income.',
+                          'For a $60,000 earner contributing 20% CPF, this is $12,000 of automatic relief — the single largest relief for most young workers.',
+                          'No action needed — IRAS receives this data directly from CPF Board.',
+                          'Voluntary CPF cash top-ups to SA also qualify for additional relief up to $8,000 — but this must be claimed manually.',
+                        ],
+                        example: 'On a $60,000 salary, CPF relief automatically reduces chargeable income by $12,000 — saving approximately $420 in tax (at the 3.5% marginal rate on that band).',
+                      },
+                      {
+                        icon: '💼',
+                        label: 'Earned Income Relief',
+                        description: 'Automatic relief for all working Singapore tax residents — $1,000 for those under 55.',
+                        color: '#059669',
+                        details: [
+                          'Every working tax resident below 55 receives a $1,000 earned income relief automatically.',
+                          'This increases to $6,000 for workers aged 55–59 and $8,000 for those 60 and above.',
+                          'No action required — IRAS applies this automatically to all eligible tax residents.',
+                        ],
+                        example: 'A 26-year-old fresh graduate automatically receives $1,000 earned income relief, reducing chargeable income by at least $1,000 on top of CPF relief.',
+                      },
+                      {
+                        icon: '📚',
+                        label: 'Course Fee Relief',
+                        description: 'Claim up to $5,500 for approved courses and skills upgrading — must be claimed manually.',
+                        color: '#F59E0B',
+                        details: [
+                          'If you attend approved courses related to your work or business, you can claim up to $5,500 in course fee relief.',
+                          'Qualifying courses include SkillsFuture-approved programmes, professional certifications, and approved degree programmes.',
+                          'This must be claimed manually on myTax Portal — IRAS does not auto-apply this relief.',
+                          'Particularly relevant for new graduates pursuing professional certifications (CFA, ACCA, AWS) in their first years of work.',
+                        ],
+                        example: 'A software engineer who pays $3,000 for an AWS certification course can claim $3,000 in course fee relief — reducing their chargeable income by $3,000 and saving up to $210 in tax.',
+                      },
+                      {
+                        icon: '👨‍👩‍👧',
+                        label: 'Parent Relief',
+                        description: 'Claim $9,000 per dependent parent (or $14,000 if parent lives with you) — must be claimed manually.',
+                        color: '#DC2626',
+                        details: [
+                          'If you are supporting a parent aged 55 or above with annual income below $4,000, you can claim parent relief.',
+                          '$9,000 per parent if they do not live with you; $14,000 if they live in the same household.',
+                          'Only one child can claim parent relief per parent — coordinate with siblings to avoid double-claiming.',
+                          'Most relevant for Singapore PRs and citizens with parents in Singapore — international graduates whose parents are overseas typically cannot claim this.',
+                        ],
+                        example: 'A Singapore PR supporting both parents aged 60+ who live with them can claim $28,000 in parent relief ($14,000 × 2) — potentially saving over $1,960 in tax at the 7% marginal rate.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ Important distinction: Tax reliefs reduce your chargeable income — not your tax bill directly. A $5,000 relief does not save you $5,000 in tax. It saves you $5,000 × your marginal tax rate. At 7%, that\'s $350 saved. At 15%, that\'s $750 saved. The higher your income, the more valuable each dollar of relief becomes.',
+                  },
+                  {
+                    type: 'checklist',
+                    title: 'Your Tax Filing Checklist — New Graduate Edition',
+                    items: [
+                      'Log in to myTax Portal (mytax.iras.gov.sg) by 18 April',
+                      'Verify your pre-filled income figures match your payslips',
+                      'Confirm CPF relief is correctly auto-applied',
+                      'Claim course fee relief if you attended any approved courses',
+                      'Check if you qualify for parent relief (Singapore-based parents aged 55+)',
+                      'If you made voluntary CPF SA top-ups, claim the additional CPF cash top-up relief',
+                      'Review your Notice of Assessment when issued (May–Sep) and check for errors',
+                      'Set up GIRO for instalment payment if your tax bill exceeds $500',
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore income tax reliefs new graduate CPF course fee parent 2025',
+                    prompt: 'Singapore income tax reliefs 2025 new graduate CPF relief earned income course fee parent relief how to claim myTax Portal',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '11-1-s3-mcq',
+                    fincoins: 10,
+                    icon: '🧾',
+                    title: 'Tax Reliefs Quiz',
+                    question: 'Wei earns $75,000/year and is in the 7% marginal tax bracket. He paid $4,000 for an approved professional certification course. How much tax does the course fee relief save him?',
+                    options: [
+                      '$4,000 — tax reliefs reduce your tax bill dollar for dollar.',
+                      '$280 — the $4,000 relief reduces chargeable income by $4,000, saving 7% of $4,000.',
+                      '$600 — course fee relief is capped at a flat $600 saving regardless of income.',
+                      '$0 — course fee relief only applies to courses taken before entering the workforce.',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'Tax reliefs reduce chargeable income, not tax directly. Wei\'s $4,000 course fee relief reduces his chargeable income by $4,000. At his 7% marginal rate, the tax saving is $4,000 × 7% = $280. If Wei were in a higher bracket — say 15% — the same relief would save $600. This is why reliefs become more valuable at higher incomes.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Singapore Income Tax',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Singapore Income Tax',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how Singapore tax works, how to read the brackets without confusing marginal and effective rates, and which reliefs to claim as a new graduate. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore income tax chargeable income reliefs brackets IRAS 2025',
+                    prompt: 'Singapore income tax 2025 chargeable income tax brackets reliefs effective rate marginal rate IRAS filing new graduate',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '11-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '🧾',
+                    title: 'Singapore Income Tax Challenge',
+                    questions: [
+                      {
+                        concept: 'Tax Residency',
+                        question: 'An international graduate starts work in Singapore on 1 March 2025 and works through to December 2025 — approximately 10 months. How is she likely treated for tax purposes for Year of Assessment 2026?',
+                        options: [
+                          'As a non-resident — she must have been present for a full calendar year to qualify as a tax resident.',
+                          'As a tax resident — she was present and employed in Singapore for more than 183 days in 2025.',
+                          'As a non-resident — Employment Pass holders are never treated as tax residents in their first year.',
+                          'Her residency status is irrelevant — all workers in Singapore pay the same flat tax rate.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Tax residency requires 183 days or more of physical presence or employment in Singapore in a calendar year. Working from March to December is approximately 305 days — well above the 183-day threshold. She qualifies as a tax resident and benefits from progressive rates starting at 0%, not the flat 15% non-resident rate.',
+                      },
+                      {
+                        concept: 'Effective vs Marginal Rate',
+                        question: 'James earns $80,000/year. After CPF and earned income relief, his chargeable income is $62,000. His colleague says he\'s in the "7% tax bracket" and pays 7% of his salary in tax. What is James\'s actual tax bill?',
+                        options: [
+                          '$4,340 — 7% of his $62,000 chargeable income.',
+                          '$5,600 — 7% of his $80,000 gross salary.',
+                          '$2,090 — calculated band by band: 0% on $20,000 + 2% on $10,000 + 3.5% on $10,000 + 7% on $22,000.',
+                          '$1,190 — only the income above $40,000 is taxable.',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Progressive tax is calculated band by band: $0 on first $20,000 + $200 (2% on $10,000) + $350 (3.5% on $10,000) + $1,540 (7% on $22,000) = $2,090. Not $4,340. James\'s effective tax rate is $2,090 ÷ $80,000 = 2.6% — far lower than his 7% marginal rate. This is the core distinction that eliminates tax anxiety about salary increases.',
+                      },
+                      {
+                        concept: 'Tax Reliefs',
+                        question: 'Priya earns $55,000/year and wants to reduce her tax bill. Which combination of actions gives her the most tax relief?',
+                        options: [
+                          'Do nothing — IRAS automatically applies all available reliefs so manual claiming is unnecessary.',
+                          'Claim course fee relief for a $3,000 SkillsFuture course AND make a $5,000 voluntary CPF SA top-up — both reduce chargeable income and must be claimed manually.',
+                          'Apply for a tax credit from IRAS directly — tax credits reduce the tax bill dollar for dollar unlike reliefs.',
+                          'Request the non-resident flat rate — 15% flat is lower than the progressive rate at her income level.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Course fee relief ($3,000) and voluntary CPF cash top-up relief (up to $8,000) are both legitimate reliefs that must be claimed manually on myTax Portal — IRAS does not auto-apply them. Together they could reduce Priya\'s chargeable income by $8,000, saving approximately $280–$560 in tax depending on her marginal rate. Singapore does not offer general tax credits for individuals, and non-resident rates are not optional choices.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is chargeable income and how does it differ from gross salary?',
+                a: 'Chargeable income is gross income minus all applicable tax reliefs and deductions. Singapore tax is calculated on chargeable income — not gross salary. A $60,000 earner claiming $13,000 in reliefs pays tax on $47,000.',
+              },
+              {
+                q: 'What is the Singapore tax filing deadline and where do you file?',
+                a: 'The e-filing deadline is 18 April each year at myTax Portal (mytax.iras.gov.sg). Most salaried employees are on the No-Filing Service — IRAS pre-fills returns from employer data, but you must log in to add any reliefs IRAS may not know about.',
+              },
+              {
+                q: 'What is the difference between effective tax rate and marginal tax rate?',
+                a: 'Marginal rate is the rate applied to your last dollar of income (e.g. 7%). Effective rate is total tax divided by total income — always much lower. A $60,000 earner in the 7% bracket typically pays an effective rate under 2% after reliefs.',
+              },
+              {
+                q: 'Which tax reliefs are automatically applied by IRAS and which must be claimed manually?',
+                a: 'Auto-applied: CPF relief (mandatory contributions), earned income relief. Must be claimed manually: course fee relief, parent relief, voluntary CPF cash top-up relief, NSman relief. Always log in to myTax Portal to check and add manual claims.',
+              },
+              {
+                q: 'How is a new international graduate in Singapore taxed in their first year if they work less than 183 days?',
+                a: 'They are treated as a non-resident and taxed at a flat 15% on employment income — or the resident progressive rate, whichever is higher. If employment continues into the following year, IRAS may retrospectively apply tax resident treatment. Verify status on myTax Portal.',
+              },
+            ],
+          },
+          {
+            id: '11-2',
+            title: 'MediShield Life & Insurance',
+            icon: '🏥',
+            topic: 'MediShield Life insurance Singapore coverage',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: What MediShield Life Covers ───────────────────────────
+              {
+                key: 'medishield',
+                title: 'What MediShield Life Covers',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What MediShield Life Covers',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Healthcare is one of the largest financial risks you will face over your lifetime — a single hospitalisation can cost tens of thousands of dollars. Singapore addresses this through a multi-layer system anchored by MediShield Life, a mandatory basic health insurance scheme for all Singapore citizens and PRs. Understanding what MediShield Life covers, where it falls short, and how to fill the gap is one of the most practically important financial decisions you will make as a new resident.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'MediShield Life',
+                    definition: 'A mandatory basic health insurance scheme administered by the CPF Board, covering all Singapore citizens and PRs for life — including those with pre-existing conditions. Premiums are paid from your MediSave Account (MA). It is designed to cover large hospital bills at Class B2 and C wards in public hospitals.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'MediSave Account (MA)',
+                    definition: 'The CPF account designated for healthcare expenses. MA contributions (21.6% of total CPF for those under 35) fund MediShield Life premiums automatically and can be used for approved outpatient treatments, hospitalisation, and approved insurance premiums.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'The Three Pillars of Singapore Healthcare Financing',
+                    cards: [
+                      {
+                        icon: '🛡️',
+                        label: 'MediShield Life',
+                        description: 'Mandatory basic insurance covering large hospital bills at Class B2/C wards. Premiums from MediSave.',
+                        color: '#4F46E5',
+                        details: [
+                          'Covers all Singapore citizens and PRs automatically — no opt-out.',
+                          'Designed for Class B2 and C ward subsidised hospitalisation in public hospitals.',
+                          'Covers large inpatient bills and selected costly outpatient treatments (dialysis, chemotherapy).',
+                          'Subject to deductibles (first $1,500–$3,000 you pay), co-insurance (10% of the remaining bill), and claim limits.',
+                          'Does not cover outpatient GP visits, dental, or Class A/B1 ward charges.',
+                        ],
+                        example: 'A $20,000 hospital bill at a Class B2 ward: MediShield Life pays the majority after you cover the deductible ($2,000) and 10% co-insurance on the balance — you might pay $3,800, MediShield covers $16,200.',
+                      },
+                      {
+                        icon: '💊',
+                        label: 'MediSave',
+                        description: 'CPF savings account for healthcare. Funds MediShield Life premiums and direct medical expenses.',
+                        color: '#059669',
+                        details: [
+                          'MediSave is not insurance — it is your personal healthcare savings pool within CPF.',
+                          'Used to pay MediShield Life premiums automatically each year.',
+                          'Can be used for approved hospitalisation, day surgery, and selected outpatient treatments.',
+                          'Cannot be used for GP visits, dental, or cosmetic procedures.',
+                          'Earns 4% interest — the same rate as SA.',
+                        ],
+                        example: 'Your MediSave balance of $12,000 can cover MediShield Life premiums (~$300–$600/year for those under 30), hospitalisation costs not covered by MediShield Life, and approved chronic disease outpatient treatments.',
+                      },
+                      {
+                        icon: '🏥',
+                        label: 'MediFund',
+                        description: 'Safety net for Singapore citizens who cannot afford their subsidised hospital bills even after MediShield Life and MediSave.',
+                        color: '#F59E0B',
+                        details: [
+                          'MediFund is an endowment fund that provides assistance to the lowest-income Singapore citizens who cannot afford medical bills.',
+                          'Only citizens are eligible — PRs and foreigners cannot apply.',
+                          'Applications are assessed by medical social workers at public hospitals.',
+                          'Covers residual bills after MediShield Life and MediSave have been applied.',
+                        ],
+                        example: 'An elderly Singapore citizen with no MediSave balance and unable to afford a $3,000 residual hospital bill can apply for MediFund assistance through the hospital\'s medical social worker.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ International students and EP/S Pass holders are NOT automatically covered by MediShield Life — it is only mandatory for Singapore citizens and PRs. As a foreigner in Singapore, you have no mandatory health insurance. Your employer may provide group insurance, but you should verify coverage and consider purchasing your own plan. A single hospitalisation without insurance can cost $10,000–$50,000.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 MediShield Life covers approximately 60–70% of the average subsidised Class B2 ward bill. For Class A wards or private hospitals, MediShield Life covers a much smaller proportion — often under 20% of the total bill. This is the gap that Integrated Shield Plans are designed to fill.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 MediShield Life coverage what it covers Singapore 2025',
+                    prompt: 'MediShield Life Singapore 2025 what does it cover deductible co-insurance claim limits Class B2 C ward public hospital',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '11-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'MediShield Life — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'MediShield Life covers all medical expenses including GP visits and dental treatment.',
+                        isTrue: false,
+                        explanation: 'MediShield Life only covers large inpatient hospital bills and selected costly outpatient treatments like dialysis and chemotherapy. Routine GP visits, dental care, and outpatient specialist consultations are not covered. For daily healthcare costs, you rely on MediSave (for approved treatments) or pay out of pocket.',
+                      },
+                      {
+                        text: 'MediShield Life premiums are automatically paid from your CPF MediSave Account.',
+                        isTrue: true,
+                        explanation: 'Correct. MediShield Life premiums are deducted automatically from your MediSave Account each year. You do not need to make manual payments. For most people under 30, the annual premium is $300–$600 — a small fraction of the typical MA balance.',
+                      },
+                      {
+                        text: 'International students and Employment Pass holders in Singapore are automatically enrolled in MediShield Life.',
+                        isTrue: false,
+                        explanation: 'MediShield Life is mandatory for Singapore citizens and PRs only. Foreign nationals — including international students, EP holders, and S Pass holders — are not enrolled. Many foreigners in Singapore have no mandatory health insurance and must arrange their own coverage or rely on employer-provided group insurance.',
+                      },
+                      {
+                        text: 'MediShield Life covers pre-existing conditions for all new enrolees.',
+                        isTrue: true,
+                        explanation: 'Correct — this is one of MediShield Life\'s most important features. Unlike private insurance which can exclude pre-existing conditions, MediShield Life covers all citizens and PRs including those with pre-existing conditions. Those with serious pre-existing conditions pay a loading premium for the first 10 years.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: The Insurance Gap — Integrated Shield Plans ──────────
+              {
+                key: 'gap',
+                title: 'The Insurance Gap — Integrated Shield Plans',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'The Insurance Gap — Integrated Shield Plans',
+                  },
+                  {
+                    type: 'text',
+                    text: 'MediShield Life is designed as a basic safety net — not comprehensive coverage. If you want to stay in a Class A ward, a private hospital, or have a specialist of your choice, MediShield Life will cover very little of the bill. Integrated Shield Plans (IPs) are private insurance add-ons sold by approved insurers that sit on top of MediShield Life to bridge this gap. Understanding what IPs cover, what they cost, and whether you need one is a decision every Singapore resident eventually faces.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'MediShield Life vs Integrated Shield Plans — At a Glance',
+                    headers: ['Feature', 'MediShield Life', 'Integrated Shield Plan (IP)'],
+                    rows: [
+                      ['Who provides it', 'CPF Board', 'Private insurers (AIA, Prudential, Great Eastern, NTUC Income, Raffles)'],
+                      ['Who it covers', 'All citizens & PRs', 'Citizens & PRs (add-on to MediShield Life)'],
+                      ['Ward coverage', 'Class B2 & C (subsidised)', 'Class B1, A, or private hospital (plan dependent)'],
+                      ['Premium payment', 'MediSave', 'MediSave (partial) + cash (rider portion)'],
+                      ['Pre-existing conditions', 'Always covered', 'May be excluded or subject to loading'],
+                      ['Annual premium (age 30)', '~$300–$600', '~$600–$1,800 depending on plan tier'],
+                      ['Deductible', '$1,500–$3,000', 'Lower deductibles with riders'],
+                      ['Co-insurance', '10%', 'Can be reduced to 5% or 0% with riders'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'subheading',
+                    text: '🏥 Ward Class — Why It Matters',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Singapore public hospitals offer different ward classes with different levels of subsidy, amenity, and specialist choice. Your insurance coverage determines which ward class you can comfortably afford without significant out-of-pocket costs.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Singapore Hospital Ward Classes',
+                    headers: ['Ward Class', 'Subsidy', 'Room Type', 'Doctor Choice', 'MediShield Life Coverage'],
+                    rows: [
+                      ['Class C', 'Up to 80%', '6–9 beds', 'Assigned', 'Strong coverage'],
+                      ['Class B2', 'Up to 65%', '5 beds', 'Assigned', 'Good coverage'],
+                      ['Class B1', 'No subsidy', '4 beds', 'Limited choice', 'Partial — IP recommended'],
+                      ['Class A', 'No subsidy', 'Single/twin', 'Your choice', 'Minimal — IP required'],
+                      ['Private Hospital', 'No subsidy', 'Private room', 'Full choice', 'Very minimal — IP required'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: For most healthy young graduates, a Class B1-tier IP from an approved insurer gives a strong balance — no subsidy but a proper room with some specialist choice, and your MediSave can cover the bulk of the premium. Going straight to private hospital coverage as a fresh graduate is likely unnecessary and expensive. Reassess when you have dependants or higher income.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Integrated Shield Plan Singapore comparison 2025 which to choose',
+                    prompt: 'Integrated Shield Plan Singapore 2025 comparison MediShield Life IP AIA Prudential NTUC Income Great Eastern which plan Class B1 A private hospital',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '11-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Insurance Gap Scenarios',
+                    scenarios: [
+                      {
+                        icon: '🏥',
+                        situation: 'Mei is a 26-year-old Singapore PR who just started her first job. She has MediShield Life automatically. She is considering whether to get an Integrated Shield Plan. She is healthy with no pre-existing conditions and earns $4,500/month. What should she do?',
+                        options: [
+                          {
+                            text: 'Get a Class B1-tier IP — MediShield Life alone only covers subsidised wards, and a B1-tier IP is affordable at her income level with most of the premium payable from MediSave.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'A Class B1-tier IP is the standard recommendation for healthy young Singapore residents. At age 26, annual IP premiums are approximately $600–$900 for B1 coverage — much of which can be paid from MediSave. Without an IP, a stay in a Class B1 or A ward results in significant out-of-pocket costs beyond MediShield Life\'s coverage.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'MediShield Life is sufficient — she is young and healthy and hospitalisation is unlikely.',
+                            biasLabel: 'MediShield Life alone has significant gaps',
+                            biasExplanation: 'Being young and healthy reduces the probability of hospitalisation but not the cost if it happens. A single hospitalisation in a Class B1 ward without an IP can leave tens of thousands in uncovered bills. Insurance is precisely for low-probability, high-cost events.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Get a private hospital-tier IP immediately — full coverage is always better and the premium is manageable.',
+                            biasLabel: 'Over-insurance at this life stage',
+                            biasExplanation: 'Private hospital-tier IPs cost significantly more and require a cash rider component that can run $800–$1,500/year on top of the MediSave-payable portion. For a 26-year-old with no dependants, this level of coverage is generally unnecessary. B1-tier is the appropriate starting point.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💸',
+                        situation: 'James, an EP holder from India, has been working in Singapore for 2 years. His employer provides group hospitalisation insurance covering Class B1 wards. He assumes he is adequately covered. Is this correct?',
+                        options: [
+                          {
+                            text: 'Mostly yes — employer group insurance covers B1 wards which is reasonable, though he should check whether coverage continues if he loses his job or changes employer.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Employer group insurance covering B1 wards is reasonable coverage. The key risk is portability — if James changes jobs or is retrenched, coverage lapses immediately. He should consider whether to supplement with his own individual plan, especially if he has any developing health conditions that could make future underwriting difficult.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Yes — employer group insurance is always superior to individual plans and MediShield Life, so no additional coverage is needed.',
+                            biasLabel: 'Group insurance has significant limitations',
+                            biasExplanation: 'Group insurance is tied to employment — it lapses when you leave. Individual plans are portable and can be maintained regardless of job changes. Over a 30-year career with multiple employers, relying solely on group insurance creates coverage gaps during transitions.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'No — as an EP holder he has no health insurance since MediShield Life does not cover foreigners and group insurance is not real insurance.',
+                            biasLabel: 'Employer group insurance is valid coverage',
+                            biasExplanation: 'Employer group hospitalisation insurance is legitimate and valid insurance. While MediShield Life does not cover foreigners, employer-provided group insurance fills this role for many EP and S Pass holders. The key limitations are portability and the absence of coverage during job transitions.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '⚠️',
+                        situation: 'Priya was diagnosed with a chronic condition before applying for an Integrated Shield Plan. The insurer wants to exclude this condition from coverage. She is wondering whether to accept the exclusion or rely on MediShield Life alone for this condition. What is her best option?',
+                        options: [
+                          {
+                            text: 'Accept the IP with the exclusion for the chronic condition — MediShield Life covers the excluded condition anyway, and the IP covers everything else at a higher ward class.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'This is the correct approach. MediShield Life covers all conditions including pre-existing ones for all citizens and PRs — so Priya\'s chronic condition is always covered at Class B2/C level. An IP with the exclusion still provides upgraded ward coverage for all other conditions. This combination gives the most comprehensive overall coverage.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Reject the IP entirely — if the insurer won\'t cover her condition, the plan is not worth having.',
+                            biasLabel: 'IP still covers all other conditions',
+                            biasExplanation: 'An IP with one exclusion still covers all other hospitalisation needs at a higher ward class. Given that most hospitalisations are for conditions other than a single chronic disease, rejecting the IP entirely means forgoing significant coverage improvement for the vast majority of health events.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Apply to a different insurer — all insurers are required to cover pre-existing conditions without exclusion.',
+                            biasLabel: 'Only MediShield Life has this requirement',
+                            biasExplanation: 'The no-exclusion requirement applies to MediShield Life only — private insurers offering IP add-ons can and do apply exclusions, loading premiums, or decline applications for pre-existing conditions. MediShield Life is the guaranteed safety net for these conditions.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: What Insurance Do You Actually Need? ──────────────────
+              {
+                key: 'whatyouneed',
+                title: 'What Insurance Do You Actually Need?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What Insurance Do You Actually Need?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Insurance decisions are deeply personal — they depend on your health, income, dependants, and risk tolerance. But as a fresh graduate in Singapore, there is a practical framework that applies to most people at this life stage. The core principle: insure against events that would financially devastate you, not every possible inconvenience. Start with the essentials and layer on coverage as your circumstances change.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Insurance Priority Framework for New Graduates',
+                    cards: [
+                      {
+                        frontLabel: '🥇 Priority 1: Health Insurance',
+                        backLabel: '📋 What to Do',
+                        front: 'Healthcare costs are the most likely large financial shock you will face — and the one most easily insured against.',
+                        back: 'If you are a citizen or PR: verify MediShield Life is active and consider a Class B1-tier IP. If you are a foreigner: check your employer\'s group insurance carefully and consider supplementing with a private plan. A single uninsured hospitalisation can wipe out years of savings.',
+                      },
+                      {
+                        frontLabel: '🥈 Priority 2: Critical Illness',
+                        backLabel: '📋 What to Do',
+                        front: 'A serious illness like cancer or a heart attack doesn\'t just generate medical bills — it can stop your income entirely for months or years.',
+                        back: 'Critical illness (CI) insurance pays a lump sum on diagnosis of covered conditions. For a 25-year-old, a $200,000 CI policy costs approximately $600–$1,200/year. This is not urgent in your first year of work but becomes more important as you take on financial obligations like a mortgage or dependants.',
+                      },
+                      {
+                        frontLabel: '🥉 Priority 3: Life Insurance',
+                        backLabel: '📋 What to Do',
+                        front: 'Life insurance only makes sense if someone financially depends on you — a spouse, children, or parents you support.',
+                        back: 'If you have no dependants, life insurance is low priority. When you do, term life insurance is the most cost-efficient option — $500,000 coverage for a healthy 28-year-old costs approximately $400–$700/year. Avoid whole life policies as a first purchase — the investment component is generally poor value compared to investing separately.',
+                      },
+                      {
+                        frontLabel: '🔒 What to Skip for Now',
+                        backLabel: '📋 Why',
+                        front: 'What types of insurance are generally not worth prioritising as a fresh graduate in Singapore?',
+                        back: 'Travel insurance (buy per trip, not annually), personal accident insurance (low priority if health insurance is in place), and investment-linked insurance policies (ILPs) — these mix insurance and investment in a way that typically underperforms both functions separately. Focus on pure protection first.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ Investment-Linked Policies (ILPs) are commonly sold to young graduates in Singapore. They combine insurance and investment in a single product. The insurance component is typically expensive relative to term insurance, and the investment returns after fees and charges often underperform simple index fund investing. Financial advisors may earn high commissions on ILPs — always compare the true cost against buying term insurance + investing separately before committing.',
+                  },
+                  {
+                    type: 'checklist',
+                    title: 'Insurance Checklist for New Singapore Graduates',
+                    items: [
+                      'Citizens & PRs: Confirm MediShield Life is active on my CPF statement',
+                      'Citizens & PRs: Research and compare Class B1-tier Integrated Shield Plans (AIA, Prudential, Great Eastern, NTUC Income, Raffles)',
+                      'Foreigners: Read my employer\'s group insurance policy carefully — understand coverage limits and ward class',
+                      'Foreigners: Identify whether coverage lapses during job changes and plan accordingly',
+                      'All: Avoid purchasing ILPs without comparing pure term insurance + separate investing',
+                      'All: Reassess insurance needs when income grows significantly, when taking on a mortgage, or when having children',
+                      'All: Do not purchase insurance you do not understand — always ask what the annual premium is, what is covered and excluded, and what the claims process is',
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore insurance fresh graduate what do I need 2025',
+                    prompt: 'Singapore insurance fresh graduate 2025 what insurance do I need health critical illness life Integrated Shield Plan EP holder foreigner',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '11-2-s3-mcq',
+                    fincoins: 10,
+                    icon: '🏥',
+                    title: 'Insurance Needs Quiz',
+                    question: 'Wei is a 27-year-old Singapore citizen, healthy, single, no dependants, earning $5,500/month. He has MediShield Life. A financial advisor recommends a whole life insurance policy with an investment component at $3,000/year. What is the most financially sound response?',
+                    options: [
+                      'Accept — whole life insurance provides both protection and guaranteed investment returns, making it the most comprehensive choice.',
+                      'Decline — with no dependants, life insurance is low priority. If health coverage upgrade is needed, a standalone B1-tier IP at $600–$900/year is far more cost-efficient.',
+                      'Accept — the investment component means premiums are not a real cost since the money grows over time.',
+                      'Decline and buy nothing — MediShield Life is fully sufficient and no additional insurance is needed at this stage.',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'Without dependants, life insurance is low priority. A whole life policy at $3,000/year mixes expensive insurance with a poor investment vehicle. Wei\'s most pressing insurance need is an IP upgrade for better ward coverage — a B1-tier IP costs $600–$900/year, mostly payable from MediSave. The remaining funds are better invested separately in a low-cost index fund. ILPs and whole life policies generate high advisor commissions — always compare the pure protection cost first.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: MediShield Life & Insurance',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: MediShield Life & Insurance',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how MediShield Life works and its limits, how Integrated Shield Plans fill the gap, and how to prioritise insurance as a new graduate. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 MediShield Life Integrated Shield Plan insurance Singapore 2025',
+                    prompt: 'MediShield Life Singapore 2025 Integrated Shield Plan coverage gap ward class insurance needs fresh graduate citizen PR foreigner',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '11-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '🏥',
+                    title: 'MediShield Life & Insurance Challenge',
+                    questions: [
+                      {
+                        concept: 'MediShield Life Coverage',
+                        question: 'A Singapore citizen is admitted to a Class A ward at a public hospital for surgery. Her total bill is $35,000. Which statement best describes MediShield Life\'s role in covering this bill?',
+                        options: [
+                          'MediShield Life covers the full $35,000 — it covers all hospitalisation for citizens regardless of ward class.',
+                          'MediShield Life provides partial coverage based on Class B2 ward benefit limits — significantly less than the full $35,000 Class A bill.',
+                          'MediShield Life covers 90% of the bill after the deductible — the co-insurance brings her cost to approximately $3,500.',
+                          'MediShield Life does not apply since Class A wards are not subsidised — she must pay the full amount out of pocket.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'MediShield Life pays based on Class B2 ward benefit limits — not the actual Class A charges. For a $35,000 Class A bill, MediShield Life might cover the equivalent of what the treatment would cost in Class B2 ($8,000–$12,000), leaving a very large uncovered amount. This is precisely why an Integrated Shield Plan with Class A coverage is recommended for those who prefer higher ward classes.',
+                      },
+                      {
+                        concept: 'Integrated Shield Plans',
+                        question: 'Which of the following statements about Integrated Shield Plans (IPs) is correct?',
+                        options: [
+                          'IPs replace MediShield Life entirely — once you have an IP, MediShield Life premiums are no longer deducted from MediSave.',
+                          'IPs sit on top of MediShield Life — the MediSave-payable portion covers the MediShield Life component while the IP add-on provides upgraded coverage.',
+                          'IPs are mandatory for all Singapore citizens above age 30 who are employed full-time.',
+                          'IPs are administered by CPF Board and can be purchased directly at any CPF service centre.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'IPs are add-ons that sit on top of MediShield Life — they do not replace it. The IP premium has two components: the MediShield Life portion (payable from MediSave) and the additional private insurance rider portion (partly cash, partly MediSave depending on the plan). MediShield Life continues to be the base layer — IPs simply extend coverage to higher ward classes and reduce deductibles and co-insurance.',
+                      },
+                      {
+                        concept: 'Insurance Priority',
+                        question: 'Priya is a 28-year-old EP holder who just got married. Her husband is a Singapore citizen with MediShield Life. She has employer group insurance covering Class B1 wards. She has $15,000 in savings. Which insurance action should she prioritise?',
+                        options: [
+                          'Purchase a whole life policy immediately — marriage creates dependant obligations and whole life provides lifelong protection.',
+                          'Verify her employer group insurance terms and consider an individual health plan to ensure coverage portability — then reassess life insurance needs based on whether she and her husband have financial dependence on her income.',
+                          'Purchase critical illness insurance first — at 28, the risk of serious illness is her primary financial risk.',
+                          'Do nothing — her employer provides B1 coverage and her husband\'s MediShield Life covers both of them.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'As an EP holder, Priya\'s primary gap is health insurance portability — her group insurance lapses if she changes jobs. Verifying coverage terms and considering an individual plan is the most urgent action. Life insurance need depends on whether her husband is financially dependent on her income — if he works and they have no children or mortgage yet, life insurance is lower priority. MediShield Life only covers her husband, not Priya as a foreigner.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'Who is covered by MediShield Life and what does it cover?',
+                a: 'All Singapore citizens and PRs are automatically covered for life, including those with pre-existing conditions. It covers large inpatient hospital bills at Class B2 and C ward benefit limits, and selected costly outpatient treatments like dialysis and chemotherapy. GP visits, dental, and Class A ward charges are not covered.',
+              },
+              {
+                q: 'What is an Integrated Shield Plan and how does it relate to MediShield Life?',
+                a: 'An IP is a private insurance add-on that sits on top of MediShield Life, sold by approved insurers. It extends coverage to Class B1, A, or private hospital wards and can reduce deductibles and co-insurance. The MediSave-payable portion covers the MediShield Life component; the additional rider requires partial cash payment.',
+              },
+              {
+                q: 'Why might an Employment Pass holder in Singapore be underinsured?',
+                a: 'MediShield Life only covers citizens and PRs. EP holders rely on employer group insurance, which lapses when employment ends. Without an individual health plan, job changes create coverage gaps — and any developing health conditions during employment may make future underwriting more difficult.',
+              },
+              {
+                q: 'What is the key argument against buying an Investment-Linked Policy (ILP) as a first insurance purchase?',
+                a: 'ILPs mix insurance and investment in one product. The insurance component is typically more expensive than equivalent term coverage, and investment returns after charges often underperform simple index fund investing. Buying term insurance + investing separately almost always produces better outcomes. High advisor commissions are a key reason ILPs are frequently recommended.',
+              },
+              {
+                q: 'What is the correct insurance priority order for a healthy 25-year-old fresh graduate in Singapore?',
+                a: 'Priority 1: Health insurance (MediShield Life for citizens/PRs + IP upgrade, or employer group plan for foreigners). Priority 2: Critical illness once income and obligations grow. Priority 3: Life insurance only when dependants exist. Skip ILPs, excessive travel insurance, and whole life policies until the essentials are in place.',
+              },
+            ],
+          },
+          {
+            id: '11-3',
+            title: 'Tax Relief Through CPF Top-Ups',
+            icon: '💡',
+            topic: 'CPF top-up tax relief Singapore SA RA',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: CPF Cash Top-Up Scheme ────────────────────────────────
+              {
+                key: 'topup',
+                title: 'CPF Cash Top-Up Scheme',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'CPF Cash Top-Up Scheme',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Most people think of CPF as something that happens automatically — a deduction from your payslip that you have no control over. But there is a powerful voluntary dimension to CPF that most young graduates overlook: the Retirement Sum Topping-Up Scheme (RSTU). By voluntarily topping up your own SA (or RA after 55) and your family members\' accounts with cash, you earn dollar-for-dollar tax relief while supercharging your retirement savings at CPF\'s guaranteed 4% interest rate. For anyone paying income tax, this is one of the most straightforward ways to reduce your tax bill legally.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Retirement Sum Topping-Up Scheme (RSTU)',
+                    definition: 'A voluntary CPF scheme allowing Singapore citizens and PRs to top up their own SA or RA, and their family members\' accounts, using cash. Top-ups earn dollar-for-dollar income tax relief (capped at $8,000 per recipient per year) and the funds earn 4% interest in SA — ring-fenced for retirement.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Special Account (SA) Interest Rate',
+                    definition: 'The CPF Special Account earns a guaranteed 4% per year — significantly higher than the OA\'s 2.5%. Voluntary top-ups go directly into SA (before age 55) or RA (after 55), compounding at 4% until retirement. On $10,000 topped up at age 28, this grows to approximately $32,000 by age 65 at 4% compound.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'Two Types of CPF Cash Top-Ups Under RSTU',
+                    cards: [
+                      {
+                        icon: '🧑',
+                        label: 'Self Top-Up',
+                        description: 'Top up your own SA (before 55) or RA (after 55) with cash and claim up to $8,000 tax relief.',
+                        color: '#4F46E5',
+                        details: [
+                          'Top up your own SA with cash — funds go directly into SA earning 4% guaranteed.',
+                          'Tax relief of up to $8,000 per year for self top-ups — dollar for dollar.',
+                          'Only cash top-ups qualify for tax relief — OA-to-SA transfers do not.',
+                          'Top-ups are irreversible — once in SA, funds cannot be withdrawn until retirement age.',
+                          'Particularly powerful for young graduates in their 20s and 30s — more years of 4% compounding.',
+                        ],
+                        example: 'A graduate earning $60,000 in the 7% marginal bracket tops up $8,000 to her own SA. She saves $560 in tax (7% × $8,000) and the $8,000 earns 4% in SA — growing to approximately $31,000 by age 65.',
+                      },
+                      {
+                        icon: '👨‍👩‍👧',
+                        label: 'Family Member Top-Up',
+                        description: 'Top up a parent, spouse, sibling, or grandparent\'s CPF account and claim up to an additional $8,000 tax relief.',
+                        color: '#059669',
+                        details: [
+                          'Top up a parent, grandparent, spouse, sibling, or child\'s SA or RA with cash.',
+                          'Claim up to $8,000 additional tax relief per year for family top-ups — separate from the $8,000 self top-up limit.',
+                          'Combined maximum tax relief from RSTU is $16,000/year ($8,000 self + $8,000 family).',
+                          'The recipient must be a Singapore citizen or PR.',
+                          'Most commonly used to top up parents\' retirement accounts — particularly impactful if parents have low CPF balances.',
+                        ],
+                        example: 'A son earning $80,000 (11.5% marginal bracket) tops up $8,000 to his mother\'s RA. He saves $920 in tax and his mother\'s RA grows by $8,000 earning 4% — improving her CPF LIFE payout in retirement.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ Critical distinction: Only cash top-ups to SA/RA qualify for tax relief under RSTU. Transferring funds from your OA to SA (an OA-to-SA transfer) does not generate any tax relief — it only earns the higher 4% SA interest rate instead of OA\'s 2.5%. Both strategies have merit, but only cash top-ups give you the tax relief benefit.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ SA top-ups are completely irreversible. Once cash is topped up into your SA, it cannot be withdrawn for any purpose — not for housing, education, or emergencies — until you reach retirement age. Only top up amounts you are genuinely comfortable locking away for decades.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF cash top-up RSTU tax relief SA RA Singapore 2025',
+                    prompt: 'CPF Retirement Sum Topping-Up Scheme RSTU cash top-up SA RA tax relief Singapore 2025 how it works self family',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '11-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'CPF Top-Up Scheme — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Transferring funds from your OA to your SA qualifies for income tax relief under RSTU.',
+                        isTrue: false,
+                        explanation: 'Only cash top-ups to SA or RA generate income tax relief under RSTU. An OA-to-SA transfer earns the higher 4% SA interest rate instead of OA\'s 2.5%, but it does not qualify for any tax relief. The two strategies are different — cash top-ups do both (tax relief + 4% interest), OA-SA transfers only do the latter.',
+                      },
+                      {
+                        text: 'The maximum combined tax relief from RSTU self and family top-ups is $16,000 per year.',
+                        isTrue: true,
+                        explanation: 'Correct. You can claim up to $8,000 for topping up your own SA/RA and up to an additional $8,000 for topping up a family member\'s SA/RA — a combined maximum of $16,000 in RSTU tax relief per year. This is separate from other reliefs like CPF mandatory contribution relief and earned income relief.',
+                      },
+                      {
+                        text: 'Cash top-ups to your SA can be withdrawn at any time for emergencies, similar to a regular savings account.',
+                        isTrue: false,
+                        explanation: 'SA top-ups are completely irreversible. Once cash is deposited into your SA via RSTU, it is ring-fenced for retirement and cannot be withdrawn for any purpose — including emergencies — until you reach the eligible retirement age. This is why only topping up genuinely surplus cash is advisable.',
+                      },
+                      {
+                        text: 'A Singapore citizen can top up his elderly mother\'s RA with $5,000 cash and claim $5,000 in income tax relief.',
+                        isTrue: true,
+                        explanation: 'Correct. Topping up a family member\'s CPF account qualifies for up to $8,000 in additional tax relief under RSTU. A $5,000 top-up to his mother\'s RA earns $5,000 in tax relief — at a 7% marginal rate, this saves $350 in tax. His mother\'s RA balance also grows by $5,000 earning 4% interest, improving her CPF LIFE retirement payout.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Tax Relief Amounts ────────────────────────────────────
+              {
+                key: 'amounts',
+                title: 'Tax Relief Amounts',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Tax Relief Amounts',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The financial benefit of an SA top-up has two components working simultaneously: the immediate tax saving this year, and the long-term compounding of the topped-up amount at 4% in SA. Together, these make voluntary CPF top-ups one of the most capital-efficient moves available to a Singapore tax resident — particularly those in the 7% bracket and above.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '💡',
+                    title: 'CPF Top-Up Tax Saving Calculator',
+                    description: 'Drag to set your top-up amount and see your immediate tax saving at different marginal rates, plus the long-term SA growth.',
+                    min: 1000,
+                    max: 16000,
+                    step: 500,
+                    initialValue: 8000,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      const cappedSelf = Math.min(value, 8000);
+                      const saving7 = Math.round(cappedSelf * 0.07);
+                      const saving115 = Math.round(cappedSelf * 0.115);
+                      const saving15 = Math.round(cappedSelf * 0.15);
+                      const growth37 = Math.round(cappedSelf * Math.pow(1.04, 37));
+                      return [
+                        { label: `Tax saving at 7% marginal rate (chargeable income $40K–$80K)`, value: `$${saving7.toLocaleString()}`, color: '#4F46E5' },
+                        { label: `Tax saving at 11.5% marginal rate (chargeable income $80K–$120K)`, value: `$${saving115.toLocaleString()}`, color: '#0891B2' },
+                        { label: `Tax saving at 15% marginal rate (chargeable income $120K–$160K)`, value: `$${saving15.toLocaleString()}`, color: '#059669' },
+                        { label: `SA value at age 65 if topped up at age 28 (4% p.a. over 37 years)`, value: `$${growth37.toLocaleString()}`, color: '#F59E0B' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 The compounding effect is dramatic. $8,000 topped up into SA at age 28 grows to approximately $31,000 by age 65 at 4% compound interest — nearly 4× the original amount, risk-free and government-guaranteed. If you also claimed $560 tax relief (7% bracket) and invested that separately, the combined 37-year value is even higher.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '📋 RSTU vs Other Tax Relief Strategies — Comparison',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Key Tax Relief Options for Singapore Graduates',
+                    headers: ['Relief Type', 'Max Relief', 'How to Claim', 'Funds Locked?'],
+                    rows: [
+                      ['Mandatory CPF contributions', 'Up to $16,000', 'Auto by IRAS', 'Yes (CPF)'],
+                      ['RSTU — self top-up', '$8,000', 'Manual on myTax Portal', 'Yes (SA/RA)'],
+                      ['RSTU — family top-up', '$8,000', 'Manual on myTax Portal', 'Yes (recipient SA/RA)'],
+                      ['Course fee relief', '$5,500', 'Manual on myTax Portal', 'No'],
+                      ['Earned income relief', '$1,000 (under 55)', 'Auto by IRAS', 'No'],
+                      ['Parent relief', '$9,000–$14,000', 'Manual on myTax Portal', 'No'],
+                      ['SRS contributions', '$15,300 (citizens/PRs)', 'Auto via SRS operator', 'Partial (until 62)'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: The Supplementary Retirement Scheme (SRS) is another powerful tax relief tool — contributions of up to $15,300/year reduce chargeable income and the funds can be invested in stocks, ETFs, and unit trusts within the SRS account. Unlike CPF top-ups, SRS withdrawals are possible before retirement (with a 5% penalty). For high earners in the 11.5%+ bracket, combining RSTU and SRS can dramatically reduce annual tax bills.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF top-up SA tax relief vs SRS Singapore 2025 comparison',
+                    prompt: 'CPF SA top-up RSTU vs SRS Supplementary Retirement Scheme tax relief comparison Singapore 2025 which is better high earner',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '11-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Top-Up Strategy Scenarios',
+                    scenarios: [
+                      {
+                        icon: '💰',
+                        situation: 'Aisha earns $72,000/year. After reliefs, her chargeable income is $56,000 — putting her in the 7% marginal bracket. She has $10,000 in savings she wants to deploy wisely before 31 December. She is 29 years old. What is the most tax-efficient use of this $10,000?',
+                        options: [
+                          {
+                            text: 'Top up $8,000 to her SA (max RSTU self relief) and keep $2,000 as emergency buffer — saving $560 in tax while locking in 4% SA growth for 36 years.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Topping up the full $8,000 to SA maximises RSTU relief at her 7% bracket — a $560 immediate tax saving. The $8,000 compounds at 4% in SA for 36 years, growing to approximately $30,700 by age 65. Keeping $2,000 as cash preserves an emergency buffer. This is the highest-return risk-free deployment of surplus cash at her income level.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Invest the full $10,000 in an STI ETF via a brokerage account — the historical 7% return beats CPF\'s 4% SA rate.',
+                            biasLabel: 'Misses the guaranteed tax relief',
+                            biasExplanation: 'STI ETF may outperform SA over the long run, but it carries market risk and offers no tax relief. The RSTU top-up gives an immediate guaranteed 7% return on the topped-up amount via tax saving, on top of the 4% SA interest. The blended guaranteed return from RSTU exceeds most equity risk-adjusted returns in the short term — and the two strategies are not mutually exclusive.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Top up $10,000 to SA — the more you top up, the more tax relief you get, and there is no cap.',
+                            biasLabel: 'Self top-up capped at $8,000',
+                            biasExplanation: 'The RSTU self top-up tax relief is capped at $8,000 per year. Topping up $10,000 still earns only $8,000 of tax relief — the additional $2,000 generates no additional relief (though it still earns 4% SA interest). The optimal strategy is to top up exactly $8,000 for maximum relief and deploy the remaining $2,000 elsewhere.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '👨‍👩‍👧',
+                        situation: 'Marcus earns $110,000/year and is in the 11.5% marginal tax bracket. He wants to minimise his tax bill. His parents are Singapore citizens aged 65 with low CPF balances. What top-up strategy maximises his tax relief?',
+                        options: [
+                          {
+                            text: 'Top up $8,000 to his own SA and $8,000 to one parent\'s RA — claiming $16,000 in RSTU relief and saving $1,840 in tax at 11.5%.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'The combined $16,000 RSTU relief ($8,000 self + $8,000 family) at his 11.5% bracket saves $1,840 in tax this year. His SA grows by $8,000 at 4% and his parent\'s RA grows by $8,000 at 4% — improving both his retirement and his parent\'s CPF LIFE payout. This is one of the highest-return legal tax reduction strategies available at his income level.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Top up $16,000 to his own SA — the more he tops up to himself, the more retirement savings he builds.',
+                            biasLabel: 'Self relief capped at $8,000',
+                            biasExplanation: 'The RSTU self top-up tax relief is capped at $8,000 regardless of how much is deposited. Topping up $16,000 to himself earns only $8,000 in tax relief. Splitting the top-up between himself and a family member uses both relief caps, doubling the tax benefit.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Do nothing — at $110,000 income the tax rate is so high that no relief strategy makes a meaningful difference.',
+                            biasLabel: 'Higher bracket = more valuable relief',
+                            biasExplanation: 'The opposite is true — tax reliefs are more valuable at higher marginal rates. At 11.5%, each $1,000 of relief saves $115 in tax. Marcus\'s $16,000 RSTU relief saves $1,840 in a single year — a significant and immediate financial return on top of the retirement compounding benefit.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🤔',
+                        situation: 'Priya is 27, earns $45,000/year, and has $6,000 in savings. She is in the 3.5% marginal tax bracket. She is considering an $6,000 SA top-up for the tax relief. Is this a good idea?',
+                        options: [
+                          {
+                            text: 'Probably not the top priority — at 3.5%, the tax saving is only $210 on $6,000, and locking away her entire savings in an irreversible SA top-up before building an emergency fund is financially risky.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'At 3.5%, the tax saving on $6,000 is just $210 — meaningful but modest. More critically, if $6,000 represents her total savings, an SA top-up leaves her with zero emergency fund. Financial advisors typically recommend building 3–6 months of expenses as liquid emergency savings before locking money irreversibly into CPF. Priya should build her emergency fund first, then consider SA top-ups with genuinely surplus funds.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Yes — 4% guaranteed SA interest is always superior to a savings account regardless of the tax relief amount.',
+                            biasLabel: 'Emergency fund must come first',
+                            biasExplanation: 'SA top-ups are irreversible. Locking away all savings with no emergency fund means any unexpected expense — medical, car repair, job loss — must be funded by debt. The guaranteed 4% SA return does not outweigh the risk of having zero liquid savings. Always build an emergency fund before making irreversible financial commitments.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Yes — the earlier you top up SA, the more compounding benefit you get, so age 27 is the ideal time regardless of other factors.',
+                            biasLabel: 'Compounding does not justify zero liquidity',
+                            biasExplanation: 'While early SA top-ups do maximise compounding, this only holds when the funds are genuinely surplus to immediate needs. Compounding in SA does not help you if you cannot cover an emergency expense next month. Financial security and liquidity must be established before optimising for long-term retirement compounding.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Optimising Your Top-Up Strategy ───────────────────────
+              {
+                key: 'strategy',
+                title: 'Optimising Your Top-Up Strategy',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Optimising Your Top-Up Strategy',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Knowing the mechanics of RSTU is only half the picture. The other half is knowing when and how much to top up, given your complete financial situation. Done well, CPF top-ups form one pillar of a comprehensive retirement and tax strategy. Done poorly — topping up before building liquidity, or confusing OA transfers with cash top-ups — the same action creates financial stress instead of security.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Top-Up Strategy — Key Decision Points',
+                    cards: [
+                      {
+                        frontLabel: '📅 When to Top Up',
+                        backLabel: '📋 The Right Timing',
+                        front: 'Is there an optimal time of year to make your SA top-up for maximum benefit?',
+                        back: 'Top up early in the calendar year — ideally January — to maximise SA interest earned in that year. CPF interest is calculated daily but credited annually on 1 January. A January top-up earns a full year of 4% interest; a December top-up earns only one month. For tax relief, the top-up must be made before 31 December of the tax year.',
+                      },
+                      {
+                        frontLabel: '💵 How Much to Top Up',
+                        backLabel: '📋 The Right Amount',
+                        front: 'Should you always top up the maximum $8,000 to claim full relief?',
+                        back: 'Only top up genuinely surplus funds — money you will not need for at least 10–30 years. Checklist before topping up: (1) emergency fund of 3–6 months expenses in liquid savings, (2) no high-interest debt (credit card, personal loan), (3) investing cash regularly outside CPF. If all three are met, topping up SA is an excellent use of surplus cash.',
+                      },
+                      {
+                        frontLabel: '👴 Self vs Family Top-Up',
+                        backLabel: '📋 Which to Prioritise',
+                        front: 'If you can only afford $8,000 total, should you top up your own SA or a family member\'s account?',
+                        back: 'Both give identical tax relief ($8,000 = $8,000). The difference is who benefits from the compounding. Topping up your own SA builds your retirement — most beneficial if you are young and have many compounding years. Topping up a parent\'s RA improves their CPF LIFE payout immediately — more impactful if parents are near retirement with low balances. Many financial planners suggest own SA first, then family when you have more surplus.',
+                      },
+                      {
+                        frontLabel: '🔄 RSTU vs OA-to-SA Transfer',
+                        backLabel: '📋 Key Difference',
+                        front: 'You have excess OA balance. Should you do an OA-to-SA transfer or a cash top-up under RSTU?',
+                        back: 'An OA-to-SA transfer earns 4% instead of 2.5% but generates no tax relief. A cash top-up earns 4% AND generates tax relief. If you have cash available, cash top-up is superior. If your only surplus is in OA, an OA-SA transfer still improves your retirement savings at the higher interest rate — just without the tax benefit. Note: OA-SA transfers are also irreversible.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 The Optimal Year-End Checklist: Before 31 December each year, run through this sequence — (1) Is my emergency fund intact? (2) Am I debt-free on high-interest obligations? (3) Have I maxed my regular investment contributions? If yes to all three, consider topping up SA up to $8,000 for self and $8,000 for a qualifying family member before the year closes to capture the tax relief for that year\'s assessment.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF SA top-up strategy when how much 2025 Singapore optimise',
+                    prompt: 'CPF SA top-up strategy Singapore 2025 when to top up how much RSTU self vs family OA-SA transfer optimise tax relief retirement',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '11-3-s3-mcq',
+                    fincoins: 10,
+                    icon: '💡',
+                    title: 'Top-Up Strategy Quiz',
+                    question: 'Wei is 30, earns $85,000/year (11.5% bracket), has a fully-funded 6-month emergency fund, no high-interest debt, and invests $1,000/month in a robo-advisor. He has $20,000 in surplus savings at year-end. What is the optimal RSTU top-up strategy?',
+                    options: [
+                      'Top up $20,000 to his SA — the more in SA the better since it earns 4% guaranteed.',
+                      'Top up $8,000 to his SA, claim $920 tax relief, and deploy the remaining $12,000 in liquid investments — self relief is capped at $8,000.',
+                      'Top up $8,000 to his SA and $8,000 to a qualifying family member\'s account — claiming $16,000 in relief and saving $1,840 in tax at 11.5%, with remaining $4,000 kept liquid.',
+                      'Do nothing — at 11.5% the tax saving is not worth locking money irreversibly into CPF.',
+                    ],
+                    correctIndex: 2,
+                    explanation: 'Wei meets all prerequisites for topping up (emergency fund, no bad debt, investing regularly). The optimal strategy uses both relief caps: $8,000 self + $8,000 family = $16,000 relief, saving $1,840 in tax at 11.5%. Both topped-up amounts earn 4% in CPF. The remaining $4,000 stays liquid. Topping up $20,000 to self only earns $8,000 of relief — the extra $12,000 in SA generates no additional tax benefit and is unnecessarily illiquid. Option D is incorrect — at 11.5%, each $8,000 relief saves $920 — a highly meaningful annual saving.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: CPF Top-Up Tax Relief',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: CPF Top-Up Tax Relief',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered the RSTU scheme mechanics, how to calculate tax savings at different brackets, and how to optimise your top-up strategy. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF RSTU top-up SA RA tax relief strategy Singapore 2025',
+                    prompt: 'CPF RSTU Retirement Sum Topping-Up Scheme SA RA cash top-up tax relief Singapore 2025 self family maximum relief strategy',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '11-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '💡',
+                    title: 'CPF Top-Up Tax Relief Challenge',
+                    questions: [
+                      {
+                        concept: 'RSTU Mechanics',
+                        question: 'Which of the following actions qualifies for income tax relief under the Retirement Sum Topping-Up Scheme (RSTU)?',
+                        options: [
+                          'Transferring $8,000 from your OA to your SA to earn the higher 4% interest rate.',
+                          'Topping up $8,000 cash into your own SA before 31 December of the tax year.',
+                          'Using your MediSave balance to pay for an approved hospitalisation bill.',
+                          'Investing $8,000 of OA funds via CPFIS in an approved unit trust.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Only cash top-ups to SA or RA under RSTU qualify for income tax relief — up to $8,000 for self and $8,000 for family members. An OA-to-SA transfer earns 4% instead of 2.5% but generates zero tax relief. MediSave usage and CPFIS investments are separate CPF functions that do not generate RSTU tax relief.',
+                      },
+                      {
+                        concept: 'Tax Saving Calculation',
+                        question: 'Sarah earns $95,000/year and is in the 11.5% marginal tax bracket. She tops up $8,000 to her own SA and $6,000 to her father\'s RA in December. What is her total RSTU tax relief and tax saving?',
+                        options: [
+                          'Relief: $8,000 | Tax saving: $920 — only self top-ups qualify for relief.',
+                          'Relief: $14,000 | Tax saving: $1,610 — $8,000 self + $6,000 family, both at 11.5%.',
+                          'Relief: $16,000 | Tax saving: $1,840 — the family top-up is automatically rounded up to the $8,000 cap.',
+                          'Relief: $14,000 | Tax saving: $490 — family top-ups are taxed at the recipient\'s rate, not Sarah\'s.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Sarah claims $8,000 self relief + $6,000 family relief = $14,000 total RSTU relief. Tax saving = $14,000 × 11.5% = $1,610. Family top-up relief is always calculated at the top-up giver\'s marginal rate — not the recipient\'s. The family relief cap is $8,000, but Sarah only topped up $6,000, so she claims $6,000. She could have topped up an additional $2,000 to her father\'s RA to claim the full $8,000 family cap and save an extra $230 in tax.',
+                      },
+                      {
+                        concept: 'Strategy & Prerequisites',
+                        question: 'James is 26, earns $50,000/year (3.5% bracket), has $4,000 in savings, and $3,500 in outstanding credit card debt at 26% annual interest. He is considering a $3,000 SA top-up for the tax relief. What should he do?',
+                        options: [
+                          'Proceed with the SA top-up — the guaranteed 4% SA interest and tax relief make it the best use of funds.',
+                          'Pay off the credit card debt first — 26% interest debt costs far more than any CPF tax relief can save, and SA top-ups are irreversible.',
+                          'Split evenly — $1,500 to pay credit card debt and $1,500 to SA top-up to balance both priorities.',
+                          'Top up SA and pay the credit card minimum — preserving emergency savings takes priority over debt repayment.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Credit card debt at 26% is a financial emergency — it costs $910/year on $3,500. A $3,000 SA top-up at his 3.5% bracket saves only $105 in tax. There is no mathematical or strategic case for choosing CPF top-ups over eliminating 26% debt. After paying the credit card, James should rebuild his emergency fund before considering any irreversible CPF top-up — especially at a bracket where the tax saving is modest.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is the Retirement Sum Topping-Up Scheme (RSTU) and what tax relief does it offer?',
+                a: 'RSTU allows Singapore citizens and PRs to voluntarily top up their own SA or RA, and family members\' accounts, with cash. Tax relief of up to $8,000/year for self top-ups and $8,000/year for family top-ups — maximum $16,000 combined annual relief. Funds earn 4% in SA/RA and are irreversible.',
+              },
+              {
+                q: 'What is the key difference between a cash top-up under RSTU and an OA-to-SA transfer?',
+                a: 'A cash top-up under RSTU generates income tax relief (up to $8,000) AND earns 4% in SA. An OA-to-SA transfer earns 4% instead of OA\'s 2.5% but generates zero tax relief. Both are irreversible. If you have cash available, a cash top-up is always superior to an OA-SA transfer for the same amount.',
+              },
+              {
+                q: 'When is the deadline to make an SA top-up to qualify for tax relief in the current year?',
+                a: '31 December of the tax year. Top-ups made by 31 December are included in that year\'s chargeable income calculation. For maximum SA interest, top up early in January — CPF calculates interest daily, so January top-ups earn a full year of 4% interest versus one month for December top-ups.',
+              },
+              {
+                q: 'What three financial prerequisites should be met before making an SA cash top-up?',
+                a: '(1) Emergency fund of 3–6 months expenses in liquid savings. (2) No high-interest debt (credit cards, personal loans). (3) Regular investment contributions outside CPF are in place. SA top-ups are irreversible — only use genuinely surplus funds that will not be needed for decades.',
+              },
+              {
+                q: 'Why are CPF SA top-ups more valuable for higher-income earners?',
+                a: 'Tax reliefs reduce chargeable income — the saving equals the relief amount × your marginal tax rate. At 7%, $8,000 relief saves $560. At 11.5%, the same $8,000 saves $920. At 15%, it saves $1,200. The higher your marginal bracket, the more each dollar of CPF tax relief is worth in immediate tax savings.',
+              },
+            ],
+          },
         ],
       },
       {
@@ -11988,9 +14735,1431 @@ export const MODULES = [
         icon: '🔭',
         description: 'Build a financial plan that spans decades, not months',
         lessons: [
-          { id: '12-1', title: 'Planning for Your First Job', icon: '💼', topic: 'Financial planning first job Singapore graduate salary', duration: '7 min', fincoins: 110, sections: [{ key: 'salary', heading: 'Understanding Your Offer Letter' }, { key: 'first', heading: 'First Month Financial Checklist' }, { key: 'setup', heading: 'Setting Up Your Financial System' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is the median graduate starting salary in Singapore?', a: 'Around $3,500–$4,200/month for fresh graduates, varying by industry and university.' }] },
-          { id: '12-2', title: 'Net Worth Tracking', icon: '📊', topic: 'Net worth calculation tracking personal finance Singapore', duration: '5 min', fincoins: 110, sections: [{ key: 'what', heading: 'What is Net Worth?' }, { key: 'calc', heading: 'Calculating Yours' }, { key: 'grow', heading: 'Growing Net Worth Over Time' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'How do you calculate net worth?', a: 'Total Assets (savings + investments + CPF + property) minus Total Liabilities (loans + credit card debt).' }] },
-          { id: '12-3', title: 'Retirement Planning in Singapore', icon: '🌅', topic: 'CPF retirement planning Singapore BRS FRS ERS', duration: '7 min', fincoins: 110, sections: [{ key: 'cpflife', heading: 'CPF LIFE — Your Retirement Income' }, { key: 'targets', heading: 'BRS, FRS & ERS Explained' }, { key: 'plan', heading: 'Building Your Retirement Plan' }], content: [{ type: 'text', text: 'Content coming soon — check back after Module 1!' }], flashcards: [{ q: 'What is CPF LIFE?', a: 'A lifelong monthly payout scheme funded by your CPF Retirement Account — Singapore\'s version of an annuity.' }] },
+          {
+            id: '12-1',
+            title: 'Planning for Your First Job',
+            icon: '💼',
+            topic: 'first job Singapore salary offer letter financial planning',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: Understanding Your Offer Letter ───────────────────────
+              {
+                key: 'offerletter',
+                title: 'Understanding Your Offer Letter',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Understanding Your Offer Letter',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Your first job offer letter is one of the most important financial documents you will sign. Yet most graduates focus only on the headline salary number and miss the critical details that determine what actually lands in their bank account each month. Understanding every component of your offer — fixed salary, variable bonuses, CPF implications, and benefits — before you sign puts you in control from Day 1.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Gross Salary',
+                    definition: 'Your total agreed salary before any deductions. This is the number on your offer letter. From gross salary, your employee CPF contribution (20% for those under 55) is deducted, leaving your take-home pay. A $4,000 gross salary means approximately $3,200 take-home for those under 55.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Annual Wage Supplement (AWS)',
+                    definition: 'Commonly called the "13th month bonus" — a contractual payment of one month\'s salary paid typically in November or December. Not all employers offer AWS. If stated in your offer letter, it is legally binding. If not stated, it is at the employer\'s discretion.',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'Key Components of a Singapore Job Offer',
+                    cards: [
+                      {
+                        icon: '💰',
+                        label: 'Fixed Monthly Salary',
+                        description: 'The guaranteed base — what you receive every month regardless of performance.',
+                        color: '#4F46E5',
+                        details: [
+                          'This is the foundation of your financial planning — budget only around your fixed salary, never around bonuses.',
+                          'CPF contributions are calculated on your fixed monthly salary plus variable components that are contractual.',
+                          'In Singapore, MOM guidelines require salary to be paid within 7 days of the end of each salary period.',
+                          'Your fixed salary determines your CPF OA, SA, and MA contribution amounts each month.',
+                        ],
+                        example: 'A $4,500 fixed monthly salary means $900 employee CPF deduction (20%) and a $1,125 employer CPF contribution (25%) — your total CPF inflow is $2,025/month, of which $1,278 goes to OA, $324 to SA, and $423 to MA (under 35 allocation rates).',
+                      },
+                      {
+                        icon: '📊',
+                        label: 'Variable Bonus',
+                        description: 'Performance-based pay — not guaranteed and should never be factored into your base budget.',
+                        color: '#059669',
+                        details: [
+                          'Variable bonuses are typically stated as a range (e.g. "0–3 months") and depend on both company and individual performance.',
+                          'They may or may not attract CPF contributions — check your offer letter carefully.',
+                          'Never budget recurring expenses (rent, insurance, investments) on expected variable bonuses.',
+                          'A common Singapore benchmark: 1–2 months variable bonus for good performance in most industries.',
+                        ],
+                        example: 'On a $4,500 salary with "up to 3 months variable bonus", your maximum annual bonus is $13,500 — but in a bad year it could be $0. Plan your finances as if the bonus does not exist; treat it as a windfall when received.',
+                      },
+                      {
+                        icon: '🏥',
+                        label: 'Benefits Package',
+                        description: 'Non-salary compensation — often worth $5,000–$15,000/year and critical to evaluate.',
+                        color: '#F59E0B',
+                        details: [
+                          'Key benefits to look for: medical insurance (what ward class, is family covered?), dental, annual leave (14–21 days is typical in Singapore), and flexible benefits allowance.',
+                          'Group hospitalisation insurance provided by employer reduces your personal insurance cost significantly.',
+                          'Some employers offer transport, mobile phone, and meal allowances — these are taxable income.',
+                          'Learning and development budgets (for courses, certifications) are highly valuable early in your career.',
+                        ],
+                        example: 'An offer of $4,200 with full group medical insurance (B1 ward) and $1,500 annual learning budget is often more valuable than a $4,500 offer with no benefits — the insurance alone saves $600–$900/year in personal premiums.',
+                      },
+                      {
+                        icon: '📋',
+                        label: 'Leave & Other Entitlements',
+                        description: 'Annual leave, sick leave, and other statutory entitlements — know your rights.',
+                        color: '#DC2626',
+                        details: [
+                          'Minimum annual leave under Singapore law: 7 days in year 1, increasing by 1 day per year up to 14 days.',
+                          'Most professional roles offer 14–21 days annual leave — negotiate this if the offer is below market.',
+                          'Childcare leave, maternity/paternity leave, and other statutory entitlements are governed by MOM regulations.',
+                          'Hospitalisation leave (60 days) is separate from annual leave — you cannot be denied it if medically certified.',
+                        ],
+                        example: 'If your offer states 14 days annual leave and the industry standard for your role is 18 days, this is a legitimate negotiation point — especially if you cannot negotiate on salary. Leave has a direct monetary value: 1 day leave ≈ your daily salary rate.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ The most common first-job financial mistake: confusing gross salary with take-home pay. On a $4,000 gross salary, your take-home is approximately $3,200 (after 20% CPF deduction). Budgeting based on $4,000 creates an immediate $800/month shortfall. Always plan around your net take-home, not your gross offer.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: Before signing, ask HR for a full breakdown of your monthly payslip — gross salary, CPF deductions, net take-home, and any recurring allowances. This is completely normal to request and immediately tells you what your actual monthly budget should be based on.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore job offer letter components salary CPF take-home 2025',
+                    prompt: 'Singapore job offer letter components 2025 fixed salary variable bonus AWS CPF deduction take-home pay benefits entitlements fresh graduate',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '12-1-s1-tinder',
+                    fincoins: 10,
+                    title: 'Offer Letter — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'Your take-home pay equals your gross monthly salary if you are under 55 years old and contributing to CPF.',
+                        isTrue: false,
+                        explanation: 'Take-home pay is gross salary minus the 20% employee CPF contribution (for those under 55). A $4,500 gross salary results in approximately $3,600 take-home after CPF deduction. Always budget around take-home, not gross.',
+                      },
+                      {
+                        text: 'The Annual Wage Supplement (AWS or 13th month bonus) is legally guaranteed for all Singapore employees.',
+                        isTrue: false,
+                        explanation: 'AWS is only legally binding if stated in your employment contract or collective agreement. If not contractually specified, it is entirely at the employer\'s discretion. Always check whether AWS appears explicitly in your offer letter before factoring it into your financial planning.',
+                      },
+                      {
+                        text: 'Group hospitalisation insurance provided by your employer as a benefit counts as taxable income.',
+                        isTrue: false,
+                        explanation: 'Group hospitalisation and surgical insurance premiums paid by employers are not taxable benefits-in-kind for employees in Singapore. However, allowances paid in cash (transport, meals, mobile phone) are generally taxable. The distinction matters for accurate tax filing.',
+                      },
+                      {
+                        text: 'Singapore law requires employers to pay salaries within 7 days of the end of each salary period.',
+                        isTrue: true,
+                        explanation: 'Correct. The Employment Act requires salaries to be paid within 7 days after the end of each salary period. For monthly-paid employees, this means salary must be credited by the 7th of the following month. Late payment is a violation reportable to the Ministry of Manpower (MOM).',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: First Month Financial Checklist ────────────────────────
+              {
+                key: 'firstmonth',
+                title: 'First Month Financial Checklist',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'First Month Financial Checklist',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Your first month of work is the most important financial month of your early career — the systems and habits you set up now will compound for decades. Most graduates focus on the excitement of their first payslip and miss the critical administrative and financial steps that should happen in the first 30 days. Getting these right early eliminates years of suboptimal money management.',
+                  },
+                  {
+                    type: 'checklist',
+                    title: '30-Day Financial Setup Checklist — New Graduate Edition',
+                    items: [
+                      'Receive first payslip and verify gross salary, CPF deductions, and net take-home match your offer letter',
+                      'Set up a dedicated expenses bank account separate from your savings — never let salary and savings sit in the same account',
+                      'Open a high-yield savings account (e.g. UOB One, OCBC 360, DBS Multiplier) to earn 3–4% on your emergency fund',
+                      'Automate a savings transfer on payday — move your savings allocation before you can spend it',
+                      'Log in to myTax Portal and verify your tax residency status and check that employer income is correctly reported',
+                      'Log in to CPF Online Services and verify your first CPF contribution is correctly received and allocated',
+                      'Review your employer group insurance policy — understand what ward class, what is covered, and what the claims process is',
+                      'Citizens and PRs: Research Integrated Shield Plans and upgrade if employer group insurance is insufficient',
+                      'Set up a simple budget using the 50/30/20 rule as a starting framework',
+                      'Open a brokerage account (e.g. IBKR, Moomoo, Tiger Brokers) or robo-advisor account (Syfe, StashAway, Endowus) if you plan to invest',
+                    ],
+                  },
+                  {
+                    type: 'subheading',
+                    text: '🏦 Choosing the Right Singapore Bank Account',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Not all Singapore bank accounts are equal — some pay up to 4% interest on your balance if you meet spending and salary crediting conditions. For fresh graduates, maximising the interest on your emergency fund is straightforward if you choose the right account from Day 1.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Popular Singapore High-Yield Savings Accounts (2025)',
+                    headers: ['Account', 'Base Rate', 'Bonus Rate Condition', 'Max Effective Rate'],
+                    rows: [
+                      ['UOB One', '0.05%', 'Salary credit + spend $500/mo on UOB card', 'Up to 4.0%'],
+                      ['OCBC 360', '0.05%', 'Salary credit + save + insure/invest', 'Up to 4.65%'],
+                      ['DBS Multiplier', '0.05%', 'Salary credit + transactions across categories', 'Up to 4.1%'],
+                      ['Standard Chartered Bonus Saver', '0.01%', 'Salary credit + card spend + invest/insure', 'Up to 4.88%'],
+                      ['Maribank (digital)', '2.88%', 'No conditions — flat rate', '2.88%'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: Credit your salary to whichever high-yield account gives you the best bonus interest rate — this single action often unlocks 3–4% interest versus the standard 0.05%. On a $10,000 emergency fund, the difference between 0.05% and 4.0% is approximately $395/year in additional interest — for zero extra effort.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore high-yield savings account best 2025 fresh graduate salary',
+                    prompt: 'Singapore high-yield savings account 2025 best fresh graduate salary credit UOB One OCBC 360 DBS Multiplier comparison interest rate',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '12-1-s2-scenarios',
+                    fincoins: 10,
+                    title: 'First Month Scenarios',
+                    scenarios: [
+                      {
+                        icon: '💳',
+                        situation: 'Aisha receives her first payslip showing gross salary $4,200, CPF deduction $840, net take-home $3,360. She is excited and immediately transfers $3,000 into her existing POSB savings account earning 0.05% and plans to budget with the remaining $360. Is this a good approach?',
+                        options: [
+                          {
+                            text: 'No — she should open a high-yield savings account for her savings, separate her expenses from savings accounts, and build a proper budget before deciding on the savings amount.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Two issues: (1) POSB standard savings at 0.05% on $3,000 earns $1.50/year — a high-yield account could earn $90–$120/year for zero effort. (2) $360 for monthly expenses is almost certainly insufficient — Singapore\'s cost of living requires a proper budget before determining the savings amount, not the reverse. Set up the right infrastructure first, then automate savings from what remains after proper budgeting.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'No — she should keep all $3,360 liquid in one account for the first 3 months before separating savings and expenses.',
+                            biasLabel: 'Good systems should be set up immediately',
+                            biasExplanation: 'Delaying financial system setup is a common mistake — the longer money sits in a single account without structure, the more likely it is spent without intention. Day 1 is the best time to establish the right account structure and automation.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Partially — saving is good but she should switch to a high-yield account, build a proper budget first, and automate savings on payday rather than manually transferring.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Correct approach. The savings instinct is right but the execution needs work: switch to a high-yield account (UOB One, OCBC 360, DBS Multiplier), build a proper 50/30/20 budget to determine the right savings amount, and automate the transfer on payday. Manual savings decisions are vulnerable to spending creep.',
+                            isIdeal: true,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📋',
+                        situation: 'Marcus starts work and his employer provides group hospitalisation insurance covering Class B2 wards. He is a Singapore PR. Should he get an Integrated Shield Plan (IP) on top?',
+                        options: [
+                          {
+                            text: 'Yes — Class B2 employer insurance is relatively basic; an IP upgrade to Class B1 costs approximately $300–$500/year additional from MediSave and provides significantly better ward coverage and doctor choice.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Employer group insurance covering B2 is the minimum coverage — similar to MediShield Life baseline. As a PR with a salary, Marcus can easily afford a B1-tier IP add-on, most of which is payable from his MA (MediSave). The additional out-of-pocket cash for the rider is modest compared to the coverage upgrade. This is also the optimal time to get an IP — before any health conditions develop that might trigger exclusions.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'No — employer group insurance is always sufficient and IP premiums are an unnecessary cost for a healthy young graduate.',
+                            biasLabel: 'B2 coverage has significant gaps',
+                            biasExplanation: 'Class B2 coverage means a 5-bed subsidised ward with assigned doctors. While not catastrophic, a B1 upgrade provides a private room equivalent at a public hospital with more specialist choice — for relatively modest additional premium. As a PR, Marcus\'s MediSave (funded by CPF contributions) can cover most of the IP premium without any cash outlay.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'No — he should wait until he turns 30 to get an IP since premiums are lower for older applicants.',
+                            biasLabel: 'IP premiums are lower when younger',
+                            biasExplanation: 'Insurance premiums increase with age — getting an IP at 24 is cheaper than at 30, and far cheaper than at 40. More importantly, getting insured before any health conditions develop avoids exclusions or loading premiums. Waiting is financially counterproductive for health insurance.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💼',
+                        situation: 'Priya has two job offers: Offer A pays $5,000/month with no benefits. Offer B pays $4,500/month with full group medical insurance (B1 ward), $1,500 annual learning budget, and 18 days annual leave vs Offer A\'s 14 days. How should she evaluate the two offers?',
+                        options: [
+                          {
+                            text: 'Offer A is better — $500 more per month is $6,000/year, which outweighs any benefit package.',
+                            biasLabel: 'Benefits have real monetary value',
+                            biasExplanation: 'A B1-tier IP saves approximately $700–$900/year in personal insurance premiums, the $1,500 learning budget is direct cash value, and 4 extra leave days at $5,000 salary = approximately $920 in additional leave value. Total Offer B benefit value: ~$3,100–$3,300/year. Offer A\'s $6,000 salary premium minus Offer B\'s benefit value = approximately $2,700–$2,900 actual difference — not $6,000.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Offer B is likely comparable or superior when benefits are monetised — B1 medical insurance (~$800/year value), $1,500 learning budget, and 4 extra leave days (~$920 value) bring Offer B\'s true value close to or exceeding Offer A\'s salary premium.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Correct. Monetising Offer B\'s benefits: medical insurance ~$800/year saved + $1,500 learning budget + extra leave ~$920 = approximately $3,220 in annual benefit value. Offer A\'s salary premium is $6,000 − $3,220 = approximately $2,780 effective advantage. Offer B may also offer better career development through the learning budget. The decision depends on career priorities, but Offer A\'s apparent $6,000 advantage is actually much smaller.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'She cannot compare the offers without knowing the company names and their reputation.',
+                            biasLabel: 'Monetary comparison is always possible',
+                            biasExplanation: 'While company reputation and career growth matter qualitatively, a financial comparison of the two offers is always possible and valuable — benefits have real monetary value that can be estimated and compared to the salary difference. Both factors — financial and qualitative — should inform the decision.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Setting Up Your Financial System ───────────────────────
+              {
+                key: 'system',
+                title: 'Setting Up Your Financial System',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Setting Up Your Financial System',
+                  },
+                  {
+                    type: 'text',
+                    text: 'A financial system is not a budget spreadsheet you update once and forget — it is the set of automated, recurring financial behaviours that run in the background of your life. The goal is to make good financial decisions the path of least resistance. Once set up correctly in your first month of work, a robust financial system requires minimal ongoing attention while steadily building your wealth and security.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '💼',
+                    title: 'First Job 50/30/20 Budget Planner',
+                    description: 'Drag to set your monthly take-home pay (after CPF deduction) and see your 50/30/20 allocation across needs, wants, and savings.',
+                    min: 2000,
+                    max: 8000,
+                    step: 200,
+                    initialValue: 3400,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      const needs = Math.round(value * 0.50);
+                      const wants = Math.round(value * 0.30);
+                      const savings = Math.round(value * 0.20);
+                      const emergencyMonths = Math.round((needs * 6) / savings);
+                      return [
+                        { label: 'Needs — 50% (rent, food, transport, utilities, insurance)', value: `$${needs.toLocaleString()}/mo`, color: '#4F46E5' },
+                        { label: 'Wants — 30% (dining out, entertainment, shopping, travel)', value: `$${wants.toLocaleString()}/mo`, color: '#F59E0B' },
+                        { label: 'Savings & Investments — 20% (emergency fund, investments)', value: `$${savings.toLocaleString()}/mo`, color: '#059669' },
+                        { label: 'Months to build 6-month emergency fund at this savings rate', value: `${emergencyMonths} months`, color: '#DC2626' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 The 50/30/20 rule is a starting framework — not a rigid law. In Singapore, housing costs alone can consume 30–40% of take-home pay for those renting privately. If your "needs" genuinely exceed 50%, reduce "wants" before touching the 20% savings allocation. The savings rate is the last thing to compromise.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '🔄 The Automated Financial System',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Automation eliminates the most dangerous element of personal finance: willpower. You cannot spend money that has already been moved. Set up these three automated transfers on the day after your salary is credited each month and your financial system essentially runs itself.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Your Three-Account Financial System',
+                    cards: [
+                      {
+                        frontLabel: '🏦 Account 1: Salary Account',
+                        backLabel: '📋 How to Use It',
+                        front: 'Your main bank account where salary is credited. This is the hub — money flows in and immediately flows out to where it belongs.',
+                        back: 'Credit your salary here to unlock high-yield bonus interest (UOB One, OCBC 360, DBS Multiplier). On payday, automated transfers immediately move savings and investment amounts to their dedicated accounts. What remains is your spending budget for the month — you cannot overspend if you automate correctly.',
+                      },
+                      {
+                        frontLabel: '💰 Account 2: Emergency Fund',
+                        backLabel: '📋 How to Use It',
+                        front: 'A separate high-yield savings account for your emergency fund — never mixed with daily expenses.',
+                        back: 'Target: 3–6 months of essential expenses (needs only, not total spend). Keep this in a high-yield account (Maribank, Singapore Savings Bonds, or T-bills) earning 2.5–4%. This account is untouched except for genuine emergencies — medical, job loss, urgent repairs. Automate a fixed monthly transfer here until the target is reached, then redirect to investments.',
+                      },
+                      {
+                        frontLabel: '📈 Account 3: Investment Account',
+                        backLabel: '📋 How to Use It',
+                        front: 'A brokerage or robo-advisor account where your long-term wealth is built through regular monthly investing.',
+                        back: 'Start with $200–$500/month in a diversified low-cost index fund or robo-advisor (Syfe Core, StashAway, Endowus). Dollar-cost averaging — investing a fixed amount monthly regardless of market conditions — removes the need to time the market. After your emergency fund reaches 3 months, redirect some of that monthly saving here. After 6 months of emergency fund, invest the full savings allocation.',
+                      },
+                      {
+                        frontLabel: '⚙️ Making It Automatic',
+                        backLabel: '📋 The Setup',
+                        front: 'How do you make the three-account system run without ongoing effort?',
+                        back: 'Set up two standing orders (GIRO instructions) on the day after your salary date: one to your emergency fund account, one to your investment account. Both trigger automatically each month before you see the money in your spending account. Most Singapore banks allow standing orders to be set up online in under 10 minutes. Review and adjust amounts quarterly — not monthly.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: Singapore Savings Bonds (SSBs) are an excellent emergency fund vehicle — they are government-guaranteed, currently earning approximately 2.5–3.0% per year, and can be redeemed any month with no penalty. Unlike a fixed deposit, you never lose access to your money in an emergency. Apply through your bank\'s internet banking or the SGX CDP portal.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore first job financial system budget savings investment 2025',
+                    prompt: 'Singapore first job financial system 2025 50/30/20 budget three account system emergency fund investment automation fresh graduate',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '12-1-s3-mcq',
+                    fincoins: 10,
+                    icon: '💼',
+                    title: 'Financial System Quiz',
+                    question: 'Wei receives his first salary of $3,600 take-home (after CPF). He wants to apply the 50/30/20 rule. His monthly rent is $1,200, food $400, transport $150, phone $50, and insurance $100 — total needs $1,900. What is his best next step?',
+                    options: [
+                      'His needs ($1,900) exceed 50% of take-home ($1,800) — he must immediately reduce rent to fit the 50/30/20 rule exactly.',
+                      'His needs at $1,900 are slightly over the 50% guide ($1,800) — he should adjust his wants budget down from $1,080 to $980 to compensate, keeping his savings allocation at $720 (20%) intact.',
+                      'He should reduce his savings rate to 10% temporarily since his needs exceed 50% — savings can be increased once income rises.',
+                      'The 50/30/20 rule does not apply in Singapore due to high housing costs — he should use a 70/20/10 split instead.',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'When needs slightly exceed 50%, the correct adjustment is to trim wants — not to reduce the savings rate. Wei\'s needs are $100 over the 50% guide, so his wants reduce from $1,080 to $980. His 20% savings allocation ($720) remains untouched. The savings rate is the last thing to compromise — it is the engine of long-term wealth building. Cutting rent ($1,200) is worth exploring longer term but is not immediately actionable.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Planning for Your First Job',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Planning for Your First Job',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how to read your offer letter, what to set up in your first month, and how to build an automated financial system. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore first job financial planning offer letter budget system 2025',
+                    prompt: 'Singapore first job 2025 offer letter salary CPF take-home budget 50/30/20 financial system emergency fund investment fresh graduate',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '12-1-s4-mcq',
+                    fincoins: 25,
+                    icon: '💼',
+                    title: 'First Job Planning Challenge',
+                    questions: [
+                      {
+                        concept: 'Offer Letter Literacy',
+                        question: 'Sarah receives an offer of $5,000 gross monthly salary, 13th month AWS (contractual), and "up to 3 months variable bonus". What is her guaranteed annual income?',
+                        options: [
+                          '$60,000 — 12 months of $5,000 gross salary.',
+                          '$65,000 — 12 months of salary plus the guaranteed AWS 13th month.',
+                          '$80,000 — 12 months of salary plus AWS plus the maximum 3-month variable bonus.',
+                          '$48,000 — take-home after CPF across 12 months.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'AWS stated as contractual in the offer letter is a legally guaranteed payment — it counts as guaranteed income. Variable bonus is not guaranteed (0 to 3 months — it could be $0) and must never be counted as guaranteed income. Sarah\'s guaranteed annual income is $5,000 × 12 + $5,000 AWS = $65,000 gross. Her guaranteed take-home (after 20% CPF) is approximately $52,000/year.',
+                      },
+                      {
+                        concept: 'Take-Home vs Gross',
+                        question: 'James is 26 years old and accepts a $4,800 gross monthly salary. He plans to budget $4,000 for monthly expenses and save $800. What is the critical flaw in this plan?',
+                        options: [
+                          'He should save more than $800 — the savings rate is too low.',
+                          'His take-home after 20% CPF deduction is approximately $3,840 — budgeting $4,000 in expenses means he is planning to overspend by $160 every month.',
+                          'He cannot budget until he knows his exact variable bonus amount.',
+                          'There is no flaw — $800 savings on $4,800 gross is a reasonable 16.7% savings rate.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'At 26, James contributes 20% of gross to CPF — $960/month. His take-home is $4,800 − $960 = $3,840. Budgeting $4,000 in expenses on $3,840 take-home creates a $160/month deficit. This is the most common first-job financial error — confusing gross salary with take-home. Always calculate take-home first (gross × 80% for those under 55) and budget only from that figure.',
+                      },
+                      {
+                        concept: 'Financial System Setup',
+                        question: 'Priya receives her first salary of $3,200 take-home. She wants to set up the three-account system. She currently has $500 in savings. What should her immediate priority be and what automation should she set up?',
+                        options: [
+                          'Open an investment account immediately and invest $640/month (20% of take-home) — building wealth is the top priority.',
+                          'Build her emergency fund first — set up an automatic transfer of $640/month to a high-yield savings account until she reaches 3 months of essential expenses (~$4,800), then redirect to investments.',
+                          'Pay into SA via CPF top-up first — the 4% guaranteed return is the best risk-free option before investing.',
+                          'Keep all money in one account until she has 12 months of expenses saved — only then is it safe to invest.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'With only $500 saved, Priya\'s first priority is the emergency fund — 3 months of essential expenses is approximately $4,800 (assuming needs of $1,600/month). At $640/month savings rate, she builds this in about 7 months. Investing before establishing an emergency fund is risky — a market downturn forces selling at a loss to cover an emergency. SA top-ups are irreversible and premature without liquid savings in place. After the emergency fund reaches 3 months, redirect the $640 to investments.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is the difference between gross salary and take-home pay for a 26-year-old in Singapore?',
+                a: 'Take-home pay is gross salary minus the 20% employee CPF contribution. A $4,500 gross salary results in a $900 CPF deduction and approximately $3,600 take-home. Always budget around take-home — never gross salary.',
+              },
+              {
+                q: 'What is the Annual Wage Supplement (AWS) and when is it guaranteed?',
+                a: 'AWS is a 13th month salary payment typically made in November or December. It is legally guaranteed only if explicitly stated as contractual in your employment contract or collective agreement. If not stated, AWS is at the employer\'s discretion and should never be counted as guaranteed income.',
+              },
+              {
+                q: 'What are the three accounts in a well-structured financial system and what does each do?',
+                a: 'Account 1 (Salary Account): receives salary, unlocks high-yield bonus interest, distributes to other accounts via standing orders. Account 2 (Emergency Fund): high-yield savings for 3–6 months of essential expenses — never touched except for genuine emergencies. Account 3 (Investment Account): brokerage or robo-advisor for long-term wealth building via monthly dollar-cost averaging.',
+              },
+              {
+                q: 'How do you apply the 50/30/20 rule when needs exceed 50% of take-home pay?',
+                a: 'Trim the wants (30%) allocation first — never reduce the savings allocation (20%). The savings rate is the engine of long-term wealth building and is the last thing to compromise. If needs persistently exceed 50%, explore reducing fixed costs (lower-cost accommodation, cheaper transport) over the medium term.',
+              },
+              {
+                q: 'Why should you get an Integrated Shield Plan as early as possible in your career?',
+                a: 'IP premiums are lower when you are younger and healthier. More importantly, getting insured before any health conditions develop avoids exclusions, loading premiums, or outright rejection. Waiting until your 30s or 40s risks being underwritten at a higher cost or having existing conditions excluded from coverage.',
+              },
+            ],
+          },
+          {
+            id: '12-2',
+            title: 'Net Worth Tracking',
+            icon: '📊',
+            topic: 'net worth tracking assets liabilities Singapore',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: What is Net Worth? ────────────────────────────────────
+              {
+                key: 'networth',
+                title: 'What is Net Worth?',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'What is Net Worth?',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Net worth is the single most important number in personal finance — yet most people have never calculated theirs. It is the difference between everything you own (assets) and everything you owe (liabilities). A high salary does not mean high net worth. A modest salary with consistent saving and investing can build significant net worth over time. Tracking your net worth quarterly is the most honest measure of whether your financial life is actually moving forward.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Net Worth',
+                    definition: 'Total assets minus total liabilities. Net Worth = Assets − Liabilities. A positive net worth means you own more than you owe. A negative net worth — common for fresh graduates with student loans — is not a crisis, but a starting point to improve from.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Assets',
+                    definition: 'Everything you own that has financial value: cash, savings, investments, CPF balances, property equity, and valuables. Assets are what build your wealth over time when managed well.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Liabilities',
+                    definition: 'Everything you owe: student loans, credit card balances, car loans, housing loans, and any other debt. Liabilities reduce your net worth and carry interest costs that compound against you if not managed.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Assets vs Liabilities — What Goes Where',
+                    headers: ['Assets', 'Liabilities'],
+                    rows: [
+                      ['Cash and savings (bank accounts)', 'Student loans (MOE, bank)'],
+                      ['CPF balances (OA, SA, MA)', 'Credit card outstanding balances'],
+                      ['Investment portfolio (stocks, ETFs, robo-advisor)', 'Personal loans'],
+                      ['Singapore Savings Bonds / T-bills', 'Car loan'],
+                      ['Property equity (market value − outstanding loan)', 'Housing loan outstanding'],
+                      ['SRS account balance', 'Buy-now-pay-later outstanding balances'],
+                      ['Emergency fund', 'Any other debt owed'],
+                    ],
+                    firstColAccent: false,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 For most fresh graduates in Singapore, net worth starts negative — a $30,000 student loan with $5,000 in savings is a net worth of −$25,000. This is normal and expected. The goal is not to start high but to grow consistently. A net worth increasing by $500–$1,000 per month in your first job is excellent financial progress.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: Your CPF balances are real assets — include them in your net worth calculation. Many young Singaporeans and PRs underestimate their true net worth because they forget that their OA, SA, and MA balances (earning 2.5–4% guaranteed) are part of their financial picture. For a 26-year-old who has worked one year on a $4,500 salary, CPF balances alone can exceed $10,000.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 net worth tracking assets liabilities Singapore fresh graduate 2025',
+                    prompt: 'net worth tracking Singapore 2025 assets liabilities CPF fresh graduate how to calculate improve',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '12-2-s1-tinder',
+                    fincoins: 10,
+                    title: 'Net Worth — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'A high monthly salary automatically means a high net worth.',
+                        isTrue: false,
+                        explanation: 'Net worth is assets minus liabilities — not income. A person earning $15,000/month but spending $14,500 and carrying $200,000 in debt has a very low or negative net worth. Conversely, someone earning $4,000/month who consistently saves and invests can build a substantial net worth over time. Income is the engine — net worth is the destination.',
+                      },
+                      {
+                        text: 'Your CPF OA, SA, and MA balances should be included when calculating your net worth.',
+                        isTrue: true,
+                        explanation: 'Correct. CPF balances are real financial assets — they earn guaranteed interest (2.5% for OA, 4% for SA and MA) and will fund your retirement and healthcare. Including them gives you an accurate picture of your total financial position. Many people significantly underestimate their net worth by forgetting CPF.',
+                      },
+                      {
+                        text: 'A negative net worth means you are financially irresponsible and should immediately stop all discretionary spending.',
+                        isTrue: false,
+                        explanation: 'A negative net worth is common and expected for fresh graduates — particularly those with student loans. It is a starting point, not a verdict. The key metric is the direction and rate of change: is your net worth growing each month? Consistent improvement matters far more than the starting number.',
+                      },
+                      {
+                        text: 'Property equity — the market value of your home minus the outstanding housing loan — counts as an asset in your net worth calculation.',
+                        isTrue: true,
+                        explanation: 'Correct. If your HDB flat is worth $450,000 and you have $280,000 remaining on your housing loan, your property equity is $170,000 — this is an asset in your net worth. However, the full property value is not the asset — only the equity portion (value minus debt) counts. The outstanding loan is simultaneously recorded as a liability.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: Calculating Yours ─────────────────────────────────────
+              {
+                key: 'calculating',
+                title: 'Calculating Yours',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Calculating Yours',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Calculating your net worth for the first time takes about 20 minutes. After that, updating it quarterly takes under 10 minutes. The process is simple: list every asset with its current value, list every liability with its outstanding balance, and subtract. The number itself matters less than the trend — you want to see it growing consistently over time.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '📋 Example: Your First Net Worth Calculation',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Example Net Worth Calculation — Fresh Graduate, Age 26, 1 Year Working',
+                    headers: ['Item', 'Type', 'Value'],
+                    rows: [
+                      ['DBS savings account (emergency fund)', 'Asset', '+$8,500'],
+                      ['CPF OA balance', 'Asset', '+$6,840'],
+                      ['CPF SA balance', 'Asset', '+$1,944'],
+                      ['CPF MA balance', 'Asset', '+$2,592'],
+                      ['Robo-advisor portfolio (Syfe Core)', 'Asset', '+$3,200'],
+                      ['Singapore Savings Bonds', 'Asset', '+$2,000'],
+                      ['MOE Tuition Grant Bond obligation', 'Liability', '−$15,000'],
+                      ['Credit card outstanding balance', 'Liability', '−$450'],
+                      ['TOTAL NET WORTH', '', '$9,626'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 The example above is realistic for a Singapore graduate one year into their first job earning $4,500/month. Note that CPF balances ($11,376 combined) represent the largest single asset category — larger than the cash savings. This is why understanding CPF is so financially important for Singapore residents.',
+                  },
+                  {
+                    type: 'flipcards',
+                    variant: 'neutral',
+                    title: 'Common Net Worth Mistakes to Avoid',
+                    cards: [
+                      {
+                        frontLabel: '❌ Mistake 1: Forgetting CPF',
+                        backLabel: '✅ The Fix',
+                        front: 'Many graduates omit their CPF balances entirely, believing CPF is "locked away" and not "real money".',
+                        back: 'CPF balances are fully real assets — they earn guaranteed interest and fund retirement, healthcare, and housing. Log in to CPF Online Services (www.cpf.gov.sg) to find your exact OA, SA, and MA balances. Include all three in your asset column. For a 27-year-old PR who has worked two years, CPF can easily represent $20,000+ in assets.',
+                      },
+                      {
+                        frontLabel: '❌ Mistake 2: Using Gross Salary Instead of Savings',
+                        backLabel: '✅ The Fix',
+                        front: 'Some people estimate their net worth based on how much they "should" have saved rather than what they actually have.',
+                        back: 'Net worth is based on actual current values — not projected or theoretical amounts. Log in to each account and use the real balance as of today. This honesty is the entire point of the exercise. Estimated or rounded figures defeat the purpose of tracking.',
+                      },
+                      {
+                        frontLabel: '❌ Mistake 3: Ignoring Small Debts',
+                        backLabel: '✅ The Fix',
+                        front: 'Buy-now-pay-later balances, small personal loans, and outstanding credit card amounts are often omitted as "too small to matter".',
+                        back: 'Every liability matters — especially high-interest ones. A $1,200 credit card balance at 26% annual interest costs $312/year in interest. Recording it in your net worth makes it visible and motivates you to eliminate it. Small high-interest debts erode net worth faster than their size suggests.',
+                      },
+                      {
+                        frontLabel: '❌ Mistake 4: Counting Full Property Value',
+                        backLabel: '✅ The Fix',
+                        front: 'A common mistake is counting the full market value of a property as an asset without subtracting the outstanding loan.',
+                        back: 'Only property equity counts — market value minus outstanding mortgage. If your flat is worth $400,000 but you owe $320,000, your property asset is $80,000, not $400,000. The $320,000 loan is simultaneously recorded as a liability. Getting this wrong overstates net worth by the outstanding loan amount.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 how to calculate net worth Singapore CPF investments savings 2025',
+                    prompt: 'how to calculate net worth Singapore 2025 CPF OA SA MA savings investments liabilities student loan fresh graduate example',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '12-2-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Net Worth Calculation Scenarios',
+                    scenarios: [
+                      {
+                        icon: '📊',
+                        situation: 'Aisha is calculating her net worth. She has: $6,000 in savings, CPF OA $5,200, CPF SA $1,560, CPF MA $2,080, $2,400 robo-advisor, $18,000 student loan, and $600 credit card balance. What is her net worth?',
+                        options: [
+                          {
+                            text: '$17,240 — total assets of $17,240 with no liabilities since student loans are "investment in yourself".',
+                            biasLabel: 'Student loans are real liabilities',
+                            biasExplanation: 'Student loans are genuine liabilities regardless of what they funded. They carry interest and must be repaid. Omitting them gives a false picture of financial health. All debts — student loans, credit cards, personal loans — belong in the liabilities column.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '$−1,360 — assets of $17,240 minus liabilities of $18,600.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Assets: $6,000 + $5,200 + $1,560 + $2,080 + $2,400 = $17,240. Liabilities: $18,000 + $600 = $18,600. Net worth: $17,240 − $18,600 = −$1,360. A slightly negative net worth is completely normal one year into work with a student loan. The direction matters — if this grows by $800–$1,000/month, Aisha will be strongly positive within 18 months.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '$−12,800 — CPF balances cannot be included since they are locked until retirement.',
+                            biasLabel: 'CPF balances are valid assets',
+                            biasExplanation: 'CPF balances are real financial assets even though they are restricted in use. They earn guaranteed interest and represent real wealth. Excluding them significantly understates net worth and gives a misleadingly negative picture of financial health.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '🏠',
+                        situation: 'Marcus bought an HDB flat worth $420,000 with an outstanding housing loan of $310,000. He has $12,000 in savings, CPF OA $8,400, CPF SA $5,600, CPF MA $3,200, and $4,500 in investments. He has no other debt. What is his net worth?',
+                        options: [
+                          {
+                            text: '$453,700 — including the full $420,000 property value as an asset.',
+                            biasLabel: 'Only property equity counts',
+                            biasExplanation: 'The full property value is not an asset — only the equity (value minus outstanding loan) is. The $310,000 loan is simultaneously a liability. Counting the full property value without subtracting the loan double-counts the debt and overstates net worth.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '$143,700 — property equity $110,000 + savings $12,000 + CPF $17,200 + investments $4,500.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Property equity = $420,000 − $310,000 = $110,000 (asset). All other assets: $12,000 + $8,400 + $5,600 + $3,200 + $4,500 = $33,700. Total assets = $143,700. Liabilities = $310,000 housing loan. But the loan is already netted out in the property equity calculation — so net worth = $143,700. Marcus has built solid net worth largely through property equity and CPF.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '$−166,300 — the $310,000 housing loan must be subtracted from total assets separately.',
+                            biasLabel: 'Loan is already netted in property equity',
+                            biasExplanation: 'When calculating property equity ($420,000 − $310,000 = $110,000), the loan has already been accounted for. Subtracting it again would be double-counting the liability. Property equity is the correct net figure to use as the asset value.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📈',
+                        situation: 'Priya calculates her net worth quarterly. In Q1 it was $8,200. In Q2 it is $9,750. She is disappointed — she expected faster growth. Is she on track?',
+                        options: [
+                          {
+                            text: 'Yes — a $1,550 quarterly increase ($517/month) is solid progress for a fresh graduate, representing consistent saving and compounding.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: '$1,550 net worth growth in one quarter means approximately $517/month — a very healthy rate for someone early in their career. If sustained, this is $6,200/year in net worth growth from savings alone, plus investment returns and CPF compounding on top. Impatience with steady progress is one of the biggest behavioural risks in personal finance.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'No — net worth should grow by at least $3,000/quarter for a Singapore graduate to be considered on track.',
+                            biasLabel: 'No universal benchmark exists',
+                            biasExplanation: 'There is no universal benchmark for quarterly net worth growth — it depends entirely on income, expenses, debt levels, and investment returns. What matters is consistent positive direction. $1,550/quarter is excellent progress for many fresh graduates in Singapore.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'No — she should stop investing and focus entirely on paying down any debts before net worth growth is meaningful.',
+                            biasLabel: 'Investing and debt repayment can coexist',
+                            biasExplanation: 'For low-interest debt (student loans at 4.75%, housing loans at 2.6%), investing simultaneously makes mathematical sense — investment returns can exceed the debt interest cost. Only high-interest debt (credit cards at 26%) warrants pausing investments to pay down first. Net worth growth through both debt reduction and asset accumulation is the correct approach.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Growing Net Worth Over Time ───────────────────────────
+              {
+                key: 'growing',
+                title: 'Growing Net Worth Over Time',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Growing Net Worth Over Time',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Net worth grows through two levers working simultaneously: reducing liabilities and growing assets. The most powerful accelerator is time — compound interest on your assets and compound interest working against your liabilities mean that every month of delay is more costly than it appears. Understanding the mechanics of net worth growth helps you prioritise the right financial actions at the right time.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '📊',
+                    title: 'Net Worth Growth Projector',
+                    description: 'Drag to set your monthly net savings and investment amount and see your projected net worth growth over 10 years, assuming 6% average annual investment return.',
+                    min: 200,
+                    max: 3000,
+                    step: 100,
+                    initialValue: 800,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      const monthlyRate = 0.06 / 12;
+                      const months5 = 5 * 12;
+                      const months10 = 10 * 12;
+                      const fv5 = Math.round(value * ((Math.pow(1 + monthlyRate, months5) - 1) / monthlyRate));
+                      const fv10 = Math.round(value * ((Math.pow(1 + monthlyRate, months10) - 1) / monthlyRate));
+                      const totalContrib5 = value * months5;
+                      const totalContrib10 = value * months10;
+                      const returns5 = fv5 - totalContrib5;
+                      const returns10 = fv10 - totalContrib10;
+                      return [
+                        { label: 'Portfolio value after 5 years (6% p.a.)', value: `$${fv5.toLocaleString()}`, color: '#4F46E5' },
+                        { label: 'Portfolio value after 10 years (6% p.a.)', value: `$${fv10.toLocaleString()}`, color: '#059669' },
+                        { label: 'Your total contributions over 10 years', value: `$${totalContrib10.toLocaleString()}`, color: '#0891B2' },
+                        { label: 'Investment returns earned over 10 years (compounding)', value: `$${returns10.toLocaleString()}`, color: '#F59E0B' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 On $800/month invested at 6% annually for 10 years, you contribute $96,000 and earn approximately $41,000 in investment returns — your portfolio reaches $137,000. This does not include CPF compounding separately. The earlier you start, the more the returns component dominates — at 20 years, the returns on $800/month would exceed your total contributions.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '⚙️ The Four Levers of Net Worth Growth',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Net worth growth is not mysterious — it comes from four concrete actions. The order of priority matters, especially in your first few years of work when resources are limited and decisions are most impactful.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'The Four Levers — Priority Order for Fresh Graduates',
+                    headers: ['Lever', 'Action', 'Priority'],
+                    rows: [
+                      ['Eliminate high-interest debt', 'Pay off credit cards (26%), personal loans (10%+) as fast as possible', '🔴 Urgent'],
+                      ['Build emergency fund', '3–6 months expenses in high-yield savings — prevents going into debt for shocks', '🔴 Urgent'],
+                      ['Invest consistently', 'Monthly contributions to robo-advisor or index funds — harness compounding early', '🟡 Important'],
+                      ['Optimise CPF', 'Voluntary SA top-ups, maximise employer CPF, consider CPFIS after emergency fund', '🟢 When ready'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ The single biggest net worth destroyer for young graduates in Singapore is lifestyle inflation — increasing spending in proportion to every salary increase. A $500/month raise that goes entirely to a nicer apartment and more dining out contributes $0 to net worth growth. The most powerful habit: bank at least 50% of every salary increment rather than spending it.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: Track your net worth in a simple spreadsheet updated quarterly — four times per year. Apps like Seedly (Singapore-based), or a basic Google Sheet with your asset and liability totals, are all you need. The act of measuring creates accountability. People who track net worth consistently build wealth faster than those who do not — not because tracking creates money, but because it creates awareness.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 growing net worth Singapore compound interest investing CPF 2025',
+                    prompt: 'growing net worth Singapore 2025 compound interest investing CPF lifestyle inflation salary increment savings rate fresh graduate',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '12-2-s3-mcq',
+                    fincoins: 10,
+                    icon: '📊',
+                    title: 'Net Worth Growth Quiz',
+                    question: 'Wei earns $4,800 take-home and currently saves $600/month. He gets a $600/month raise, bringing take-home to $5,400. He upgrades his apartment (+$300/month rent) and starts dining out more (+$200/month). He saves $700/month after the raise. What happened to his net worth growth rate?',
+                    options: [
+                      'It improved significantly — $700 savings is better than $600, a 16.7% improvement.',
+                      'It barely improved — he captured only $100/month of a $600/month raise. $500/month was absorbed by lifestyle inflation, representing a major missed opportunity.',
+                      'It is irrelevant — net worth growth depends on investment returns, not savings rate.',
+                      'It improved adequately — upgrading lifestyle is a legitimate use of a salary raise and financial planning should not restrict personal enjoyment.',
+                    ],
+                    correctIndex: 1,
+                    explanation: 'Wei received a $600/month raise but his savings only grew by $100/month — he captured just 16.7% of his raise into net worth growth. The other $500 went to lifestyle inflation (rent +$300, dining +$200). If he had banked 50% of the raise ($300) into savings/investments instead, his monthly net worth contribution would be $900 — a 50% improvement. Over 10 years, the difference between $700/month and $900/month invested at 6% is approximately $33,000. Lifestyle inflation is the silent net worth killer.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Net Worth Tracking',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Net Worth Tracking',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered what net worth is and why it matters, how to calculate it accurately including CPF, and how to grow it over time. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 net worth tracking Singapore CPF assets liabilities growth 2025',
+                    prompt: 'net worth tracking Singapore 2025 CPF assets liabilities calculate grow lifestyle inflation investment compounding fresh graduate',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '12-2-s4-mcq',
+                    fincoins: 25,
+                    icon: '📊',
+                    title: 'Net Worth Tracking Challenge',
+                    questions: [
+                      {
+                        concept: 'Net Worth Calculation',
+                        question: 'James has: savings $9,000, CPF OA $7,200, CPF SA $2,160, CPF MA $2,880, investments $5,500, student loan $22,000, credit card balance $800. What is his net worth?',
+                        options: [
+                          '$26,740 — total of all positive balances without subtracting liabilities.',
+                          '$3,940 — total assets of $26,740 minus total liabilities of $22,800.',
+                          '$4,740 — total assets minus student loan only, excluding credit card as too small.',
+                          '−$3,940 — liabilities exceed assets.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Assets: $9,000 + $7,200 + $2,160 + $2,880 + $5,500 = $26,740. Liabilities: $22,000 + $800 = $22,800. Net worth = $26,740 − $22,800 = $3,940. All liabilities must be included — credit card balances are real liabilities regardless of size. James has a positive net worth of $3,940, which will grow as he continues working, saving, and repaying his student loan.',
+                      },
+                      {
+                        concept: 'Property Equity',
+                        question: 'Priya\'s HDB flat has a current market value of $480,000. She has used $95,000 of CPF OA for the flat and has an outstanding HDB loan of $285,000. Her other assets are $15,000 savings and $8,000 in investments. What is her net worth?',
+                        options: [
+                          '$503,000 — full property value $480,000 plus other assets $23,000.',
+                          '$218,000 — property equity $195,000 plus other assets $23,000.',
+                          '$123,000 — property equity $195,000 plus other assets $23,000 minus CPF used $95,000.',
+                          '$313,000 — property value $480,000 minus CPF used $95,000 plus other assets $23,000.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'Property equity = market value − outstanding loan = $480,000 − $285,000 = $195,000. Other assets = $15,000 + $8,000 = $23,000. Total net worth = $195,000 + $23,000 = $218,000. The $95,000 CPF OA used for housing is already reflected in the outstanding loan being lower than it would otherwise be — it should not be subtracted again. The housing loan is fully accounted for in the equity calculation.',
+                      },
+                      {
+                        concept: 'Growing Net Worth',
+                        question: 'Aisha\'s net worth has been growing by $600/month for the past year. She receives a $1,000/month raise and decides to increase her monthly investment contribution by $400 and spend the remaining $600 on lifestyle upgrades. What is her new monthly net worth growth rate?',
+                        options: [
+                          '$1,600/month — the full raise adds to net worth growth.',
+                          '$1,000/month — the $600 lifestyle spending still partially contributes to net worth.',
+                          '$1,000/month — $600 existing growth plus $400 additional investment.',
+                          '$600/month — unchanged, since lifestyle spending neutralises the raise.',
+                        ],
+                        correctIndex: 2,
+                        explanation: 'Aisha\'s net worth was growing at $600/month. Her additional $400/month investment contribution adds directly to net worth growth. The $600 spent on lifestyle upgrades is consumed — it does not contribute to assets or reduce liabilities. New net worth growth = $600 + $400 = $1,000/month. She captured 40% of her raise into net worth growth — better than many graduates, though banking more of the raise would compound significantly over time.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is net worth and how is it calculated?',
+                a: 'Net worth = Total Assets − Total Liabilities. Assets include cash, savings, CPF balances (OA, SA, MA), investments, and property equity. Liabilities include student loans, credit card balances, housing loans, and any other debt. A positive net worth means you own more than you owe.',
+              },
+              {
+                q: 'Why should CPF balances be included in a net worth calculation?',
+                a: 'CPF balances (OA at 2.5%, SA and MA at 4%) are real financial assets earning guaranteed interest. They fund retirement, healthcare, and housing. Excluding them significantly understates your true net worth. For a 27-year-old PR who has worked two years on a $4,500 salary, CPF balances alone can exceed $20,000.',
+              },
+              {
+                q: 'How do you correctly account for property in a net worth calculation?',
+                a: 'Only property equity counts — current market value minus outstanding mortgage balance. If your flat is worth $420,000 and you owe $310,000, your property asset is $110,000. The outstanding $310,000 loan is already netted out in this figure and should not be subtracted again as a separate liability.',
+              },
+              {
+                q: 'What is lifestyle inflation and why is it the biggest net worth risk for young graduates?',
+                a: 'Lifestyle inflation is the tendency to increase spending proportionally with every salary increase — negating the net worth benefit of earning more. Banking at least 50% of every salary increment into savings or investments is the most effective counter. Someone who captures $300 of a $600 raise builds $33,000 more net worth over 10 years than someone who captures only $100.',
+              },
+              {
+                q: 'What are the four levers of net worth growth in priority order for fresh graduates?',
+                a: '1) Eliminate high-interest debt (credit cards, personal loans) urgently. 2) Build 3–6 months emergency fund in high-yield savings. 3) Invest consistently in low-cost index funds or robo-advisors. 4) Optimise CPF (voluntary SA top-ups, CPFIS) when the first three are in place.',
+              },
+            ],
+          },
+          {
+            id: '12-3',
+            title: 'Retirement Planning in Singapore',
+            icon: '🌅',
+            topic: 'retirement planning Singapore CPF LIFE BRS FRS ERS',
+            duration: '6 min',
+            fincoins: 55,
+            sections: [
+
+              // ─── Section 1: CPF LIFE — Your Retirement Income ─────────────────────
+              {
+                key: 'cpflife',
+                title: 'CPF LIFE — Your Retirement Income',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'CPF LIFE — Your Retirement Income',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Most people spend their working lives accumulating money without a clear picture of how it translates into retirement income. In Singapore, the answer for citizens and PRs is CPF LIFE — a national longevity insurance annuity scheme that converts your Retirement Account (RA) balance at age 65 into monthly payouts for life. Understanding how CPF LIFE works, what determines your payout, and how to maximise it is one of the most high-leverage financial decisions you will make over your career.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'CPF LIFE',
+                    definition: 'CPF Lifelong Income For the Elderly — a mandatory annuity scheme for Singapore citizens and PRs. At age 65, your Retirement Account balance is used to fund monthly payouts that continue for as long as you live, regardless of how long that is. It protects against the risk of outliving your savings.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Retirement Account (RA)',
+                    definition: 'Created automatically at age 55 by merging your OA and SA balances up to the Full Retirement Sum. The RA earns 4% interest and funds your CPF LIFE payouts from age 65. You cannot withdraw from your RA freely — it is ring-fenced for retirement income.',
+                  },
+                  {
+                    type: 'keyterm',
+                    term: 'Payout Eligibility Age (PEA)',
+                    definition: 'Currently age 65 — the age at which CPF LIFE monthly payouts begin. You can choose to defer payouts up to age 70 for higher monthly amounts (payouts increase approximately 6–7% for each year of deferral).',
+                  },
+                  {
+                    type: 'topiccards',
+                    title: 'How CPF LIFE Works — The Key Mechanics',
+                    cards: [
+                      {
+                        icon: '🔄',
+                        label: 'How RA is Formed',
+                        description: 'At age 55, OA and SA balances are merged into your Retirement Account up to the retirement sum threshold.',
+                        color: '#4F46E5',
+                        details: [
+                          'At age 55, CPF automatically creates your Retirement Account.',
+                          'Funds are transferred from SA first, then OA, up to the prevailing Full Retirement Sum (FRS).',
+                          'Any OA balance above the FRS remains in OA and can be withdrawn or used for housing.',
+                          'The RA earns 4% guaranteed interest from age 55 to 65 — the decade before payouts begin is powerful compounding time.',
+                          'You can top up your RA with cash up to the Enhanced Retirement Sum (ERS) for higher payouts.',
+                        ],
+                        example: 'A 55-year-old with $150,000 in SA and $80,000 in OA, facing a $205,800 FRS (2025), would have $150,000 from SA + $55,800 from OA transferred to RA — totalling the FRS. The remaining $24,200 OA stays in OA.',
+                      },
+                      {
+                        icon: '💰',
+                        label: 'What Determines Your Payout',
+                        description: 'Your monthly CPF LIFE payout depends on your RA balance at 65, your plan choice, and your start age.',
+                        color: '#059669',
+                        details: [
+                          'The higher your RA balance at 65, the higher your monthly payout — the relationship is roughly linear.',
+                          'CPF LIFE Standard Plan gives higher monthly payouts but lower bequest. Escalating Plan gives lower initial payouts that increase 2% annually. Basic Plan gives lower payouts but higher bequest.',
+                          'Deferring payouts from 65 to 70 increases monthly payouts by approximately 6–7% per year of deferral.',
+                          'The RA continues earning 4% from 55 to 65 — a $100,000 RA at 55 grows to approximately $148,000 by 65.',
+                        ],
+                        example: 'At FRS ($205,800 in 2025), CPF LIFE Standard Plan pays approximately $1,560–$1,670/month from age 65. At ERS (1.5× FRS = $308,700), payouts reach approximately $2,300–$2,500/month.',
+                      },
+                      {
+                        icon: '🛡️',
+                        label: 'Longevity Protection',
+                        description: 'CPF LIFE pays for as long as you live — you cannot outlive your CPF retirement income.',
+                        color: '#F59E0B',
+                        details: [
+                          'Traditional savings deplete over time — if you live to 95, savings you planned for 20 years of retirement run out.',
+                          'CPF LIFE is an annuity — payouts continue regardless of how long you live. This is its most important feature.',
+                          'Singapore\'s average life expectancy is approximately 84 years — planning for 30 years of retirement from age 65 is prudent.',
+                          'CPF LIFE eliminates the most fundamental retirement risk: outliving your money.',
+                        ],
+                        example: 'If you live to 95 and started CPF LIFE payouts at 65, you receive 30 years of monthly income — far more than most personal savings could sustain. The annuity structure makes this financially sustainable through risk pooling across all CPF LIFE members.',
+                      },
+                      {
+                        icon: '📋',
+                        label: 'CPF LIFE Plans',
+                        description: 'Three plan options balancing monthly payout level against bequest amount left for beneficiaries.',
+                        color: '#DC2626',
+                        details: [
+                          'Standard Plan: highest monthly payouts, lower bequest (most popular choice for maximum retirement income).',
+                          'Escalating Plan: lower initial payouts that increase 2% per year — designed for inflation protection over a long retirement.',
+                          'Basic Plan: lower monthly payouts but highest bequest — suitable if leaving an estate is a priority.',
+                          'The plan choice is made at age 65 and can be changed up to 30 days after payouts begin.',
+                          'For most people maximising retirement income, the Standard Plan is the default recommendation.',
+                        ],
+                        example: 'On an FRS RA balance, Standard Plan pays ~$1,600/month; Escalating Plan starts at ~$1,450/month but grows 2% annually; Basic Plan pays ~$1,350/month with a larger bequest. Over a 25-year retirement, Escalating Plan total payouts eventually exceed Standard Plan due to compounding growth.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ International graduates who work in Singapore as PRs and later leave permanently can withdraw their CPF balances — but they forfeit their CPF LIFE participation and any accrued retirement income. If you are uncertain about staying in Singapore long-term, factor this into your CPF strategy. Withdrawing CPF on departure means giving up the longevity insurance benefit entirely.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF LIFE Singapore how it works payout retirement 2025',
+                    prompt: 'CPF LIFE Singapore 2025 how it works Retirement Account payout age 65 Standard Escalating Basic Plan longevity annuity',
+                  },
+                  {
+                    type: 'tindertruefalse',
+                    exerciseId: '12-3-s1-tinder',
+                    fincoins: 10,
+                    title: 'CPF LIFE — True or False?',
+                    instruction: 'Swipe right for True · Swipe left for False',
+                    statements: [
+                      {
+                        text: 'CPF LIFE payouts stop after a fixed number of years regardless of whether you are still alive.',
+                        isTrue: false,
+                        explanation: 'CPF LIFE is a lifelong annuity — payouts continue for as long as you live, with no fixed end date. This is its defining feature. It protects against longevity risk — the risk of outliving your savings. Whether you live to 80 or 100, the monthly payout continues.',
+                      },
+                      {
+                        text: 'Deferring CPF LIFE payouts from age 65 to 70 results in higher monthly payouts when they eventually begin.',
+                        isTrue: true,
+                        explanation: 'Correct. Each year of deferral beyond 65 increases monthly payouts by approximately 6–7%. Deferring to 70 (5 years) can increase payouts by 30–35% compared to starting at 65. This is beneficial for those with other income sources in their 60s who can afford to delay.',
+                      },
+                      {
+                        text: 'At age 55, your entire CPF balance — OA and SA combined — is transferred into your Retirement Account.',
+                        isTrue: false,
+                        explanation: 'Only the amount up to the Full Retirement Sum (FRS) is transferred to RA — SA first, then OA to make up the difference. Any OA balance above the FRS remains in OA and can be withdrawn or used for housing. Your MA balance is also unaffected and continues funding healthcare.',
+                      },
+                      {
+                        text: 'A Singapore PR who leaves Singapore permanently before retirement can withdraw their CPF balances in full.',
+                        isTrue: true,
+                        explanation: 'Correct. PRs who renounce their PR status and leave Singapore permanently can withdraw their full CPF balances including RA — but this means forfeiting CPF LIFE participation entirely. The withdrawal gives a lump sum but eliminates the lifelong annuity protection. Citizens cannot make this full withdrawal.',
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 2: BRS, FRS & ERS Explained ─────────────────────────────
+              {
+                key: 'retirementsum',
+                title: 'BRS, FRS & ERS Explained',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'BRS, FRS & ERS Explained',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The three retirement sums — Basic (BRS), Full (FRS), and Enhanced (ERS) — are the targets that determine how much retirement income you will receive from CPF LIFE. They increase each year with inflation and wage growth. Understanding which target you are tracking toward, and what monthly payout each delivers, gives you a concrete retirement income planning framework decades before you retire.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'CPF Retirement Sums 2025 — Targets and Estimated Payouts',
+                    headers: ['Retirement Sum', '2025 Amount', 'Est. Monthly Payout (Standard Plan)', 'Who It Suits'],
+                    rows: [
+                      ['Basic Retirement Sum (BRS)', '$102,900', '~$780–$850/month', 'Those who own property with sufficient equity to pledge'],
+                      ['Full Retirement Sum (FRS)', '$205,800', '~$1,560–$1,670/month', 'The default target — recommended for most Singapore residents'],
+                      ['Enhanced Retirement Sum (ERS)', '$308,700', '~$2,300–$2,500/month', 'Those seeking maximum CPF LIFE income in retirement'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 The FRS increases by approximately 3.5% each year to keep pace with inflation and wage growth. A 25-year-old today will face an FRS of approximately $410,000–$490,000 by the time they turn 55 in 2055 — assuming continued 3.5% annual increases. This is not alarming: your CPF contributions also grow throughout your career, and the target grows in proportion to expected wages.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '🏠 BRS and the Property Pledge',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The Basic Retirement Sum is available to those who own property — you can "pledge" your property against the difference between BRS and FRS, allowing you to withdraw the excess OA/SA above BRS at age 55 while still receiving CPF LIFE payouts. This is relevant for property owners who want access to their CPF savings at 55 while maintaining retirement income.',
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'warning',
+                    text: '⚠️ The property pledge does not mean the government takes your property. It means that if you sell the property, you must refund the pledged amount back to CPF. For most homeowners approaching retirement, the FRS target is the more straightforward planning goal — no pledge complications, higher monthly payouts, and no dependency on property transactions.',
+                  },
+                  {
+                    type: 'slider',
+                    icon: '🌅',
+                    title: 'CPF LIFE Retirement Payout Estimator',
+                    description: 'Drag to set your projected Retirement Account balance at age 65 and see your estimated monthly CPF LIFE payout under the Standard Plan.',
+                    min: 50000,
+                    max: 400000,
+                    step: 10000,
+                    initialValue: 205800,
+                    prefix: '$',
+                    calculateResult: (value) => {
+                      // Approximate payout: roughly $7.60/month per $1,000 of RA balance at 65 (Standard Plan)
+                      const monthlyPayout = Math.round((value / 1000) * 7.6);
+                      const annualPayout = monthlyPayout * 12;
+                      const brsLabel = value < 102900 ? 'Below BRS — consider topping up RA' : value < 205800 ? 'Between BRS and FRS' : value < 308700 ? 'At or above FRS ✓' : 'At or above ERS ✓';
+                      const yearsTo20k = Math.round(20000 / (monthlyPayout * 12) * 10) / 10;
+                      return [
+                        { label: 'Estimated monthly CPF LIFE payout (Standard Plan)', value: `$${monthlyPayout.toLocaleString()}/mo`, color: '#4F46E5' },
+                        { label: 'Estimated annual CPF LIFE income', value: `$${annualPayout.toLocaleString()}/yr`, color: '#059669' },
+                        { label: 'Retirement sum status', value: brsLabel, color: '#0891B2' },
+                        { label: 'Years to recover full RA balance through payouts', value: `~${Math.round(value / annualPayout * 10) / 10} years`, color: '#F59E0B' },
+                      ];
+                    },
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 Singapore Tip: For a 25-year-old fresh graduate today, the realistic CPF LIFE planning goal is to reach FRS at age 55. With consistent employment and CPF contributions over 30 years, most Singapore residents naturally approach or exceed FRS through mandatory contributions alone — even without voluntary top-ups. Voluntary SA top-ups and RSTU accelerate this trajectory significantly.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF BRS FRS ERS retirement sum Singapore 2025 payout target',
+                    prompt: 'CPF Basic Full Enhanced Retirement Sum BRS FRS ERS Singapore 2025 monthly payout target how much retirement income',
+                  },
+                  {
+                    type: 'scenarios',
+                    exerciseId: '12-3-s2-scenarios',
+                    fincoins: 10,
+                    title: 'Retirement Sum Scenarios',
+                    scenarios: [
+                      {
+                        icon: '🎯',
+                        situation: 'Mei is 28 and wants to know if she will reach FRS by 55. She currently has $8,000 in CPF SA and $12,000 in OA. She earns $4,800/month and contributes 37% total CPF (employee + employer). The current FRS is $205,800. Should she be worried?',
+                        options: [
+                          {
+                            text: 'No — at $4,800/month with 37% total CPF contribution ($1,776/month), over 27 years of contributions alone she accumulates approximately $575,000 in CPF — far exceeding FRS, even before interest.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'Total monthly CPF inflow: $4,800 × 37% = $1,776. Over 27 years (324 months): contributions alone = $575,424. With 4% SA compounding on the SA portion over decades, total CPF easily exceeds even the projected future FRS of ~$410,000–$490,000 in 2055. Consistent employment is the most powerful retirement planning tool — voluntary top-ups are an accelerator, not a necessity for most.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Yes — FRS will increase to approximately $490,000 by 2055 and mandatory contributions will not be enough to reach it.',
+                            biasLabel: 'Contributions grow alongside FRS',
+                            biasExplanation: 'The FRS is designed to grow in proportion to wages and inflation — and CPF contributions also grow as salaries increase over a career. A fresh graduate\'s salary typically increases 3–5× over a 30-year career, meaning CPF contributions in later years are far larger than in the first year. The system is designed so that consistent contributors naturally approach FRS.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Yes — she should immediately stop all cash investments and redirect everything to CPF top-ups to ensure she reaches FRS.',
+                            biasLabel: 'Diversified strategy is better',
+                            biasExplanation: 'Redirecting all investments to CPF top-ups is overly conservative and sacrifices liquidity unnecessarily. A balanced approach — mandatory CPF contributions growing with career, occasional voluntary SA top-ups with surplus, and cash investments — provides both retirement security and financial flexibility throughout life.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '💰',
+                        situation: 'James turns 55 with $180,000 in SA and $95,000 in OA. The FRS is $205,800. How much goes into his RA and what happens to the rest?',
+                        options: [
+                          {
+                            text: 'Full $275,000 goes into RA — all CPF balances are merged at 55.',
+                            biasLabel: 'Only up to FRS is transferred',
+                            biasExplanation: 'At 55, only the FRS amount is transferred to RA — SA first, then OA to make up the difference. Transferring the entire balance would lock more than necessary into the annuity structure.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: '$180,000 from SA + $25,800 from OA = $205,800 in RA (the FRS). The remaining $69,200 OA stays in OA and can be withdrawn or used for housing.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'SA ($180,000) is transferred first — it falls short of FRS by $25,800, so $25,800 is drawn from OA to reach the FRS. The remaining OA balance ($95,000 − $25,800 = $69,200) stays in OA. James can withdraw this OA balance (above the BRS pledge if applicable) or leave it earning 2.5%. His RA of $205,800 will grow at 4% from 55 to 65 — reaching approximately $304,000 before payouts begin.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: '$180,000 from SA goes to RA only — OA is never used to fund RA since it earns a lower interest rate.',
+                            biasLabel: 'OA tops up SA to reach FRS',
+                            biasExplanation: 'If SA alone does not reach FRS, OA is used to top up the difference. The interest rate difference between OA (2.5%) and SA/RA (4%) is why SA is transferred first — but OA is used to complete the FRS if SA is insufficient.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                      {
+                        icon: '📈',
+                        situation: 'Priya wants to maximise her CPF LIFE payout. She is 50 with $180,000 in SA. The FRS is $205,800 and ERS is $308,700. She has $60,000 in surplus savings. What should she consider?',
+                        options: [
+                          {
+                            text: 'Top up SA to FRS ($25,800 cash top-up) and consider topping up further toward ERS with remaining surplus — each $1,000 extra in RA at 65 generates approximately $7.60/month more in CPF LIFE payout for life.',
+                            biasLabel: 'Correct ✓',
+                            biasExplanation: 'A $25,800 cash top-up to reach FRS is the first step — this qualifies for RSTU tax relief up to $8,000 of the amount. The remaining $34,200 surplus could top up further toward ERS ($308,700) for higher payouts. At age 50, additional SA top-ups still earn 4% for 15 years (to 65) before payouts begin — growing by approximately 80%. Every dollar topped up now is worth ~$1.80 in RA at 65.',
+                            isIdeal: true,
+                          },
+                          {
+                            text: 'Leave SA as is — mandatory contributions over the next 5 working years will naturally reach FRS.',
+                            biasLabel: 'Voluntary top-up accelerates significantly',
+                            biasExplanation: 'While continued contributions may push SA closer to FRS, at age 50 with only 5 working years remaining, mandatory contributions alone may not be sufficient. A $25,800 cash top-up immediately secures FRS status and qualifies for tax relief. With $60,000 surplus available, this is a highly efficient use of funds.',
+                            isIdeal: false,
+                          },
+                          {
+                            text: 'Invest the full $60,000 in equities instead — equity returns historically exceed 4% SA interest over 15 years.',
+                            biasLabel: 'Risk-adjusted comparison favours SA at this age',
+                            biasExplanation: 'At age 50 with 15 years to retirement, the risk profile shifts. Equities may outperform SA but carry significant sequence-of-returns risk — a downturn near retirement is very costly. The 4% SA guarantee with RSTU tax relief provides a strong risk-adjusted return. A balanced approach — some SA top-up for guaranteed income, some equities for growth — is typically recommended over all-or-nothing.',
+                            isIdeal: false,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+
+              // ─── Section 3: Building Your Retirement Plan ─────────────────────────
+              {
+                key: 'plan',
+                title: 'Building Your Retirement Plan',
+                fincoins: 10,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Building Your Retirement Plan',
+                  },
+                  {
+                    type: 'text',
+                    text: 'Retirement planning is not a single decision made at age 55 — it is a series of small, consistent actions taken throughout your working life that compound into financial security. In Singapore, the framework is unusually clear: CPF provides a guaranteed income floor through CPF LIFE, and everything built on top of that floor through cash investments, property, and SRS determines the quality and flexibility of your retirement. Understanding the three pillars of retirement income gives you the complete picture.',
+                  },
+                  {
+                    type: 'piechart',
+                    title: 'The Three Pillars of Singapore Retirement Income',
+                    note: 'Target allocation for a comfortable retirement. CPF LIFE provides the guaranteed floor — cash investments and property provide flexibility and upside. Tap each pillar to learn more.',
+                    slices: [
+                      {
+                        icon: '🛡️',
+                        label: 'CPF LIFE',
+                        percentage: 40,
+                        color: '#4F46E5',
+                        amount: '~40%',
+                        description: 'Your guaranteed income floor — CPF LIFE Standard Plan at FRS pays ~$1,600/month for life from age 65. This pillar never runs out regardless of how long you live. For most Singapore residents, CPF LIFE is the foundation everything else is built on top of.',
+                      },
+                      {
+                        icon: '📈',
+                        label: 'Cash Investments',
+                        percentage: 35,
+                        color: '#059669',
+                        amount: '~35%',
+                        description: 'Your flexibility and growth pillar — a portfolio of equities, bonds, ETFs, and robo-advisor investments built through consistent monthly investing throughout your career. This provides withdrawal flexibility, inflation upside, and the ability to fund lump-sum expenses in retirement that CPF LIFE monthly payouts cannot cover.',
+                      },
+                      {
+                        icon: '🏠',
+                        label: 'Property / Other',
+                        percentage: 25,
+                        color: '#F59E0B',
+                        amount: '~25%',
+                        description: 'Property equity (through HDB upgrading or rental income) and other assets including SRS, business interests, or inheritance. Property in Singapore has historically appreciated and provides both equity and potential rental income in retirement. Not all retirees rely on this pillar — those who downsize HDB flats in retirement can unlock significant cash.',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'fact',
+                    text: '📊 A comfortable retirement in Singapore for a single person is estimated to require approximately $1,379–$2,351/month (MOS 2023 Retirement Adequacy study). CPF LIFE at FRS covers approximately $1,600/month — meaning FRS alone meets the lower end of comfortable retirement needs. Cash investments and property are required to fund the higher end and to cover healthcare, travel, and unexpected expenses.',
+                  },
+                  {
+                    type: 'subheading',
+                    text: '📅 Your Retirement Planning Timeline',
+                  },
+                  {
+                    type: 'text',
+                    text: 'The right retirement actions change as you move through your career. Here is a practical framework for what to focus on at each life stage — from fresh graduate to pre-retirement.',
+                  },
+                  {
+                    type: 'table',
+                    title: 'Retirement Planning Actions by Life Stage',
+                    headers: ['Age', 'CPF Focus', 'Cash Investment Focus', 'Key Action'],
+                    rows: [
+                      ['22–30', 'Let mandatory contributions build SA', 'Start robo-advisor or index fund with $200–$500/month', 'Build emergency fund first, then invest consistently'],
+                      ['30–40', 'Consider voluntary SA top-ups with surplus', 'Increase monthly investments with salary growth', 'Bank 50%+ of every salary increment'],
+                      ['40–50', 'Accelerate SA top-ups — more compounding time', 'Diversify into bonds as retirement approaches', 'Check projected CPF LIFE payout vs retirement needs'],
+                      ['50–55', 'Top up to FRS or ERS if under-target', 'Reduce equity risk gradually', 'Model retirement income from all three pillars'],
+                      ['55–65', 'RA formed — let it compound at 4% to 65', 'Consider SRS for final tax relief years', 'Choose CPF LIFE plan and payout start age'],
+                    ],
+                    firstColAccent: true,
+                  },
+                  {
+                    type: 'callout',
+                    variant: 'tip',
+                    text: '🎯 The most powerful retirement planning action for a 25-year-old is not complex — it is simply starting to invest consistently and never stopping. $500/month in a global index fund from age 25 to 65 at 7% average annual return grows to approximately $1,310,000. The mathematics of early and consistent investing is more powerful than any optimisation made at age 50.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 Singapore retirement planning three pillars CPF LIFE investment 2025',
+                    prompt: 'Singapore retirement planning 2025 three pillars CPF LIFE cash investments property how much needed comfortable retirement fresh graduate strategy',
+                  },
+                  {
+                    type: 'mcq',
+                    exerciseId: '12-3-s3-mcq',
+                    fincoins: 10,
+                    icon: '🌅',
+                    title: 'Retirement Planning Quiz',
+                    question: 'Wei is 26 and just started his first job. He wants to start retirement planning. He has no emergency fund yet, $0 in investments, and $2,000 in savings. His take-home is $3,400/month. What is the correct order of priorities?',
+                    options: [
+                      'Start maxing CPF SA top-ups immediately — 4% guaranteed is the best risk-free return and retirement should be the top priority.',
+                      'Invest the full $2,000 in a global ETF immediately — time in the market is the most important factor in retirement planning.',
+                      'Build a 3-month emergency fund first (~$5,100), then begin $300–$500/month investments — CPF SA top-ups can begin once emergency fund and investment habit are established.',
+                      'Do nothing until income increases — retirement planning on a $3,400 take-home is not financially meaningful.',
+                    ],
+                    correctIndex: 2,
+                    explanation: 'The correct sequence is always: (1) emergency fund first — without it, any market downturn or unexpected expense forces selling investments at a loss or taking on debt. (2) Begin investing consistently — even $300/month from age 26 is transformative over 39 years. (3) CPF SA top-ups once there is genuine surplus — they are irreversible and should not come before liquidity is established. SA top-ups before an emergency fund is a common mistake that leaves people financially fragile despite high CPF balances.',
+                  },
+                ],
+              },
+
+              // ─── Section 4: Challenge ─────────────────────────────────────────────
+              {
+                key: 'challenge',
+                title: 'Challenge: Retirement Planning',
+                fincoins: 25,
+                content: [
+                  {
+                    type: 'heading',
+                    text: 'Challenge: Retirement Planning',
+                  },
+                  {
+                    type: 'text',
+                    text: 'You\'ve covered how CPF LIFE works and what determines your payout, how the three retirement sums set your income targets, and how to build a retirement plan across your career. Three questions — put it all together.',
+                  },
+                  {
+                    type: 'bot',
+                    label: '💬 CPF LIFE BRS FRS ERS retirement planning Singapore 2025',
+                    prompt: 'CPF LIFE BRS FRS ERS retirement planning Singapore 2025 payout three pillars investment property strategy fresh graduate',
+                  },
+                  {
+                    type: 'multistepmcq',
+                    exerciseId: '12-3-s4-mcq',
+                    fincoins: 25,
+                    icon: '🌅',
+                    title: 'Retirement Planning Challenge',
+                    questions: [
+                      {
+                        concept: 'CPF LIFE Mechanics',
+                        question: 'Sarah turns 55 with $210,000 in SA and $70,000 in OA. The FRS is $205,800 and ERS is $308,700. What happens to her CPF at 55?',
+                        options: [
+                          '$205,800 is transferred from SA to RA (FRS amount). The remaining $4,200 SA and full $70,000 OA stay in their accounts.',
+                          'The full $280,000 (SA + OA) is merged into RA for maximum CPF LIFE payouts.',
+                          '$205,800 from SA goes to RA. The remaining $4,200 SA is forfeited as it cannot stay in SA after 55.',
+                          '$210,000 full SA balance is transferred to RA since SA exceeds FRS — OA is untouched.',
+                        ],
+                        correctIndex: 0,
+                        explanation: 'At 55, SA is transferred first up to the FRS ($205,800). Sarah\'s SA of $210,000 covers the full FRS — so $205,800 goes to RA and the remaining $4,200 SA stays in SA (earning 4%). OA ($70,000) is untouched since SA alone was sufficient to fund FRS. Sarah can withdraw OA funds or leave them earning 2.5%. She could also top up RA further toward ERS ($308,700) with the remaining SA and OA balances if she wants higher payouts.',
+                      },
+                      {
+                        concept: 'Retirement Sum Targets',
+                        question: 'James is 30 and projects he will have $160,000 in his RA at 55 — below the projected FRS of ~$350,000 in 2055. What is his best strategy?',
+                        options: [
+                          'Accept the shortfall — CPF LIFE at below-FRS still provides meaningful income and cash investments will cover the gap.',
+                          'Increase voluntary SA top-ups now — at age 30, each $1,000 topped up has 25 years to compound at 4% before RA is formed, growing to approximately $2,665 by age 55.',
+                          'Wait until age 50 to top up — starting early makes no difference since CPF interest is credited annually regardless of when top-ups are made.',
+                          'Withdraw CPF at 55 and invest in equities instead — market returns will exceed CPF LIFE payouts.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'At age 30, voluntary SA top-ups have 25 years of 4% compounding before RA formation — $1,000 topped up today grows to approximately $2,665 by age 55. This makes early top-ups dramatically more capital-efficient than waiting. The earlier the top-up, the more compounding works in your favour. A $5,000/year voluntary top-up from age 30 to 40 (10 years, $50,000 total) could grow to approximately $133,000 by age 55 — a 166% return on contributions through compounding alone.',
+                      },
+                      {
+                        concept: 'Three Pillars',
+                        question: 'Priya retires at 65 with CPF LIFE paying $1,600/month, a cash investment portfolio of $280,000, and no property. She estimates she needs $2,200/month for a comfortable retirement. How should she structure her withdrawals?',
+                        options: [
+                          'Sell the entire investment portfolio immediately and deposit it in a bank savings account to fund the $600/month shortfall safely.',
+                          'Draw $600/month from her investment portfolio to supplement CPF LIFE — at this withdrawal rate ($7,200/year on $280,000 = 2.6% withdrawal rate), her portfolio should sustain withdrawals for 30+ years with continued investment growth.',
+                          'Reduce her lifestyle to match CPF LIFE income of $1,600/month — investment portfolios should not be touched until after age 80.',
+                          'Take a reverse mortgage on her children\'s property to fund the shortfall — investment portfolios should be preserved as estate.',
+                        ],
+                        correctIndex: 1,
+                        explanation: 'A $600/month ($7,200/year) withdrawal from a $280,000 portfolio is a 2.6% withdrawal rate — well below the widely cited 4% safe withdrawal rate. At 2.6%, a diversified portfolio invested in a balanced 60/40 fund historically sustains withdrawals for 35+ years. CPF LIFE covers the guaranteed floor ($1,600/month forever), and the portfolio supplements the gap. This two-pillar structure — guaranteed annuity + invested portfolio — is the gold standard Singapore retirement income approach.',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+
+            flashcards: [
+              {
+                q: 'What is CPF LIFE and what makes it different from a regular savings account?',
+                a: 'CPF LIFE is a mandatory lifelong annuity for Singapore citizens and PRs. Unlike a savings account that depletes when the balance reaches zero, CPF LIFE pays a fixed monthly amount for as long as you live — even if you reach 100. It eliminates longevity risk (the risk of outliving your money) through risk pooling across all members.',
+              },
+              {
+                q: 'What are the three CPF retirement sums and what monthly payout does each provide?',
+                a: 'Basic Retirement Sum (BRS, $102,900 in 2025): ~$780–$850/month. Full Retirement Sum (FRS, $205,800): ~$1,560–$1,670/month. Enhanced Retirement Sum (ERS, $308,700): ~$2,300–$2,500/month. FRS is the standard planning target for most Singapore residents. All figures are for the CPF LIFE Standard Plan at age 65.',
+              },
+              {
+                q: 'What happens to your CPF OA and SA at age 55?',
+                a: 'At 55, SA is transferred first into your new Retirement Account (RA) up to the FRS. If SA is insufficient, OA tops up the difference. Any remaining OA above the FRS stays in OA and can be withdrawn or used for housing. The RA earns 4% from 55 to 65, compounding your retirement balance for a decade before payouts begin.',
+              },
+              {
+                q: 'What are the three pillars of Singapore retirement income and what does each provide?',
+                a: 'Pillar 1 — CPF LIFE (~40%): guaranteed monthly income floor for life, cannot be outlived. Pillar 2 — Cash investments (~35%): equity/bond portfolio providing flexibility, inflation upside, and lump-sum withdrawal capability. Pillar 3 — Property/other (~25%): property equity, SRS, rental income providing additional security and estate value.',
+              },
+              {
+                q: 'Why is starting retirement investing at 25 more powerful than optimising CPF at 50?',
+                a: '$500/month invested from age 25 at 7% annual return grows to approximately $1,310,000 by age 65 — 39 years of compounding. Starting at 35 instead grows to only $607,000. The 10-year difference costs over $700,000. Early consistent investing is the single most powerful retirement planning action — no later optimisation can replicate the compounding effect of starting young.',
+              },
+            ],
+          },
         ],
       },
     ],
