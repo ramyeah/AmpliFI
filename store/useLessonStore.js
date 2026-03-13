@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 export const useLessonStore = create((set, get) => ({
@@ -41,5 +41,18 @@ export const useLessonStore = create((set, get) => ({
 
   getSavedExercises: (lessonId) => {
     return get().lessonProgress[lessonId]?.completedExercises ?? {};
+  },
+
+  resetStore: async (userId) => {
+    // Clear Zustand state immediately so the UI reflects reset at once
+    set({ lessonProgress: {}, isLoaded: false });
+    // Also wipe the Firestore subcollection document
+    if (userId) {
+      try {
+        await deleteDoc(doc(db, 'users', userId, 'progress', 'lessons'));
+      } catch (e) {
+        console.error('resetStore error', e);
+      }
+    }
   },
 }));

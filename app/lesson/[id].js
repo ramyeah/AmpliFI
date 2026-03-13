@@ -102,7 +102,7 @@ function FinCoinToast({ amount, visible }) {
 // ═══════════════════════════════════════════════════════
 // LESSON COMPLETE MODAL
 // ═══════════════════════════════════════════════════════
-function LessonCompleteModal({ visible, lesson, moduleColor, sectionCount, onContinue }) {
+function LessonCompleteModal({ visible, lesson, moduleColor, sectionCount, onContinue, onBackToMap }) {
   const scale   = useRef(new Animated.Value(0.8)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -161,7 +161,6 @@ function LessonCompleteModal({ visible, lesson, moduleColor, sectionCount, onCon
               <Text style={[lcm.coinAmount, { color: moduleColor }]}>
                 +{lesson.fincoins ?? 55} FinCoins
               </Text>
-              <Text style={lcm.coinLabel}>earned</Text>
             </View>
 
             {/* Section dots sweeping in */}
@@ -192,6 +191,14 @@ function LessonCompleteModal({ visible, lesson, moduleColor, sectionCount, onCon
               activeOpacity={0.85}
             >
               <Text style={lcm.continueBtnText}>Continue →</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={lcm.mapBtn}
+              onPress={onBackToMap}
+              activeOpacity={0.7}
+            >
+              <Text style={lcm.mapBtnText}>← Back to Learning Map</Text>
             </TouchableOpacity>
           </View>
 
@@ -473,6 +480,7 @@ export default function LessonScreen() {
         moduleColor={moduleColor}
         sectionCount={sections.length}
         onContinue={handleModalContinue}
+        onBackToMap={() => { setShowLessonModal(false); router.replace('/(tabs)/learn'); }}
       />
 
       {/* ── Static header ── */}
@@ -768,4 +776,6 @@ const lcm = StyleSheet.create({
     alignItems: 'center', width: '100%', marginTop: 4,
   },
   continueBtnText: { fontSize: 16, fontWeight: '800', color: '#fff' },
+  mapBtn:     { paddingVertical: 10, alignItems: 'center', width: '100%' },
+  mapBtnText: { fontSize: 13, fontWeight: '600', color: '#9CA3AF' },
 });

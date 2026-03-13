@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { doc, getDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../../lib/firebase';
 import useUserStore from '../../store/userStore';
 import { LESSONS } from '../../constants/lessons';
+import { resetProgress } from '../../lib/progress';
 
 const BADGES = [
   { id: 'first_lesson', icon: '📖', label: 'First Step', desc: 'Complete your first lesson' },
@@ -62,6 +63,25 @@ export default function ProfileScreen() {
     setEarnedBadges(badges);
 
     setLoading(false);
+  };
+
+  const handleReset = () => {
+    Alert.alert(
+      'Reset Progress',
+      'This will wipe all completed lessons, chapters, and modules. Are you sure?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Reset',
+          style: 'destructive',
+          onPress: async () => {
+            await resetProgress();
+            await loadProfileData();
+            Alert.alert('Done', 'Progress has been reset.');
+          },
+        },
+      ]
+    );
   };
 
   const handleLogout = async () => {
@@ -165,6 +185,11 @@ export default function ProfileScreen() {
         })}
       </View>
 
+      {/* Dev: Reset Progress */}
+      <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
+        <Text style={styles.resetText}>🔄  Reset Progress (Dev)</Text>
+      </TouchableOpacity>
+
       {/* Logout */}
       <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
         <Text style={styles.logoutText}>Log Out</Text>
@@ -225,6 +250,11 @@ const styles = StyleSheet.create({
   lockedText: { color: '#aaa' },
   badgeDesc: { fontSize: 12, color: '#888' },
   earnedTag: { fontSize: 11, color: '#27AE60', fontWeight: '600', backgroundColor: '#E8F8E8', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10 },
+  resetBtn: {
+    backgroundColor: '#FFF7ED', borderWidth: 1, borderColor: '#F59E0B',
+    borderRadius: 8, padding: 14, alignItems: 'center', marginTop: 8, marginBottom: 8,
+  },
+  resetText: { color: '#B45309', fontSize: 14, fontWeight: '700' },
   logoutBtn: { backgroundColor: '#fff', borderWidth: 1, borderColor: '#E74C3C', borderRadius: 8, padding: 16, alignItems: 'center', marginTop: 8 },
   logoutText: { color: '#E74C3C', fontSize: 16, fontWeight: 'bold' },
 });

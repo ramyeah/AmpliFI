@@ -10,12 +10,58 @@ import { MODULES } from '../../constants/modules';
 import { getProgress } from '../../lib/progress';
 
 const { width: SW } = Dimensions.get('window');
-const NODE_SIZE     = 68;
+const NODE_SIZE = 68;
 
-// Snake path positions — assigned in forward order, then array reversed
+// ─── Snake path positions ─────────────────────────────────────────────────────
 const PATH_POSITIONS = ['left', 'center', 'right', 'center'];
 
-// ─── Build flat lesson list with metadata ─────────────────────────────────────
+// ─── Module colour zones ──────────────────────────────────────────────────────
+// To retheme a module's zone background, add its ID here.
+// Falls back to module.colorLight automatically.
+// e.g.  'module-budgeting': '#FFF7ED'
+const MODULE_ZONE_OVERRIDES = {};
+
+// ─── Milestone star node ──────────────────────────────────────────────────────
+function MilestoneStarNode({ mod, onPress, pulseAnim }) {
+  return (
+    <TouchableOpacity style={ms.row} onPress={onPress} activeOpacity={0.85}>
+      <Animated.View style={[ms.outerRing, { borderColor: mod.color + '50', transform: [{ scale: pulseAnim }] }]}>
+        <View style={[ms.innerCircle, { backgroundColor: mod.color }]}>
+          <Text style={ms.starEmoji}>⭐</Text>
+        </View>
+      </Animated.View>
+      <View style={ms.labelWrap}>
+        <Text style={[ms.title, { color: mod.color }]}>{mod.title} Complete!</Text>
+        <Text style={ms.sub}>Tap to collect your reward →</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+const ms = StyleSheet.create({
+  row: {
+    flexDirection: 'row', alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 28, paddingVertical: 20, gap: 16,
+  },
+  outerRing: {
+    width: 84, height: 84, borderRadius: 42,
+    borderWidth: 2.5,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  innerCircle: {
+    width: 64, height: 64, borderRadius: 32,
+    justifyContent: 'center', alignItems: 'center',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2, shadowRadius: 8, elevation: 6,
+  },
+  starEmoji:  { fontSize: 30 },
+  labelWrap:  { flex: 1 },
+  title:      { fontSize: 15, fontWeight: '800', marginBottom: 3 },
+  sub:        { fontSize: 12, color: '#9CA3AF' },
+});
+
+// ─── Flat lesson list with metadata ──────────────────────────────────────────
 const getAllLessons = () =>
   MODULES.flatMap(m =>
     m.chapters.flatMap(c =>
@@ -35,12 +81,12 @@ const getAllLessons = () =>
     )
   );
 
-// ─── Main Screen ──────────────────────────────────────────────────────────────
+// ─── Main screen ──────────────────────────────────────────────────────────────
 export default function LearnScreen() {
-  const router           = useRouter();
-  const { scrollTo }     = useLocalSearchParams();
-  const scrollRef        = useRef(null);
-  const itemLayoutsRef   = useRef({});
+  const router         = useRouter();
+  const { scrollTo }   = useLocalSearchParams();
+  const scrollRef      = useRef(null);
+  const itemLayoutsRef = useRef({});
 
   const [completedLessons,  setCompletedLessons]  = useState([]);
   const [completedChapters, setCompletedChapters] = useState([]);
@@ -50,7 +96,6 @@ export default function LearnScreen() {
   const pulseAnim   = useRef(new Animated.Value(1)).current;
   const trophyPulse = useRef(new Animated.Value(1)).current;
 
-  // ── Load progress ──────────────────────────────────────────────────────────
   const loadProgress = useCallback(async () => {
     const progress = await getProgress();
     setCompletedLessons(progress.completedLessons);
@@ -61,18 +106,25 @@ export default function LearnScreen() {
 
   useEffect(() => {
     loadProgress();
-    startPulse();
-    startTrophyPulse();
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, { toValue: 1.15, duration: 900, useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 1,    duration: 900, useNativeDriver: true }),
+      ])
+    ).start();
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(trophyPulse, { toValue: 1.18, duration: 700, useNativeDriver: true }),
+        Animated.timing(trophyPulse, { toValue: 1,    duration: 700, useNativeDriver: true }),
+      ])
+    ).start();
   }, []);
 
-  // ── Scroll to bottom on first load (journey starts at bottom) ─────────────
   useEffect(() => {
-    if (!loading && !scrollTo) {
+    if (!loading && !scrollTo)
       setTimeout(() => scrollRef.current?.scrollToEnd({ animated: false }), 120);
-    }
   }, [loading]);
 
-  // ── Scroll to specific item when returning from completion screens ─────────
   useEffect(() => {
     if (!loading && scrollTo) {
       setTimeout(() => {
@@ -82,115 +134,80 @@ export default function LearnScreen() {
     }
   }, [loading, scrollTo]);
 
-  const startPulse = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, { toValue: 1.15, duration: 900, useNativeDriver: true }),
-        Animated.timing(pulseAnim, { toValue: 1,    duration: 900, useNativeDriver: true }),
-      ])
-    ).start();
-  };
-
-  const startTrophyPulse = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(trophyPulse, { toValue: 1.18, duration: 700, useNativeDriver: true }),
-        Animated.timing(trophyPulse, { toValue: 1,    duration: 700, useNativeDriver: true }),
-      ])
-    ).start();
-  };
-
   // ── Derived ────────────────────────────────────────────────────────────────
   const allLessons   = getAllLessons();
   const totalLessons = allLessons.length;
   const totalDone    = completedLessons.length;
   const pct          = Math.round((totalDone / totalLessons) * 100);
 
-  const isLessonUnlocked = (index) => {
-    if (index === 0) return true;
-    return completedLessons.includes(allLessons[index - 1].id);
-  };
+  const isLessonUnlocked = (i) =>
+    i === 0 || completedLessons.includes(allLessons[i - 1].id);
 
   const currentIndex = (() => {
-    for (let i = 0; i < allLessons.length; i++) {
+    for (let i = 0; i < allLessons.length; i++)
       if (!completedLessons.includes(allLessons[i].id)) return i;
-    }
     return allLessons.length - 1;
   })();
 
-  // ── Build render items (forward order → reversed before render) ────────────
+  // ── Build render items ─────────────────────────────────────────────────────
   const buildRenderItems = () => {
     const items       = [];
     let lessonIndex   = 0;
     let prevChapterId = null;
     let prevModuleId  = null;
-    let modNumber     = 0; // 1-based, increments each new module
-    let chapNumber    = 0; // 1-based, resets each new module
+    let modNumber     = 0;
+    let chapNumber    = 0;
 
     allLessons.forEach((lesson, i) => {
 
-      // Module banner
       if (lesson.moduleId !== prevModuleId) {
         modNumber++;
         chapNumber    = 0;
         const mod     = MODULES.find(m => m.id === lesson.moduleId);
-        items.push({
-          type:      'module-banner',
-          module:    mod,
-          modNumber,
-          key:       `mod-${lesson.moduleId}`,
-        });
+        items.push({ type: 'module-banner', module: mod, modNumber, key: `mod-${lesson.moduleId}` });
         prevModuleId  = lesson.moduleId;
         prevChapterId = null;
       }
 
-      // Chapter banner
       if (lesson.chapterId !== prevChapterId) {
         chapNumber++;
         items.push({
-          type:               'chapter-banner',
-          chapterId:          lesson.chapterId,
-          chapterTitle:       lesson.chapterTitle,
-          chapterIcon:        lesson.chapterIcon,
+          type: 'chapter-banner',
+          chapterId: lesson.chapterId,
+          chapterTitle: lesson.chapterTitle,
+          chapterIcon: lesson.chapterIcon,
           chapterDescription: lesson.chapterDescription,
-          moduleColor:        lesson.moduleColor,
-          isDone:             completedChapters.includes(lesson.chapterId),
-          modNumber,
-          chapNumber,
-          key:                `chap-${lesson.chapterId}`,
+          moduleColor: lesson.moduleColor,
+          moduleId: lesson.moduleId,
+          isDone: completedChapters.includes(lesson.chapterId),
+          modNumber, chapNumber,
+          key: `chap-${lesson.chapterId}`,
         });
         prevChapterId = lesson.chapterId;
       }
 
-      // Lesson node
       const done     = completedLessons.includes(lesson.id);
       const unlocked = isLessonUnlocked(i);
+      const pos      = PATH_POSITIONS[lessonIndex % PATH_POSITIONS.length];
       items.push({
-        type:        'lesson',
-        lesson,
-        position:    PATH_POSITIONS[lessonIndex % PATH_POSITIONS.length],
-        done,
-        unlocked,
-        isCurrent:   i === currentIndex,
-        moduleColor: lesson.moduleColor,
-        key:         lesson.id,
+        type: 'lesson',
+        lesson, done, unlocked, pos,
+        isCurrent:        i === currentIndex,
+        moduleColor:      lesson.moduleColor,
+        moduleColorLight: lesson.moduleColorLight,
+        moduleId:         lesson.moduleId,
+        key:              lesson.id,
       });
       lessonIndex++;
 
-      // Chapter trophies removed — chapter done state is shown in the banner only
-
-      // Module trophy (after last lesson in module, if module complete)
       const isLastInModule =
-        i === allLessons.length - 1 ||
-        allLessons[i + 1].moduleId !== lesson.moduleId;
-
+        i === allLessons.length - 1 || allLessons[i + 1].moduleId !== lesson.moduleId;
       if (isLastInModule && completedModules.includes(lesson.moduleId)) {
         const mod = MODULES.find(m => m.id === lesson.moduleId);
-        items.push({ type: 'module-trophy', module: mod, key: `mtrophy-${lesson.moduleId}` });
+        items.push({ type: 'module-star', module: mod, key: `mstar-${lesson.moduleId}` });
       }
     });
 
-    // Reverse: module 1 at bottom, module 4 at top
     return items.reverse();
   };
 
@@ -198,10 +215,15 @@ export default function LearnScreen() {
 
   if (loading) return <View style={s.container} />;
 
+  const modById    = (id) => MODULES.find(m => m.id === id);
+  const zoneColor  = (mod, moduleId) => {
+    if (!mod) return 'transparent';
+    return MODULE_ZONE_OVERRIDES[moduleId] ?? mod.colorLight ?? mod.color + '12';
+  };
+
   return (
     <View style={s.container}>
 
-      {/* ── Top bar ── */}
       <View style={s.topBar}>
         <View>
           <Text style={s.topBarTitle}>Learning Journey 🗺️</Text>
@@ -212,187 +234,171 @@ export default function LearnScreen() {
         </View>
       </View>
 
-      {/* ── Progress bar ── */}
       <View style={s.progressBarBg}>
         <View style={[s.progressBarFill, { width: `${pct}%` }]} />
       </View>
 
-      {/* ── Map ── */}
       <ScrollView
         ref={scrollRef}
         style={s.scroll}
         contentContainerStyle={s.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Top: finish line */}
         <View style={s.finishBanner}>
           <Text style={s.finishEmoji}>🏁</Text>
           <Text style={s.finishText}>The finish line awaits</Text>
         </View>
 
-        {renderItems.map((item) => {
+        {renderItems.map((item, idx) => {
 
-          // ── Module banner ────────────────────────────────────────
+          const mod = item.module
+            ?? modById(item.moduleId ?? getAllLessons().find(l => l.chapterId === item.chapterId)?.moduleId);
+          const zc  = zoneColor(mod, mod?.id);
+
+          // ── Module banner ────────────────────────────────────────────────
           if (item.type === 'module-banner') {
             return (
-              <View
-                key={item.key}
-                onLayout={e => { itemLayoutsRef.current[item.module.id] = e.nativeEvent.layout.y; }}
-                style={[s.moduleBanner, { backgroundColor: item.module.color }]}
-              >
-                <Text style={s.moduleBannerIcon}>{item.module.icon}</Text>
-                <View style={s.moduleBannerText}>
-                  <Text style={s.moduleBannerLabel}>MODULE {item.modNumber}</Text>
-                  <Text style={s.moduleBannerTitle} numberOfLines={2}>{item.module.title}</Text>
-                  <Text style={s.moduleBannerDesc}  numberOfLines={2}>{item.module.description}</Text>
-                </View>
-                {completedModules.includes(item.module.id) && (
-                  <View style={s.moduleDoneBadge}>
-                    <Text style={s.moduleDoneText}>✓</Text>
+              <View key={item.key} style={[s.zoneRow, { backgroundColor: zc }]}>
+                <View
+                  onLayout={e => { itemLayoutsRef.current[item.module.id] = e.nativeEvent.layout.y; }}
+                  style={[s.moduleBanner, { backgroundColor: item.module.color }]}
+                >
+                  <Text style={s.moduleBannerIcon}>{item.module.icon}</Text>
+                  <View style={s.moduleBannerText}>
+                    <Text style={s.moduleBannerLabel}>MODULE {item.modNumber}</Text>
+                    <Text style={s.moduleBannerTitle}>{item.module.title}</Text>
+                    <Text style={s.moduleBannerDesc}>{item.module.description}</Text>
                   </View>
-                )}
-              </View>
-            );
-          }
-
-          // ── Chapter banner ───────────────────────────────────────
-          if (item.type === 'chapter-banner') {
-            // e.g. "1-2" = module 1, chapter 2 within that module
-            const chapLabel = `${item.modNumber}-${item.chapNumber}`;
-            return (
-              <View
-                key={item.key}
-                onLayout={e => { itemLayoutsRef.current[item.chapterId] = e.nativeEvent.layout.y; }}
-                style={[
-                  s.chapterBanner,
-                  item.isDone && { borderColor: item.moduleColor + '60', borderWidth: 1.5 },
-                ]}
-              >
-                {/* Numbered badge: e.g. "1-2" */}
-                <View style={[s.chapNumBadge, { backgroundColor: item.moduleColor + '18' }]}>
-                  <Text style={[s.chapNumText, { color: item.moduleColor }]}>{chapLabel}</Text>
-                </View>
-
-                <Text style={s.chapterBannerIcon}>{item.chapterIcon}</Text>
-
-                <View style={s.chapterBannerText}>
-                  <Text style={[s.chapterBannerTitle, { color: item.moduleColor }]}>
-                    {item.chapterTitle}
-                  </Text>
-                  {!!item.chapterDescription && (
-                    <Text style={s.chapterBannerDesc} numberOfLines={1}>{item.chapterDescription}</Text>
+                  {completedModules.includes(item.module.id) && (
+                    <View style={s.moduleDoneBadge}>
+                      <Text style={s.moduleDoneText}>✓</Text>
+                    </View>
                   )}
                 </View>
-
-                {item.isDone && (
-                  <View style={[s.chapterDonePill, { backgroundColor: item.moduleColor }]}>
-                    <Text style={s.chapterDoneText}>✓ Done</Text>
-                  </View>
-                )}
               </View>
             );
           }
 
-          // ── Module trophy ────────────────────────────────────────
-          if (item.type === 'module-trophy') {
-            const { module: mod } = item;
+          // ── Chapter banner ───────────────────────────────────────────────
+          if (item.type === 'chapter-banner') {
+            const chapLabel = `${item.modNumber}-${item.chapNumber}`;
             return (
-              <TouchableOpacity
-                key={item.key}
-                style={s.moduleTrophyRow}
-                onPress={() => router.push(`/module-complete/${mod.id}`)}
-                activeOpacity={0.85}
-              >
-                <Animated.View style={[
-                  s.moduleTrophyNode,
-                  { backgroundColor: mod.color, transform: [{ scale: trophyPulse }] },
-                ]}>
-                  <Text style={s.moduleTrophyEmoji}>🏆</Text>
-                </Animated.View>
-                <View style={s.moduleTrophyLabelWrap}>
-                  <Text style={[s.moduleTrophyTitle, { color: mod.color }]}>{mod.title}</Text>
-                  <Text style={s.moduleTrophySub}>Module complete · Tap to view →</Text>
+              <View key={item.key} style={[s.zoneRow, { backgroundColor: zc }]}>
+                <View
+                  onLayout={e => { itemLayoutsRef.current[item.chapterId] = e.nativeEvent.layout.y; }}
+                  style={[
+                    s.chapterBanner,
+                    item.isDone && { borderColor: item.moduleColor + '60', borderWidth: 1.5 },
+                  ]}
+                >
+                  {/* Top row: badge · icon · title · done pill */}
+                  <View style={s.chapTopRow}>
+                    <View style={[s.chapNumBadge, { backgroundColor: item.moduleColor + '18' }]}>
+                      <Text style={[s.chapNumText, { color: item.moduleColor }]}>{chapLabel}</Text>
+                    </View>
+                    <Text style={s.chapIcon}>{item.chapterIcon}</Text>
+                    <Text style={[s.chapTitle, { color: item.moduleColor }]}>
+                      {item.chapterTitle}
+                    </Text>
+                    {item.isDone && (
+                      <View style={[s.chapDonePill, { backgroundColor: item.moduleColor }]}>
+                        <Text style={s.chapDoneText}>✓ Done</Text>
+                      </View>
+                    )}
+                  </View>
+                  {/* Description — full width, no truncation */}
+                  {!!item.chapterDescription && (
+                    <Text style={s.chapDesc}>{item.chapterDescription}</Text>
+                  )}
                 </View>
-              </TouchableOpacity>
+              </View>
             );
           }
 
-          // ── Lesson node ──────────────────────────────────────────
+          // ── Module star ──────────────────────────────────────────────────
+          if (item.type === 'module-star') {
+            return (
+              <View key={item.key} style={[s.zoneRow, { backgroundColor: zc }]}>
+                <MilestoneStarNode
+                  mod={item.module}
+                  onPress={() => router.push(`/module-complete/${item.module.id}`)}
+                  pulseAnim={trophyPulse}
+                />
+              </View>
+            );
+          }
+
+          // ── Lesson node ──────────────────────────────────────────────────
           if (item.type === 'lesson') {
-            const { lesson, position, done, unlocked, isCurrent, moduleColor } = item;
+            const {
+              lesson, done, unlocked, pos,
+              isCurrent, moduleColor, moduleColorLight, moduleId,
+            } = item;
 
-            const positionStyle =
-              position === 'left'  ? { alignSelf: 'flex-start', marginLeft:  SW * 0.06 } :
-              position === 'right' ? { alignSelf: 'flex-end',   marginRight: SW * 0.06 } :
-                                     { alignSelf: 'center' };
+            const posStyle =
+              pos === 'left'  ? { alignSelf: 'flex-start', marginLeft:  SW * 0.06 } :
+              pos === 'right' ? { alignSelf: 'flex-end',   marginRight: SW * 0.06 } :
+                                { alignSelf: 'center' };
 
-            const labelOnLeft = position === 'right';
+            const labelOnLeft = pos === 'right';
 
             const nodeStyle = [
               s.node,
-              // Unlocked + incomplete: plain white bg, colored border
-              unlocked && !done && { borderColor: moduleColor },
-              // Current: slightly thicker colored border
+              unlocked && !done            && { borderColor: moduleColor },
               isCurrent && unlocked && !done && { borderColor: moduleColor, borderWidth: 4 },
-              // Done: solid filled background
-              done && { backgroundColor: moduleColor, borderColor: moduleColor },
-              // Locked: grey + faded
-              !unlocked && s.nodeLocked,
+              done                           && { backgroundColor: moduleColor, borderColor: moduleColor },
+              !unlocked                      && s.nodeLocked,
             ];
 
-            // Always show lesson icon — never a tick, even when done
-            const iconToShow = unlocked ? lesson.icon : '🔒';
-
             return (
-              <View key={item.key} style={[s.nodeOuter, positionStyle]}>
-                <View style={[s.nodeRow, labelOnLeft && s.nodeRowReversed]}>
+              // The zoneRow wraps ONLY the node row itself (not the connector)
+              // so that module zone backgrounds don't bleed into connector gaps
+              <View key={item.key}>
+                <View style={[s.zoneRow, { backgroundColor: zc }]}>
+                  <View style={[s.nodeOuter, posStyle]}>
+                    <View style={[s.nodeRow, labelOnLeft && s.nodeRowReversed]}>
 
-                  {/* Label */}
-                  <View style={[s.nodeLabel, labelOnLeft ? s.nodeLabelLeft : s.nodeLabelRight]}>
-                    {isCurrent && unlocked && (
-                      <View style={[s.chip, s.chipNext, { backgroundColor: moduleColor }]}>
-                        <Text style={s.chipText}>NEXT</Text>
+                      <View style={[s.nodeLabel, labelOnLeft ? s.nodeLabelLeft : s.nodeLabelRight]}>
+                        {isCurrent && unlocked && (
+                          <View style={[s.chip, { backgroundColor: moduleColor, alignSelf: labelOnLeft ? 'flex-end' : 'flex-start' }]}>
+                            <Text style={s.chipText}>NEXT</Text>
+                          </View>
+                        )}
+                        <Text
+                          style={[s.nodeLabelText, !unlocked && s.nodeLabelLocked]}
+                          numberOfLines={2}
+                        >
+                          {lesson.title}
+                        </Text>
+                        <View style={[s.nodeMetaRow, labelOnLeft && { justifyContent: 'flex-end' }]}>
+                          <View style={s.metaCoinRow}>
+                            <Image source={require('../../assets/coin.png')} style={s.coinImg} />
+                            <Text style={s.nodeMeta}>{lesson.fincoins ?? lesson.xp ?? 55}</Text>
+                          </View>
+                          {!!lesson.duration && <Text style={s.nodeMeta}>⏱ {lesson.duration}</Text>}
+                        </View>
                       </View>
-                    )}
-                    <Text
-                      style={[s.nodeLabelText, !unlocked && s.nodeLabelLocked]}
-                      numberOfLines={2}
-                    >
-                      {lesson.title}
-                    </Text>
-                    {/* Meta row: coin.jpg + amount + duration */}
-                    <View style={s.nodeMetaRow}>
-                      <View style={s.metaCoinRow}>
-                        <Image
-                          source={require('../../assets/coin.png')}
-                          style={s.coinImg}
-                        />
-                        <Text style={s.nodeMeta}>{lesson.fincoins ?? lesson.xp ?? 55}</Text>
-                      </View>
-                      {!!lesson.duration && (
-                        <Text style={s.nodeMeta}>⏱ {lesson.duration}</Text>
-                      )}
+
+                      <TouchableOpacity
+                        onPress={() => unlocked && router.push(`/lesson/${lesson.id}`)}
+                        disabled={!unlocked}
+                        activeOpacity={0.85}
+                      >
+                        {isCurrent && unlocked ? (
+                          <Animated.View style={[...nodeStyle, { transform: [{ scale: pulseAnim }] }]}>
+                            <Text style={s.nodeIcon}>{lesson.icon}</Text>
+                          </Animated.View>
+                        ) : (
+                          <View style={nodeStyle}>
+                            <Text style={s.nodeIcon}>{unlocked ? lesson.icon : '🔒'}</Text>
+                          </View>
+                        )}
+                      </TouchableOpacity>
+
                     </View>
                   </View>
-
-                  {/* Node bubble */}
-                  <TouchableOpacity
-                    onPress={() => unlocked && router.push(`/lesson/${lesson.id}`)}
-                    disabled={!unlocked}
-                    activeOpacity={0.85}
-                  >
-                    {isCurrent && unlocked ? (
-                      <Animated.View style={[...nodeStyle, { transform: [{ scale: pulseAnim }] }]}>
-                        <Text style={s.nodeIcon}>{lesson.icon}</Text>
-                      </Animated.View>
-                    ) : (
-                      <View style={nodeStyle}>
-                        <Text style={s.nodeIcon}>{iconToShow}</Text>
-                      </View>
-                    )}
-                  </TouchableOpacity>
-
                 </View>
+
               </View>
             );
           }
@@ -400,7 +406,6 @@ export default function LearnScreen() {
           return null;
         })}
 
-        {/* Bottom: origin node */}
         <View style={s.originNode}>
           <View style={s.originCircle}>
             <Text style={s.originEmoji}>🌱</Text>
@@ -413,7 +418,7 @@ export default function LearnScreen() {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
+// ─── Main styles ──────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F7FF' },
 
@@ -442,10 +447,13 @@ const s = StyleSheet.create({
   finishEmoji:  { fontSize: 36, marginBottom: 6 },
   finishText:   { fontSize: 14, color: '#9CA3AF', fontWeight: '600' },
 
+  // Zone row — gives each item the module's tinted background
+  zoneRow: { position: 'relative' },
+
   // ── Module banner ──────────────────────────────────────────────────────────
   moduleBanner: {
     flexDirection: 'row', alignItems: 'center',
-    marginHorizontal: 20, marginTop: 28, marginBottom: 8,
+    marginHorizontal: 20, marginTop: 4, marginBottom: 4,
     borderRadius: 20, padding: 20, gap: 14,
     shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.12, shadowRadius: 8, elevation: 4,
@@ -465,48 +473,34 @@ const s = StyleSheet.create({
   },
   moduleDoneText: { fontSize: 16, color: '#fff', fontWeight: '800' },
 
-  // ── Chapter banner ─────────────────────────────────────────────────────────
+  // ── Chapter banner — vertical stack, never truncates ──────────────────────
   chapterBanner: {
-    flexDirection: 'row', alignItems: 'flex-start',
-    marginHorizontal: 24, marginBottom: 6, marginTop: 4,
-    backgroundColor: '#fff', borderRadius: 16, padding: 14, gap: 10,
+    marginHorizontal: 20, marginTop: 4, marginBottom: 4,
+    backgroundColor: '#fff', borderRadius: 16,
+    paddingHorizontal: 14, paddingTop: 12, paddingBottom: 10,
     borderWidth: 1, borderColor: 'transparent',
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05, shadowRadius: 4, elevation: 1,
   },
-  // Numbered badge showing e.g. "1-2"
-  chapNumBadge: {
-    borderRadius: 8, paddingHorizontal: 8, paddingVertical: 5,
-    minWidth: 36, alignItems: 'center', justifyContent: 'center',
-    marginTop: 1,
-  },
-  chapNumText:        { fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
-  chapterBannerIcon:  { fontSize: 20, marginTop: 2 },
-  chapterBannerText:  { flex: 1 },
-  chapterBannerTitle: { fontSize: 13, fontWeight: '700', marginBottom: 3, lineHeight: 19 },
-  chapterBannerDesc:  { fontSize: 11, color: '#6B7280', lineHeight: 16 },
-  chapterDonePill:    { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3, marginTop: 2 },
-  chapterDoneText:    { fontSize: 10, fontWeight: '800', color: '#fff' },
-
-  // ── Module trophy ──────────────────────────────────────────────────────────
-  moduleTrophyRow: {
+  chapTopRow: {
     flexDirection: 'row', alignItems: 'center',
-    justifyContent: 'center', marginVertical: 20, gap: 16,
-    paddingHorizontal: 24,
+    flexWrap: 'wrap', gap: 6, marginBottom: 4,
   },
-  moduleTrophyNode: {
-    width: 80, height: 80, borderRadius: 40,
-    justifyContent: 'center', alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2, shadowRadius: 8, elevation: 6,
+  chapNumBadge: {
+    borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4,
+    alignItems: 'center', justifyContent: 'center',
   },
-  moduleTrophyEmoji:     { fontSize: 36 },
-  moduleTrophyLabelWrap: { flex: 1 },
-  moduleTrophyTitle:     { fontSize: 15, fontWeight: '800', marginBottom: 3 },
-  moduleTrophySub:       { fontSize: 12, color: '#9CA3AF' },
+  chapNumText:  { fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
+  chapIcon:     { fontSize: 18 },
+  chapTitle: {
+    flex: 1, fontSize: 14, fontWeight: '700', lineHeight: 20, minWidth: 80,
+  },
+  chapDonePill: { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
+  chapDoneText: { fontSize: 10, fontWeight: '800', color: '#fff' },
+  chapDesc:     { fontSize: 11, color: '#6B7280', lineHeight: 17, marginTop: 2 },
 
   // ── Lesson nodes ───────────────────────────────────────────────────────────
-  nodeOuter:       { marginVertical: 8 },
+  nodeOuter:       { marginVertical: 10, zIndex: 2, position: 'relative' },
   nodeRow:         { flexDirection: 'row', alignItems: 'center', gap: 12 },
   nodeRowReversed: { flexDirection: 'row-reverse' },
 
@@ -528,14 +522,11 @@ const s = StyleSheet.create({
     borderRadius: 8, paddingHorizontal: 7, paddingVertical: 2,
     marginBottom: 4, alignSelf: 'flex-start',
   },
-  chipNext: {},
-  chipDone: { backgroundColor: '#DCFCE7' },
   chipText: { fontSize: 9, fontWeight: '800', color: '#fff', letterSpacing: 0.4 },
 
   nodeLabelText:   { fontSize: 13, fontWeight: '600', color: '#111827', lineHeight: 18 },
   nodeLabelLocked: { color: '#9CA3AF' },
 
-  // Coin image + meta
   nodeMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 5, flexWrap: 'wrap' },
   metaCoinRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   coinImg:     { width: 14, height: 14, borderRadius: 7 },
