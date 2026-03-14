@@ -18,6 +18,8 @@ import { auth } from '../../lib/firebase';
 import { Ionicons } from '@expo/vector-icons';
 import {
   completeSection as completeSectionInFirestore,
+  redoSection,
+  syncProfileAfterSection,
   buildSectionId,
   getProgress,
 } from '../../lib/progress';
@@ -348,25 +350,50 @@ export default function LessonScreen() {
     );
 
     const next = sectionIndex + 1;
+    // Fincoins earned in this specific section (from exercises)
+    const thisSectionFincoins = sectionFincoinsRef.current[sectionIndex] || 0;
 
     if (next < sections.length) {
+      // ── Mid-lesson section complete ──────────────────────────────────────
       highestReachedRef.current = Math.max(highestReachedRef.current, next);
       setCurrentSection(next);
-      completeSectionInFirestore(id, sectionIndex).catch(console.error);
+
+      try {
+        if (alreadyComplete) {
+          // Lesson already done — redo awards section coins only
+          const result = await redoSection(id, sectionIndex, thisSectionFincoins);
+          if (result) syncProfileAfterSection(result);
+        } else {
+          const result = await completeSectionInFirestore(id, sectionIndex);
+          if (result) syncProfileAfterSection(result);
+        }
+      } catch (e) {
+        console.error('Progress save error (mid-section):', e);
+      }
     } else {
+      // ── Final section complete ────────────────────────────────────────────
       const totalFincoins = Object.values(sectionFincoinsRef.current).reduce((a, b) => a + b, 0);
       if (userId) completeLesson(userId, id, totalFincoins, completedExercises);
+
       try {
-        const result = await completeSectionInFirestore(id, sectionIndex);
-        setLessonResult(result);
+        if (alreadyComplete) {
+          // Redo of final section — award section coins only
+          const result = await redoSection(id, sectionIndex, thisSectionFincoins);
+          if (result) syncProfileAfterSection(result);
+          setLessonResult(null);
+        } else {
+          const result = await completeSectionInFirestore(id, sectionIndex);
+          if (result) syncProfileAfterSection(result);
+          setLessonResult(result);
+        }
         setShowLessonModal(true);
       } catch (e) {
-        console.error('Progress save error:', e);
+        console.error('Progress save error (final section):', e);
         setLessonResult(null);
         setShowLessonModal(true);
       }
     }
-  }, [sections.length, id, userId, completedExercises]);
+  }, [sections.length, id, userId, completedExercises, alreadyComplete]);
 
   const handleModalContinue = useCallback(() => {
     setShowLessonModal(false);
