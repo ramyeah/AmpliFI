@@ -5,6 +5,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import useUserStore from '../../store/userStore';
 import { LESSONS } from '../../constants/lessons';
+import { Colors, Typography, Spacing, Radii, Shadows } from '../../constants/theme';
 
 const BADGES = [
   { id: 'first_lesson', icon: '📖', label: 'First Step', desc: 'Complete your first lesson' },
@@ -32,12 +33,12 @@ export default function HomeScreen() {
     const uid = auth.currentUser?.uid;
     if (!uid) return;
 
-    // Load progress
     const progressDoc = await getDoc(doc(db, 'progress', uid));
-    const completed = progressDoc.exists() ? progressDoc.data().completedLessons || [] : [];
+    const completed = progressDoc.exists()
+      ? progressDoc.data().completedLessons || []
+      : [];
     setCompletedLessons(completed);
 
-    // Load user data + update streak
     const userDoc = await getDoc(doc(db, 'users', uid));
     const userData = userDoc.data();
     const today = new Date().toDateString();
@@ -48,20 +49,14 @@ export default function HomeScreen() {
     if (lastLogin !== today) {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
-      if (lastLogin === yesterday.toDateString()) {
-        newStreak = currentStreak + 1;
-      } else {
-        newStreak = 1;
-      }
-      await updateDoc(doc(db, 'users', uid), {
-        lastLogin: today,
-        streak: newStreak,
-      });
+      newStreak = lastLogin === yesterday.toDateString()
+        ? currentStreak + 1
+        : 1;
+      await updateDoc(doc(db, 'users', uid), { lastLogin: today, streak: newStreak });
       setProfile({ ...profile, streak: newStreak });
     }
     setStreak(newStreak);
 
-    // Calculate badges
     const badges = [];
     if (completed.length >= 1) badges.push('first_lesson');
     if (completed.length >= 5) badges.push('all_lessons');
@@ -76,18 +71,20 @@ export default function HomeScreen() {
   const xp = completedLessons.length * 50 + (profile?.finCoins || 0);
   const xpToNext = 500;
   const xpPct = Math.min((xp / xpToNext) * 100, 100);
-
   const nextLesson = LESSONS.find(l => !completedLessons.includes(l.id));
 
   if (loading) return null;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+
       {/* Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>Good {getTimeOfDay()}, {profile?.name?.split(' ')[0] || 'there'}! 👋</Text>
-          <Text style={styles.goal}>Goal: {profile?.goal || 'Set a financial goal'}</Text>
+        <View style={styles.headerText}>
+          <Text style={styles.greeting}>
+            Good {getTimeOfDay()}, {profile?.name?.split(' ')[0] || 'there'}! 👋
+          </Text>
+          <Text style={styles.goal}>{profile?.goal || 'Set a financial goal'}</Text>
         </View>
         <View style={styles.streakBadge}>
           <Text style={styles.streakIcon}>🔥</Text>
@@ -95,15 +92,20 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* XP Bar */}
+      {/* XP / FinCoins Card */}
       <View style={styles.xpCard}>
-        <View style={styles.xpRow}>
-          <Text style={styles.xpLabel}>FinCoins</Text>
-          <Text style={styles.xpValue}>💰 {profile?.finCoins || 0}</Text>
+        <View style={styles.xpTopRow}>
+          <View>
+            <Text style={styles.xpCardLabel}>FinCoins</Text>
+            <Text style={styles.xpCardValue}>💰 {profile?.finCoins || 0}</Text>
+          </View>
+          <View style={styles.xpLevelBadge}>
+            <Text style={styles.xpLevelText}>Level 1</Text>
+          </View>
         </View>
-        <View style={styles.xpRow}>
-          <Text style={styles.xpLabel}>Progress to Level 2</Text>
-          <Text style={styles.xpPct}>{Math.round(xpPct)}%</Text>
+        <View style={styles.xpBarRow}>
+          <Text style={styles.xpBarLabel}>Progress to Level 2</Text>
+          <Text style={styles.xpBarPct}>{Math.round(xpPct)}%</Text>
         </View>
         <View style={styles.xpBarContainer}>
           <View style={[styles.xpBarFill, { width: `${xpPct}%` }]} />
@@ -115,78 +117,101 @@ export default function HomeScreen() {
       <View style={styles.quickActions}>
         {nextLesson ? (
           <TouchableOpacity
-            style={styles.actionCard}
+            style={[styles.actionCard, { backgroundColor: Colors.primaryLight }]}
             onPress={() => router.push(`/lesson/${nextLesson.id}`)}
           >
             <Text style={styles.actionIcon}>{nextLesson.icon}</Text>
-            <Text style={styles.actionLabel}>Continue Learning</Text>
+            <Text style={[styles.actionLabel, { color: Colors.primary }]}>Continue Learning</Text>
             <Text style={styles.actionSub}>{nextLesson.title}</Text>
           </TouchableOpacity>
         ) : (
-          <View style={[styles.actionCard, { backgroundColor: '#E8F8E8' }]}>
+          <View style={[styles.actionCard, { backgroundColor: Colors.mint }]}>
             <Text style={styles.actionIcon}>🎓</Text>
-            <Text style={styles.actionLabel}>All lessons done!</Text>
-            <Text style={styles.actionSub}>You're a Savvy Investor</Text>
+            <Text style={[styles.actionLabel, { color: '#2D7A3A' }]}>All done!</Text>
+            <Text style={styles.actionSub}>Savvy Investor</Text>
           </View>
         )}
 
         <TouchableOpacity
-          style={[styles.actionCard, { backgroundColor: '#EEF2FF' }]}
+          style={[styles.actionCard, { backgroundColor: '#EAF6FA' }]}
           onPress={() => router.push('/simulate-main')}
         >
           <Text style={styles.actionIcon}>📈</Text>
-          <Text style={styles.actionLabel}>Simulate</Text>
+          <Text style={[styles.actionLabel, { color: '#1A7A9A' }]}>Simulate</Text>
           <Text style={styles.actionSub}>Practice investing</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.actionCard, { backgroundColor: '#FEF9E7' }]}
+          style={[styles.actionCard, { backgroundColor: Colors.yellow }]}
           onPress={() => router.push('/chat')}
         >
           <Text style={styles.actionIcon}>💬</Text>
-          <Text style={styles.actionLabel}>Ask AmpliFI</Text>
+          <Text style={[styles.actionLabel, { color: '#7A6A00' }]}>Ask AmpliFI</Text>
           <Text style={styles.actionSub}>AI-powered Q&A</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Progress Overview */}
+      {/* Lesson Progress */}
       <Text style={styles.sectionTitle}>Lesson Progress</Text>
       <View style={styles.progressCard}>
-        <Text style={styles.progressFraction}>
-          {completedLessons.length}/{LESSONS.length} completed
-        </Text>
+        <View style={styles.progressHeader}>
+          <Text style={styles.progressFraction}>
+            {completedLessons.length}/{LESSONS.length} completed
+          </Text>
+          <Text style={styles.progressPct}>
+            {Math.round((completedLessons.length / LESSONS.length) * 100)}%
+          </Text>
+        </View>
+        {/* Mini progress bar */}
+        <View style={styles.progressBarContainer}>
+          <View style={[styles.progressBarFill, {
+            width: `${(completedLessons.length / LESSONS.length) * 100}%`
+          }]} />
+        </View>
+        {/* Lesson dots */}
         <View style={styles.lessonDots}>
-          {LESSONS.map((l) => (
-            <View
-              key={l.id}
-              style={[
-                styles.dot,
-                completedLessons.includes(l.id) ? styles.dotDone : styles.dotPending
-              ]}
-            >
-              <Text style={styles.dotIcon}>{completedLessons.includes(l.id) ? '✓' : l.icon}</Text>
-            </View>
-          ))}
+          {LESSONS.map((l) => {
+            const done = completedLessons.includes(l.id);
+            return (
+              <View
+                key={l.id}
+                style={[styles.dot, done ? styles.dotDone : styles.dotPending]}
+              >
+                <Text style={styles.dotIcon}>{done ? '✓' : l.icon}</Text>
+              </View>
+            );
+          })}
         </View>
       </View>
 
       {/* Badges */}
       <Text style={styles.sectionTitle}>Badges</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.badgesRow}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.badgesRow}
+        contentContainerStyle={{ paddingRight: Spacing.lg }}
+      >
         {BADGES.map(badge => {
           const earned = earnedBadges.includes(badge.id);
           return (
             <View key={badge.id} style={[styles.badgeCard, !earned && styles.badgeLocked]}>
-              <Text style={[styles.badgeIcon, !earned && styles.badgeIconLocked]}>
+              <Text style={[styles.badgeIcon, !earned && { opacity: 0.3 }]}>
                 {earned ? badge.icon : '🔒'}
               </Text>
               <Text style={[styles.badgeLabel, !earned && styles.badgeLabelLocked]}>
                 {badge.label}
               </Text>
+              {earned && (
+                <View style={styles.earnedPill}>
+                  <Text style={styles.earnedPillText}>Earned</Text>
+                </View>
+              )}
             </View>
           );
         })}
       </ScrollView>
+
     </ScrollView>
   );
 }
@@ -199,39 +224,234 @@ function getTimeOfDay() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5' },
-  content: { padding: 24, paddingTop: 48, paddingBottom: 48 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 },
-  greeting: { fontSize: 22, fontWeight: 'bold', color: '#1F4E79' },
-  goal: { fontSize: 13, color: '#666', marginTop: 4, maxWidth: 240 },
-  streakBadge: { backgroundColor: '#FFF3E0', borderRadius: 12, padding: 10, alignItems: 'center', minWidth: 52 },
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F7F7',
+  },
+  content: {
+    padding: Spacing.lg,
+    paddingTop: Spacing.xxxl,
+    paddingBottom: Spacing.xxxl,
+  },
+
+  // Header
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: Spacing.xl,
+  },
+  headerText: {
+    flex: 1,
+    marginRight: Spacing.md,
+  },
+  greeting: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.lg,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.xs,
+  },
+  goal: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textMuted,
+  },
+  streakBadge: {
+    backgroundColor: '#FFF3E0',
+    borderRadius: Radii.lg,
+    padding: Spacing.sm,
+    alignItems: 'center',
+    minWidth: 52,
+    ...Shadows.soft,
+  },
   streakIcon: { fontSize: 20 },
-  streakCount: { fontSize: 16, fontWeight: 'bold', color: '#E67E22' },
-  xpCard: { backgroundColor: '#1F4E79', borderRadius: 16, padding: 20, marginBottom: 24 },
-  xpRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
-  xpLabel: { color: 'rgba(255,255,255,0.7)', fontSize: 13 },
-  xpValue: { color: '#F39C12', fontWeight: 'bold', fontSize: 16 },
-  xpPct: { color: '#fff', fontWeight: 'bold', fontSize: 13 },
-  xpBarContainer: { height: 8, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 4 },
-  xpBarFill: { height: 8, backgroundColor: '#F39C12', borderRadius: 4 },
-  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#333', marginBottom: 12 },
-  quickActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 },
-  actionCard: { width: '47%', backgroundColor: '#E8F0FB', borderRadius: 16, padding: 16 },  actionCard: { flex: 1, backgroundColor: '#E8F0FB', borderRadius: 16, padding: 16 },
-  actionIcon: { fontSize: 28, marginBottom: 8 },
-  actionLabel: { fontSize: 14, fontWeight: 'bold', color: '#1F4E79', marginBottom: 2 },
-  actionSub: { fontSize: 12, color: '#555' },
-  progressCard: { backgroundColor: '#fff', borderRadius: 16, padding: 20, marginBottom: 24 },
-  progressFraction: { fontSize: 15, color: '#666', marginBottom: 16 },
-  lessonDots: { flexDirection: 'row', gap: 10 },
-  dot: { width: 48, height: 48, borderRadius: 24, justifyContent: 'center', alignItems: 'center' },
-  dotDone: { backgroundColor: '#D6EAD8' },
-  dotPending: { backgroundColor: '#eee' },
+  streakCount: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.md,
+    color: Colors.accent,
+  },
+
+  // XP Card
+  xpCard: {
+    backgroundColor: Colors.primary,
+    borderRadius: Radii.xl,
+    padding: Spacing.xl,
+    marginBottom: Spacing.xl,
+    ...Shadows.medium,
+  },
+  xpTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: Spacing.lg,
+  },
+  xpCardLabel: {
+    fontFamily: Typography.fontFamily.regular,
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: Typography.fontSize.sm,
+    marginBottom: Spacing.xs,
+  },
+  xpCardValue: {
+    fontFamily: Typography.fontFamily.bold,
+    color: Colors.yellow,
+    fontSize: Typography.fontSize.xl,
+  },
+  xpLevelBadge: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: Radii.full,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
+  },
+  xpLevelText: {
+    fontFamily: Typography.fontFamily.semiBold,
+    color: Colors.white,
+    fontSize: Typography.fontSize.sm,
+  },
+  xpBarRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.sm,
+  },
+  xpBarLabel: {
+    fontFamily: Typography.fontFamily.regular,
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: Typography.fontSize.xs,
+  },
+  xpBarPct: {
+    fontFamily: Typography.fontFamily.bold,
+    color: Colors.white,
+    fontSize: Typography.fontSize.xs,
+  },
+  xpBarContainer: {
+    height: 8,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: Radii.full,
+  },
+  xpBarFill: {
+    height: 8,
+    backgroundColor: Colors.yellow,
+    borderRadius: Radii.full,
+  },
+
+  // Section title
+  sectionTitle: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.md,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.md,
+  },
+
+  // Quick actions
+  quickActions: {
+    flexDirection: 'row',
+    gap: Spacing.md,
+    marginBottom: Spacing.xl,
+  },
+  actionCard: {
+    flex: 1,
+    borderRadius: Radii.xl,
+    padding: Spacing.md,
+    ...Shadows.soft,
+  },
+  actionIcon: {
+    fontSize: 28,
+    marginBottom: Spacing.sm,
+  },
+  actionLabel: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.sm,
+    marginBottom: Spacing.xs,
+  },
+  actionSub: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textMuted,
+  },
+
+  // Progress card
+  progressCard: {
+    backgroundColor: Colors.white,
+    borderRadius: Radii.xl,
+    padding: Spacing.xl,
+    marginBottom: Spacing.xl,
+    ...Shadows.soft,
+  },
+  progressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.sm,
+  },
+  progressFraction: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textSecondary,
+  },
+  progressPct: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.primary,
+  },
+  progressBarContainer: {
+    height: 6,
+    backgroundColor: Colors.lightGray,
+    borderRadius: Radii.full,
+    marginBottom: Spacing.lg,
+  },
+  progressBarFill: {
+    height: 6,
+    backgroundColor: Colors.primary,
+    borderRadius: Radii.full,
+  },
+  lessonDots: {
+    flexDirection: 'row',
+    gap: Spacing.sm,
+  },
+  dot: {
+    width: 48,
+    height: 48,
+    borderRadius: Radii.full,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dotDone: { backgroundColor: Colors.mint },
+  dotPending: { backgroundColor: Colors.lightGray },
   dotIcon: { fontSize: 18 },
-  badgesRow: { marginBottom: 32 },
-  badgeCard: { backgroundColor: '#fff', borderRadius: 16, padding: 16, marginRight: 12, alignItems: 'center', width: 100 },
-  badgeLocked: { backgroundColor: '#f0f0f0' },
-  badgeIcon: { fontSize: 32, marginBottom: 8 },
-  badgeIconLocked: { opacity: 0.3 },
-  badgeLabel: { fontSize: 12, fontWeight: '600', color: '#333', textAlign: 'center' },
-  badgeLabelLocked: { color: '#aaa' },
+
+  // Badges
+  badgesRow: {
+    marginBottom: Spacing.xxxl,
+  },
+  badgeCard: {
+    backgroundColor: Colors.white,
+    borderRadius: Radii.xl,
+    padding: Spacing.lg,
+    marginRight: Spacing.md,
+    alignItems: 'center',
+    width: 100,
+    ...Shadows.soft,
+  },
+  badgeLocked: {
+    backgroundColor: Colors.lightGray,
+  },
+  badgeIcon: { fontSize: 32, marginBottom: Spacing.sm },
+  badgeLabel: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textPrimary,
+    textAlign: 'center',
+    marginBottom: Spacing.xs,
+  },
+  badgeLabelLocked: { color: Colors.textMuted },
+  earnedPill: {
+    backgroundColor: Colors.mint,
+    borderRadius: Radii.full,
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    marginTop: Spacing.xs,
+  },
+  earnedPillText: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.xs,
+    color: '#2D7A3A',
+  },
 });

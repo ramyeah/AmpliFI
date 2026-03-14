@@ -5,7 +5,13 @@
     "version": "1.0.0",
     "scheme": "amplifi",
     "main": "expo-router/entry",
-    "platforms": ["ios", "android"],
-    "newArchEnabled": true
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

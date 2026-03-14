@@ -8,18 +8,14 @@ import {
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { MODULES } from '../../constants/modules';
 import { getProgress } from '../../lib/progress';
+import { Colors, Typography, Spacing, Radii, Shadows } from '../../constants/theme';
 
 const { width: SW } = Dimensions.get('window');
 const NODE_SIZE = 68;
 
-// ─── Snake path positions ─────────────────────────────────────────────────────
 const PATH_POSITIONS = ['left', 'center', 'right', 'center'];
-
-// ─── Module colour zones ──────────────────────────────────────────────────────
-// To retheme a module's zone background, add its ID here.
-// Falls back to module.colorLight automatically.
-// e.g.  'module-budgeting': '#FFF7ED'
 const MODULE_ZONE_OVERRIDES = {};
+
 
 // ─── Milestone star node ──────────────────────────────────────────────────────
 function MilestoneStarNode({ mod, onPress, pulseAnim }) {
@@ -52,16 +48,23 @@ const ms = StyleSheet.create({
   innerCircle: {
     width: 64, height: 64, borderRadius: 32,
     justifyContent: 'center', alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2, shadowRadius: 8, elevation: 6,
+    ...Shadows.medium,
   },
   starEmoji:  { fontSize: 30 },
   labelWrap:  { flex: 1 },
-  title:      { fontSize: 15, fontWeight: '800', marginBottom: 3 },
-  sub:        { fontSize: 12, color: '#9CA3AF' },
+  title: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.base,
+    marginBottom: 3,
+  },
+  sub: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textMuted,
+  },
 });
 
-// ─── Flat lesson list with metadata ──────────────────────────────────────────
+// ─── Flat lesson list ─────────────────────────────────────────────────────────
 const getAllLessons = () =>
   MODULES.flatMap(m =>
     m.chapters.flatMap(c =>
@@ -73,9 +76,11 @@ const getAllLessons = () =>
         chapterDescription: c.description || '',
         moduleId:           m.id,
         moduleTitle:        m.title,
+        moduleTextColor: m.textColor ?? null,
         moduleColor:        m.color,
         moduleColorLight:   m.colorLight,
         moduleIcon:         m.icon,
+        moduleBadgeColor: m.badgeColor ?? null,
         moduleDescription:  m.description,
       }))
     )
@@ -134,7 +139,6 @@ export default function LearnScreen() {
     }
   }, [loading, scrollTo]);
 
-  // ── Derived ────────────────────────────────────────────────────────────────
   const allLessons   = getAllLessons();
   const totalLessons = allLessons.length;
   const totalDone    = completedLessons.length;
@@ -149,7 +153,6 @@ export default function LearnScreen() {
     return allLessons.length - 1;
   })();
 
-  // ── Build render items ─────────────────────────────────────────────────────
   const buildRenderItems = () => {
     const items       = [];
     let lessonIndex   = 0;
@@ -159,7 +162,6 @@ export default function LearnScreen() {
     let chapNumber    = 0;
 
     allLessons.forEach((lesson, i) => {
-
       if (lesson.moduleId !== prevModuleId) {
         modNumber++;
         chapNumber    = 0;
@@ -173,13 +175,15 @@ export default function LearnScreen() {
         chapNumber++;
         items.push({
           type: 'chapter-banner',
-          chapterId: lesson.chapterId,
-          chapterTitle: lesson.chapterTitle,
-          chapterIcon: lesson.chapterIcon,
+          chapterId:          lesson.chapterId,
+          chapterTitle:       lesson.chapterTitle,
+          chapterIcon:        lesson.chapterIcon,
           chapterDescription: lesson.chapterDescription,
-          moduleColor: lesson.moduleColor,
-          moduleId: lesson.moduleId,
-          isDone: completedChapters.includes(lesson.chapterId),
+          moduleColor:        lesson.moduleColor,
+          moduleTextColor: lesson.moduleTextColor,
+          moduleBadgeColor: lesson.moduleBadgeColor,
+          moduleId:           lesson.moduleId,
+          isDone:             completedChapters.includes(lesson.chapterId),
           modNumber, chapNumber,
           key: `chap-${lesson.chapterId}`,
         });
@@ -215,18 +219,16 @@ export default function LearnScreen() {
 
   if (loading) return <View style={s.container} />;
 
-  const modById    = (id) => MODULES.find(m => m.id === id);
-  const zoneColor  = (mod, moduleId) => {
-    if (!mod) return 'transparent';
-    return MODULE_ZONE_OVERRIDES[moduleId] ?? mod.colorLight ?? mod.color + '12';
-  };
+  const modById   = (id) => MODULES.find(m => m.id === id);
+  const zoneColor = (mod, moduleId) => 'transparent';
 
   return (
     <View style={s.container}>
 
+      {/* Top bar */}
       <View style={s.topBar}>
         <View>
-          <Text style={s.topBarTitle}>Learning Journey 🗺️</Text>
+          <Text style={s.topBarTitle}>Learning Journey</Text>
           <Text style={s.topBarSub}>{totalDone} of {totalLessons} lessons complete</Text>
         </View>
         <View style={s.pctBadge}>
@@ -234,6 +236,7 @@ export default function LearnScreen() {
         </View>
       </View>
 
+      {/* Progress bar */}
       <View style={s.progressBarBg}>
         <View style={[s.progressBarFill, { width: `${pct}%` }]} />
       </View>
@@ -246,16 +249,15 @@ export default function LearnScreen() {
       >
         <View style={s.finishBanner}>
           <Text style={s.finishEmoji}>🏁</Text>
-          <Text style={s.finishText}>The finish line awaits</Text>
         </View>
 
-        {renderItems.map((item, idx) => {
-
+        {renderItems.map((item) => {
           const mod = item.module
             ?? modById(item.moduleId ?? getAllLessons().find(l => l.chapterId === item.chapterId)?.moduleId);
           const zc  = zoneColor(mod, mod?.id);
+          
 
-          // ── Module banner ────────────────────────────────────────────────
+          // ── Module banner ──────────────────────────────────────────────
           if (item.type === 'module-banner') {
             return (
               <View key={item.key} style={[s.zoneRow, { backgroundColor: zc }]}>
@@ -265,9 +267,9 @@ export default function LearnScreen() {
                 >
                   <Text style={s.moduleBannerIcon}>{item.module.icon}</Text>
                   <View style={s.moduleBannerText}>
-                    <Text style={s.moduleBannerLabel}>MODULE {item.modNumber}</Text>
-                    <Text style={s.moduleBannerTitle}>{item.module.title}</Text>
-                    <Text style={s.moduleBannerDesc}>{item.module.description}</Text>
+                    <Text style={[s.moduleBannerLabel, { color: item.module.textColor ?? 'rgba(255,255,255,0.7)' }]}>MODULE {item.modNumber}</Text>
+                    <Text style={[s.moduleBannerTitle, { color: item.module.textColor ?? Colors.white }]}>{item.module.title}</Text>
+                    <Text style={[s.moduleBannerDesc,  { color: item.module.textColor ?? 'rgba(255,255,255,0.8)' }]}>{item.module.description}</Text>
                   </View>
                   {completedModules.includes(item.module.id) && (
                     <View style={s.moduleDoneBadge}>
@@ -279,7 +281,8 @@ export default function LearnScreen() {
             );
           }
 
-          // ── Chapter banner ───────────────────────────────────────────────
+          // ── Chapter banner ─────────────────────────────────────────────
+          // ── Chapter banner ─────────────────────────────────────────────
           if (item.type === 'chapter-banner') {
             const chapLabel = `${item.modNumber}-${item.chapNumber}`;
             return (
@@ -291,31 +294,33 @@ export default function LearnScreen() {
                     item.isDone && { borderColor: item.moduleColor + '60', borderWidth: 1.5 },
                   ]}
                 >
-                  {/* Top row: badge · icon · title · done pill */}
-                  <View style={s.chapTopRow}>
+                  <View style={s.chapRow}>
                     <View style={[s.chapNumBadge, { backgroundColor: item.moduleColor + '18' }]}>
                       <Text style={[s.chapNumText, { color: item.moduleColor }]}>{chapLabel}</Text>
                     </View>
-                    <Text style={s.chapIcon}>{item.chapterIcon}</Text>
-                    <Text style={[s.chapTitle, { color: item.moduleColor }]}>
-                      {item.chapterTitle}
-                    </Text>
-                    {item.isDone && (
-                      <View style={[s.chapDonePill, { backgroundColor: item.moduleColor }]}>
-                        <Text style={s.chapDoneText}>✓ Done</Text>
+                    <View style={s.chapTextCol}>
+                      <View style={s.chapTitleRow}>
+                        <Text style={[s.chapTitle, { color: item.moduleTextColor ?? item.moduleColor }]}>
+                          {item.chapterTitle}
+                        </Text>
+
+                        {item.isDone && (
+                          <View style={[s.chapDonePill, { backgroundColor: item.moduleColor }]}>
+                            <Text style={s.chapDoneText}>✓ Done</Text>
+                          </View>
+                        )}
                       </View>
-                    )}
+                      {!!item.chapterDescription && (
+                        <Text style={s.chapDesc}>{item.chapterDescription}</Text>
+                      )}
+                    </View>
                   </View>
-                  {/* Description — full width, no truncation */}
-                  {!!item.chapterDescription && (
-                    <Text style={s.chapDesc}>{item.chapterDescription}</Text>
-                  )}
                 </View>
               </View>
             );
           }
 
-          // ── Module star ──────────────────────────────────────────────────
+          // ── Module star ────────────────────────────────────────────────
           if (item.type === 'module-star') {
             return (
               <View key={item.key} style={[s.zoneRow, { backgroundColor: zc }]}>
@@ -328,7 +333,7 @@ export default function LearnScreen() {
             );
           }
 
-          // ── Lesson node ──────────────────────────────────────────────────
+          // ── Lesson node ────────────────────────────────────────────────
           if (item.type === 'lesson') {
             const {
               lesson, done, unlocked, pos,
@@ -344,15 +349,13 @@ export default function LearnScreen() {
 
             const nodeStyle = [
               s.node,
-              unlocked && !done            && { borderColor: moduleColor },
+              unlocked && !done             && { borderColor: moduleColor },
               isCurrent && unlocked && !done && { borderColor: moduleColor, borderWidth: 4 },
               done                           && { backgroundColor: moduleColor, borderColor: moduleColor },
               !unlocked                      && s.nodeLocked,
             ];
 
             return (
-              // The zoneRow wraps ONLY the node row itself (not the connector)
-              // so that module zone backgrounds don't bleed into connector gaps
               <View key={item.key}>
                 <View style={[s.zoneRow, { backgroundColor: zc }]}>
                   <View style={[s.nodeOuter, posStyle]}>
@@ -360,7 +363,10 @@ export default function LearnScreen() {
 
                       <View style={[s.nodeLabel, labelOnLeft ? s.nodeLabelLeft : s.nodeLabelRight]}>
                         {isCurrent && unlocked && (
-                          <View style={[s.chip, { backgroundColor: moduleColor, alignSelf: labelOnLeft ? 'flex-end' : 'flex-start' }]}>
+                          <View style={[s.chip, {
+                            backgroundColor: moduleColor,
+                            alignSelf: labelOnLeft ? 'flex-end' : 'flex-start',
+                          }]}>
                             <Text style={s.chipText}>NEXT</Text>
                           </View>
                         )}
@@ -390,7 +396,10 @@ export default function LearnScreen() {
                           </Animated.View>
                         ) : (
                           <View style={nodeStyle}>
-                            <Text style={s.nodeIcon}>{unlocked ? lesson.icon : '🔒'}</Text>
+                            {done
+                              ? <Text style={[s.nodeIcon, s.nodeDoneIcon]}>✓</Text>
+                              : <Text style={s.nodeIcon}>{unlocked ? lesson.icon : '🔒'}</Text>
+                            }
                           </View>
                         )}
                       </TouchableOpacity>
@@ -398,7 +407,6 @@ export default function LearnScreen() {
                     </View>
                   </View>
                 </View>
-
               </View>
             );
           }
@@ -406,10 +414,9 @@ export default function LearnScreen() {
           return null;
         })}
 
+        {/* Origin node */}
         <View style={s.originNode}>
-          <View style={s.originCircle}>
-            <Text style={s.originEmoji}>🌱</Text>
-          </View>
+          <Text style={s.originEmoji}>🌱</Text>
           <Text style={s.originText}>Your journey begins here</Text>
         </View>
 
@@ -418,100 +425,179 @@ export default function LearnScreen() {
   );
 }
 
-// ─── Main styles ──────────────────────────────────────────────────────────────
-const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F7FF' },
 
+// ─── Styles ───────────────────────────────────────────────────────────────────
+const s = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+
+  // Top bar
   topBar: {
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingHorizontal: 20, paddingTop: 52, paddingBottom: 12,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.xxxl + Spacing.md,
+    paddingBottom: Spacing.md,
   },
-  topBarTitle: { fontSize: 22, fontWeight: '800', color: '#111827' },
-  topBarSub:   { fontSize: 13, color: '#6B7280', marginTop: 2 },
+  topBarTitle: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.lg,
+    color: Colors.textPrimary,
+  },
+  topBarSub: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textMuted,
+    marginTop: 2,
+  },
   pctBadge: {
-    backgroundColor: '#4F46E5', borderRadius: 20,
-    paddingHorizontal: 14, paddingVertical: 6,
+    backgroundColor: Colors.primary,
+    borderRadius: Radii.full,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.xs,
   },
-  pctText: { fontSize: 15, fontWeight: '800', color: '#fff' },
+  pctText: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.base,
+    color: Colors.white,
+  },
 
+  // Progress bar
   progressBarBg: {
-    height: 6, backgroundColor: '#E5E7EB',
-    marginHorizontal: 20, borderRadius: 3, marginBottom: 16,
+    height: 6,
+    backgroundColor: Colors.border,
+    marginHorizontal: Spacing.lg,
+    borderRadius: Radii.full,
+    marginBottom: Spacing.lg,
   },
-  progressBarFill: { height: 6, backgroundColor: '#4F46E5', borderRadius: 3 },
+  progressBarFill: {
+    height: 6,
+    backgroundColor: Colors.primary,
+    borderRadius: Radii.full,
+  },
 
   scroll:        { flex: 1 },
-  scrollContent: { paddingBottom: 32, paddingTop: 8 },
+  scrollContent: { paddingBottom: Spacing.xxxl, paddingTop: Spacing.md },
 
-  finishBanner: { alignItems: 'center', paddingVertical: 28 },
-  finishEmoji:  { fontSize: 36, marginBottom: 6 },
-  finishText:   { fontSize: 14, color: '#9CA3AF', fontWeight: '600' },
+  // Finish banner
+  finishBanner: { alignItems: 'center', paddingVertical: Spacing.xxxl },
+  finishEmoji:  { fontSize: 36, marginBottom: Spacing.sm },
+  finishText: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textMuted,
+  },
 
-  // Zone row — gives each item the module's tinted background
   zoneRow: { position: 'relative' },
 
-  // ── Module banner ──────────────────────────────────────────────────────────
+  // Module banner
   moduleBanner: {
     flexDirection: 'row', alignItems: 'center',
-    marginHorizontal: 20, marginTop: 4, marginBottom: 4,
-    borderRadius: 20, padding: 20, gap: 14,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.12, shadowRadius: 8, elevation: 4,
+    marginHorizontal: Spacing.lg,
+    marginTop: Spacing.xl, marginBottom: Spacing.md,
+    borderRadius: Radii.xl, padding: Spacing.xl, gap: 14,
+    ...Shadows.medium,
   },
   moduleBannerIcon:  { fontSize: 36 },
   moduleBannerText:  { flex: 1 },
   moduleBannerLabel: {
-    fontSize: 10, fontWeight: '700',
-    color: 'rgba(255,255,255,0.7)', letterSpacing: 1, marginBottom: 2,
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.xs,
+    color: 'rgba(255,255,255,0.7)',
+    letterSpacing: 1,
+    marginBottom: 2,
   },
-  moduleBannerTitle: { fontSize: 18, fontWeight: '800', color: '#fff', marginBottom: 4 },
-  moduleBannerDesc:  { fontSize: 12, color: 'rgba(255,255,255,0.8)', lineHeight: 17 },
+  moduleBannerTitle: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.md,
+    color: Colors.white,
+    marginBottom: Spacing.xs,
+  },
+  moduleBannerDesc: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.xs,
+    color: 'rgba(255,255,255,0.8)',
+    lineHeight: 17,
+  },
+  
   moduleDoneBadge: {
     width: 32, height: 32, borderRadius: 16,
     backgroundColor: 'rgba(255,255,255,0.25)',
     justifyContent: 'center', alignItems: 'center',
   },
-  moduleDoneText: { fontSize: 16, color: '#fff', fontWeight: '800' },
+  moduleDoneText: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.md,
+    color: Colors.white,
+  },
 
-  // ── Chapter banner — vertical stack, never truncates ──────────────────────
+  // Chapter banner
   chapterBanner: {
-    marginHorizontal: 20, marginTop: 4, marginBottom: 4,
-    backgroundColor: '#fff', borderRadius: 16,
-    paddingHorizontal: 14, paddingTop: 12, paddingBottom: 10,
+    marginHorizontal: Spacing.lg,
+    marginTop: Spacing.xl, marginBottom: Spacing.sm,
+    backgroundColor: Colors.white,
+    borderRadius: Radii.lg,
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg, paddingBottom: Spacing.md,
     borderWidth: 1, borderColor: 'transparent',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05, shadowRadius: 4, elevation: 1,
+    ...Shadows.soft,
   },
-  chapTopRow: {
-    flexDirection: 'row', alignItems: 'center',
-    flexWrap: 'wrap', gap: 6, marginBottom: 4,
+  chapRow: {
+  flexDirection: 'row', alignItems: 'flex-start', gap: 12,
   },
+  chapTextCol: {
+    flex: 1, gap: 3,
+  },
+  chapTitleRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap',
+  },
+
   chapNumBadge: {
-    borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4,
+    borderRadius: Radii.sm,
+    paddingHorizontal: Spacing.sm, paddingVertical: Spacing.xs,
     alignItems: 'center', justifyContent: 'center',
   },
-  chapNumText:  { fontSize: 11, fontWeight: '800', letterSpacing: 0.3 },
-  chapIcon:     { fontSize: 18 },
-  chapTitle: {
-    flex: 1, fontSize: 14, fontWeight: '700', lineHeight: 20, minWidth: 80,
+  chapNumText: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.xs,
+    letterSpacing: 0.3,
   },
-  chapDonePill: { borderRadius: 10, paddingHorizontal: 8, paddingVertical: 3 },
-  chapDoneText: { fontSize: 10, fontWeight: '800', color: '#fff' },
-  chapDesc:     { fontSize: 11, color: '#6B7280', lineHeight: 17, marginTop: 2 },
+  chapIcon:  { fontSize: 18 },
+  chapTitle: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.sm,
+    lineHeight: 20,
+  },
+  chapDonePill: {
+    borderRadius: Radii.sm,
+    paddingHorizontal: Spacing.sm, paddingVertical: 3,
+  },
+  chapDoneText: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.white,
+  },
+  chapDesc: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textMuted,
+    lineHeight: 17,
+  },
 
-  // ── Lesson nodes ───────────────────────────────────────────────────────────
-  nodeOuter:       { marginVertical: 10, zIndex: 2, position: 'relative' },
-  nodeRow:         { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  // Lesson nodes
+  nodeOuter:       { marginVertical: 18, zIndex: 2, position: 'relative' },
+  nodeRow:         { flexDirection: 'row', alignItems: 'center', gap: 14 },
   nodeRowReversed: { flexDirection: 'row-reverse' },
 
   node: {
     width: NODE_SIZE, height: NODE_SIZE, borderRadius: NODE_SIZE / 2,
-    backgroundColor: '#fff', borderWidth: 3, borderColor: '#E5E7EB',
+    backgroundColor: Colors.white,
+    borderWidth: 3, borderColor: Colors.border,
     justifyContent: 'center', alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1, shadowRadius: 6, elevation: 4,
+    ...Shadows.soft,
   },
-  nodeLocked: { backgroundColor: '#F9FAFB', opacity: 0.4 },
+  nodeLocked: { backgroundColor: Colors.lightGray, opacity: 0.4 },
   nodeIcon:   { fontSize: 26 },
 
   nodeLabel:      { width: SW * 0.38 },
@@ -519,28 +605,53 @@ const s = StyleSheet.create({
   nodeLabelRight: { alignItems: 'flex-start' },
 
   chip: {
-    borderRadius: 8, paddingHorizontal: 7, paddingVertical: 2,
-    marginBottom: 4, alignSelf: 'flex-start',
+    borderRadius: Radii.sm,
+    paddingHorizontal: 7, paddingVertical: 2,
+    marginBottom: Spacing.xs, alignSelf: 'flex-start',
   },
-  chipText: { fontSize: 9, fontWeight: '800', color: '#fff', letterSpacing: 0.4 },
+  chipText: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: 9,
+    color: Colors.white,
+    letterSpacing: 0.4,
+  },
 
-  nodeLabelText:   { fontSize: 13, fontWeight: '600', color: '#111827', lineHeight: 18 },
-  nodeLabelLocked: { color: '#9CA3AF' },
+  nodeLabelText: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textPrimary,
+    lineHeight: 18,
+  },
+  nodeLabelLocked: { color: Colors.textMuted },
+  nodeDoneIcon: { color: Colors.white },
 
-  nodeMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 5, flexWrap: 'wrap' },
+  nodeMetaRow: {
+    flexDirection: 'row', alignItems: 'center',
+    gap: Spacing.sm, marginTop: Spacing.sm, flexWrap: 'wrap',
+  },
   metaCoinRow: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   coinImg:     { width: 14, height: 14, borderRadius: 7 },
-  nodeMeta:    { fontSize: 11, color: '#6B7280' },
+  nodeMeta: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textMuted,
+  },
 
-  // ── Origin node ────────────────────────────────────────────────────────────
-  originNode: { alignItems: 'center', paddingVertical: 32 },
+  // Origin node
+  originNode: { alignItems: 'center', paddingVertical: Spacing.xxxl },
   originCircle: {
     width: 72, height: 72, borderRadius: 36,
-    backgroundColor: '#4F46E5', justifyContent: 'center', alignItems: 'center',
-    marginBottom: 10,
-    shadowColor: '#4F46E5', shadowOffset: { width: 0, height: 4 },
+    backgroundColor: Colors.primary,
+    justifyContent: 'center', alignItems: 'center',
+    marginBottom: Spacing.sm,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3, shadowRadius: 10, elevation: 6,
   },
   originEmoji: { fontSize: 32 },
-  originText:  { fontSize: 14, color: '#6B7280', fontWeight: '600' },
+  originText: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textMuted,
+  },
 });

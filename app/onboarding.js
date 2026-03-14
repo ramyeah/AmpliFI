@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert 
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import { useRouter } from 'expo-router';
+import { Colors, Typography, Spacing, Radii, Shadows } from '../constants/theme';
 
 const INCOME_OPTIONS = ['Student', 'Entry-level (<$3k/month)', 'Mid-level ($3k-$6k/month)', 'Senior ($6k+/month)'];
 const FAMILY_OPTIONS = ['Single', 'Married', 'Married with kids'];
@@ -21,7 +22,6 @@ export default function OnboardingScreen() {
       Alert.alert('Please fill in all fields');
       return;
     }
-
     try {
       const uid = auth.currentUser.uid;
       await setDoc(doc(db, 'users', uid), {
@@ -35,7 +35,7 @@ export default function OnboardingScreen() {
         xp: 0,
         streak: 0,
       });
-      router.replace('/home');
+      router.replace('/(tabs)/home');
     } catch (error) {
       Alert.alert('Error saving profile', error.message);
     }
@@ -43,83 +43,248 @@ export default function OnboardingScreen() {
 
   const OptionSelector = ({ label, options, selected, onSelect }) => (
     <View style={styles.selectorContainer}>
-      <Text style={styles.label}>{label}</Text>
-      {options.map(option => (
-        <TouchableOpacity
-          key={option}
-          style={[styles.option, selected === option && styles.optionSelected]}
-          onPress={() => onSelect(option)}
-        >
-          <Text style={[styles.optionText, selected === option && styles.optionTextSelected]}>
-            {option}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      <Text style={styles.sectionLabel}>{label}</Text>
+      <Text style={styles.sectionHint}>Select one</Text>
+      {options.map(option => {
+        const isSelected = selected === option;
+        return (
+          <TouchableOpacity
+            key={option}
+            style={[styles.option, isSelected && styles.optionSelected]}
+            onPress={() => onSelect(option)}
+            activeOpacity={0.7}
+          >
+            {/* Checkbox circle on the left */}
+            <View style={[styles.checkbox, isSelected && styles.checkboxSelected]}>
+              {isSelected && <Text style={styles.checkmark}>✓</Text>}
+            </View>
+            <Text style={[styles.optionText, isSelected && styles.optionTextSelected]}>
+              {option}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Let's get to know you</Text>
-      <Text style={styles.subtitle}>This helps us personalise your financial journey</Text>
 
-      <Text style={styles.label}>Your name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="e.g. Ramya"
-        value={name}
-        onChangeText={setName}
-      />
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.logoBubble}>
+          <Text style={styles.logoText}>✨</Text>
+        </View>
+        <Text style={styles.title}>Let's get to know you</Text>
+        <Text style={styles.subtitle}>This helps us personalise your financial journey</Text>
+      </View>
 
-      <Text style={styles.label}>Your age</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="e.g. 22"
-        value={age}
-        onChangeText={setAge}
-        keyboardType="numeric"
-      />
+      {/* Name & Age card */}
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Basic Info</Text>
 
-      <OptionSelector
-        label="Income bracket"
-        options={INCOME_OPTIONS}
-        selected={income}
-        onSelect={setIncome}
-      />
+        <Text style={styles.sectionLabel}>Your name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="e.g. Ramya"
+          placeholderTextColor={Colors.textMuted}
+          value={name}
+          onChangeText={setName}
+        />
 
-      <OptionSelector
-        label="Family status"
-        options={FAMILY_OPTIONS}
-        selected={family}
-        onSelect={setFamily}
-      />
+        <Text style={styles.sectionLabel}>Your age</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="e.g. 22"
+          placeholderTextColor={Colors.textMuted}
+          value={age}
+          onChangeText={setAge}
+          keyboardType="numeric"
+        />
+      </View>
 
-      <OptionSelector
-        label="Primary financial goal"
-        options={GOAL_OPTIONS}
-        selected={goal}
-        onSelect={setGoal}
-      />
+      {/* Income card */}
+      <View style={styles.card}>
+        <OptionSelector
+          label="Income bracket"
+          options={INCOME_OPTIONS}
+          selected={income}
+          onSelect={setIncome}
+        />
+      </View>
+
+      {/* Family card */}
+      <View style={styles.card}>
+        <OptionSelector
+          label="Family status"
+          options={FAMILY_OPTIONS}
+          selected={family}
+          onSelect={setFamily}
+        />
+      </View>
+
+      {/* Goal card */}
+      <View style={styles.card}>
+        <OptionSelector
+          label="Primary financial goal"
+          options={GOAL_OPTIONS}
+          selected={goal}
+          onSelect={setGoal}
+        />
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Start my journey →</Text>
       </TouchableOpacity>
+
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
-  content: { padding: 24, paddingBottom: 48 },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#1F4E79', marginBottom: 8, marginTop: 48 },
-  subtitle: { fontSize: 14, color: '#666', marginBottom: 32 },
-  label: { fontSize: 16, fontWeight: '600', color: '#333', marginBottom: 8, marginTop: 16 },
-  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16, marginBottom: 8 },
-  selectorContainer: { marginBottom: 8 },
-  option: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, marginBottom: 8 },
-  optionSelected: { borderColor: '#1F4E79', backgroundColor: '#D6E4F0' },
-  optionText: { fontSize: 14, color: '#333' },
-  optionTextSelected: { color: '#1F4E79', fontWeight: '600' },
-  button: { backgroundColor: '#1F4E79', padding: 16, borderRadius: 8, alignItems: 'center', marginTop: 32 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  content: {
+    padding: Spacing.lg,
+    paddingBottom: Spacing.xxxl,
+  },
+
+  // Header
+  header: {
+    alignItems: 'center',
+    paddingTop: Spacing.xxxl,
+    marginBottom: Spacing.xl,
+  },
+  logoBubble: {
+    width: 72,
+    height: 72,
+    borderRadius: Radii.full,
+    backgroundColor: Colors.yellow,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: Spacing.lg,
+  },
+  logoText: {
+    fontSize: 32,
+  },
+  title: {
+    fontFamily: Typography.fontFamily.extraBold,
+    fontSize: Typography.fontSize.xl,
+    color: Colors.textPrimary,
+    textAlign: 'center',
+    marginBottom: Spacing.xs,
+  },
+  subtitle: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textMuted,
+    textAlign: 'center',
+  },
+
+  // Cards
+  card: {
+    backgroundColor: Colors.white,
+    borderRadius: Radii.xl,
+    padding: Spacing.xl,
+    marginBottom: Spacing.md,
+    ...Shadows.soft,
+  },
+  cardTitle: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.md,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.md,
+  },
+  sectionLabel: {
+    fontFamily: Typography.fontFamily.semiBold,
+    fontSize: Typography.fontSize.base,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.xs,
+  },
+  sectionHint: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textMuted,
+    marginBottom: Spacing.sm,
+  },
+  input: {
+    borderWidth: 1.5,
+    borderColor: Colors.border,
+    borderRadius: Radii.md,
+    padding: Spacing.md,
+    marginBottom: Spacing.md,
+    fontSize: Typography.fontSize.base,
+    fontFamily: Typography.fontFamily.regular,
+    color: Colors.textPrimary,
+    backgroundColor: Colors.lightGray,
+  },
+
+  // Option selector
+  selectorContainer: {
+    marginBottom: Spacing.xs,
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: Colors.border,
+    borderRadius: Radii.md,
+    padding: Spacing.md,
+    marginBottom: Spacing.sm,
+    backgroundColor: Colors.lightGray,
+  },
+  optionSelected: {
+    borderColor: Colors.skyBlue,
+    backgroundColor: '#EAF6FA',  // very light sky blue tint
+  },
+
+  // Checkbox
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderRadius: Radii.sm,
+    borderWidth: 2,
+    borderColor: Colors.border,
+    backgroundColor: Colors.white,
+    marginRight: Spacing.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxSelected: {
+    borderColor: Colors.skyBlue,
+    backgroundColor: Colors.skyBlue,
+  },
+  checkmark: {
+    color: Colors.white,
+    fontSize: 13,
+    fontFamily: Typography.fontFamily.bold,
+  },
+
+  optionText: {
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.sm,
+    color: Colors.textSecondary,
+    flex: 1,
+  },
+  optionTextSelected: {
+    fontFamily: Typography.fontFamily.semiBold,
+    color: Colors.textPrimary,
+  },
+
+  // Button
+  button: {
+    backgroundColor: Colors.primary,
+    padding: Spacing.lg,
+    borderRadius: Radii.lg,
+    alignItems: 'center',
+    marginTop: Spacing.lg,
+    ...Shadows.medium,
+  },
+  buttonText: {
+    fontFamily: Typography.fontFamily.bold,
+    color: Colors.white,
+    fontSize: Typography.fontSize.md,
+  },
 });

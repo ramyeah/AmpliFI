@@ -8,34 +8,12 @@ import {
 import Slider from '@react-native-community/slider';
 import { Svg, G, Path, Text as SvgText } from 'react-native-svg';
 import { getBotFact } from '../lib/api';
+import { useModuleColor } from '../constants/ModuleColorContext';
 
 // ═══════════════════════════════════════════════════════
-// THEME — change colours here, they propagate everywhere
+// All colours now come from constants/theme.js — edit there.
 // ═══════════════════════════════════════════════════════
-const C = {
-  primary:       '#4F46E5',   // indigo  — main brand
-  primaryLight:  '#EEF2FF',   // indigo  — backgrounds
-  primaryMid:    '#C7D2FE',   // indigo  — borders
-  primaryDark:   '#3730A3',   // indigo  — dark text
-  success:       '#059669',   // green   — correct / done
-  successLight:  '#DCFCE7',
-  successMid:    '#BBF7D0',
-  successDark:   '#065F46',
-  warning:       '#F59E0B',   // amber   — warnings / bias
-  warningLight:  '#FFFBEB',
-  warningMid:    '#FEF3C7',
-  danger:        '#DC2626',   // red     — wrong / false
-  dangerLight:   '#FEF2F2',
-  dangerMid:     '#FECACA',
-  neutral1:      '#111827',   // text    — headings
-  neutral2:      '#374151',   // text    — body
-  neutral3:      '#6B7280',   // text    — secondary
-  neutral4:      '#9CA3AF',   // text    — hints
-  border:        '#E5E7EB',
-  borderLight:   '#F3F4F6',
-  cardBg:        '#F9FAFB',
-  white:         '#ffffff',
-};
+import { Colors as C, Fonts as F } from '../constants/theme';
 
 // ─── Completed banner (shared by all earnable blocks) ─
 function CompletedBanner({ onContinue }) {
@@ -72,28 +50,28 @@ const shared = StyleSheet.create({
     backgroundColor: C.successLight, borderRadius: 12,
     padding: 14, alignItems: 'center', width: '100%', marginTop: 8,
   },
-  completedBannerText: { fontSize: 14, fontWeight: '700', color: C.success },
+  completedBannerText: { fontSize: 14, fontFamily: F.bold, color: C.success },
 
   continueBtn: {
   backgroundColor: C.primary, borderRadius: 10,
   paddingVertical: 10, paddingHorizontal: 20, marginTop: 8, alignItems: 'center', width: '100%',
 },
-continueBtnText: { fontSize: 14, fontWeight: '800', color: C.white },
+continueBtnText: { fontSize: 14, fontFamily: F.extraBold, color: C.white },
 
   failedBanner: {
   borderRadius: 14, padding: 14, width: '100%', marginTop: 8,
-  borderWidth: 1.5, borderColor: '#FCA5A5',
-  backgroundColor: '#FFF5F5', gap: 12,
+  borderWidth: 1.5, borderColor: C.dangerMid,
+  backgroundColor: C.dangerLight, gap: 12,
 },
 failedBannerTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
 failedBannerIcon: { fontSize: 32, lineHeight: 38 },failedBannerMeta: { flex: 1 },
-failedBannerTitle: { fontSize: 13, fontWeight: '800', color: C.danger, marginBottom: 2 },
-failedBannerSub: { fontSize: 12, color: '#7F1D1D', lineHeight: 17 },
+failedBannerTitle: { fontSize: 13, fontFamily: F.extraBold, color: C.danger, marginBottom: 2 },
+failedBannerSub: { fontSize: 12, color: C.dangerDark, lineHeight: 17 },
 failedRetryBtn: {
   backgroundColor: C.danger, borderRadius: 10,
   paddingVertical: 10, alignItems: 'center', width: '100%',
 },
-failedRetryBtnText: { fontSize: 13, fontWeight: '800', color: C.white },
+failedRetryBtnText: { fontSize: 13, fontFamily: F.extraBold, color: C.white },
 });
 
 // ─── Animated wrapper ─────────────────────────────────
@@ -130,24 +108,28 @@ export function SectionSubheading({ text }) {
   return <Text style={s.sectionSubheading}>{text}</Text>;
 }
 
-// ─── Key Term (tap to expand) ─────────────────────────
+//----Key Term-----------------
 export function KeyTermBlock({ term, definition }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [open, setOpen] = useState(false);
   const [measuredHeight, setMeasuredHeight] = useState(0);
   const anim = useRef(new Animated.Value(0)).current;
   const hasMeasured = useRef(false);
-
   const toggle = () => {
     setOpen(o => !o);
     Animated.timing(anim, { toValue: open ? 0 : 1, duration: 220, useNativeDriver: false }).start();
   };
-
   const maxH = anim.interpolate({ inputRange: [0, 1], outputRange: [0, measuredHeight || 200] });
-
   return (
-    <TouchableOpacity style={s.keytermBox} onPress={toggle} activeOpacity={0.85}>
+    <TouchableOpacity
+      style={[s.keytermBox, { backgroundColor: moduleColorLight, borderLeftColor: moduleColor }]}
+      onPress={toggle}
+      activeOpacity={0.85}
+    >
       <View style={s.keytermRow}>
-        <View style={s.keytermPill}><Text style={s.keytermPillText}>KEY TERM</Text></View>
+        <View style={[s.keytermPill, { backgroundColor: moduleColor }]}>
+          <Text style={s.keytermPillText}>KEY TERM</Text>
+        </View>
         <Text style={s.keytermTerm}>{term}</Text>
         <Text style={s.chevron}>{open ? '▲' : '▼'}</Text>
       </View>
@@ -177,20 +159,21 @@ export function SmartTable({ headers, rows, firstColAccent }) {
 }
 
 function PillTable({ headers, rows, firstColAccent }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   return (
     <View style={t.pillWrapper}>
       <View style={t.pillHeaderRow}>
-        <View style={[t.pillHeaderCell, { backgroundColor: C.primary }]}>
+        <View style={[t.pillHeaderCell, { backgroundColor: moduleColor }]}>
           <Text style={t.pillHeaderText}>{headers[0]}</Text>
         </View>
-        <View style={[t.pillHeaderCell, { backgroundColor: C.success }]}>
+        <View style={[t.pillHeaderCell, { backgroundColor: C.textSecondary }]}>
           <Text style={t.pillHeaderText}>{headers[1]}</Text>
         </View>
       </View>
       {rows.map((row, i) => (
         <View key={i} style={[t.pillRow, i % 2 === 1 && t.pillRowAlt]}>
-          <Text style={[t.pillCell, t.pillCellLeft, firstColAccent && t.pillCellLeftAccent]}>{row[0]}</Text>
-          <Text style={[t.pillCell]}>{row[1]}</Text>
+          <Text style={[t.pillCell, t.pillCellLeft, firstColAccent && [t.pillCellLeftAccent, { backgroundColor: moduleColorLight }]]}>{row[0]}</Text>
+          <Text style={t.pillCell}>{row[1]}</Text>
         </View>
       ))}
     </View>
@@ -198,17 +181,14 @@ function PillTable({ headers, rows, firstColAccent }) {
 }
 
 function IconRowCards({ headers, rows }) {
-  const colors = [C.primary, C.success, C.warning, C.danger];
-  const lightBg = (color) =>
-    color === C.primary ? C.primaryLight :
-    color === C.success ? '#ECFDF5' :
-    color === C.warning ? C.warningLight : C.dangerLight;
-
+  const { moduleColor, moduleColorLight } = useModuleColor();
+  const colors = [moduleColor, C.successDark, C.warningDark, C.danger];
+  const lightBgs = [moduleColorLight, C.successLight, C.warningLight, C.dangerLight];
   return (
     <View style={t.iconCardsWrapper}>
       {rows.map((row, i) => (
         <View key={i} style={[t.iconCard, { borderLeftColor: colors[i % colors.length] }]}>
-          <View style={[t.iconCardAccent, { backgroundColor: lightBg(colors[i % colors.length]) }]}>
+          <View style={[t.iconCardAccent, { backgroundColor: lightBgs[i % lightBgs.length] }]}>
             <Text style={[t.iconCardLabel, { color: colors[i % colors.length] }]}>{headers[0]}</Text>
             <Text style={[t.iconCardPrimary, { color: colors[i % colors.length] }]}>{row[0]}</Text>
           </View>
@@ -227,12 +207,13 @@ function IconRowCards({ headers, rows }) {
 }
 
 function ScrollTable({ headers, rows }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const colWidth = 130;
   return (
     <View style={t.scrollTableWrapper}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View>
-          <View style={t.scrollTableHeaderRow}>
+          <View style={[t.scrollTableHeaderRow, { backgroundColor: moduleColor }]}>
             {headers.map((h, i) => (
               <View key={i} style={[t.scrollTableHeaderCell, { width: colWidth }]}>
                 <Text style={t.scrollTableHeaderText}>{h}</Text>
@@ -242,7 +223,7 @@ function ScrollTable({ headers, rows }) {
           {rows.map((row, ri) => (
             <View key={ri} style={[t.scrollTableRow, ri % 2 === 1 && t.scrollTableRowAlt]}>
               {row.map((cell, ci) => (
-                <View key={ci} style={[t.scrollTableCell, { width: colWidth }, ci === 0 && t.scrollTableCellFirst]}>
+                <View key={ci} style={[t.scrollTableCell, { width: colWidth }, ci === 0 && { backgroundColor: moduleColorLight }]}>
                   <Text style={[t.scrollTableCellText, ci === 0 && t.scrollTableCellTextFirst]}>{cell}</Text>
                 </View>
               ))}
@@ -256,6 +237,7 @@ function ScrollTable({ headers, rows }) {
 
 // ─── Steps ────────────────────────────────────────────
 export function StepsBlock({ title, steps }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [revealed, setRevealed] = useState(1);
   const allDone = revealed >= steps.length;
   return (
@@ -264,7 +246,7 @@ export function StepsBlock({ title, steps }) {
       {steps.slice(0, revealed).map((step, i) => (
         <AnimatedBlock key={i} delay={0}>
           <View style={s.stepRow}>
-            <View style={[s.stepNum, i < revealed - 1 ? s.stepNumDone : s.stepNumActive]}>
+            <View style={[s.stepNum, i < revealed - 1 ? s.stepNumDone : { backgroundColor: moduleColor }]}>
               <Text style={s.stepNumText}>{i < revealed - 1 ? '✓' : i + 1}</Text>
             </View>
             <Text style={s.stepText}>{step}</Text>
@@ -272,8 +254,11 @@ export function StepsBlock({ title, steps }) {
         </AnimatedBlock>
       ))}
       {!allDone
-        ? <TouchableOpacity style={s.revealBtn} onPress={() => setRevealed(r => r + 1)}>
-            <Text style={s.revealBtnText}>Next step →</Text>
+        ? <TouchableOpacity
+            style={[s.revealBtn, { backgroundColor: moduleColorLight }]}
+            onPress={() => setRevealed(r => r + 1)}
+          >
+            <Text style={[s.revealBtnText, { color: moduleColor }]}>Next step →</Text>
           </TouchableOpacity>
         : <View style={s.allDoneRow}><Text style={s.allDoneText}>✅ All steps revealed</Text></View>
       }
@@ -284,9 +269,9 @@ export function StepsBlock({ title, steps }) {
 // ─── Callout ──────────────────────────────────────────
 export function CalloutBlock({ variant, text }) {
   const cfg = {
-    tip:     { bg: C.warningLight,  border: C.warning,  icon: '💡', label: 'Singapore Tip' },
-    warning: { bg: '#FFF1F2',       border: '#F43F5E',  icon: '⚠️', label: 'Watch Out' },
-    fact:    { bg: '#EFF6FF',       border: '#3B82F6',  icon: '📊', label: 'Did You Know?' },
+    tip:     { bg: C.warningLight,  border: C.warningDark,  icon: '💡', label: 'Singapore Tip' },
+    warning: { bg: C.dangerLight,   border: C.danger,       icon: '⚠️', label: 'Watch Out' },
+    fact:    { bg: C.secondaryLight,border: C.secondary,    icon: '📊', label: 'Did You Know?' },
   };
   const c = cfg[variant] || cfg.tip;
   return (
@@ -299,19 +284,19 @@ export function CalloutBlock({ variant, text }) {
 
 // ─── Bullets ──────────────────────────────────────────
 export function BulletsBlock({ title, items }) {
+  const { moduleColor } = useModuleColor();
   return (
     <View style={s.bulletsBox}>
       {title && <Text style={s.bulletsTitle}>{title}</Text>}
       {items.map((item, i) => (
         <View key={i} style={s.bulletRow}>
-          <Text style={s.bulletDot}>•</Text>
+          <Text style={[s.bulletDot, { color: moduleColor }]}>•</Text>
           <Text style={s.bulletText}>{item}</Text>
         </View>
       ))}
     </View>
   );
 }
-
 // ─── Bot Chip ─────────────────────────────────────────
 export function BotChip({ label, prompt }) {
   const [open, setOpen] = useState(false);
@@ -362,10 +347,10 @@ export function BotChip({ label, prompt }) {
 
 // ─── Checklist ────────────────────────────────────────
 export function ChecklistBlock({ title, items }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [checked, setChecked] = useState({});
   const allDone = Object.values(checked).filter(Boolean).length === items.length;
   const toggle = (i) => setChecked(c => ({ ...c, [i]: !c[i] }));
-
   return (
     <View style={cl.wrapper}>
       {title && <Text style={cl.title}>{title}</Text>}
@@ -374,21 +359,21 @@ export function ChecklistBlock({ title, items }) {
         return (
           <TouchableOpacity
             key={i}
-            style={[cl.item, isChecked && cl.itemChecked]}
+            style={[cl.item, isChecked && { borderColor: moduleColor, backgroundColor: moduleColorLight }]}
             onPress={() => toggle(i)}
             activeOpacity={0.8}
           >
-            <View style={[cl.box, isChecked && cl.boxChecked]}>
+            <View style={[cl.box, isChecked && { backgroundColor: moduleColor, borderColor: moduleColor }]}>
               {isChecked && <Text style={cl.tick}>✓</Text>}
             </View>
-            <Text style={[cl.itemText, isChecked && cl.itemTextChecked]}>{item}</Text>
+            <Text style={[cl.itemText, isChecked && { color: moduleColor }]}>{item}</Text>
           </TouchableOpacity>
         );
       })}
       {allDone && (
         <AnimatedBlock delay={0}>
-          <View style={cl.completeBanner}>
-            <Text style={cl.completeBannerText}>🎉 All items checked!</Text>
+          <View style={[cl.completeBanner, { backgroundColor: moduleColorLight }]}>
+            <Text style={[cl.completeBannerText, { color: moduleColor }]}>🎉 All items checked!</Text>
           </View>
         </AnimatedBlock>
       )}
@@ -453,7 +438,7 @@ export function GoalPicker({ title, goals }) {
             ))}
             <View style={gp.summaryDivider} />
             <View style={gp.summaryRow}>
-              <Text style={[gp.summaryLabel, { fontWeight: '800', color: C.neutral1 }]}>Total monthly saving needed:</Text>
+              <Text style={[gp.summaryLabel, { fontFamily: F.extraBold, color: C.textPrimary }]}>Total monthly saving needed:</Text>
               <Text style={gp.summaryTotal}>
                 ${goals.filter((_, i) => selected[i]).reduce((acc, g) => acc + g.monthlySaving, 0)}/mo
               </Text>
@@ -484,8 +469,8 @@ export function TopicCards({ title, cards }) {
 }
 
 function TopicCard({ card, isOpen, onToggle }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const anim = useRef(new Animated.Value(0)).current;
-
   useEffect(() => {
     const a = Animated.spring(anim, {
       toValue: isOpen ? 1 : 0,
@@ -496,45 +481,29 @@ function TopicCard({ card, isOpen, onToggle }) {
     a.start();
     return () => a.stop();
   }, [isOpen]);
-
-  // animate both height and fade
   const height = anim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 1], // 0 → “auto”, we will use scaleY
+    outputRange: [0, 1],
   });
   const opacity = anim;
-
-  const bgColor =
-    card.color === C.primary ? '#F5F6FF' :
-    card.color === C.warning ? '#FFFDF5' :
-    card.color === C.success ? '#F5FFFA' : C.white;
-
-  const iconBgColor =
-    card.color === C.primary ? C.primaryLight :
-    card.color === C.warning ? C.warningLight :
-    card.color === C.success ? '#ECFDF5' : C.borderLight;
-
   return (
     <TouchableOpacity
-      style={[tc.card, { borderColor: card.color, backgroundColor: bgColor }]}
+      style={tc.card}
       onPress={onToggle}
       activeOpacity={0.9}
     >
       <View style={tc.row}>
         <View style={tc.textSide}>
-          <Text style={[tc.label, { color: card.color }]}>{card.label}</Text>
+          <Text style={tc.label}>{card.label}</Text>
           <Text style={tc.desc}>{card.description}</Text>
           {!isOpen && (
-            <Text style={[tc.tapHint, { color: card.color }]}>
-              Tap to learn more →
-            </Text>
+            <Text style={[tc.tapHint, { color: moduleColor }]}>Tap to learn more →</Text>
           )}
         </View>
-        <View style={[tc.iconBg, { backgroundColor: iconBgColor }]}>
+        <View style={tc.iconBg}>
           <Text style={tc.icon}>{card.icon}</Text>
         </View>
       </View>
-
       <Animated.View
         style={{
           transform: [{ scaleY: height }],
@@ -543,20 +512,16 @@ function TopicCard({ card, isOpen, onToggle }) {
         }}
       >
         {isOpen && (
-          <View style={[tc.expanded, { borderTopColor: card.color }]}>
+          <View style={tc.expanded}>
             {card.details?.map((point, i) => (
               <View key={i} style={tc.detailRow}>
-                <View
-                  style={[tc.detailDot, { backgroundColor: card.color }]}
-                />
+                <View style={[tc.detailDot, { backgroundColor: moduleColor }]} />
                 <Text style={tc.detailText}>{point}</Text>
               </View>
             ))}
             {card.example && (
-              <View style={[tc.example, { borderLeftColor: card.color }]}>
-                <Text style={[tc.exampleLabel, { color: card.color }]}>
-                  💡 Example
-                </Text>
+              <View style={[tc.example, { borderLeftColor: moduleColor }]}>
+                <Text style={[tc.exampleLabel, { color: moduleColor }]}>💡 Example</Text>
                 <Text style={tc.exampleText}>{card.example}</Text>
               </View>
             )}
@@ -570,82 +535,90 @@ function TopicCard({ card, isOpen, onToggle }) {
 
 // ─── App Cards ────────────────────────────────────────
 export function AppCards({ title, apps }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [expanded, setExpanded] = useState(null);
-  const scrollRef = useRef(null);
-  const SW = Dimensions.get('window').width - 48;
-
+  const [current, setCurrent] = useState(0);
+  const goNext = () => {
+    setExpanded(null);
+    setCurrent(i => Math.min(i + 1, apps.length - 1));
+  };
+  const goPrev = () => {
+    setExpanded(null);
+    setCurrent(i => Math.max(i - 1, 0));
+  };
+  const app = apps[current];
+  const isOpen = expanded === current;
   return (
     <View style={ac.wrapper}>
       {title && <Text style={ac.title}>{title}</Text>}
-      <Text style={ac.hint}>Tap an app to learn more · Swipe for next</Text>
-      <ScrollView
-        ref={scrollRef}
-        horizontal pagingEnabled showsHorizontalScrollIndicator={false}
-        snapToInterval={SW + 12} decelerationRate="fast"
-        contentContainerStyle={{ gap: 12 }}
-        onMomentumScrollEnd={(e) => {
-          const index = Math.round(e.nativeEvent.contentOffset.x / (SW + 12));
-          setExpanded(index);
-        }}
+      <Text style={ac.hint}>Tap to learn more · Swipe for next</Text>
+      <TouchableOpacity
+        style={ac.card}
+        onPress={() => setExpanded(isOpen ? null : current)}
+        activeOpacity={0.9}
       >
-        {apps.map((app, i) => {
-          const isOpen = expanded === i;
-          return (
-            <TouchableOpacity
-              key={i}
-              style={[ac.card, { width: SW, borderColor: app.color }]}
-              onPress={() => setExpanded(isOpen ? null : i)}
-              activeOpacity={0.9}
-            >
-              <View style={ac.cardHeader}>
-                <View style={[ac.iconBg, { backgroundColor: app.color }]}>
-                  <Text style={ac.icon}>{app.icon}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={ac.appName}>{app.name}</Text>
-                  <Text style={ac.tagline}>{app.tagline}</Text>
-                </View>
-                <View style={ac.chevron}>
-                  <Text style={[ac.chevronText, { transform: [{ rotate: isOpen ? '180deg' : '0deg' }] }]}>↓</Text>
-                </View>
+        <View style={ac.cardHeader}>
+          <View style={ac.iconBg}>
+            <Text style={ac.icon}>{app.icon}</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={ac.appName}>{app.name}</Text>
+            <Text style={ac.tagline}>{app.tagline}</Text>
+          </View>
+          <View style={ac.chevron}>
+            <Text style={[ac.chevronText, { transform: [{ rotate: isOpen ? '180deg' : '0deg' }] }]}>↓</Text>
+          </View>
+        </View>
+        <View style={ac.pillRow}>
+          <View style={[ac.pill, { backgroundColor: moduleColor }]}>
+            <Text style={ac.pillText}>{app.cost}</Text>
+          </View>
+          <View style={ac.pillOutline}>
+            <Text style={ac.pillOutlineText}>
+              {'⭐'.repeat(Math.round(app.rating))} {app.rating}/5
+            </Text>
+          </View>
+        </View>
+        {isOpen && (
+          <AnimatedBlock delay={0}>
+            <View style={ac.divider} />
+            <View style={ac.section}>
+              <Text style={[ac.sectionLabel, { color: moduleColor }]}>KEY FEATURE</Text>
+              <Text style={ac.sectionText}>{app.keyFeature}</Text>
+            </View>
+            <View style={ac.section}>
+              <Text style={[ac.sectionLabel, { color: moduleColor }]}>BEST FOR</Text>
+              <Text style={ac.sectionText}>{app.bestFor}</Text>
+            </View>
+            {app.singaporeTip && (
+              <View style={[ac.sgTip, { borderLeftColor: moduleColor }]}>
+                <Text style={ac.sgTipIcon}>🇸🇬</Text>
+                <Text style={ac.sgTipText}>{app.singaporeTip}</Text>
               </View>
-              <View style={ac.pillRow}>
-                <View style={[ac.pill, { backgroundColor: app.color }]}>
-                  <Text style={ac.pillText}>{app.cost}</Text>
-                </View>
-                <View style={ac.pillOutline}>
-                  <Text style={[ac.pillOutlineText, { color: app.color }]}>
-                    {'⭐'.repeat(Math.round(app.rating))} {app.rating}/5
-                  </Text>
-                </View>
-              </View>
-              {isOpen && (
-                <AnimatedBlock delay={0}>
-                  <View style={[ac.divider, { backgroundColor: app.color }]} />
-                  <View style={ac.section}>
-                    <Text style={[ac.sectionLabel, { color: app.color }]}>KEY FEATURE</Text>
-                    <Text style={ac.sectionText}>{app.keyFeature}</Text>
-                  </View>
-                  <View style={ac.section}>
-                    <Text style={[ac.sectionLabel, { color: app.color }]}>BEST FOR</Text>
-                    <Text style={ac.sectionText}>{app.bestFor}</Text>
-                  </View>
-                  {app.singaporeTip && (
-                    <View style={[ac.sgTip, { borderColor: app.color }]}>
-                      <Text style={ac.sgTipIcon}>🇸🇬</Text>
-                      <Text style={ac.sgTipText}>{app.singaporeTip}</Text>
-                    </View>
-                  )}
-                </AnimatedBlock>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-      <View style={ac.dots}>
-        {apps.map((_, i) => (
-          <View key={i} style={[ac.dot, expanded === i && ac.dotActive]} />
-        ))}
+            )}
+          </AnimatedBlock>
+        )}
+      </TouchableOpacity>
+      <View style={ac.navRow}>
+        <TouchableOpacity
+          style={[ac.navBtn, current === 0 && ac.navBtnDisabled]}
+          onPress={goPrev}
+          disabled={current === 0}
+        >
+          <Text style={ac.navBtnText}>← Prev</Text>
+        </TouchableOpacity>
+        <View style={ac.dots}>
+          {apps.map((_, i) => (
+            <View key={i} style={[ac.dot, current === i && { backgroundColor: moduleColor, width: 18 }]} />
+          ))}
+        </View>
+        <TouchableOpacity
+          style={[ac.navBtn, current === apps.length - 1 && ac.navBtnDisabled]}
+          onPress={goNext}
+          disabled={current === apps.length - 1}
+        >
+          <Text style={ac.navBtnText}>Next →</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -653,30 +626,28 @@ export function AppCards({ title, apps }) {
 
 // ─── Slider Exercise (non-earnable, no onComplete) ────
 export function SliderExercise({ icon, title, description, min, max, step, initialValue, prefix, calculateResult }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [value, setValue] = useState(initialValue);
   const result = calculateResult(value);
-  const lightBg = (color) =>
-    color === C.primary ? C.primaryLight :
-    color === C.warning ? C.warningLight :
-    color === C.success ? '#ECFDF5' :
-    color === C.danger  ? C.dangerLight : C.borderLight;
-
   return (
     <View style={ex.wrapper}>
       <View style={ex.header}>
         <Text style={ex.headerIcon}>{icon}</Text>
-        <View><Text style={ex.headerLabel}>EXERCISE</Text><Text style={ex.headerTitle}>{title}</Text></View>
+        <View>
+          <Text style={[ex.headerLabel, { color: moduleColor }]}>EXERCISE</Text>
+          <Text style={ex.headerTitle}>{title}</Text>
+        </View>
       </View>
       <Text style={ex.question}>{description}</Text>
       <View style={ex.sliderValueRow}>
         <Text style={ex.sliderValueLabel}>Amount</Text>
-        <Text style={ex.sliderValue}>{prefix || '$'}{value.toLocaleString()}</Text>
+        <Text style={[ex.sliderValue, { color: moduleColor }]}>{prefix || '$'}{value.toLocaleString()}</Text>
       </View>
       <Slider
         style={ex.slider}
         minimumValue={min} maximumValue={max} step={step} value={value}
         onValueChange={v => setValue(Math.round(v / step) * step)}
-        minimumTrackTintColor={C.primary} maximumTrackTintColor={C.border} thumbTintColor={C.primary}
+        minimumTrackTintColor={moduleColor} maximumTrackTintColor={C.border} thumbTintColor={moduleColor}
       />
       <View style={ex.sliderMinMax}>
         <Text style={ex.sliderMinMaxText}>{prefix}{min.toLocaleString()}</Text>
@@ -684,7 +655,7 @@ export function SliderExercise({ icon, title, description, min, max, step, initi
       </View>
       <View style={ex.sliderResult}>
         {result.map((row, i) => (
-          <View key={i} style={[ex.sliderResultRow, { backgroundColor: lightBg(row.color), borderLeftColor: row.color }]}>
+          <View key={i} style={ex.sliderResultRow}>
             <Text style={ex.sliderResultLabel}>{row.label}</Text>
             <Text style={[ex.sliderResultValue, { color: row.color }]}>{row.value}</Text>
           </View>
@@ -699,11 +670,6 @@ export function PieChartBlock({ title, slices, note }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const size = 220; const cx = size / 2; const cy = size / 2;
   const radius = 80; const innerRadius = 48;
-
-  const lightBg = (color) =>
-    color === C.primary ? C.primaryLight :
-    color === C.warning ? C.warningLight :
-    color === C.success ? '#ECFDF5' : C.borderLight;
 
   const getPaths = () => {
     let startAngle = -90;
@@ -754,11 +720,11 @@ export function PieChartBlock({ title, slices, note }) {
                     <SvgText x={cx} y={cy - 2} textAnchor="middle" alignmentBaseline="middle"
                       fontSize="20" fontWeight="800" fill={active.color}>{active.percentage}%</SvgText>
                     <SvgText x={cx} y={cy + 18} textAnchor="middle" alignmentBaseline="middle"
-                      fontSize="11" fill={C.neutral3}>{active.label}</SvgText>
+                      fontSize="11" fill={C.textMuted}>{active.label}</SvgText>
                   </>
                 ) : (
                   <SvgText x={cx} y={cy + 4} textAnchor="middle" alignmentBaseline="middle"
-                    fontSize="12" fill={C.neutral4}>Tap a slice</SvgText>
+                    fontSize="12" fill={C.midGray}>Tap a slice</SvgText>
                 )}
               </G>
             </Svg>
@@ -769,7 +735,7 @@ export function PieChartBlock({ title, slices, note }) {
         {slices.map((slice, i) => (
           <TouchableOpacity
             key={i}
-            style={[pc.legendCard, { borderLeftColor: slice.color }, activeIndex === i && { backgroundColor: lightBg(slice.color) }]}
+            style={[pc.legendCard, { borderLeftColor: slice.color }]}
             onPress={() => setActiveIndex(activeIndex === i ? null : i)}
             activeOpacity={0.8}
           >
@@ -898,7 +864,9 @@ export function FlipCardDeck({ title, cards, variant = 'reframe' }) {
 }
 
 // ─── Timeline ─────────────────────────────────────────
+// ─── Timeline ─────────────────────────────────────────
 export function TimelineBlock({ title, nodes }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [active, setActive] = useState(0);
   const scrollRef = useRef(null);
   const isMounted = useRef(true);
@@ -922,79 +890,98 @@ export function TimelineBlock({ title, nodes }) {
   return (
     <View style={tl.wrapper}>
       {title && <Text style={tl.title}>{title}</Text>}
+
+      {/* Top node navigator */}
       <View style={tl.nodeRow}>
         {nodes.map((node, i) => {
-          const isActive = active === i; const isPast = i < active; const isLast = i === nodes.length - 1;
+          const isActive = active === i;
+          const isPast = i < active;
+          const isLast = i === nodes.length - 1;
           return (
             <React.Fragment key={i}>
               <TouchableOpacity style={tl.nodeCol} onPress={() => handleNodePress(i)} activeOpacity={0.8}>
                 <View style={[
                   tl.nodeCircle,
-                  isActive && { backgroundColor: node.color, borderColor: node.color },
-                  isPast  && { backgroundColor: C.border, borderColor: C.border },
-                  !isActive && !isPast && { backgroundColor: C.white, borderColor: C.border },
+                  isActive && { backgroundColor: moduleColor, borderColor: moduleColor },
+                  isPast   && tl.nodeCirclePast,
                 ]}>
-                  <Text style={[tl.nodeIcon, { color: isActive ? C.white : C.neutral4 }]}>{node.icon}</Text>
+                  <Text style={[tl.nodeIcon, isActive && tl.nodeIconActive]}>{node.icon}</Text>
                 </View>
-                <Text style={[tl.nodeLabel, { color: isActive ? node.color : C.neutral4, fontWeight: isActive ? '700' : '500' }]} numberOfLines={2}>
+                <Text style={[tl.nodeLabel, isActive && { fontFamily: F.bold, color: moduleColor }]} numberOfLines={2}>
                   {node.label}
                 </Text>
               </TouchableOpacity>
-              {!isLast && <View style={tl.connector} />}
+              {!isLast && <View style={[tl.connector, isPast && { backgroundColor: moduleColor }]} />}
             </React.Fragment>
           );
         })}
       </View>
+
+      {/* Swipeable cards */}
       <ScrollView
         ref={scrollRef} horizontal pagingEnabled showsHorizontalScrollIndicator={false}
         decelerationRate="fast" snapToInterval={STEP} snapToAlignment="start"
         onMomentumScrollEnd={handleScroll}
-        style={{ marginHorizontal: -16 }} contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}
+        style={{ marginHorizontal: -16 }}
+        contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}
       >
         {nodes.map((node, i) => (
-          <View key={i} style={[tl.panel, { width: PANEL, borderColor: node.color }]}>
-            <View style={[tl.panelHeader, { backgroundColor: node.color }]}>
+          <View key={i} style={[tl.panel, { width: PANEL }]}>
+
+            {/* Card header */}
+            <View style={tl.panelHeader}>
               <Text style={tl.panelIcon}>{node.icon}</Text>
               <View style={{ flex: 1 }}>
                 <Text style={tl.panelLabel}>{node.label}</Text>
-                <Text style={tl.panelSublabel}>{node.sublabel}</Text>
+                {node.sublabel && <Text style={tl.panelSublabel}>{node.sublabel}</Text>}
               </View>
+              <Text style={tl.cardCounter}>{i + 1}/{nodes.length}</Text>
             </View>
+
             <View style={tl.panelBody}>
+
+              {/* Examples */}
               {node.examples && (
-                <>
-                  <Text style={[tl.sectionLabel, { color: node.color }]}>EXAMPLES</Text>
-                  <View style={tl.exampleRow}>
-                    {node.examples.map((ex, j) => (
-                      <View key={j} style={[tl.examplePill, { borderColor: node.color }]}>
-                        <Text style={[tl.exampleText, { color: node.color }]}>{ex}</Text>
-                      </View>
-                    ))}
-                  </View>
-                </>
+                <View style={tl.exampleRow}>
+                  {node.examples.map((ex, j) => (
+                    <React.Fragment key={j}>
+                      {j > 0 && <Text style={[tl.exampleDot, { color: moduleColor }]}>·</Text>}
+                      <Text style={tl.exampleText}>{ex}</Text>
+                    </React.Fragment>
+                  ))}
+                </View>
               )}
+
+              {/* Detail bullets */}
               {node.details && node.details.map((d, j) => (
                 <View key={j} style={tl.detailRow}>
-                  <View style={[tl.detailDot, { backgroundColor: node.color }]} />
+                  <View style={[tl.detailDot, { backgroundColor: moduleColor }]} />
                   <Text style={tl.detailText}>{d}</Text>
                 </View>
               ))}
+
+              {/* Tip */}
               {node.tip && (
-                <View style={[tl.tip, { borderColor: node.color }]}>
+                <View style={tl.tip}>
                   <Text style={tl.tipIcon}>💡</Text>
                   <Text style={tl.tipText}>{node.tip}</Text>
                 </View>
               )}
+
             </View>
           </View>
         ))}
       </ScrollView>
+
+      {/* Nav dots */}
       <View style={tl.navDots}>
-        {nodes.map((n, i) => (
-          <View key={i} style={[tl.navDot, active === i && { backgroundColor: nodes[active].color, width: 14 }]} />
+        {nodes.map((_, i) => (
+          <View key={i} style={[tl.navDot, active === i && { backgroundColor: moduleColor, width: 14 }]} />
         ))}
       </View>
-      <Text style={tl.swipeHint}>{active < nodes.length - 1 ? 'Swipe for next →' : '✓ All steps explored'}</Text>
+      <Text style={tl.swipeHint}>
+        {active < nodes.length - 1 ? 'Swipe for next →' : '✓ All explored'}
+      </Text>
     </View>
   );
 }
@@ -1005,6 +992,7 @@ export function TimelineBlock({ title, nodes }) {
 
 // ─── Tinder True/False ────────────────────────────────
 export function TinderTrueFalse({ title, instruction, statements, onComplete, isCompleted }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState([]);
   const [done, setDone] = useState(false);
@@ -1025,7 +1013,7 @@ export function TinderTrueFalse({ title, instruction, statements, onComplete, is
   }, []);
 
   const rotate = position.x.interpolate({ inputRange: [-SW / 2, 0, SW / 2], outputRange: ['-12deg', '0deg', '12deg'], extrapolate: 'clamp' });
-  const cardColor = position.x.interpolate({ inputRange: [-SW / 2, 0, SW / 2], outputRange: ['#FEE2E2', C.white, C.successLight], extrapolate: 'clamp' });
+  const cardColor = position.x.interpolate({ inputRange: [-SW / 2, 0, SW / 2], outputRange: [C.dangerLight, C.white, C.successLight], extrapolate: 'clamp' });
 
   const swipeOut = useCallback((direction) => {
     if (isAnimating) return;
@@ -1045,7 +1033,7 @@ export function TinderTrueFalse({ title, instruction, statements, onComplete, is
         setDone(true);
         const correctCount = newResults.filter(r => r.isCorrect).length;
         const didPass = correctCount / statements.length >= 0.7;
-        setPassed(didPass); // set BEFORE onComplete so it's ready when parent re-renders
+        setPassed(didPass);
         if (onComplete) onComplete(correctCount, statements.length);
       } else {
         currentIndexRef.current = nextIndex;
@@ -1075,16 +1063,19 @@ export function TinderTrueFalse({ title, instruction, statements, onComplete, is
   if (done) {
     const score = results.filter(r => r.isCorrect).length;
     const perfect = score === statements.length;
-    const showPassed = passed || isCompleted; // ← internal flag OR parent already marked done
+    const showPassed = passed || isCompleted;
     return (
       <View style={tt.wrapper}>
         <View style={tt.header}>
           <Text style={tt.headerIcon}>🧠</Text>
-          <View><Text style={tt.headerLabel}>RESULTS</Text><Text style={tt.headerTitle}>{title}</Text></View>
+          <View>
+            <Text style={[tt.headerLabel, { color: moduleColor }]}>RESULTS</Text>
+            <Text style={tt.headerTitle}>{title}</Text>
+          </View>
         </View>
         <AnimatedBlock delay={0}>
           <View style={tt.scoreScreen}>
-            <Text style={tt.scoreBig}>{score}/{statements.length}</Text>
+            <Text style={[tt.scoreBig, { color: moduleColor }]}>{score}/{statements.length}</Text>
             <Text style={tt.scoreEmoji}>{perfect ? '🏆' : score >= statements.length / 2 ? '💪' : '📚'}</Text>
             <Text style={tt.scoreMsg}>
               {perfect ? 'Perfect score — no myths fooled you.' :
@@ -1124,14 +1115,18 @@ export function TinderTrueFalse({ title, instruction, statements, onComplete, is
       <View style={tt.header}>
         <Text style={tt.headerIcon}>🧠</Text>
         <View style={{ flex: 1 }}>
-          <Text style={tt.headerLabel}>TRUE OR FALSE</Text>
+          <Text style={[tt.headerLabel, { color: moduleColor }]}>TRUE OR FALSE</Text>
           <Text style={tt.headerTitle}>{title}</Text>
         </View>
         <Text style={tt.counter}>{currentIndex + 1}/{statements.length}</Text>
       </View>
       <View style={tt.progressTrack}>
         {statements.map((_, i) => (
-          <View key={i} style={[tt.progressSegment, i < currentIndex && tt.progressDone, i === currentIndex && tt.progressActive]} />
+          <View key={i} style={[
+            tt.progressSegment,
+            i < currentIndex && tt.progressDone,
+            i === currentIndex && { backgroundColor: moduleColor },
+          ]} />
         ))}
       </View>
       {instruction && <Text style={tt.instruction}>{instruction}</Text>}
@@ -1165,9 +1160,8 @@ export function TinderTrueFalse({ title, instruction, statements, onComplete, is
 }
 
 // ─── Scenario Cards ───────────────────────────────────
-// Always passes (1/1) — show CompletedBanner once all scenarios answered
-// ─── Scenario Cards ───────────────────────────────────
 export function ScenarioCards({ title, scenarios, onComplete, isCompleted }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const SW = Dimensions.get('window').width - 48;
   const [answers, setAnswers] = useState({});
   const [done, setDone] = useState(false);
@@ -1203,38 +1197,43 @@ export function ScenarioCards({ title, scenarios, onComplete, isCompleted }) {
       <View style={sc.wrapper}>
         <View style={sc.resultsHeader}>
           <Text style={sc.resultsHeaderIcon}>🎯</Text>
-          <View><Text style={sc.resultsHeaderLabel}>RESULTS</Text><Text style={sc.resultsHeaderTitle}>{title}</Text></View>
-        </View>
-        <AnimatedBlock delay={0}>
-          <View style={sc.scoreScreen}>
-            <Text style={sc.scoreBig}>{correctCount}/{scenarios.length}</Text>
-            <Text style={sc.scoreEmoji}>{perfect ? '🏆' : correctCount >= scenarios.length / 2 ? '💪' : '📚'}</Text>
-            <Text style={sc.scoreMsg}>
-              {perfect ? 'Perfect — ideal choices across the board.' :
-               correctCount >= scenarios.length / 2 ? 'Good effort — review the scenarios you missed.' :
-               'Review the lesson and try again.'}
-            </Text>
-            <View style={sc.resultsList}>
-              {scenarios.map((scenario, i) => {
-                const pickedOption = scenario.options[answers[i]];
-                const isIdeal = pickedOption?.isIdeal;
-                return (
-                  <View key={i} style={[sc.resultRow, isIdeal ? sc.resultCorrect : sc.resultWrong]}>
-                    <Text style={sc.resultIcon}>{isIdeal ? '✓' : '✗'}</Text>
-                    <View style={{ flex: 1 }}>
-                      <Text style={sc.resultStatement}>{scenario.situation}</Text>
-                      <Text style={sc.resultExplanation}>{pickedOption?.biasExplanation}</Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
-            {showPassed
-              ? <CompletedBanner />
-              : <FailedBanner correct={correctCount} total={scenarios.length} onRetry={handleReset} />
-            }
+          <View>
+            <Text style={[sc.resultsHeaderLabel, { color: moduleColor }]}>RESULTS</Text>
+            <Text style={sc.resultsHeaderTitle}>{title}</Text>
           </View>
-        </AnimatedBlock>
+        </View>
+        <View style={sc.card}>
+          <AnimatedBlock delay={0}>
+            <View style={sc.scoreScreen}>
+              <Text style={[sc.scoreBig, { color: moduleColor }]}>{correctCount}/{scenarios.length}</Text>
+              <Text style={sc.scoreEmoji}>{perfect ? '🏆' : correctCount >= scenarios.length / 2 ? '💪' : '📚'}</Text>
+              <Text style={sc.scoreMsg}>
+                {perfect ? 'Perfect — ideal choices across the board.' :
+                 correctCount >= scenarios.length / 2 ? 'Good effort — review the scenarios you missed.' :
+                 'Review the lesson and try again.'}
+              </Text>
+              <View style={sc.resultsList}>
+                {scenarios.map((scenario, i) => {
+                  const pickedOption = scenario.options[answers[i]];
+                  const isIdeal = pickedOption?.isIdeal;
+                  return (
+                    <View key={i} style={[sc.resultRow, isIdeal ? sc.resultCorrect : sc.resultWrong]}>
+                      <Text style={sc.resultIcon}>{isIdeal ? '✓' : '✗'}</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={sc.resultStatement}>{scenario.situation}</Text>
+                        <Text style={sc.resultExplanation}>{pickedOption?.biasExplanation}</Text>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+              {showPassed
+                ? <CompletedBanner />
+                : <FailedBanner correct={correctCount} total={scenarios.length} onRetry={handleReset} />
+              }
+            </View>
+          </AnimatedBlock>
+        </View>
       </View>
     );
   }
@@ -1256,7 +1255,7 @@ export function ScenarioCards({ title, scenarios, onComplete, isCompleted }) {
               <View style={sc.cardHeader}>
                 <Text style={sc.cardIcon}>{scenario.icon}</Text>
                 <View style={{ flex: 1 }}>
-                  <Text style={sc.cardLabel}>SCENARIO {si + 1}/{scenarios.length}</Text>
+                  <Text style={[sc.cardLabel, { color: moduleColor }]}>SCENARIO {si + 1}/{scenarios.length}</Text>
                   <Text style={sc.cardSituation}>{scenario.situation}</Text>
                 </View>
               </View>
@@ -1299,7 +1298,7 @@ export function ScenarioCards({ title, scenarios, onComplete, isCompleted }) {
       </ScrollView>
       <View style={sc.dots}>
         {scenarios.map((_, i) => (
-          <View key={i} style={[sc.dot, answers[i] !== undefined && sc.dotDone]} />
+          <View key={i} style={[sc.dot, answers[i] !== undefined && { backgroundColor: moduleColor }]} />
         ))}
       </View>
     </View>
@@ -1308,12 +1307,13 @@ export function ScenarioCards({ title, scenarios, onComplete, isCompleted }) {
 
 // ─── Multi-Step MCQ ───────────────────────────────────
 export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [scores, setScores] = useState([]);
   const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false); // ← internal pass flag
+  const [passed, setPassed] = useState(false);
 
   const q = questions[currentQ];
   const isCorrect = selected === q.correctIndex;
@@ -1332,7 +1332,7 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
       setDone(true);
       const finalScore = scores.filter(Boolean).length + (selected === q.correctIndex ? 1 : 0);
       const didPass = finalScore / questions.length >= 0.7;
-      setPassed(didPass); // ← set internal flag BEFORE calling onComplete
+      setPassed(didPass);
       if (onComplete) onComplete(finalScore, questions.length);
     }
   };
@@ -1349,11 +1349,14 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
       <View style={ms.wrapper}>
         <View style={ms.header}>
           <Text style={ms.headerIcon}>{icon}</Text>
-          <View><Text style={ms.headerLabel}>CHALLENGE COMPLETE</Text><Text style={ms.headerTitle}>{title}</Text></View>
+          <View>
+            <Text style={[ms.headerLabel, { color: moduleColor }]}>CHALLENGE COMPLETE</Text>
+            <Text style={ms.headerTitle}>{title}</Text>
+          </View>
         </View>
         <AnimatedBlock delay={0}>
           <View style={ms.scoreScreen}>
-            <Text style={ms.scoreBig}>{finalScore}/{questions.length}</Text>
+            <Text style={[ms.scoreBig, { color: moduleColor }]}>{finalScore}/{questions.length}</Text>
             <Text style={ms.scoreEmoji}>{perfect ? '🏆' : good ? '💪' : '📚'}</Text>
             <Text style={ms.scoreMsg}>
               {perfect ? 'Perfect score!' : good ? 'Good effort! Review the ones you missed.' : 'Keep going — these concepts are worth mastering.'}
@@ -1361,12 +1364,11 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
             <View style={ms.scoreSummary}>
               {questions.map((q, i) => (
                 <View key={i} style={ms.scoreSummaryRow}>
-                  <Text style={[ms.scoreSummaryDot, { color: scores[i] ? C.success : C.danger }]}>{scores[i] ? '✓' : '✗'}</Text>
+                  <Text style={[ms.scoreSummaryDot, { color: scores[i] ? C.successDark : C.danger }]}>{scores[i] ? '✓' : '✗'}</Text>
                   <Text style={ms.scoreSummaryText}>{q.concept}</Text>
                 </View>
               ))}
             </View>
-            {/* ← use internal `passed` flag */}
             {passed
               ? <CompletedBanner />
               : <FailedBanner correct={finalScore} total={questions.length} onRetry={handleReset} />
@@ -1382,17 +1384,25 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
       <View style={ms.header}>
         <Text style={ms.headerIcon}>{icon}</Text>
         <View style={{ flex: 1 }}>
-          <Text style={ms.headerLabel}>CHALLENGE</Text>
+          <Text style={[ms.headerLabel, { color: moduleColor }]}>CHALLENGE</Text>
           <Text style={ms.headerTitle}>{title}</Text>
         </View>
         <Text style={ms.counter}>{currentQ + 1}/{questions.length}</Text>
       </View>
       <View style={ms.progressTrack}>
         {questions.map((_, i) => (
-          <View key={i} style={[ms.progressSegment, i < currentQ && ms.progressDone, i === currentQ && ms.progressActive]} />
+          <View key={i} style={[
+            ms.progressSegment,
+            i < currentQ && ms.progressDone,
+            i === currentQ && { backgroundColor: moduleColor },
+          ]} />
         ))}
       </View>
-      {q.concept && <View style={ms.conceptPill}><Text style={ms.conceptText}>{q.concept}</Text></View>}
+      {q.concept && (
+        <View style={[ms.conceptPill, { backgroundColor: moduleColorLight }]}>
+          <Text style={[ms.conceptText, { color: moduleColor }]}>{q.concept}</Text>
+        </View>
+      )}
       <Text style={ms.question}>{q.question}</Text>
       {q.options.map((opt, i) => {
         let style = ms.option;
@@ -1400,10 +1410,12 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
         if (submitted) {
           if (i === q.correctIndex) { style = [ms.option, ms.optionCorrect]; textStyle = [ms.optionText, ms.optionTextCorrect]; }
           else if (i === selected) { style = [ms.option, ms.optionWrong]; }
-        } else if (selected === i) { style = [ms.option, ms.optionSelected]; }
+        } else if (selected === i) { style = [ms.option, { borderColor: moduleColor, backgroundColor: moduleColorLight }]; }
         return (
           <TouchableOpacity key={i} style={style} onPress={() => !submitted && setSelected(i)} activeOpacity={0.8}>
-            <View style={ms.optionDot}><Text style={ms.optionDotText}>{String.fromCharCode(65 + i)}</Text></View>
+            <View style={[ms.optionDot, selected === i && !submitted && { backgroundColor: moduleColor }]}>
+              <Text style={ms.optionDotText}>{String.fromCharCode(65 + i)}</Text>
+            </View>
             <Text style={[textStyle, { flex: 1 }]}>{opt}</Text>
             {submitted && i === q.correctIndex && <Text style={ms.tick}>✓</Text>}
             {submitted && i === selected && i !== q.correctIndex && <Text style={ms.cross}>✗</Text>}
@@ -1411,7 +1423,11 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
         );
       })}
       {!submitted
-        ? <TouchableOpacity style={[ms.submitBtn, selected === null && ms.submitBtnDisabled]} onPress={handleSubmit} disabled={selected === null}>
+        ? <TouchableOpacity
+            style={[ms.submitBtn, { backgroundColor: moduleColor }, selected === null && ms.submitBtnDisabled]}
+            onPress={handleSubmit}
+            disabled={selected === null}
+          >
             <Text style={ms.submitBtnText}>Check Answer</Text>
           </TouchableOpacity>
         : <AnimatedBlock delay={0}>
@@ -1420,7 +1436,7 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
               <Text style={ms.feedbackText}>{isCorrect ? 'Correct!' : 'Not quite.'}</Text>
             </View>
             <Text style={ms.explanation}>{q.explanation}</Text>
-            <TouchableOpacity style={ms.nextBtn} onPress={handleNext}>
+            <TouchableOpacity style={[ms.nextBtn, { backgroundColor: moduleColor }]} onPress={handleNext}>
               <Text style={ms.nextBtnText}>{currentQ < questions.length - 1 ? 'Next Question →' : 'See Results →'}</Text>
             </TouchableOpacity>
           </AnimatedBlock>
@@ -1431,25 +1447,27 @@ export function MultiStepMCQ({ icon, title, questions, onComplete, isCompleted }
 
 // ─── MCQ Exercise ─────────────────────────────────────
 export function MCQExercise({ icon, title, question, options, correctIndex, explanation, onComplete, isCompleted }) {
+  const { moduleColor, moduleColorLight } = useModuleColor();
   const [selected, setSelected] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [passed, setPassed] = useState(false); // ← internal pass flag
+  const [passed, setPassed] = useState(false);
   const correct = selected === correctIndex;
   const reset = () => { setSelected(null); setSubmitted(false); setPassed(false); };
-
   const handleSubmit = () => {
     if (selected === null) return;
     const didPass = selected === correctIndex;
-    setPassed(didPass); // ← set internal flag BEFORE calling onComplete
+    setPassed(didPass);
     setSubmitted(true);
     if (onComplete) onComplete(didPass ? 1 : 0, 1);
   };
-
   return (
     <View style={ex.wrapper}>
       <View style={ex.header}>
         <Text style={ex.headerIcon}>{icon}</Text>
-        <View><Text style={ex.headerLabel}>EXERCISE</Text><Text style={ex.headerTitle}>{title}</Text></View>
+        <View>
+          <Text style={[ex.headerLabel, { color: moduleColor }]}>EXERCISE</Text>
+          <Text style={ex.headerTitle}>{title}</Text>
+        </View>
       </View>
       <Text style={ex.question}>{question}</Text>
       {options.map((opt, i) => {
@@ -1457,10 +1475,12 @@ export function MCQExercise({ icon, title, question, options, correctIndex, expl
         if (submitted) {
           if (i === correctIndex) { style = [ex.option, ex.optionCorrect]; textStyle = [ex.optionText, ex.optionTextCorrect]; }
           else if (i === selected) { style = [ex.option, ex.optionWrong]; }
-        } else if (selected === i) { style = [ex.option, ex.optionSelected]; }
+        } else if (selected === i) { style = [ex.option, { borderColor: moduleColor, backgroundColor: moduleColorLight }]; }
         return (
           <TouchableOpacity key={i} style={style} onPress={() => !submitted && setSelected(i)} activeOpacity={0.8}>
-            <View style={ex.optionDot}><Text style={ex.optionDotText}>{String.fromCharCode(65 + i)}</Text></View>
+            <View style={[ex.optionDot, selected === i && !submitted && { backgroundColor: moduleColor }]}>
+              <Text style={ex.optionDotText}>{String.fromCharCode(65 + i)}</Text>
+            </View>
             <Text style={[textStyle, { flex: 1 }]}>{opt}</Text>
             {submitted && i === correctIndex && <Text style={ex.tick}>✓</Text>}
             {submitted && i === selected && i !== correctIndex && <Text style={ex.cross}>✗</Text>}
@@ -1468,7 +1488,11 @@ export function MCQExercise({ icon, title, question, options, correctIndex, expl
         );
       })}
       {!submitted
-        ? <TouchableOpacity style={[ex.submitBtn, selected === null && ex.submitBtnDisabled]} onPress={handleSubmit} disabled={selected === null}>
+        ? <TouchableOpacity
+            style={[ex.submitBtn, { backgroundColor: moduleColor }, selected === null && ex.submitBtnDisabled]}
+            onPress={handleSubmit}
+            disabled={selected === null}
+          >
             <Text style={ex.submitBtnText}>Check Answer</Text>
           </TouchableOpacity>
         : <>
@@ -1477,12 +1501,10 @@ export function MCQExercise({ icon, title, question, options, correctIndex, expl
               <Text style={ex.resultText}>{correct ? 'Correct! Well done.' : 'Not quite — see the correct answer above.'}</Text>
             </Animated.View>
             <Text style={ex.explanation}>{explanation}</Text>
-            {/* ← use internal `passed` flag */}
             {passed
               ? <CompletedBanner />
               : <FailedBanner correct={correct ? 1 : 0} total={1} onRetry={reset} />
             }
-
           </>
       }
     </View>
@@ -1528,526 +1550,569 @@ export function renderBlock(block, i) {
 // ═══════════════════════════════════════════════════════
 
 const s = StyleSheet.create({
-  text:            { fontSize: 15, lineHeight: 26, color: C.neutral2, marginBottom: 14 },
-  sectionHeading:  { fontSize: 20, fontWeight: '800', color: C.neutral1, marginBottom: 8, marginTop: 8 },
-  sectionSubheading:{ fontSize: 16, fontWeight: '700', color: C.neutral2, marginBottom: 6, marginTop: 6 },
-  keytermBox:      { backgroundColor: C.primaryLight, borderRadius: 12, padding: 14, marginBottom: 14, borderLeftWidth: 4, borderLeftColor: C.primary },
+  text:            { fontFamily: F.regular, fontSize: 15, lineHeight: 26, color: C.textSecondary, marginBottom: 14 },
+  sectionHeading:  { fontSize: 20, fontFamily: F.extraBold, color: C.textPrimary, marginBottom: 8, marginTop: 8 },
+  sectionSubheading:{ fontSize: 16, fontFamily: F.bold, color: C.textSecondary, marginBottom: 6, marginTop: 6 },
+  keytermBox:      { backgroundColor: C.background, borderRadius: 12, padding: 14, marginBottom: 14, borderLeftWidth: 4, borderLeftColor: C.primary },
   keytermRow:      { flexDirection: 'row', alignItems: 'center', gap: 8 },
   keytermPill:     { backgroundColor: C.primary, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
-  keytermPillText: { fontSize: 9, fontWeight: '800', color: C.white, letterSpacing: 0.5 },
-  keytermTerm:     { flex: 1, fontSize: 15, fontWeight: '800', color: C.primaryDark },
-  chevron:         { fontSize: 11, color: C.neutral3 },
-  keytermDef:      { fontSize: 14, color: C.neutral2, lineHeight: 22, marginTop: 10 },
+  keytermPillText: { fontSize: 9, fontFamily: F.extraBold, color: C.white, letterSpacing: 0.5 },
+  keytermTerm:     { flex: 1, fontSize: 15, fontFamily: F.extraBold, color: C.black },
+  chevron:         { fontFamily: F.regular, fontSize: 11, color: C.textMuted },
+  keytermDef:      { fontFamily: F.regular, fontSize: 14, color: C.textSecondary, lineHeight: 22, marginTop: 10 },
   stepsBox:        { backgroundColor: C.white, borderRadius: 12, padding: 16, marginBottom: 14, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
-  stepsTitle:      { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 12 },
+  stepsTitle:      { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 12 },
   stepRow:         { flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginBottom: 10 },
   stepNum:         { width: 28, height: 28, borderRadius: 14, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
   stepNumActive:   { backgroundColor: C.primary },
-  stepNumDone:     { backgroundColor: C.success },
-  stepNumText:     { fontSize: 13, fontWeight: '800', color: C.white },
-  stepText:        { flex: 1, fontSize: 14, color: C.neutral2, lineHeight: 22 },
+  stepNumDone:     { backgroundColor: C.successDark },
+  stepNumText:     { fontSize: 13, fontFamily: F.extraBold, color: C.white },
+  stepText:        { fontFamily: F.regular, flex: 1, fontSize: 14, color: C.textSecondary, lineHeight: 22 },
   revealBtn:       { backgroundColor: C.primaryLight, borderRadius: 10, padding: 12, alignItems: 'center', marginTop: 4 },
-  revealBtnText:   { fontSize: 14, fontWeight: '700', color: C.primary },
+  revealBtnText:   { fontSize: 14, fontFamily: F.bold, color: C.primary },
   allDoneRow:      { alignItems: 'center', marginTop: 8 },
-  allDoneText:     { fontSize: 13, color: C.success, fontWeight: '600' },
+  allDoneText:     { fontSize: 13, color: C.successDark, fontFamily: F.semiBold },
   callout:         { borderRadius: 12, padding: 14, marginBottom: 14, borderLeftWidth: 4 },
-  calloutLabel:    { fontSize: 12, fontWeight: '800', color: C.neutral2, marginBottom: 6, letterSpacing: 0.3 },
-  calloutText:     { fontSize: 14, color: C.neutral2, lineHeight: 22 },
-  bulletsBox:      { backgroundColor: C.white, borderRadius: 12, padding: 14, marginBottom: 14 },
-  bulletsTitle:    { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 10 },
-  bulletRow:       { flexDirection: 'row', gap: 8, marginBottom: 8 },
-  bulletDot:       { fontSize: 16, color: C.primary, lineHeight: 22 },
-  bulletText:      { flex: 1, fontSize: 14, color: C.neutral2, lineHeight: 22 },
-  botChip:         { flexDirection: 'row', alignItems: 'center', backgroundColor: '#F0F4FF', borderRadius: 12, padding: 14, marginBottom: 14, gap: 10, borderWidth: 1, borderColor: C.primaryMid },
+  calloutLabel:    { fontSize: 12, fontFamily: F.extraBold, color: C.textSecondary, marginBottom: 6, letterSpacing: 0.3 },
+  calloutText:     { fontFamily: F.regular, fontSize: 14, color: C.textSecondary, lineHeight: 22 },
+  bulletsBox:   { backgroundColor: C.white, borderRadius: 16, padding: 14, marginBottom: 14, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  bulletsTitle: { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 10 },
+  bulletRow:    { flexDirection: 'row', gap: 8, marginBottom: 8 },
+  bulletDot:    { fontFamily: F.regular, fontSize: 16, color: C.primary, lineHeight: 22 },
+  bulletText:   { fontFamily: F.regular, flex: 1, fontSize: 14, color: C.textSecondary, lineHeight: 22 },
+  botChip:         { flexDirection: 'row', alignItems: 'center', borderRadius: 12, padding: 14, marginBottom: 14, gap: 10, borderWidth: 1, borderColor: C.black },
   botChipIcon:     { fontSize: 20 },
-  botChipText:     { flex: 1, fontSize: 13, fontWeight: '600', color: C.primary },
-  botArrow:        { fontSize: 16, color: C.primary },
-  botOpen:         { backgroundColor: '#F0F4FF', borderRadius: 12, padding: 14, marginBottom: 14, borderWidth: 1, borderColor: C.primaryMid },
+  botChipText:     { flex: 1, fontSize: 13, fontFamily: F.semiBold, color: C.textPrimary},
+  botArrow:        { fontSize: 16, color: C.black },
+  botOpen:         { borderRadius: 12, padding: 14, marginBottom: 14, borderWidth: 1, borderColor: C.black },
   botHeader:       { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
   botHeaderIcon:   { fontSize: 18 },
-  botHeaderLabel:  { flex: 1, fontSize: 13, fontWeight: '800', color: C.primary },
-  botClose:        { fontSize: 16, color: C.neutral3 },
+  botHeaderLabel:  { flex: 1, fontSize: 13, fontFamily: F.extraBold, color: C.primary },
+  botClose:        { fontFamily: F.regular, fontSize: 16, color: C.textMuted },
   botLoading:      { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  botLoadingText:  { fontSize: 13, color: C.neutral3 },
-  botAnswer:       { fontSize: 14, color: C.neutral2, lineHeight: 22 },
+  botLoadingText:  { fontFamily: F.regular, fontSize: 13, color: C.textMuted },
+  botAnswer:       { fontSize: 14, color: C.textSecondary, lineHeight: 22 },
 });
 
 const t = StyleSheet.create({
   pillWrapper:            { marginBottom: 14, borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: C.border },
   pillHeaderRow:          { flexDirection: 'row' },
   pillHeaderCell:         { flex: 1, padding: 10, alignItems: 'center' },
-  pillHeaderText:         { fontSize: 12, fontWeight: '800', color: C.white, letterSpacing: 0.3 },
+  pillHeaderText:         { fontSize: 12, fontFamily: F.extraBold, color: C.white, letterSpacing: 0.3 },
   pillRow:                { flexDirection: 'row', backgroundColor: C.white, alignItems: 'stretch', borderTopWidth: 1, borderTopColor: C.border },
-  pillRowAlt:             { backgroundColor: C.cardBg },
-  pillCell:               { flex: 1, fontSize: 13, color: C.neutral2, padding: 12, lineHeight: 18 },
+  pillRowAlt:             { backgroundColor: C.lightGray },
+  pillCell:               { fontFamily: F.regular, flex: 1, fontSize: 13, color: C.textSecondary, padding: 12, lineHeight: 18 },
   pillCellLeft:           { borderRightWidth: 1, borderRightColor: C.border },
-  pillCellLeftAccent:     { backgroundColor: C.primaryLight, fontWeight: '700', color: C.primaryDark },
+  pillCellLeftAccent:     { fontFamily: F.bold, color: C.black },
   iconCardsWrapper:       { marginBottom: 14, gap: 8 },
   iconCard:               { backgroundColor: C.white, borderRadius: 12, borderLeftWidth: 4, overflow: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
-  iconCardLabel:          { fontSize: 10, fontWeight: '700', letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 2 },
-  iconCardPrimary:        { fontSize: 16, fontWeight: '800' },
-  iconCardAccent:  { paddingHorizontal: 14, paddingTop: 14, paddingBottom: 16 },
-  iconCardBody:    { paddingHorizontal: 14, paddingTop: 12, paddingBottom: 16, gap: 8 },
-  iconCardRow:     { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 },
-  iconCardSubLabel:       { fontSize: 12, color: C.neutral3, fontWeight: '600', flex: 1 },
-  iconCardSubValue:       { fontSize: 13, color: C.neutral1, fontWeight: '500', flex: 2, textAlign: 'right' },
+  iconCardLabel:          { fontSize: 10, fontFamily: F.bold, letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 2 },
+  iconCardPrimary:        { fontSize: 16, fontFamily: F.extraBold },
+  iconCardAccent:         { paddingHorizontal: 14, paddingTop: 14, paddingBottom: 16 },
+  iconCardBody:           { paddingHorizontal: 14, paddingTop: 12, paddingBottom: 16, gap: 8 },
+  iconCardRow:            { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 },
+  iconCardSubLabel:       { fontSize: 12, color: C.textMuted, fontFamily: F.semiBold, flex: 1 },
+  iconCardSubValue:       { fontSize: 13, color: C.textPrimary, fontFamily: F.medium, flex: 2, textAlign: 'right' },
   scrollTableWrapper:     { marginBottom: 14, borderRadius: 12, overflow: 'hidden', borderWidth: 1, borderColor: C.border },
-  scrollTableHeaderRow:   { flexDirection: 'row', backgroundColor: C.primary },
+  scrollTableHeaderRow:   { flexDirection: 'row' },
   scrollTableHeaderCell:  { padding: 10 },
-  scrollTableHeaderText:  { fontSize: 12, fontWeight: '700', color: C.white },
+  scrollTableHeaderText:  { fontSize: 12, fontFamily: F.bold, color: C.white },
   scrollTableRow:         { flexDirection: 'row', backgroundColor: C.white },
-  scrollTableRowAlt:      { backgroundColor: C.cardBg },
-  scrollTableCell:        { padding: 10, borderTopWidth: 1, borderTopColor: C.borderLight },
-  scrollTableCellFirst:   { backgroundColor: C.primaryLight },
-  scrollTableCellText:    { fontSize: 12, color: C.neutral2, lineHeight: 18 },
-  scrollTableCellTextFirst:{ fontWeight: '700', color: C.primaryDark },
+  scrollTableRowAlt:      { backgroundColor: C.lightGray },
+  scrollTableCell:        { padding: 10, borderTopWidth: 1, borderTopColor: C.lightGray },
+  scrollTableCellFirst:   {},
+  scrollTableCellText:    { fontFamily: F.regular, fontSize: 12, color: C.textSecondary, lineHeight: 18 },
+  scrollTableCellTextFirst:{ fontFamily: F.bold, color: C.black },
 });
 
 const tc = StyleSheet.create({
-  wrapper:    { marginBottom: 14, gap: 10 },
-  title:      { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 6 },
-
+  wrapper:      { marginBottom: 14, gap: 10 },
+  title:        { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 6 },
   card: {
-    borderRadius: 18,
+    backgroundColor: C.white,
+    borderRadius: 16,
     paddingVertical: 14,
     paddingHorizontal: 16,
-    borderWidth: 1.3,
-    shadowColor: '#111827',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.07,
-    shadowRadius: 12,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: C.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
   },
-
-  row:       { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  textSide:  { flex: 1 },
-
-  label:     { fontSize: 16, fontWeight: '800', marginBottom: 3 },
-  desc:      { fontSize: 13, color: C.neutral3, lineHeight: 19 },
-  tapHint:   { fontSize: 12, fontWeight: '600', marginTop: 5, opacity: 0.85 },
-
-  iconBg:    { width: 56, height: 56, borderRadius: 16, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
-  icon:      { fontSize: 28 },
-
-  expanded:  { marginTop: 12, paddingTop: 12, borderTopWidth: 1, gap: 8 },
-  detailRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
-  detailDot: { width: 6, height: 6, borderRadius: 3, marginTop: 6, flexShrink: 0 },
-
-  detailText:{ flex: 1, fontSize: 13, color: C.neutral2, lineHeight: 21 },
-
-  example:   { borderRadius: 11, padding: 11, backgroundColor: C.cardBg, borderLeftWidth: 3, marginTop: 3 },
-  exampleLabel:{ fontSize: 11, fontWeight: '800', marginBottom: 4, letterSpacing: 0.3 },
-  exampleText:{ fontSize: 12.5, color: C.neutral2, lineHeight: 19 },
+  iconBg: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,  // fully circular
+    backgroundColor: C.lightGray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexShrink: 0,
+  },
+  row:          { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  textSide:     { flex: 1 },
+  label:        { fontSize: 16, fontFamily: F.extraBold, color: C.textPrimary, marginBottom: 3 },
+  desc:         { fontFamily: F.regular, fontSize: 13, color: C.textMuted, lineHeight: 19 },
+  tapHint:      { fontSize: 12, fontFamily: F.semiBold, color: C.primary, marginTop: 5, opacity: 0.85 },
+  icon:         { fontSize: 28 },
+  expanded:     { marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: C.lightGray, gap: 8 },
+  detailRow:    { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
+  detailDot:    { width: 6, height: 6, borderRadius: 3, marginTop: 6, flexShrink: 0, backgroundColor: C.primary },
+  detailText:   { fontFamily: F.regular, flex: 1, fontSize: 13, color: C.textSecondary, lineHeight: 21 },
+  example:      { borderRadius: 11, padding: 11, backgroundColor: C.lightGray, borderLeftWidth: 3, borderLeftColor: C.primary, marginTop: 3 },
+  exampleLabel: { fontSize: 11, fontFamily: F.extraBold, color: C.primary, marginBottom: 4, letterSpacing: 0.3 },
+  exampleText:  { fontFamily: F.regular, fontSize: 12.5, color: C.textSecondary, lineHeight: 19 },
 });
-
-
-
 
 const ba = StyleSheet.create({
   wrapper:   { marginBottom: 14, gap: 8 },
-  title:     { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
+  title:     { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
   card:      { backgroundColor: C.white, borderRadius: 14, padding: 14, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
   labelRow:  { marginBottom: 10 },
   labelPill: { alignSelf: 'flex-start', backgroundColor: C.primaryLight, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 3 },
-  labelText: { fontSize: 11, fontWeight: '800', color: C.primary, letterSpacing: 0.3 },
+  labelText: { fontSize: 11, fontFamily: F.extraBold, color: C.primary, letterSpacing: 0.3 },
   row:       { flexDirection: 'row', alignItems: 'center', gap: 8 },
   side:      { flex: 1, borderRadius: 10, padding: 10 },
   sideBefore:{ backgroundColor: C.dangerLight },
-  sideAfter: { backgroundColor: '#F0FDF4' },
-  sideTag:   { fontSize: 10, fontWeight: '700', color: C.neutral3, marginBottom: 4 },
-  sideText:  { fontSize: 13, color: C.neutral2, lineHeight: 18, fontWeight: '500' },
-  arrow:     { fontSize: 18, color: C.neutral4 },
+  sideAfter: { backgroundColor: C.successLight },
+  sideTag:   { fontSize: 10, fontFamily: F.bold, color: C.textMuted, marginBottom: 4 },
+  sideText:  { fontSize: 13, color: C.textSecondary, lineHeight: 18, fontFamily: F.medium },
+  arrow:     { fontSize: 18, color: C.midGray },
 });
 
 const cl = StyleSheet.create({
-  wrapper:           { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  title:             { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 12 },
-  item:              { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, marginBottom: 8, backgroundColor: C.cardBg, borderWidth: 1.5, borderColor: C.border },
-  itemChecked:       { backgroundColor: '#F0FDF4', borderColor: C.successMid },
+  wrapper:           { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  title:             { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 12 },
+  item:              { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 12, marginBottom: 8, backgroundColor: C.white, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.03, shadowRadius: 3, elevation: 1 },
+  itemChecked:       {},
   box:               { width: 24, height: 24, borderRadius: 6, borderWidth: 2, borderColor: C.border, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
-  boxChecked:        { backgroundColor: C.success, borderColor: C.success },
-  tick:              { fontSize: 13, color: C.white, fontWeight: '800' },
-  itemText:          { flex: 1, fontSize: 14, color: C.neutral2, lineHeight: 20 },
-  itemTextChecked:   { color: C.successDark, fontWeight: '600', textDecorationLine: 'line-through' },
-  completeBanner:    { backgroundColor: C.successLight, borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 4 },
-  completeBannerText:{ fontSize: 14, fontWeight: '700', color: C.success },
+  boxChecked:        {},
+  tick:              { fontSize: 13, color: C.white, fontFamily: F.extraBold },
+  itemText:          { fontFamily: F.regular, flex: 1, fontSize: 14, color: C.textSecondary, lineHeight: 20 },
+  itemTextChecked:   { fontFamily: F.semiBold, textDecorationLine: 'line-through' },
+  completeBanner:    { borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 4 },
+  completeBannerText:{ fontSize: 14, fontFamily: F.bold },
 });
 
 const gp = StyleSheet.create({
-  wrapper:       { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  title:         { fontSize: 15, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  subtitle:      { fontSize: 13, color: C.neutral3, marginBottom: 14 },
-  goalCard:      { borderRadius: 14, padding: 14, marginBottom: 8, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.cardBg },
+  wrapper:       { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: C.primaryLight, shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
+  title:         { fontSize: 15, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
+  subtitle:      { fontFamily: F.regular, fontSize: 13, color: C.textMuted, marginBottom: 14 },
+  goalCard:      { borderRadius: 14, padding: 14, marginBottom: 8, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.lightGray },
   goalCardSelected:{ borderColor: C.primary, backgroundColor: C.primaryLight },
   goalRow:       { flexDirection: 'row', alignItems: 'center', gap: 12 },
   goalIcon:      { fontSize: 22 },
-  goalLabel:     { flex: 1, fontSize: 14, fontWeight: '600', color: C.neutral2 },
-  goalLabelSelected:{ color: C.primaryDark },
+  goalLabel:     { flex: 1, fontSize: 14, fontFamily: F.semiBold, color: C.textSecondary },
+  goalLabelSelected:{ color: C.black },
   checkbox:      { width: 24, height: 24, borderRadius: 12, borderWidth: 2, borderColor: C.border, justifyContent: 'center', alignItems: 'center' },
   checkboxSelected:{ backgroundColor: C.primary, borderColor: C.primary },
-  checkmark:     { fontSize: 13, color: C.white, fontWeight: '800' },
-  goalDetail:    { marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: C.primaryMid },
+  checkmark:     { fontSize: 13, color: C.white, fontFamily: F.extraBold },
+  goalDetail:    { marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: C.primaryLight },
   goalDetailRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginBottom: 8 },
-  detailPill:    { backgroundColor: C.white, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 6, borderWidth: 1.5, borderColor: C.primaryMid },
-  detailPillText:{ fontSize: 13, fontWeight: '700', color: C.primary },
-  goalTip:       { fontSize: 12, color: C.neutral3, lineHeight: 18, fontStyle: 'italic' },
+  detailPill:    { backgroundColor: C.white, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 6, borderWidth: 1.5, borderColor: C.primaryLight },
+  detailPillText:{ fontSize: 13, fontFamily: F.bold, color: C.primary },
+  goalTip:       { fontFamily: F.regular, fontSize: 12, color: C.textMuted, lineHeight: 18, fontStyle: 'italic' },
   summary:       { backgroundColor: C.primaryLight, borderRadius: 14, padding: 16, marginTop: 4 },
-  summaryTitle:  { fontSize: 14, fontWeight: '800', color: C.primaryDark, marginBottom: 12 },
+  summaryTitle:  { fontSize: 14, fontFamily: F.extraBold, color: C.black, marginBottom: 12 },
   summaryRow:    { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 },
   summaryIcon:   { fontSize: 18 },
-  summaryLabel:  { flex: 1, fontSize: 13, color: C.neutral2, fontWeight: '500' },
-  summaryAmount: { fontSize: 13, fontWeight: '700', color: C.primary },
-  summaryDivider:{ height: 1, backgroundColor: C.primaryMid, marginVertical: 8 },
-  summaryTotal:  { fontSize: 16, fontWeight: '900', color: C.primary },
+  summaryLabel:  { flex: 1, fontSize: 13, color: C.textSecondary, fontFamily: F.medium },
+  summaryAmount: { fontSize: 13, fontFamily: F.bold, color: C.primary },
+  summaryDivider:{ height: 1, backgroundColor: C.primaryLight, marginVertical: 8 },
+  summaryTotal:  { fontSize: 16, fontFamily: F.extraBold, color: C.primary },
 });
 
 const ac = StyleSheet.create({
   wrapper:        { marginBottom: 14 },
-  title:          { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  hint:           { fontSize: 12, color: C.neutral4, marginBottom: 10 },
-  card:           { borderRadius: 18, padding: 18, borderWidth: 2, backgroundColor: C.white, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3 },
+  title:          { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
+  hint:           { fontSize: 12, color: C.midGray, marginBottom: 10 },
+  card:           { borderRadius: 16, padding: 16, backgroundColor: C.white, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
   cardHeader:     { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 12 },
-  iconBg:         { width: 44, height: 44, borderRadius: 12, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
+  iconBg:         { width: 44, height: 44, borderRadius: 22, backgroundColor: C.lightGray, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
   icon:           { fontSize: 22 },
-  appName:        { fontSize: 16, fontWeight: '800', color: C.neutral1, marginBottom: 2 },
-  tagline:        { fontSize: 12, color: C.neutral3, lineHeight: 17 },
-  chevron:        { width: 28, height: 28, borderRadius: 14, backgroundColor: C.borderLight, justifyContent: 'center', alignItems: 'center' },
-  chevronText:    { fontSize: 14, color: C.neutral3, fontWeight: '700' },
+  appName:        { fontSize: 16, fontFamily: F.extraBold, color: C.textPrimary, marginBottom: 2 },
+  tagline:        { fontFamily: F.regular, fontSize: 12, color: C.textMuted, lineHeight: 17 },
+  chevron:        { width: 28, height: 28, borderRadius: 14, backgroundColor: C.lightGray, justifyContent: 'center', alignItems: 'center' },
+  chevronText:    { fontSize: 14, color: C.textMuted, fontFamily: F.bold },
   pillRow:        { flexDirection: 'row', gap: 8, marginBottom: 4 },
-  pill:           { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  pillText:       { fontSize: 12, fontWeight: '700', color: C.white },
+  pill:           { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4, backgroundColor: C.primary },
+  pillText:       { fontSize: 12, fontFamily: F.bold, color: C.white },
   pillOutline:    { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4, borderWidth: 1.5, borderColor: C.border },
-  pillOutlineText:{ fontSize: 12, fontWeight: '700' },
-  divider:        { height: 1.5, marginVertical: 14, opacity: 0.2 },
+  pillOutlineText:{ fontSize: 12, fontFamily: F.bold, color: C.textMuted },
+  divider:        { height: 1, marginVertical: 14, backgroundColor: C.lightGray },
   section:        { marginBottom: 12 },
-  sectionLabel:   { fontSize: 10, fontWeight: '800', letterSpacing: 1, marginBottom: 5 },
-  sectionText:    { fontSize: 14, color: C.neutral2, lineHeight: 21 },
-  sgTip:          { flexDirection: 'row', gap: 8, borderRadius: 12, padding: 12, borderWidth: 1.5, alignItems: 'flex-start', marginTop: 4 },
+  sectionLabel:   { fontSize: 10, fontFamily: F.extraBold, letterSpacing: 1, marginBottom: 5, color: C.primary },
+  sectionText:    { fontFamily: F.regular, fontSize: 14, color: C.textSecondary, lineHeight: 21 },
+  sgTip:          { flexDirection: 'row', gap: 8, borderRadius: 11, padding: 11, backgroundColor: C.lightGray, borderLeftWidth: 3, borderLeftColor: C.primary, alignItems: 'flex-start', marginTop: 4 },
   sgTipIcon:      { fontSize: 16 },
-  sgTipText:      { flex: 1, fontSize: 12, color: C.neutral2, lineHeight: 18 },
-  dots:           { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
+  sgTipText:      { fontFamily: F.regular, flex: 1, fontSize: 12, color: C.textSecondary, lineHeight: 18 },
+  navRow:         { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 },
+  navBtn:         { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
+  navBtnDisabled: { opacity: 0.3 },
+  navBtnText:     { fontSize: 13, fontFamily: F.semiBold, color: C.textSecondary },
+  dots:           { flexDirection: 'row', gap: 6 },
   dot:            { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
   dotActive:      { width: 18, backgroundColor: C.primary },
 });
 
 const pc = StyleSheet.create({
   wrapper:       { marginBottom: 14 },
-  title:         { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 12 },
+  title:         { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 12 },
   chartRow:      { alignItems: 'center', marginBottom: 12 },
   legendWrapper: { gap: 8 },
   legendCard:    { backgroundColor: C.white, borderRadius: 14, borderLeftWidth: 4, padding: 14, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 1 },
   legendTop:     { flexDirection: 'row', alignItems: 'center', gap: 10 },
   legendIcon:    { fontSize: 22 },
   legendMeta:    { flex: 1, minWidth: 0 },
-  legendPct:     { fontSize: 20, fontWeight: '900', lineHeight: 24 },
-  legendLabel:   { fontSize: 13, color: C.neutral2, fontWeight: '600', flexShrink: 1 },
-  legendAmount:  { fontSize: 13, fontWeight: '700', flexShrink: 0 },
-  legendDesc:    { fontSize: 13, color: C.neutral3, lineHeight: 20, marginTop: 8 },
-  note:          { fontSize: 12, color: C.neutral4, textAlign: 'center', marginTop: 10, fontStyle: 'italic' },
+  legendPct:     { fontSize: 20, fontFamily: F.extraBold, lineHeight: 24 },
+  legendLabel:   { fontSize: 13, color: C.textSecondary, fontFamily: F.semiBold, flexShrink: 1 },
+  legendAmount:  { fontSize: 13, fontFamily: F.bold, flexShrink: 0 },
+  legendDesc:    { fontFamily: F.regular, fontSize: 13, color: C.textMuted, lineHeight: 20, marginTop: 8 },
+  note:          { fontFamily: F.regular, fontSize: 12, color: C.midGray, textAlign: 'center', marginTop: 10, fontStyle: 'italic' },
 });
 
 const fd = StyleSheet.create({
   wrapper:           { marginBottom: 14 },
-  title:             { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  hint:              { fontSize: 12, color: C.neutral4, marginBottom: 10 },
+  title:             { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
+  hint:              { fontSize: 12, color: C.midGray, marginBottom: 10 },
   cardContainer:     { position: 'relative' },
   card:              { position: 'absolute', top: 0, left: 0, borderRadius: 18, padding: 20, justifyContent: 'space-between', backfaceVisibility: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.08, shadowRadius: 10, elevation: 3 },
-
   // ── Reframe variant (red/green) ──
-  cardFront:         { backgroundColor: C.dangerLight, borderWidth: 1.5, borderColor: C.dangerMid },
-  cardBack:          { backgroundColor: '#F0FDF4', borderWidth: 1.5, borderColor: C.successMid },
-  badgeFront:        { backgroundColor: C.danger, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  badgeBack:         { backgroundColor: C.success, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  badgeText:         { fontSize: 11, fontWeight: '800', color: C.white },
-  cardTextFront:     { fontSize: 16, fontWeight: '700', color: '#991B1B', lineHeight: 24, flex: 1, paddingVertical: 10 },
-  cardTextBack:      { fontSize: 16, fontWeight: '700', color: C.successDark, lineHeight: 24, flex: 1, paddingVertical: 10 },
-  tapHintFront:      { fontSize: 12, color: C.danger, fontWeight: '600', opacity: 0.7 },
-  backLabel:         { alignSelf: 'flex-start', backgroundColor: C.successLight, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
-  backLabelText:     { fontSize: 11, fontWeight: '700', color: C.success },
-
+  cardFront:     { backgroundColor: '#FFF0F0', borderWidth: 1.5, borderColor: '#FFB3B3' },
+  badgeFront:    { backgroundColor: '#E8000D', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  cardTextFront: { fontSize: 16, fontFamily: F.bold, color: '#CC0000', lineHeight: 24, flex: 1, paddingVertical: 10 },
+  tapHintFront:  { fontSize: 12, color: '#E8000D', fontFamily: F.semiBold, opacity: 0.7 },
+  cardBack:      { backgroundColor: '#E6F9F0', borderWidth: 1.5, borderColor: '#6EDBA8' },
+  badgeBack:     { backgroundColor: '#00875A', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  cardTextBack:  { fontSize: 16, fontFamily: F.bold, color: '#00583C', lineHeight: 24, flex: 1, paddingVertical: 10 },
+  backLabel:     { alignSelf: 'flex-start', backgroundColor: '#00875A', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  backLabelText: { fontSize: 11, fontFamily: F.bold, color: C.white },
+  badgeText:         { fontSize: 11, fontFamily: F.extraBold, color: C.white },
   // ── Neutral variant (white) ──
   cardNeutral:       { backgroundColor: C.white, borderWidth: 1.5, borderColor: C.border },
-  badgeNeutral:      { backgroundColor: C.borderLight, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  badgeTextNeutral:  { fontSize: 11, fontWeight: '700', color: C.neutral3 },
-  cardTextNeutral:   { fontSize: 16, fontWeight: '700', color: C.neutral1, lineHeight: 24, flex: 1, paddingVertical: 10 },
-  tapHintNeutral:    { fontSize: 12, color: C.neutral4, fontWeight: '600', opacity: 0.7 },
-  backLabelNeutral:  { alignSelf: 'flex-start', backgroundColor: C.borderLight, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
-  backLabelTextNeutral: { fontSize: 11, fontWeight: '700', color: C.neutral3 },
-
+  badgeNeutral:      { backgroundColor: C.lightGray, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  badgeTextNeutral:  { fontSize: 11, fontFamily: F.bold, color: C.textMuted },
+  cardTextNeutral:   { fontSize: 16, fontFamily: F.bold, color: C.textPrimary, lineHeight: 24, flex: 1, paddingVertical: 10 },
+  tapHintNeutral:    { fontSize: 12, color: C.midGray, fontFamily: F.semiBold, opacity: 0.7 },
+  backLabelNeutral:  { alignSelf: 'flex-start', backgroundColor: C.lightGray, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  backLabelTextNeutral: { fontSize: 11, fontFamily: F.bold, color: C.textMuted },
   // ── Shared ──
   cardTopRow:        { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  cardNum:           { fontSize: 12, color: C.neutral4, fontWeight: '600' },
+  cardNum:           { fontSize: 12, color: C.midGray, fontFamily: F.semiBold },
   dots:              { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
   dot:               { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
-  dotFlipped:        { backgroundColor: C.success },
+  dotFlipped: { backgroundColor: '#00875A' },
 });
 
 const tl = StyleSheet.create({
-  wrapper:      { marginBottom: 14 },
-  title:        { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 12 },
-  nodeRow:      { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 },
-  nodeCol:      { alignItems: 'center', flex: 1 },
-  nodeCircle:   { width: 44, height: 44, borderRadius: 22, borderWidth: 2, justifyContent: 'center', alignItems: 'center', marginBottom: 6 },
-  nodeIcon:     { fontSize: 18 },
-  nodeLabel:    { fontSize: 10, textAlign: 'center', paddingHorizontal: 2 },
-  connector:    { height: 2, flex: 1, backgroundColor: C.border, marginTop: 21 },
-  panel:        { backgroundColor: C.white, borderRadius: 18, borderWidth: 1.5, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, overflow: 'hidden' },
-  panelHeader:  { padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  panelIcon:    { fontSize: 28 },
-  panelLabel:   { fontSize: 16, fontWeight: '800', color: C.white },
-  panelSublabel:{ fontSize: 12, color: 'rgba(255,255,255,0.8)', marginTop: 2 },
-  panelBody:    { padding: 16 },
-  sectionLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 1, marginBottom: 10 },
-  exampleRow:   { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 14 },
-  examplePill:  { borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5, borderWidth: 1.5 },
-  exampleText:  { fontSize: 12, fontWeight: '600' },
-  detailRow:    { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 8 },
-  detailDot:    { width: 7, height: 7, borderRadius: 4, marginTop: 7, flexShrink: 0 },
-  detailText:   { flex: 1, fontSize: 14, color: C.neutral2, lineHeight: 21 },
-  tip:          { flexDirection: 'row', gap: 8, borderRadius: 12, padding: 12, borderWidth: 1.5, alignItems: 'flex-start', marginTop: 4 },
-  tipIcon:      { fontSize: 16 },
-  tipText:      { flex: 1, fontSize: 12, color: C.neutral2, lineHeight: 18 },
-  navDots:      { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12, marginBottom: 4 },
-  navDot:       { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
-  swipeHint:    { textAlign: 'center', fontSize: 12, color: C.neutral4, marginBottom: 4 },
+  wrapper:          { marginBottom: 14 },
+  title:            { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 12 },
+
+  // Navigator
+  nodeRow:          { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 16 },
+  nodeCol:          { alignItems: 'center', flex: 1 },
+  nodeCircle:       { width: 40, height: 40, borderRadius: 20, borderWidth: 2, borderColor: C.border, backgroundColor: C.white, justifyContent: 'center', alignItems: 'center', marginBottom: 5 },
+  nodeCirclePast:   { backgroundColor: C.lightGray, borderColor: C.lightGray },
+  nodeIcon:         { fontSize: 16, color: C.midGray },
+  nodeIconActive:   { color: C.white },
+  nodeLabel:        { fontFamily: F.regular, fontSize: 10, textAlign: 'center', paddingHorizontal: 2, color: C.textMuted },
+  connector:        { height: 2, flex: 1, backgroundColor: C.border, marginTop: 19 },
+  nodeCircleActive: { backgroundColor: C.primary, borderColor: C.primary },
+  nodeLabelActive:  { fontFamily: F.bold, color: C.primary },
+  connectorPast:    { backgroundColor: C.primary },
+  
+
+  // Card
+  panel:            { backgroundColor: C.white, borderRadius: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 10, elevation: 3, overflow: 'hidden' },
+  panelHeader:      { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 16, borderBottomWidth: 1, borderBottomColor: C.border },
+  panelIcon:        { fontSize: 28 },
+  panelLabel:       { fontSize: 15, fontFamily: F.extraBold, color: C.textPrimary },
+  panelSublabel:    { fontFamily: F.regular, fontSize: 12, color: C.textMuted, marginTop: 2 },
+  cardCounter:      { fontSize: 12, fontFamily: F.semiBold, color: C.textMuted },
+  panelBody:  { padding: 16, paddingBottom: 20, gap: 4 },
+  panel:      { backgroundColor: C.white, borderRadius: 20, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1, overflow: 'visible' },
+
+  // Examples
+  exampleRow:       { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 4, marginBottom: 14 },
+  exampleText:      { fontSize: 12, fontFamily: F.semiBold, color: C.textSecondary },
+  exampleDot:       { width: 4, height: 4, borderRadius: 4, marginTop: 8, flexShrink: 0, backgroundColor: C.textPrimary },
+
+  // Details
+  detailText:       { fontFamily: F.regular, flex: 1, fontSize: 14, color: C.textSecondary, lineHeight: 21 },
+  detailRow:        { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 8, paddingHorizontal: 4 },
+  detailDot:        { width: 7, height: 7, borderRadius: 4, marginTop: 8, flexShrink: 0, backgroundColor: C.primary },
+
+  // Tip
+  tip:              { flexDirection: 'row', gap: 8, borderRadius: 12, padding: 12, borderWidth: 1, borderColor: C.border, alignItems: 'flex-start', marginTop: 8, backgroundColor: C.background },
+  tipIcon:          { fontSize: 15 },
+  tipText:          { fontFamily: F.regular, flex: 1, fontSize: 12, color: C.textSecondary, lineHeight: 18 },
+
+  // Nav
+  navDots:          { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12, marginBottom: 4 },
+
+  navDot:           { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
+  navDotActive:     { backgroundColor: C.primary, width: 14 },
+  swipeHint:        { fontFamily: F.regular, textAlign: 'center', fontSize: 12, color: C.midGray, marginBottom: 4 },
 });
 
 const bk = StyleSheet.create({
   wrapper:       { marginBottom: 14 },
-  title:         { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  hint:          { fontSize: 12, color: C.neutral4, marginBottom: 10 },
+  title:         { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
+  hint:          { fontFamily: F.regular, fontSize: 12, color: C.midGray, marginBottom: 10 },
   topRow:        { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 12 },
   iconBg:        { width: 44, height: 44, borderRadius: 12, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
   icon:          { fontSize: 22 },
   priorityBadge: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 4 },
-  priorityText:  { fontSize: 13, fontWeight: '800', color: C.white },
-  fillTrack:     { height: 8, backgroundColor: C.borderLight, borderRadius: 4, marginBottom: 4, overflow: 'hidden' },
+  priorityText:  { fontSize: 13, fontFamily: F.extraBold, color: C.white },
+  fillTrack:     { height: 8, backgroundColor: C.lightGray, borderRadius: 4, marginBottom: 4, overflow: 'hidden' },
   fillBar:       { height: 8, borderRadius: 4 },
-  fillLabel:     { fontSize: 11, fontWeight: '700', marginBottom: 4 },
+  fillLabel:     { fontSize: 11, fontFamily: F.bold, marginBottom: 4 },
   divider:       { height: 1.5, marginVertical: 12, opacity: 0.2 },
   detailRow:     { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 8 },
   detailDot:     { width: 7, height: 7, borderRadius: 4, marginTop: 7, flexShrink: 0 },
-  detailText:    { flex: 1, fontSize: 14, color: C.neutral2, lineHeight: 21 },
-  tip:           { flexDirection: 'row', gap: 8, borderRadius: 12, padding: 12, borderWidth: 1.5, alignItems: 'flex-start', marginTop: 4 },
+  detailText:    { fontFamily: F.regular, flex: 1, fontSize: 14, color: C.textSecondary, lineHeight: 21 },
+  tip:           { fontFamily: F.regular, flexDirection: 'row', gap: 8, borderRadius: 12, padding: 12, borderWidth: 1.5, alignItems: 'flex-start', marginTop: 4 },
   tipIcon:       { fontSize: 16 },
-  tipText:       { flex: 1, fontSize: 12, color: C.neutral2, lineHeight: 18 },
+  tipText:       { flex: 1, fontSize: 12, color: C.textSecondary, lineHeight: 18 },
 });
 
 const tt = StyleSheet.create({
-  wrapper:           { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  header:            { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.borderLight },
+  wrapper: { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },  header:            { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.lightGray },
   headerIcon:        { fontSize: 28 },
-  headerLabel:       { fontSize: 10, fontWeight: '800', color: C.primary, letterSpacing: 1 },
-  headerTitle:       { fontSize: 15, fontWeight: '700', color: C.neutral1 },
-  counter:           { fontSize: 13, fontWeight: '700', color: C.neutral3 },
+  headerLabel:       { fontSize: 10, fontFamily: F.extraBold, color: C.primary, letterSpacing: 1 },
+  headerTitle:       { fontSize: 15, fontFamily: F.bold, color: C.textPrimary },
+  counter:           { fontSize: 13, fontFamily: F.bold, color: C.textMuted },
   progressTrack:     { flexDirection: 'row', gap: 4, marginBottom: 12 },
   progressSegment:   { flex: 1, height: 4, borderRadius: 2, backgroundColor: C.border },
-  progressDone:      { backgroundColor: C.success },
+  progressDone:      { backgroundColor: '#00875A' },
   progressActive:    { backgroundColor: C.primary },
-  instruction:       { fontSize: 13, color: C.neutral3, marginBottom: 10, textAlign: 'center' },
+  instruction:       { fontFamily: F.regular, fontSize: 13, color: C.textMuted, marginBottom: 10, textAlign: 'center' },
   swipeHints:        { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6, paddingHorizontal: 4 },
-  hintLeft:          { fontSize: 12, fontWeight: '700', color: C.danger, opacity: 0.5 },
-  hintRight:         { fontSize: 12, fontWeight: '700', color: C.success, opacity: 0.5 },
   cardStack:         { height: 170, marginBottom: 16 },
-  card:              { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: 16, padding: 20, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 4, justifyContent: 'center' },
-  cardBehind:        { top: 8, left: 4, right: 4, backgroundColor: '#F5F6FF', borderColor: C.primaryMid, shadowOpacity: 0.04, elevation: 1 },
-  cardText:          { fontSize: 15, fontWeight: '600', color: C.neutral1, lineHeight: 24, textAlign: 'center' },
+  card:      { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: 16, padding: 20, borderWidth: 1.5, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.08, shadowRadius: 12, elevation: 4, justifyContent: 'center' },
+  cardBehind: { top: 8, left: 4, right: 4, backgroundColor: C.white, borderColor: C.border, elevation: 1, shadowOpacity: 0.03 },  cardText:          { fontSize: 15, fontFamily: F.semiBold, color: C.textPrimary, lineHeight: 24, textAlign: 'center' },
   btnRow:            { flexDirection: 'row', gap: 10 },
-  btnLeft:           { flex: 1, backgroundColor: C.dangerLight, borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: C.dangerMid },
-  btnLeftText:       { fontSize: 14, fontWeight: '700', color: C.danger },
-  btnRight:          { flex: 1, backgroundColor: '#F0FDF4', borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: C.successMid },
-  btnRightText:      { fontSize: 14, fontWeight: '700', color: C.success },
+  btnLeft:       { flex: 1, backgroundColor: '#FFF0F0', borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: '#FFB3B3' },
+  btnLeftText:   { fontSize: 14, fontFamily: F.bold, color: '#E8000D' },
+  btnRight:      { flex: 1, backgroundColor: '#E6F9F0', borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: '#6EDBA8' },
+  btnRightText:  { fontSize: 14, fontFamily: F.bold, color: '#00875A' },
+  resultCorrect: { backgroundColor: '#E6F9F0', borderColor: '#6EDBA8' },
+  resultWrong:   { backgroundColor: '#FFF0F0', borderColor: '#FFB3B3' },
+  hintLeft:      { fontSize: 12, fontFamily: F.bold, color: '#E8000D', opacity: 0.5 },
+  hintRight:     { fontSize: 12, fontFamily: F.bold, color: '#00875A', opacity: 0.5 },  btnLeftText:       { fontSize: 14, fontFamily: F.bold, color: C.danger },
   scoreScreen:       { alignItems: 'center', paddingVertical: 8 },
-  scoreBig:          { fontSize: 52, fontWeight: '900', color: C.primary, lineHeight: 60 },
+  scoreBig:          { fontSize: 52, fontFamily: F.extraBold, color: C.primary, lineHeight: 60 },
   scoreEmoji:        { fontSize: 36, marginBottom: 10 },
-  scoreMsg:          { fontSize: 15, color: C.neutral2, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
+  scoreMsg:          { fontFamily: F.regular, fontSize: 15, color: C.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
   resultsList:       { width: '100%', gap: 8, marginBottom: 16 },
   resultRow:         { flexDirection: 'row', alignItems: 'flex-start', gap: 10, borderRadius: 12, padding: 12, borderWidth: 1.5 },
-  resultCorrect:     { backgroundColor: '#F0FDF4', borderColor: C.successMid },
-  resultWrong:       { backgroundColor: C.dangerLight, borderColor: C.dangerMid },
-  resultIcon:        { fontSize: 16, fontWeight: '800', marginTop: 2 },
-  resultStatement:   { fontSize: 13, fontWeight: '600', color: C.neutral1, marginBottom: 3 },
-  resultExplanation: { fontSize: 12, color: C.neutral3, lineHeight: 17 },
+  resultIcon:        { fontSize: 16, fontFamily: F.extraBold, marginTop: 2 },
+  resultStatement:   { fontSize: 13, fontFamily: F.semiBold, color: C.textPrimary, marginBottom: 3 },
+  resultExplanation: { fontFamily: F.regular, fontSize: 12, color: C.textMuted, lineHeight: 17 },
   badge:             { borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, alignSelf: 'flex-start', flexShrink: 0 },
   badgeTrue:         { backgroundColor: C.successLight },
   badgeFalse:        { backgroundColor: C.dangerLight },
-  badgeText:         { fontSize: 10, fontWeight: '800', color: C.neutral2 },
-  retryBtn:          { backgroundColor: C.borderLight, borderRadius: 12, padding: 14, alignItems: 'center', width: '100%' },
-  retryBtnText:      { color: C.neutral2, fontSize: 14, fontWeight: '600' },
+  badgeText:         { fontSize: 10, fontFamily: F.extraBold, color: C.textSecondary },
+  retryBtn:          { backgroundColor: C.lightGray, borderRadius: 12, padding: 14, alignItems: 'center', width: '100%' },
+  retryBtnText:      { color: C.textSecondary, fontSize: 14, fontFamily: F.semiBold },
 });
 
 const sc = StyleSheet.create({
   wrapper:          { marginBottom: 14 },
-  title:            { fontSize: 14, fontWeight: '700', color: C.neutral1, marginBottom: 4 },
-  hint:             { fontSize: 12, color: C.neutral4, marginBottom: 10 },
-  card:             { backgroundColor: C.white, borderRadius: 18, padding: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
+  title:            { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
+  hint:             { fontSize: 12, color: C.midGray, marginBottom: 10 },
+  card: {
+    backgroundColor: C.white,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: C.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
+  },
   cardHeader:       { flexDirection: 'row', gap: 12, marginBottom: 12, alignItems: 'flex-start' },
   cardIcon:         { fontSize: 28 },
-  cardLabel:        { fontSize: 10, fontWeight: '800', color: C.primary, letterSpacing: 0.5, marginBottom: 4 },
-  cardSituation:    { fontSize: 14, fontWeight: '700', color: C.neutral1, lineHeight: 20 },
-  pickLabel:        { fontSize: 13, color: C.neutral3, marginBottom: 10, fontWeight: '500' },
-  option:           { borderRadius: 12, padding: 12, marginBottom: 8, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.cardBg },
-  optionActive:     { borderColor: C.primaryMid, backgroundColor: '#F5F6FF' },
-  optionIdeal:      { borderColor: C.success, backgroundColor: '#F0FDF4' },
-  optionBias:       { borderColor: C.warning, backgroundColor: C.warningLight },
+  cardLabel:        { fontSize: 10, fontFamily: F.extraBold, color: C.primary, letterSpacing: 0.5, marginBottom: 4 },
+  cardSituation:    { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, lineHeight: 20 },
+  pickLabel:        { fontSize: 13, color: C.textMuted, marginBottom: 10, fontFamily: F.medium },
+  option: {
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 8,
+    backgroundColor: C.white,
+    borderWidth: 1,
+    borderColor: C.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 3,
+    elevation: 1,
+  },
+  optionActive:     {},  // no override — white card for all unselected
+  optionIdeal:      { borderColor: C.successDark, backgroundColor: C.successLight },
+  optionBias:       { borderColor: C.warningDark, backgroundColor: C.warningLight },
   optionDimmed:     { opacity: 0.4 },
-  optionText:       { fontSize: 13, color: C.neutral2, fontWeight: '500', lineHeight: 19 },
-  optionTextIdeal:  { color: C.successDark, fontWeight: '600' },
-  optionTextBias:   { color: '#92400E', fontWeight: '600' },
+  optionText:       { fontSize: 13, color: C.textSecondary, fontFamily: F.medium, lineHeight: 19 },
+  optionTextIdeal:  { color: C.successDark, fontFamily: F.semiBold },
+  optionTextBias:   { color: C.accent, fontFamily: F.semiBold },
   biasTag:          { alignSelf: 'flex-start', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3, marginTop: 8, marginBottom: 4 },
   biasTagIdeal:     { backgroundColor: C.successLight },
-  biasTagBias:      { backgroundColor: C.warningMid },
-  biasTagText:      { fontSize: 11, fontWeight: '800' },
-  biasTagTextIdeal: { color: C.success },
-  biasTagTextBias:  { color: '#D97706' },
-  biasExplanation:  { fontSize: 12, color: C.neutral3, lineHeight: 18, fontStyle: 'italic' },
+  biasTagBias:      { backgroundColor: C.warning },
+  biasTagText:      { fontSize: 11, fontFamily: F.extraBold },
+  biasTagTextIdeal: { color: C.successDark },
+  biasTagTextBias:  { color: C.warningDark },
+  biasExplanation:  { fontFamily: F.regular, fontSize: 12, color: C.textMuted, lineHeight: 18, fontStyle: 'italic' },
   dots:             { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
   dot:              { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
   dotDone:          { backgroundColor: C.primary },
-  resultsHeader:      { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.borderLight },
+  resultsHeader:      { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.lightGray },
   resultsHeaderIcon:  { fontSize: 28 },
-  resultsHeaderLabel: { fontSize: 10, fontWeight: '800', color: C.primary, letterSpacing: 1 },
-  resultsHeaderTitle: { fontSize: 15, fontWeight: '700', color: C.neutral1 },
+  resultsHeaderLabel: { fontSize: 10, fontFamily: F.extraBold, color: C.primary, letterSpacing: 1 },
+  resultsHeaderTitle: { fontSize: 15, fontFamily: F.bold, color: C.textPrimary },
   scoreScreen:        { alignItems: 'center', paddingVertical: 8 },
-  scoreBig:           { fontSize: 52, fontWeight: '900', color: C.primary, lineHeight: 60 },
+  scoreBig:           { fontSize: 52, fontFamily: F.extraBold, color: C.primary, lineHeight: 60 },
   scoreEmoji:         { fontSize: 36, marginBottom: 10 },
-  scoreMsg:           { fontSize: 15, color: C.neutral2, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
+  scoreMsg:           { fontFamily: F.regular, fontSize: 15, color: C.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
   resultsList:        { width: '100%', gap: 8, marginBottom: 16 },
   resultRow:          { flexDirection: 'row', alignItems: 'flex-start', gap: 10, borderRadius: 12, padding: 12, borderWidth: 1.5 },
-  resultCorrect:      { backgroundColor: '#F0FDF4', borderColor: C.successMid },
+  resultCorrect:      { backgroundColor: C.successLight, borderColor: C.success },
   resultWrong:        { backgroundColor: C.dangerLight, borderColor: C.dangerMid },
-  resultIcon:         { fontSize: 16, fontWeight: '800', marginTop: 2 },
-  resultStatement:    { fontSize: 13, fontWeight: '600', color: C.neutral1, marginBottom: 3 },
-  resultExplanation:  { fontSize: 12, color: C.neutral3, lineHeight: 17 },
+  resultIcon:         { fontSize: 16, fontFamily: F.extraBold, marginTop: 2 },
+  resultStatement:    { fontSize: 13, fontFamily: F.semiBold, color: C.textPrimary, marginBottom: 3 },
+  resultExplanation:  { fontFamily: F.regular, fontSize: 12, color: C.textMuted, lineHeight: 17 },
 });
 
 const ms = StyleSheet.create({
-  wrapper:          { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  header:           { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.borderLight },
+  wrapper:          { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  header:           { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.lightGray },
   headerIcon:       { fontSize: 28 },
-  headerLabel:      { fontSize: 10, fontWeight: '800', color: C.primary, letterSpacing: 1 },
-  headerTitle:      { fontSize: 15, fontWeight: '700', color: C.neutral1 },
-  counter:          { fontSize: 13, fontWeight: '700', color: C.neutral3 },
+  headerLabel:      { fontSize: 10, fontFamily: F.extraBold, letterSpacing: 1 },
+  headerTitle:      { fontSize: 15, fontFamily: F.bold, color: C.textPrimary },
+  counter:          { fontSize: 13, fontFamily: F.bold, color: C.textMuted },
   progressTrack:    { flexDirection: 'row', gap: 4, marginBottom: 16 },
   progressSegment:  { flex: 1, height: 4, borderRadius: 2, backgroundColor: C.border },
-  progressDone:     { backgroundColor: C.success },
-  progressActive:   { backgroundColor: C.primary },
-  conceptPill:      { alignSelf: 'flex-start', backgroundColor: C.primaryLight, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4, marginBottom: 10 },
-  conceptText:      { fontSize: 11, fontWeight: '800', color: C.primary, letterSpacing: 0.3 },
-  question:         { fontSize: 15, fontWeight: '600', color: C.neutral1, lineHeight: 22, marginBottom: 14 },
-  option:           { flexDirection: 'row', alignItems: 'center', backgroundColor: C.cardBg, borderRadius: 12, padding: 14, marginBottom: 8, gap: 12, borderWidth: 1.5, borderColor: C.border },
-  optionSelected:   { borderColor: C.primary, backgroundColor: C.primaryLight },
-  optionCorrect:    { borderColor: C.success, backgroundColor: C.successLight },
+  progressDone:     { backgroundColor: C.successDark },
+  progressActive:   {},
+  conceptPill:      { alignSelf: 'flex-start', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4, marginBottom: 10 },
+  conceptText:      { fontSize: 11, fontFamily: F.extraBold, letterSpacing: 0.3 },
+  question:         { fontSize: 15, fontFamily: F.semiBold, color: C.textPrimary, lineHeight: 22, marginBottom: 14 },
+  option:           { flexDirection: 'row', alignItems: 'center', backgroundColor: C.white, borderRadius: 12, padding: 14, marginBottom: 8, gap: 12, borderWidth: 1, borderColor: C.border },
+  optionSelected:   {},
+  optionCorrect:    { borderColor: C.successDark, backgroundColor: C.successLight },
   optionWrong:      { borderColor: C.danger, backgroundColor: C.dangerLight },
   optionDot:        { width: 28, height: 28, borderRadius: 14, backgroundColor: C.border, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
-  optionDotText:    { fontSize: 13, fontWeight: '700', color: C.neutral2 },
-  optionText:       { fontSize: 14, color: C.neutral2, lineHeight: 20 },
-  optionTextCorrect:{ color: C.successDark, fontWeight: '600' },
-  tick:             { fontSize: 16, color: C.success },
+  optionDotText:    { fontSize: 13, fontFamily: F.bold, color: C.textSecondary },
+  optionText:       { fontFamily: F.regular, fontSize: 14, color: C.textSecondary, lineHeight: 20 },
+  optionTextCorrect:{ color: C.successDark, fontFamily: F.semiBold },
+  tick:             { fontSize: 16, color: C.successDark },
   cross:            { fontSize: 16, color: C.danger },
-  submitBtn:        { backgroundColor: C.primary, borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 4 },
-  submitBtnDisabled:{ backgroundColor: C.primaryMid },
-  submitBtnText:    { color: C.white, fontSize: 15, fontWeight: '700' },
+  submitBtn:        { borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 4 },
+  submitBtnDisabled:{ opacity: 0.4 },
+  submitBtnText:    { color: C.white, fontSize: 15, fontFamily: F.bold },
   feedback:         { borderRadius: 12, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8, marginBottom: 6 },
   feedbackCorrect:  { backgroundColor: C.successLight },
   feedbackWrong:    { backgroundColor: C.dangerLight },
   feedbackIcon:     { fontSize: 18 },
-  feedbackText:     { fontSize: 14, fontWeight: '700', color: C.neutral2 },
-  explanation:      { fontSize: 13, color: C.neutral3, lineHeight: 20, marginBottom: 10, fontStyle: 'italic' },
-  nextBtn:          { backgroundColor: C.primary, borderRadius: 12, padding: 14, alignItems: 'center' },
-  nextBtnText:      { color: C.white, fontSize: 15, fontWeight: '700' },
+  feedbackText:     { fontSize: 14, fontFamily: F.bold, color: C.textSecondary },
+  explanation:      { fontFamily: F.regular, fontSize: 13, color: C.textMuted, lineHeight: 20, marginBottom: 10, fontStyle: 'italic' },
+  nextBtn:          { borderRadius: 12, padding: 14, alignItems: 'center' },
+  nextBtnText:      { color: C.white, fontSize: 15, fontFamily: F.bold },
   scoreScreen:      { alignItems: 'center', paddingVertical: 8 },
-  scoreBig:         { fontSize: 52, fontWeight: '900', color: C.primary, lineHeight: 60 },
+  scoreBig:         { fontSize: 52, fontFamily: F.extraBold, lineHeight: 60 },
   scoreEmoji:       { fontSize: 36, marginBottom: 10 },
-  scoreMsg:         { fontSize: 15, color: C.neutral2, textAlign: 'center', lineHeight: 22, marginBottom: 20 },
+  scoreMsg:         { fontFamily: F.regular, fontSize: 15, color: C.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 20 },
   scoreSummary:     { width: '100%', gap: 8, marginBottom: 20 },
-  scoreSummaryRow:  { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: C.cardBg, borderRadius: 10, padding: 12 },
-  scoreSummaryDot:  { fontSize: 16, fontWeight: '800' },
-  scoreSummaryText: { fontSize: 14, color: C.neutral2, fontWeight: '500' },
-  retryBtn:         { backgroundColor: C.borderLight, borderRadius: 12, padding: 14, alignItems: 'center', width: '100%' },
-  retryBtnText:     { color: C.neutral2, fontSize: 14, fontWeight: '600' },
+  scoreSummaryRow:  { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: C.lightGray, borderRadius: 10, padding: 12 },
+  scoreSummaryDot:  { fontSize: 16, fontFamily: F.extraBold },
+  scoreSummaryText: { fontSize: 14, color: C.textSecondary, fontFamily: F.medium },
+  retryBtn:         { backgroundColor: C.lightGray, borderRadius: 12, padding: 14, alignItems: 'center', width: '100%' },
+  retryBtnText:     { color: C.textSecondary, fontSize: 14, fontFamily: F.semiBold },
 });
 
 const sj = StyleSheet.create({
-  wrapper:          { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  header:           { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.borderLight },
+  wrapper:          { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: C.primaryLight, shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
+  header:           { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.lightGray },
   headerIcon:       { fontSize: 28 },
-  headerLabel:      { fontSize: 10, fontWeight: '800', color: C.primary, letterSpacing: 1 },
-  headerTitle:      { fontSize: 15, fontWeight: '700', color: C.neutral1 },
-  counter:          { fontSize: 13, fontWeight: '700', color: C.neutral3 },
+  headerLabel:      { fontSize: 10, fontFamily: F.extraBold, color: C.primary, letterSpacing: 1 },
+  headerTitle:      { fontSize: 15, fontFamily: F.bold, color: C.textPrimary },
+  counter:          { fontSize: 13, fontFamily: F.bold, color: C.textMuted },
   progressTrack:    { flexDirection: 'row', gap: 4, marginBottom: 12 },
   progressSegment:  { flex: 1, height: 4, borderRadius: 2, backgroundColor: C.border },
-  progressDone:     { backgroundColor: C.success },
+  progressDone:     { backgroundColor: C.successDark },
   progressActive:   { backgroundColor: C.primary },
-  instruction:      { fontSize: 13, color: C.neutral3, marginBottom: 10, textAlign: 'center' },
+  instruction:      { fontFamily: F.regular, fontSize: 13, color: C.textMuted, marginBottom: 10, textAlign: 'center' },
   swipeHints:       { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6, paddingHorizontal: 4 },
-  hintLeft:         { fontSize: 12, fontWeight: '700', color: C.danger, opacity: 0.5 },
-  hintRight:        { fontSize: 12, fontWeight: '700', color: C.success, opacity: 0.5 },
+  hintLeft:         { fontSize: 12, fontFamily: F.bold, color: C.danger, opacity: 0.5 },
+  hintRight:        { fontSize: 12, fontFamily: F.bold, color: C.successDark, opacity: 0.5 },
   cardStack:        { position: 'relative', alignItems: 'center', marginBottom: 16 },
-  card:             { position: 'absolute', top: 0, left: 0, borderRadius: 16, padding: 20, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 4, justifyContent: 'center', height: 150 },
-  cardBehind:       { top: 8, transform: [{ scale: 0.96 }], backgroundColor: '#F5F6FF', borderColor: C.primaryMid, shadowOpacity: 0.04, elevation: 1 },
-  cardText:         { fontSize: 15, fontWeight: '600', color: C.neutral1, lineHeight: 24, textAlign: 'center' },
-  cardTip:          { fontSize: 12, color: C.neutral4, marginTop: 8, textAlign: 'center', fontStyle: 'italic' },
+  card:             { position: 'absolute', top: 0, left: 0, borderRadius: 16, padding: 20, borderWidth: 1.5, borderColor: C.primaryLight, shadowColor: C.primary, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 4, justifyContent: 'center', height: 150 },
+  cardBehind:       { top: 8, transform: [{ scale: 0.96 }], backgroundColor: C.surface, borderColor: C.primaryLight, shadowOpacity: 0.04, elevation: 1 },
+  cardText:         { fontSize: 15, fontFamily: F.semiBold, color: C.textPrimary, lineHeight: 24, textAlign: 'center' },
+  cardTip:          { fontFamily: F.regular, fontSize: 12, color: C.midGray, marginTop: 8, textAlign: 'center', fontStyle: 'italic' },
   btnRow:           { flexDirection: 'row', gap: 10 },
   btnLeft:          { flex: 1, backgroundColor: C.dangerLight, borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: C.dangerMid },
-  btnLeftText:      { fontSize: 14, fontWeight: '700', color: C.danger },
-  btnRight:         { flex: 1, backgroundColor: '#F0FDF4', borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: C.successMid },
-  btnRightText:     { fontSize: 14, fontWeight: '700', color: C.success },
+  btnLeftText:      { fontSize: 14, fontFamily: F.bold, color: C.danger },
+  btnRight:         { flex: 1, backgroundColor: C.successLight, borderRadius: 12, padding: 14, alignItems: 'center', borderWidth: 1.5, borderColor: C.success },
+  btnRightText:     { fontSize: 14, fontFamily: F.bold, color: C.successDark },
   scoreScreen:      { alignItems: 'center', paddingVertical: 8 },
-  scoreBig:         { fontSize: 52, fontWeight: '900', color: C.primary, lineHeight: 60 },
+  scoreBig:         { fontSize: 52, fontFamily: F.extraBold, color: C.primary, lineHeight: 60 },
   scoreEmoji:       { fontSize: 36, marginBottom: 10 },
-  scoreMsg:         { fontSize: 15, color: C.neutral2, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
+  scoreMsg:         { fontFamily: F.regular, fontSize: 15, color: C.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 16 },
   resultsList:      { width: '100%', gap: 8, marginBottom: 16 },
   resultRow:        { flexDirection: 'row', alignItems: 'flex-start', gap: 10, borderRadius: 12, padding: 12, borderWidth: 1.5 },
-  resultCorrect:    { backgroundColor: '#F0FDF4', borderColor: C.successMid },
+  resultCorrect:    { backgroundColor: C.successLight, borderColor: C.success },
   resultWrong:      { backgroundColor: C.dangerLight, borderColor: C.dangerMid },
-  resultIcon:       { fontSize: 16, fontWeight: '800', marginTop: 2 },
-  resultStatement:  { fontSize: 13, fontWeight: '600', color: C.neutral1, marginBottom: 3 },
-  resultExplanation:{ fontSize: 12, color: C.neutral3, lineHeight: 17 },
+  resultIcon:       { fontSize: 16, fontFamily: F.extraBold, marginTop: 2 },
+  resultStatement:  { fontSize: 13, fontFamily: F.semiBold, color: C.textPrimary, marginBottom: 3 },
+  resultExplanation:{ fontFamily: F.regular, fontSize: 12, color: C.textMuted, lineHeight: 17 },
   smartBadge:       { borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, alignSelf: 'flex-start', flexShrink: 0 },
   smartBadgeYes:    { backgroundColor: C.successLight },
   smartBadgeNo:     { backgroundColor: C.dangerLight },
-  smartBadgeText:   { fontSize: 10, fontWeight: '800', color: C.neutral2 },
-  retryBtn:         { backgroundColor: C.borderLight, borderRadius: 12, padding: 14, alignItems: 'center', width: '100%' },
-  retryBtnText:     { color: C.neutral2, fontSize: 14, fontWeight: '600' },
+  smartBadgeText:   { fontSize: 10, fontFamily: F.extraBold, color: C.textSecondary },
+  retryBtn:         { backgroundColor: C.lightGray, borderRadius: 12, padding: 14, alignItems: 'center', width: '100%' },
+  retryBtnText:     { color: C.textSecondary, fontSize: 14, fontFamily: F.semiBold },
 });
 
 const ex = StyleSheet.create({
-  wrapper:          { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1.5, borderColor: '#E0E7FF', shadowColor: C.primary, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 8, elevation: 2 },
-  header:           { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.borderLight },
+  wrapper: { backgroundColor: C.white, borderRadius: 16, padding: 16, marginBottom: 16, borderWidth: 1, borderColor: C.border, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.04, shadowRadius: 4, elevation: 1 },
+  header:           { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: C.lightGray },
   headerIcon:       { fontSize: 28 },
-  headerLabel:      { fontSize: 10, fontWeight: '800', color: C.primary, letterSpacing: 1 },
-  headerTitle:      { fontSize: 15, fontWeight: '700', color: C.neutral1 },
-  question:         { fontSize: 15, fontWeight: '600', color: C.neutral1, lineHeight: 22, marginBottom: 14 },
-  option:           { flexDirection: 'row', alignItems: 'center', backgroundColor: C.cardBg, borderRadius: 12, padding: 14, marginBottom: 8, gap: 12, borderWidth: 1.5, borderColor: C.border },
-  optionSelected:   { borderColor: C.primary, backgroundColor: C.primaryLight },
-  optionCorrect:    { borderColor: C.success, backgroundColor: C.successLight },
+  headerTitle:      { fontSize: 15, fontFamily: F.bold, color: C.textPrimary },
+  question:         { fontSize: 15, fontFamily: F.semiBold, color: C.textPrimary, lineHeight: 22, marginBottom: 14 },
+  option:           { flexDirection: 'row', alignItems: 'center', backgroundColor: C.lightGray, borderRadius: 12, padding: 14, marginBottom: 8, gap: 12, borderWidth: 1.5, borderColor: C.border },
+  optionCorrect:    { borderColor: C.successDark, backgroundColor: C.successLight },
   optionWrong:      { borderColor: C.danger, backgroundColor: C.dangerLight },
   optionDot:        { width: 28, height: 28, borderRadius: 14, backgroundColor: C.border, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
-  optionDotText:    { fontSize: 13, fontWeight: '700', color: C.neutral2 },
-  optionText:       { fontSize: 14, color: C.neutral2, lineHeight: 20 },
-  optionTextCorrect:{ color: C.successDark, fontWeight: '600' },
-  tick:             { fontSize: 16, color: C.success },
+  optionDotText:    { fontSize: 13, fontFamily: F.bold, color: C.textSecondary },
+  optionText:       { fontFamily: F.regular, fontSize: 14, color: C.textSecondary, lineHeight: 20 },
+  optionTextCorrect:{ color: C.successDark, fontFamily: F.semiBold },
+  tick:             { fontSize: 16, color: C.successDark },
   cross:            { fontSize: 16, color: C.danger },
-  submitBtn:        { backgroundColor: C.primary, borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 4 },
-  submitBtnDisabled:{ backgroundColor: C.primaryMid },
-  submitBtnText:    { color: C.white, fontSize: 15, fontWeight: '700' },
-  retryBtn:         { backgroundColor: C.borderLight, borderRadius: 12, padding: 12, alignItems: 'center', marginTop: 8 },
-  retryBtnText:     { color: C.neutral2, fontSize: 14, fontWeight: '600' },
+  submitBtnText:    { color: C.white, fontSize: 15, fontFamily: F.bold },
+  retryBtn:         { backgroundColor: C.lightGray, borderRadius: 12, padding: 12, alignItems: 'center', marginTop: 8 },
+  retryBtnText:     { color: C.textSecondary, fontSize: 14, fontFamily: F.semiBold },
   result:           { borderRadius: 12, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 8, marginBottom: 8 },
   resultCorrect:    { backgroundColor: C.successLight },
   resultWrong:      { backgroundColor: C.dangerLight },
   resultIcon:       { fontSize: 20 },
-  resultText:       { flex: 1, fontSize: 14, fontWeight: '600', color: C.neutral2, lineHeight: 20 },
-  explanation:      { fontSize: 13, color: C.neutral3, lineHeight: 20, marginTop: 4, marginBottom: 4, fontStyle: 'italic' },
+  resultText:       { flex: 1, fontSize: 14, fontFamily: F.semiBold, color: C.textSecondary, lineHeight: 20 },
+  explanation:      { fontFamily: F.regular, fontSize: 13, color: C.textMuted, lineHeight: 20, marginTop: 4, marginBottom: 4, fontStyle: 'italic' },
   sliderValueRow:   { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  sliderValueLabel: { fontSize: 14, color: C.neutral3 },
-  sliderValue:      { fontSize: 22, fontWeight: '800', color: C.primary },
+  sliderValueLabel: { fontSize: 14, color: C.textMuted },
   slider:           { width: '100%', height: 40 },
   sliderMinMax:     { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 },
-  sliderMinMaxText: { fontSize: 12, color: C.neutral4 },
+  sliderMinMaxText: { fontFamily: F.regular, fontSize: 12, color: C.midGray },
   sliderResult:     { gap: 8 },
-  sliderResultRow:  { flexDirection: 'column', borderRadius: 10, padding: 12, borderLeftWidth: 4 },
-  sliderResultLabel:{ fontSize: 13, color: C.neutral2, fontWeight: '500', lineHeight: 19, marginBottom: 6 },
-  sliderResultValue:{ fontSize: 20, fontWeight: '800' },
+  sliderResultRow: { borderRadius: 12, padding: 12, backgroundColor: C.lightGray, borderLeftWidth: 0 },
+  sliderResultLabel:{ fontSize: 13, color: C.textSecondary, fontFamily: F.medium, lineHeight: 19, marginBottom: 6 },
+  sliderResultValue:{ fontSize: 20, fontFamily: F.extraBold },
+  headerLabel:      { fontSize: 10, fontFamily: F.extraBold, letterSpacing: 1 },
+  optionSelected:   {},
+  submitBtn:        { borderRadius: 12, padding: 14, alignItems: 'center', marginTop: 4 },
+  submitBtnDisabled:{ opacity: 0.4 },
+  sliderValue:      { fontSize: 22, fontFamily: F.extraBold },
 });

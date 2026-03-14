@@ -12,6 +12,7 @@
 // { type: 'slider', icon, title, description, min, max, step, initialValue, prefix, calculateResult }
 // { type: 'match', icon, title, instruction, pairs: [{left, right}] }
 // { type: 'fillblank', icon, title, prompt, blanks: [{placeholder, answer}], hint }
+import { MODULE_COLORS, Colors as C } from './theme';
 
 export const MODULES = [
   // ═══════════════════════════════════════════
@@ -22,8 +23,8 @@ export const MODULES = [
     title: 'Money Foundations',
     description: 'Build the mindset and habits that make everything else possible',
     icon: '🌱',
-    color: '#4F46E5',
-    colorLight: '#EEF2FF',
+    ...MODULE_COLORS['module-1'],
+    ...MODULE_COLORS['module-1'],
     chapters: [
 
       // ─── CHAPTER 1: Understanding Money & Mindset ───
@@ -176,7 +177,7 @@ export const MODULES = [
                         icon: '💰',
                         label: 'Budgeting & Saving',
                         description: 'Financially literate individuals are significantly more likely to build savings and emergency funds.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                             'People with higher financial literacy are more likely to have 3–6 months of expenses saved as an emergency fund.',
                             'They are better at tracking spending and identifying where money is being lost to unnecessary costs.',
@@ -189,7 +190,7 @@ export const MODULES = [
                         icon: '💳',
                         label: 'Debt Management',
                         description: 'Low financial literacy is one of the strongest predictors of problematic debt accumulation.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                             'Individuals with low financial literacy are more likely to carry high-interest credit card balances without understanding the true cost.',
                             'They are more vulnerable to predatory lending — buy-now-pay-later schemes, personal loans with high effective interest rates, and credit rollovers.',
@@ -202,7 +203,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Investing & Wealth',
                         description: 'Financial literacy is the strongest individual predictor of long-term wealth accumulation.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                             'Financially literate individuals are significantly more likely to participate in stock markets and retirement savings schemes.',
                             'They start investing earlier — and because of compounding, earlier investing has a disproportionate impact on final wealth.',
@@ -328,7 +329,7 @@ export const MODULES = [
                         icon: '①',
                         label: 'Compound Interest',
                         sublabel: 'Does money grow faster over time?',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Savings accounts', 'Investment returns', 'Loan interest'],
                         details: [
                             'Compound interest means earning returns not just on the original principal, but on all previously earned returns as well.',
@@ -342,7 +343,7 @@ export const MODULES = [
                         icon: '②',
                         label: 'Inflation',
                         sublabel: 'Does money lose value over time?',
-                        color: '#F59E0B',
+                        color: C.primary,
                         examples: ['Rising grocery prices', 'Increasing rent', 'Falling purchasing power'],
                         details: [
                             'Inflation is the rate at which the general price level rises — meaning the same amount of money buys less over time.',
@@ -356,7 +357,7 @@ export const MODULES = [
                         icon: '③',
                         label: 'Risk Diversification',
                         sublabel: 'Does spreading investments reduce risk?',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Stocks + bonds', 'ETFs across sectors', 'Multiple asset classes'],
                         details: [
                             'Diversification means spreading investments across different assets so that the failure of any single one does not devastate the entire portfolio.',
@@ -599,7 +600,7 @@ export const MODULES = [
                         icon: '🎯',
                         label: 'Present Bias',
                         description: 'Valuing immediate rewards far more than future ones — even when the future reward is objectively better.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'We instinctively prefer $100 today over $200 next year — even though waiting doubles the money.',
                           'Present bias makes saving feel pointless and spending feel urgent.',
@@ -611,7 +612,7 @@ export const MODULES = [
                         icon: '😨',
                         label: 'Loss Aversion',
                         description: 'The pain of losing money feels roughly twice as strong as the pleasure of gaining the same amount.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'Losing $100 feels about twice as bad as gaining $100 feels good.',
                           'This leads to panic selling during market dips and holding bad investments too long.',
@@ -623,7 +624,7 @@ export const MODULES = [
                         icon: '🐑',
                         label: 'Herd Mentality',
                         description: 'Making financial decisions based on what others are doing rather than independent analysis.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'We assume that if everyone is doing something financially, it must be the right move.',
                           'This leads to buying assets at peak prices because "everyone is making money".',
@@ -635,7 +636,7 @@ export const MODULES = [
                         icon: '💳',
                         label: 'Payment Decoupling',
                         description: 'Digital payments feel less real than cash, making overspending significantly easier.',
-                        color: '#7C3AED',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'When payment is separated from spending by time or abstraction, the "pain of paying" is reduced.',
                           'Spending $400 on a card feels less painful than handing over $400 in cash.',
@@ -760,7 +761,7 @@ export const MODULES = [
                         icon: '🔔',
                         label: 'Cue',
                         sublabel: 'The trigger',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Salary credit alert', 'Calendar reminder', 'App notification'],
                         details: [
                           'Link saving to an existing, automatic trigger — a salary credit notification is ideal.',
@@ -772,7 +773,7 @@ export const MODULES = [
                         icon: '⚙️',
                         label: 'Routine',
                         sublabel: 'The behaviour',
-                        color: '#F59E0B',
+                        color: C.primary,
                         examples: ['Instant bank transfer', 'GIRO instruction', 'Auto-debit'],
                         details: [
                           'Keep the routine as simple and frictionless as possible — a single transfer takes under 10 seconds.',
@@ -784,7 +785,7 @@ export const MODULES = [
                         icon: '🎁',
                         label: 'Reward',
                         sublabel: 'What makes it stick',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Savings balance grows', 'Milestone reached', 'Progress tracker'],
                         details: [
                           'Track your savings balance visually — watching the number grow is a powerful intrinsic reward.',
@@ -946,7 +947,7 @@ export const MODULES = [
                         icon: '🎯',
                         label: 'Direction',
                         description: 'Goals tell you where to point your money — without them, spending fills every available space.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'A goal creates a filter for spending decisions — "does this bring me closer to or further from my goal?"',
                           'Without direction, money disappears into small, unmemorable purchases that never add up to anything meaningful.',
@@ -957,7 +958,7 @@ export const MODULES = [
                         icon: '📊',
                         label: 'Measurement',
                         description: 'Goals make progress visible — and visible progress is one of the most powerful motivators.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Tracking a savings balance toward a specific target creates momentum — each contribution feels meaningful.',
                           'Without a measurable goal, saving feels abstract and its absence is easy to justify.',
@@ -968,7 +969,7 @@ export const MODULES = [
                         icon: '⚡',
                         label: 'Prioritisation',
                         description: 'Goals force you to rank competing uses of money — building the decision-making muscle.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Money is finite. Goals force explicit trade-offs between competing wants and needs.',
                           'The habit of prioritising financial goals over impulse spending is one of the strongest predictors of long-term wealth.',
@@ -1137,7 +1138,7 @@ export const MODULES = [
                         icon: '🛡️',
                         label: 'Emergency Fund',
                         description: 'The most important financial goal for any student — before investing, before anything else.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'An emergency fund covers 3–6 months of expenses — for students in Singapore, that\'s roughly $3,000–$6,000.',
                           'It prevents a single unexpected expense (medical, broken laptop, flight home) from creating credit card debt.',
@@ -1149,7 +1150,7 @@ export const MODULES = [
                         icon: '💳',
                         label: 'Zero Credit Card Debt',
                         description: 'Credit cards in Singapore charge up to 26.9% p.a. — clearing debt before saving or investing is always the right move.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'At 26.9% p.a., a $2,000 credit card balance costs $538 in interest per year — more than most savings accounts earn.',
                           'Always pay the full balance monthly. If you already have a balance, clearing it is your highest-priority financial goal.',
@@ -1161,7 +1162,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Start Investing Early',
                         description: 'Starting at 22 versus 32 can nearly double your retirement wealth — due to compounding.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Singapore has accessible investment options for students — robo-advisors like Syfe and StashAway require as little as $1 to start.',
                           'A regular savings plan (RSP) investing $100–$200/month into a diversified ETF builds the habit before the salary.',
@@ -1173,7 +1174,7 @@ export const MODULES = [
                         icon: '🎓',
                         label: 'Understand CPF Before Working',
                         description: 'As an international student, you don\'t contribute to CPF now — but you will the moment you start working in Singapore.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'CPF contributions begin from your first paycheck — understanding the system before you start means you can optimise from day one.',
                           'CPF OA, SA, and MA accounts have different interest rates and uses — knowing the difference is a significant financial advantage.',
@@ -1750,7 +1751,7 @@ export const MODULES = [
                         label: 'Needs',
                         icon: '🏠',
                         percentage: 50,
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         amount: '$750',
                         description: 'Rent, groceries, transport, phone bill, tuition fees. These are non-negotiable essentials — if this exceeds 50%, reduce Wants first.',
                       },
@@ -1758,7 +1759,7 @@ export const MODULES = [
                         label: 'Wants',
                         icon: '🎉',
                         percentage: 30,
-                        color: '#F59E0B',
+                        color: C.primary,
                         amount: '$450',
                         description: 'Dining out, streaming, travel, hobbies, Shopee. Enjoyable but cuttable — this is the first bucket to reduce when money is tight.',
                       },
@@ -1766,7 +1767,7 @@ export const MODULES = [
                         label: 'Savings',
                         icon: '💰',
                         percentage: 20,
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         amount: '$300',
                         description: 'Emergency fund, investments, loan repayments. Transfer this first on income day — never save "whatever is left over".',
                       },
@@ -2051,9 +2052,9 @@ export const MODULES = [
                     initialValue: 1500,
                     prefix: '$',
                     calculateResult: (income) => [
-                      { label: '🏠 Needs (50%)', value: `$${(income * 0.5).toLocaleString()}`, color: '#4F46E5' },
-                      { label: '🎉 Wants (30%)', value: `$${(income * 0.3).toLocaleString()}`, color: '#F59E0B' },
-                      { label: '💰 Savings (20%)', value: `$${(income * 0.2).toLocaleString()}`, color: '#059669' },
+                      { label: '🏠 Needs (50%)', value: `$${(income * 0.5).toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                      { label: '🎉 Wants (30%)', value: `$${(income * 0.3).toLocaleString()}`, color: C.primary },
+                      { label: '💰 Savings (20%)', value: `$${(income * 0.2).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
                     ],
                   },
                   {
@@ -2211,7 +2212,7 @@ export const MODULES = [
                         icon: '📥',
                         label: 'Income arrives',
                         sublabel: 'Start of the month',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Transfer your 20% savings immediately',
                           'Set your Needs and Wants ceilings for the month',
@@ -2222,7 +2223,7 @@ export const MODULES = [
                         icon: '📝',
                         label: 'Log transactions',
                         sublabel: 'Throughout the month',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Record each spend in your app or spreadsheet',
                           'Categorise as Need, Want, or Savings',
@@ -2233,7 +2234,7 @@ export const MODULES = [
                         icon: '🔍',
                         label: 'Weekly review',
                         sublabel: 'Every Sunday, 5 minutes',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Compare actual vs. planned spending per category',
                           'Identify the one category that went over',
@@ -2305,7 +2306,7 @@ export const MODULES = [
                         icon: '📊',
                         label: 'Spreadsheet',
                         description: 'Build your own tracking system in Google Sheets or Excel.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Fully customisable — your categories, your layout',
                           'Free and works offline',
@@ -2318,7 +2319,7 @@ export const MODULES = [
                         icon: '📱',
                         label: 'Tracking App',
                         description: 'Link your Singapore bank account for automatic transaction import.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Auto-pulls transactions from DBS, OCBC, UOB, Maybank',
                           'Categorises spending with minimal manual effort',
@@ -2331,7 +2332,7 @@ export const MODULES = [
                         icon: '✉️',
                         label: 'Cash Envelopes',
                         description: 'Divide physical cash into labelled envelopes for each category.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Creates a hard stop — when the envelope is empty, spending stops',
                           'The physical act of handing over cash reduces impulse spending',
@@ -2456,7 +2457,7 @@ export const MODULES = [
                       {
                         icon: '🇸🇬',
                         name: 'Seedly',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         tagline: 'Singapore\'s most popular personal finance app',
                         cost: 'Free',
                         rating: 4.5,
@@ -2467,7 +2468,7 @@ export const MODULES = [
                       {
                         icon: '📊',
                         name: 'Money Manager',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         tagline: 'Simple, offline, no account needed',
                         cost: 'Free (one-time $4.99 for Pro)',
                         rating: 4.3,
@@ -2478,7 +2479,7 @@ export const MODULES = [
                       {
                         icon: '🏦',
                         name: 'DBS NAV Planner',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         tagline: 'Built into your DBS app — zero setup',
                         cost: 'Free (DBS account required)',
                         rating: 4.1,
@@ -2489,7 +2490,7 @@ export const MODULES = [
                       {
                         icon: '📈',
                         name: 'Syfe',
-                        color: '#7C3AED',
+                        ...MODULE_COLORS['module-1'],
                         tagline: 'Track spending and investments in one place',
                         cost: 'Free (investing features separate)',
                         rating: 4.2,
@@ -2668,7 +2669,7 @@ export const MODULES = [
                   },
                   {
                     type: 'table',
-                    headers: ['✅ Real Emergency', '❌ Not an Emergency'],
+                    headers: ['Real Emergency', 'Not an Emergency'],
                     rows: [
                       ['Medical bill from an accident', 'Flight home for a holiday'],
                       ['Laptop breaks, needed for class', 'Laptop upgrade (old one still works)'],
@@ -2758,9 +2759,9 @@ export const MODULES = [
                     initialValue: 1200,
                     prefix: '$',
                     calculateResult: (expenses) => [
-                      { label: '🎯 Starter Fund (3 months)', value: `$${(expenses * 3).toLocaleString()}`, color: '#4F46E5' },
-                      { label: '✅ Full Fund (6 months)', value: `$${(expenses * 6).toLocaleString()}`, color: '#059669' },
-                      { label: '📅 At $200/month, starter fund in', value: `${Math.ceil((expenses * 3) / 200)} months`, color: '#F59E0B' },
+                      { label: '🎯 Starter Fund (3 months)', value: `$${(expenses * 3).toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                      { label: '✅ Full Fund (6 months)', value: `$${(expenses * 6).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                      { label: '📅 At $200/month, starter fund in', value: `${Math.ceil((expenses * 3) / 200)} months`, color: C.primary },
                     ],
                   },
                   {
@@ -2778,7 +2779,7 @@ export const MODULES = [
                         icon: '🏦',
                         label: 'High-Yield Savings Account',
                         description: 'OCBC 360 or UOB One — earn 2–4% while keeping funds fully liquid.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Withdrawable any time — no lock-in period',
                           'Interest rates up to 4% p.a. with qualifying conditions',
@@ -2790,7 +2791,7 @@ export const MODULES = [
                         icon: '📜',
                         label: 'Singapore Savings Bond (SSB)',
                         description: 'Government-backed, redeemable any month, earns above-average interest.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Backed by the Singapore government — zero default risk',
                           'Redeem any month with no penalty — 1 month notice needed',
@@ -2802,7 +2803,7 @@ export const MODULES = [
                         icon: '⚠️',
                         label: 'Standard Savings Account (Avoid)',
                         description: 'Typical DBS/OCBC savings accounts earn only 0.05% — your money loses value to inflation.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Interest rate: 0.05% p.a. — almost nothing',
                           'Fine for daily transactions, terrible for storing savings',
@@ -2847,7 +2848,7 @@ export const MODULES = [
                         icon: '💥',
                         label: 'Crisis hits',
                         sublabel: 'Unexpected expense appears',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'Medical bill, broken laptop, sudden job loss',
                           'You need $500–$2,000 immediately',
@@ -2859,7 +2860,7 @@ export const MODULES = [
                         icon: '💳',
                         label: 'Bad options only',
                         sublabel: 'You scramble for cash',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Credit card debt at 26.9% annual interest',
                           'Borrowing from family or friends — stressful for relationships',
@@ -2871,7 +2872,7 @@ export const MODULES = [
                         icon: '📉',
                         label: 'Knock-on damage',
                         sublabel: 'The crisis compounds',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Financial anxiety affects sleep and academic performance',
                           'Debt repayment disrupts your monthly budget for months',
@@ -3180,7 +3181,7 @@ export const MODULES = [
                         icon: '1️⃣',
                         label: 'Pay Yourself First',
                         sublabel: 'Most effective',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Salary day transfer', 'Auto-debit setup'],
                         details: [
                           'On income day, move your savings target immediately — before groceries, GrabFood, or anything else.',
@@ -3193,7 +3194,7 @@ export const MODULES = [
                         icon: '2️⃣',
                         label: 'Round-Up Savings',
                         sublabel: 'No willpower needed',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['Kopi at $4.60 → $0.40 saved', 'App-based rounding'],
                         details: [
                           'Apps round up every purchase to the nearest dollar and move the difference to savings automatically.',
@@ -3206,7 +3207,7 @@ export const MODULES = [
                         icon: '3️⃣',
                         label: 'Windfall Saving',
                         sublabel: 'Accelerate your fund',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Ang bao money', 'Part-time bonuses', 'Tax refunds'],
                         details: [
                           'Save 100% of unexpected money before it gets absorbed into daily spending.',
@@ -3339,7 +3340,7 @@ export const MODULES = [
                       {
                         icon: '🏦',
                         name: 'OCBC 360 Account',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         tagline: 'Highest potential interest for working adults',
                         cost: 'Free to open',
                         rating: 4.5,
@@ -3372,7 +3373,7 @@ export const MODULES = [
                       {
                         icon: '📜',
                         name: 'Singapore Savings Bond',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         tagline: 'Government-backed, flexible, risk-free',
                         cost: 'Min. $500 to invest',
                         rating: 4.4,
@@ -3565,7 +3566,7 @@ export const MODULES = [
                         icon: '⚡',
                         label: 'Short-term (< 1 year)',
                         sublabel: 'High-yield savings account',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Laptop', 'Holiday', 'Semester fees'],
                         details: [
                           'Keep it accessible and risk-free — you need this money soon',
@@ -3578,7 +3579,7 @@ export const MODULES = [
                         icon: '📅',
                         label: 'Medium-term (1–5 years)',
                         sublabel: 'SSB or Fixed Deposit',
-                        color: '#F59E0B',
+                        color: C.primary,
                         examples: ['Postgrad fees', 'Car', 'Wedding fund'],
                         details: [
                           'You can afford slightly less liquidity in exchange for better returns',
@@ -3591,7 +3592,7 @@ export const MODULES = [
                         icon: '🌱',
                         label: 'Long-term (5+ years)',
                         sublabel: 'Investments',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['House downpayment', 'Retirement', 'Financial freedom'],
                         details: [
                           'Long time horizons absorb market volatility — invest for significantly higher returns',
@@ -3666,7 +3667,7 @@ export const MODULES = [
                         icon: '🛡️',
                         label: 'Bucket 1 — Emergency Fund',
                         description: '3–6 months of expenses. Fill this first before all other buckets.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'This is your financial safety net — non-negotiable foundation',
                           'Target: 3 months expenses minimum, 6 months ideal',
@@ -3680,7 +3681,7 @@ export const MODULES = [
                         icon: '🎯',
                         label: 'Bucket 2 — Goal Fund',
                         description: 'Named after a specific goal — e.g. "Japan 2025" or "MacBook Fund".',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'One account (or sub-account) per goal — name it after the goal',
                           'Calculate: total needed ÷ months remaining = monthly transfer amount',
@@ -3693,7 +3694,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Bucket 3 — Investment Fund',
                         description: 'Long-term wealth building — only money you won\'t need for 5+ years.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Start with a robo-advisor (Syfe, StashAway) — low minimums, auto-diversified',
                           'STI ETF or global index funds (e.g. VWRA) for DIY investors',
@@ -3706,7 +3707,7 @@ export const MODULES = [
                         icon: '🎉',
                         label: 'Bucket 4 — Fun Fund',
                         description: 'Guilt-free spending money — optional but surprisingly powerful.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'A dedicated fun budget removes guilt from enjoying your money',
                           'When it\'s empty, you stop — no guilt, no overspending, no shame',
@@ -4025,8 +4026,8 @@ export const MODULES = [
       title: 'Banking & Cash Management',
       description: 'Master Singapore\'s banking system and make your money work harder',
       icon: '🏦',
-      color: '#0891B2',
-      colorLight: '#ECFEFF',
+      ...MODULE_COLORS['module-2'],
+      ...MODULE_COLORS['module-2'],
       chapters: [
         {
           id: 'chapter-4',
@@ -4084,7 +4085,7 @@ export const MODULES = [
                           icon: '🔴',
                           label: 'DBS',
                           sublabel: 'Largest bank in SEA',
-                          color: '#DC2626',
+                          ...MODULE_COLORS['module-4'],
                           examples: ['digibank app', 'PayLah!', 'DBS Multiplier'],
                           details: [
                             'Largest bank in Southeast Asia by assets.',
@@ -4234,10 +4235,10 @@ export const MODULES = [
                       initialValue: 2000,
                       prefix: '$',
                       calculateResult: (amount) => [
-                        { label: '🔴 DBS Multiplier (base 0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#DC2626' },
+                        { label: '🔴 DBS Multiplier (base 0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, ...MODULE_COLORS['module-4'] },
                         { label: '🟠 OCBC 360 (base 0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#EA580C' },
                         { label: '🔵 UOB One (with $500 spend + GIRO)', value: `$${(amount * 0.04).toFixed(2)}/yr`, color: '#1D4ED8' },
-                        { label: '🟢 GXS / Trust (base ~3%)', value: `$${(amount * 0.03).toFixed(2)}/yr`, color: '#059669' },
+                        { label: '🟢 GXS / Trust (base ~3%)', value: `$${(amount * 0.03).toFixed(2)}/yr`, ...MODULE_COLORS['module-3'] },
                       ],
                     },
                     {
@@ -4518,7 +4519,7 @@ export const MODULES = [
                           icon: '🟢',
                           label: 'GXS Bank',
                           sublabel: 'Grab + Singtel',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['GXS FlexiLoan', 'Up to 3.48% p.a.', 'Grab ecosystem'],
                           details: [
                             'Backed by Grab and Singtel — targets gig workers and underserved earners.',
@@ -4636,7 +4637,7 @@ export const MODULES = [
                           icon: '📱',
                           label: 'Digital Banks Win',
                           description: 'Lower friction, fewer fees, competitive base rates with no conditions.',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           details: [
                             'No minimum balance or fall-below fees — ideal for students with variable income',
                             'Competitive base interest rates without needing salary credit',
@@ -4649,7 +4650,7 @@ export const MODULES = [
                           icon: '🏦',
                           label: 'Traditional Banks Win',
                           description: 'Higher interest ceilings, ATM access, overseas transfers, and full product range.',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           details: [
                             'Island-wide ATM network — essential when you need cash',
                             'Higher bonus interest tiers (up to 4.65%) when you meet salary/spend conditions',
@@ -4960,7 +4961,7 @@ export const MODULES = [
                           icon: '⚡',
                           label: 'PayNow',
                           sublabel: 'Instant bank transfer',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           examples: ['Split bills', 'Pay friends', 'Receive allowance'],
                           details: [
                             'Links your mobile number or NRIC to your bank account — no account number needed.',
@@ -4973,7 +4974,7 @@ export const MODULES = [
                           icon: '📱',
                           label: 'SGQR',
                           sublabel: 'Scan to pay anywhere',
-                          color: '#0891B2',
+                          ...MODULE_COLORS['module-2'],
                           examples: ['Hawker centres', 'Retail shops', 'Campus canteens'],
                           details: [
                             'SGQR is Singapore\'s unified QR code standard — one QR code accepts payments from any app.',
@@ -4986,7 +4987,7 @@ export const MODULES = [
                           icon: '👛',
                           label: 'E-Wallets',
                           sublabel: 'App-based spending',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['GrabPay', 'FavePay', 'Shopee Pay'],
                           details: [
                             'E-wallets like GrabPay, FavePay, and Shopee Pay store a balance you top up from your bank.',
@@ -5428,7 +5429,7 @@ export const MODULES = [
                           icon: '⚡',
                           label: 'Bonus Interest',
                           sublabel: 'Unlocked by your actions',
-                          color: '#F59E0B',
+                          color: C.primary,
                           examples: ['Salary credit', 'Card spend', 'GIRO payments'],
                           details: [
                             'Bonus interest is added on top of the base rate when you meet specific monthly conditions.',
@@ -5441,7 +5442,7 @@ export const MODULES = [
                           icon: '🎯',
                           label: 'Effective Rate',
                           sublabel: 'What you actually earn',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['Base + all bonuses', 'Up to 7.65% p.a.', 'Applied to your balance'],
                           details: [
                             'Your effective rate is the sum of your base rate plus every bonus tier you qualify for.',
@@ -5590,11 +5591,11 @@ export const MODULES = [
                       initialValue: 5000,
                       prefix: '$',
                       calculateResult: (amount) => [
-                        { label: '🔴 Basic savings (0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#DC2626' },
+                        { label: '🔴 Basic savings (0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, ...MODULE_COLORS['module-4'] },
                         { label: '🟡 HYSA base only (0.05%)', value: `$${(amount * 0.0005).toFixed(2)}/yr`, color: '#D97706' },
                         { label: '🟠 HYSA + card spend only (~1.5%)', value: `$${(amount * 0.015).toFixed(2)}/yr`, color: '#EA580C' },
-                        { label: '🟢 HYSA + salary + card spend (~3%)', value: `$${(amount * 0.03).toFixed(2)}/yr`, color: '#059669' },
-                        { label: '💎 HYSA fully optimised (~4.5%)', value: `$${(amount * 0.045).toFixed(2)}/yr`, color: '#7C3AED' },
+                        { label: '🟢 HYSA + salary + card spend (~3%)', value: `$${(amount * 0.03).toFixed(2)}/yr`, ...MODULE_COLORS['module-3'] },
+                        { label: '💎 HYSA fully optimised (~4.5%)', value: `$${(amount * 0.045).toFixed(2)}/yr`, ...MODULE_COLORS['module-1'] },
                       ],
                     },
                     {
@@ -5839,7 +5840,7 @@ export const MODULES = [
                           icon: '🔴',
                           label: 'DBS Multiplier',
                           description: 'Rewards total transaction volume across DBS products',
-                          color: '#DC2626',
+                          ...MODULE_COLORS['module-4'],
                           details: [
                             'Interest scales with your total monthly transactions across DBS products — salary, card spend, insurance, investments, home loan',
                             'No fixed minimum spend — the more DBS products you use, the higher your rate',
@@ -6069,9 +6070,9 @@ export const MODULES = [
                       initialValue: 10000,
                       prefix: '$',
                       calculateResult: (balance) => [
-                        { label: '💰 Estimated annual interest', value: `$${(balance * 0.025).toFixed(0)}`, color: '#DC2626' },
-                        { label: '📅 Monthly earnings', value: `$${(balance * 0.025 / 12).toFixed(2)}`, color: '#4F46E5' },
-                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.025 - balance * 0.0005).toFixed(0)}/yr more`, color: '#059669' },
+                        { label: '💰 Estimated annual interest', value: `$${(balance * 0.025).toFixed(0)}`, ...MODULE_COLORS['module-4'] },
+                        { label: '📅 Monthly earnings', value: `$${(balance * 0.025 / 12).toFixed(2)}`, ...MODULE_COLORS['module-1'] },
+                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.025 - balance * 0.0005).toFixed(0)}/yr more`, ...MODULE_COLORS['module-3'] },
                       ],
                     },
                     {
@@ -6086,8 +6087,8 @@ export const MODULES = [
                       prefix: '$',
                       calculateResult: (balance) => [
                         { label: '💰 Estimated annual interest', value: `$${(balance * 0.03).toFixed(0)}`, color: '#EA580C' },
-                        { label: '📅 Monthly earnings', value: `$${(balance * 0.03 / 12).toFixed(2)}`, color: '#4F46E5' },
-                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/yr more`, color: '#059669' },
+                        { label: '📅 Monthly earnings', value: `$${(balance * 0.03 / 12).toFixed(2)}`, ...MODULE_COLORS['module-1'] },
+                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/yr more`, ...MODULE_COLORS['module-3'] },
                       ],
                     },
                     {
@@ -6102,8 +6103,8 @@ export const MODULES = [
                       prefix: '$',
                       calculateResult: (balance) => [
                         { label: '💰 Estimated annual interest', value: `$${(balance * 0.035).toFixed(0)}`, color: '#1D4ED8' },
-                        { label: '📅 Monthly earnings', value: `$${(balance * 0.035 / 12).toFixed(2)}`, color: '#4F46E5' },
-                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.035 - balance * 0.0005).toFixed(0)}/yr more`, color: '#059669' },
+                        { label: '📅 Monthly earnings', value: `$${(balance * 0.035 / 12).toFixed(2)}`, ...MODULE_COLORS['module-1'] },
+                        { label: '📈 vs basic account (0.05%)', value: `+$${(balance * 0.035 - balance * 0.0005).toFixed(0)}/yr more`, ...MODULE_COLORS['module-3'] },
                       ],
                     },
                     {
@@ -6276,7 +6277,7 @@ export const MODULES = [
                           icon: '💰',
                           label: 'Salary Credit',
                           sublabel: 'Biggest single lever',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           examples: ['Credit full salary to HYSA', 'Must be labelled as salary', 'Payroll GIRO only'],
                           details: [
                             'Salary credit is the single most valuable condition across all three HYSAs — unlocking 1–3% p.a. in bonus interest alone.',
@@ -6289,7 +6290,7 @@ export const MODULES = [
                           icon: '💳',
                           label: 'Spend Optimisation',
                           sublabel: 'Use the right card',
-                          color: '#0891B2',
+                          ...MODULE_COLORS['module-2'],
                           examples: ['$500/month minimum', 'Use linked bank card', 'Consolidate daily spend'],
                           details: [
                             'Card spend bonuses require you to spend a minimum amount — typically $500/month — on the bank\'s linked credit or debit card.',
@@ -6302,7 +6303,7 @@ export const MODULES = [
                           icon: '🔄',
                           label: 'GIRO Setup',
                           sublabel: 'Easiest wins',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['Phone bill', 'Utilities / SP Group', 'Insurance premium'],
                           details: [
                             'Most HYSAs require 3 GIRO payments per month — these are recurring automatic deductions from your account.',
@@ -6521,8 +6522,8 @@ export const MODULES = [
                       prefix: '$',
                       calculateResult: (balance) => [
                         { label: '😴 Basic account (0.05% p.a.)', value: `$${(balance * 0.0005).toFixed(0)}/year`, color: '#9CA3AF' },
-                        { label: '✅ Optimised HYSA (~3% p.a.)', value: `$${(balance * 0.03).toFixed(0)}/year`, color: '#059669' },
-                        { label: '💸 You\'re leaving on the table', value: `$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/year`, color: '#DC2626' },
+                        { label: '✅ Optimised HYSA (~3% p.a.)', value: `$${(balance * 0.03).toFixed(0)}/year`, ...MODULE_COLORS['module-3'] },
+                        { label: '💸 You\'re leaving on the table', value: `$${(balance * 0.03 - balance * 0.0005).toFixed(0)}/year`, ...MODULE_COLORS['module-4'] },
                       ],
                     },
                     {
@@ -6711,7 +6712,7 @@ export const MODULES = [
                           icon: '📈',
                           label: 'Step-Up Interest',
                           sublabel: 'Earn more each year',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           examples: ['Year 1: ~2.5% p.a.', 'Year 5: ~3.0% p.a.', 'Year 10: ~3.2% p.a.'],
                           details: [
                             'SSB interest increases every year you hold the bond — the longer you stay, the more you earn.',
@@ -6724,7 +6725,7 @@ export const MODULES = [
                           icon: '🛡️',
                           label: 'Capital Protection',
                           sublabel: 'Get back exactly what you put in',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['Zero default risk', 'Government-guaranteed', 'No market risk'],
                           details: [
                             'SSBs are backed by the full faith and credit of the Singapore government — your principal is 100% protected.',
@@ -6737,7 +6738,7 @@ export const MODULES = [
                           icon: '🔓',
                           label: 'Full Flexibility',
                           sublabel: 'Redeem any month, no penalty',
-                          color: '#F59E0B',
+                          color: C.primary,
                           examples: ['Redeem in any month', 'No lock-in period', 'No early redemption fee'],
                           details: [
                             'Unlike fixed deposits which lock up your money, SSBs can be redeemed in any month with no penalty.',
@@ -6906,7 +6907,7 @@ export const MODULES = [
                           icon: '✅',
                           label: 'SSBs Work Best When...',
                           description: 'You have a lump sum you don\'t need for at least 1–2 months',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           details: [
                             'You have savings above your emergency fund that are just sitting in a basic account',
                             'You want a safe, no-conditions alternative to an HYSA for excess savings',
@@ -7155,7 +7156,7 @@ export const MODULES = [
                           icon: '📅',
                           label: 'Choose Your Term',
                           sublabel: 'Longer = higher rate',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           examples: ['1 month', '3–6 months', '12–24 months'],
                           details: [
                             'FD terms typically range from 1 month to 36 months — the longer the term, the higher the rate offered.',
@@ -7168,7 +7169,7 @@ export const MODULES = [
                           icon: '🔒',
                           label: 'Lock In Your Rate',
                           sublabel: 'Guaranteed at placement',
-                          color: '#0891B2',
+                          ...MODULE_COLORS['module-2'],
                           examples: ['Rate fixed at placement', 'Immune to rate cuts', 'Miss rate rises'],
                           details: [
                             'Your interest rate is fixed at the time you place the deposit — market rate changes after that date do not affect your FD.',
@@ -7181,7 +7182,7 @@ export const MODULES = [
                           icon: '🏁',
                           label: 'Maturity',
                           sublabel: 'Auto-renew or withdraw',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['Auto-renewal default', 'Principal + interest paid', 'New rate applies'],
                           details: [
                             'At maturity, most banks automatically renew your FD at the prevailing rate unless you instruct otherwise.',
@@ -7279,9 +7280,9 @@ export const MODULES = [
                       initialValue: 10000,
                       prefix: '$',
                       calculateResult: (amount) => [
-                        { label: '3-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 3/12).toFixed(2)} interest`, color: '#4F46E5' },
-                        { label: '6-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 6/12).toFixed(2)} interest`, color: '#0891B2' },
-                        { label: '12-month FD (~3% p.a.)', value: `$${(amount * 0.03).toFixed(2)} interest`, color: '#059669' },
+                        { label: '3-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 3/12).toFixed(2)} interest`, ...MODULE_COLORS['module-1'] },
+                        { label: '6-month FD (~3% p.a.)', value: `$${(amount * 0.03 * 6/12).toFixed(2)} interest`, ...MODULE_COLORS['module-2'] },
+                        { label: '12-month FD (~3% p.a.)', value: `$${(amount * 0.03).toFixed(2)} interest`, ...MODULE_COLORS['module-3'] },
                       ],
                     },
                     {
@@ -7349,9 +7350,9 @@ export const MODULES = [
                       initialValue: 10000,
                       prefix: '$',
                       calculateResult: (amount) => [
-                        { label: '🔒 Fixed Deposit (~3% p.a.)', value: `$${(amount * 0.03).toFixed(0)}/yr`, color: '#4F46E5' },
-                        { label: '🇸🇬 SSB (~3% p.a. avg)', value: `$${(amount * 0.03).toFixed(0)}/yr`, color: '#059669' },
-                        { label: '✅ HYSA with conditions (~3.5% p.a.)', value: `$${(amount * 0.035).toFixed(0)}/yr`, color: '#0891B2' },
+                        { label: '🔒 Fixed Deposit (~3% p.a.)', value: `$${(amount * 0.03).toFixed(0)}/yr`, ...MODULE_COLORS['module-1'] },
+                        { label: '🇸🇬 SSB (~3% p.a. avg)', value: `$${(amount * 0.03).toFixed(0)}/yr`, ...MODULE_COLORS['module-3'] },
+                        { label: '✅ HYSA with conditions (~3.5% p.a.)', value: `$${(amount * 0.035).toFixed(0)}/yr`, ...MODULE_COLORS['module-2'] },
                         { label: '😴 HYSA without conditions (0.05%)', value: `$${(amount * 0.0005).toFixed(0)}/yr`, color: '#9CA3AF' },
                       ],
                     },
@@ -7366,7 +7367,7 @@ export const MODULES = [
                           icon: '🔒',
                           label: 'Fixed Deposit',
                           description: 'Best for committed lump sums with a known horizon',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           details: [
                             'Guaranteed rate locked in at placement — immune to rate cuts during the term',
                             'No conditions to meet — the rate is unconditional',
@@ -7378,7 +7379,7 @@ export const MODULES = [
                           icon: '🇸🇬',
                           label: 'Singapore Savings Bond',
                           description: 'Best for flexible lump sums without a fixed timeline',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           details: [
                             'Government-backed — zero default risk, higher guarantee than any bank deposit',
                             'Redeem any month with no penalty — flexibility without sacrificing safety',
@@ -7390,7 +7391,7 @@ export const MODULES = [
                           icon: '🏦',
                           label: 'HYSA',
                           description: 'Best for active savers who consistently meet conditions',
-                          color: '#0891B2',
+                          ...MODULE_COLORS['module-2'],
                           details: [
                             'Highest potential rates — but only when conditions (salary, spend, GIRO) are consistently met',
                             'Fully liquid — no lock-in, no redemption delay',
@@ -7625,7 +7626,7 @@ export const MODULES = [
                           icon: '🏛️',
                           label: 'The Auction',
                           sublabel: 'Competitive vs non-competitive',
-                          color: '#4F46E5',
+                          ...MODULE_COLORS['module-1'],
                           examples: ['Held every 2–4 weeks', 'Non-competitive bid recommended', 'Cut-off yield set by market'],
                           details: [
                             'T-bills are sold via auction — buyers submit bids indicating the yield they are willing to accept.',
@@ -7638,7 +7639,7 @@ export const MODULES = [
                           icon: '💹',
                           label: 'Discount Pricing',
                           sublabel: 'Buy below face value',
-                          color: '#0891B2',
+                          ...MODULE_COLORS['module-2'],
                           examples: ['Face value: $1 per unit', 'Min. application: $1,000', 'You pay less than $1,000'],
                           details: [
                             'T-bills have a face value of $1 per unit. You apply for a minimum of $1,000 face value.',
@@ -7651,7 +7652,7 @@ export const MODULES = [
                           icon: '🏁',
                           label: 'Maturity',
                           sublabel: 'Receive full face value',
-                          color: '#059669',
+                          ...MODULE_COLORS['module-3'],
                           examples: ['Receive exactly $1 per unit', 'Credited to bank account', 'No auto-renewal'],
                           details: [
                             'At maturity — 6 months or 1 year after issuance — you receive the full face value of $1 per unit.',
@@ -8022,8 +8023,8 @@ export const MODULES = [
     title: 'Investing',
     description: 'Make your money work for you through smart, long-term investing',
     icon: '📈',
-    color: '#059669',
-    colorLight: '#ECFDF5',
+    ...MODULE_COLORS['module-3'],
+    ...MODULE_COLORS['module-3'],
     chapters: [
       {
         id: 'chapter-7',
@@ -8073,7 +8074,7 @@ export const MODULES = [
                         icon: '📉',
                         label: 'Inflation Erodes',
                         sublabel: 'Your money buys less every year',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         examples: ['2.5% inflation p.a.', '$10,000 today = ~$7,800 in 10 years', 'Prices rise, savings don\'t'],
                         details: [
                           'Inflation is the rate at which prices rise over time — meaning the same amount of money buys less as years pass.',
@@ -8086,7 +8087,7 @@ export const MODULES = [
                         icon: '🏦',
                         label: 'Saving Alone',
                         sublabel: 'The gap between savings and inflation',
-                        color: '#F59E0B',
+                        color: C.primary,
                         examples: ['Basic account: 0.05% p.a.', 'HYSA (optimised): ~3–4% p.a.', 'Still barely beats inflation'],
                         details: [
                           'A basic savings account at 0.05% does almost nothing to offset inflation — you are falling behind by roughly 2.45% every year.',
@@ -8099,7 +8100,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Investing Bridges the Gap',
                         sublabel: 'Historical returns outpace inflation',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['S&P 500: ~10% p.a. historical avg', 'STI: ~7–8% p.a. historical avg', 'Bonds: ~3–5% p.a.'],
                         details: [
                           'Historically, broad market investments have returned 7–10% p.a. on average — significantly outpacing inflation.',
@@ -8121,9 +8122,9 @@ export const MODULES = [
                     initialValue: 10000,
                     prefix: '$',
                     calculateResult: (amount) => [
-                      { label: '😴 Basic savings after 10 yrs (0.05%, 2.5% inflation)', value: `$${Math.round(amount * Math.pow(0.9755, 10)).toLocaleString()}`, color: '#DC2626' },
-                      { label: '🏦 HYSA after 10 yrs (3% p.a., 2.5% inflation)', value: `$${Math.round(amount * Math.pow(1.005, 10)).toLocaleString()}`, color: '#F59E0B' },
-                      { label: '📈 Invested after 10 yrs (illustrative 7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10)).toLocaleString()}`, color: '#059669' },
+                      { label: '😴 Basic savings after 10 yrs (0.05%, 2.5% inflation)', value: `$${Math.round(amount * Math.pow(0.9755, 10)).toLocaleString()}`, ...MODULE_COLORS['module-4'] },
+                      { label: '🏦 HYSA after 10 yrs (3% p.a., 2.5% inflation)', value: `$${Math.round(amount * Math.pow(1.005, 10)).toLocaleString()}`, color: C.primary },
+                      { label: '📈 Invested after 10 yrs (illustrative 7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10)).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
                     ],
                   },
                   {
@@ -8194,9 +8195,9 @@ export const MODULES = [
                     prefix: '$',
                     calculateResult: (amount) => [
                       { label: '⏱️ After 10 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 10)).toLocaleString()}`, color: '#6B7280' },
-                      { label: '⏱️ After 20 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 20)).toLocaleString()}`, color: '#0891B2' },
-                      { label: '⏱️ After 30 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 30)).toLocaleString()}`, color: '#4F46E5' },
-                      { label: '⏱️ After 40 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 40)).toLocaleString()}`, color: '#059669' },
+                      { label: '⏱️ After 20 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 20)).toLocaleString()}`, ...MODULE_COLORS['module-2'] },
+                      { label: '⏱️ After 30 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 30)).toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                      { label: '⏱️ After 40 years (7% p.a.)', value: `$${Math.round(amount * Math.pow(1.07, 40)).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
                     ],
                   },
                   {
@@ -8369,7 +8370,7 @@ export const MODULES = [
                         icon: '📱',
                         label: 'Robo-Advisors',
                         description: 'Start from $1 — fully automated, diversified portfolios',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Platforms like Syfe, StashAway, and Endowus invest your money into diversified portfolios automatically',
                           'No investment knowledge required — set a risk level and contribute regularly',
@@ -8381,7 +8382,7 @@ export const MODULES = [
                         icon: '📊',
                         label: 'Regular Shares Savings (RSS)',
                         description: 'Buy index funds monthly from as little as $100',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         details: [
                           'RSS plans (via DBS, OCBC, or FSMOne) let you buy index ETFs on a fixed monthly schedule',
                           'Dollar-cost averaging — you buy more units when prices are low and fewer when prices are high',
@@ -8393,7 +8394,7 @@ export const MODULES = [
                         icon: '💹',
                         label: 'CPF Investment Scheme (CPFIS)',
                         description: 'Invest CPF-OA funds above $20,000 in eligible instruments',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'CPF-OA funds above $20,000 can be invested in eligible unit trusts, ETFs, and stocks via CPFIS',
                           'Returns must exceed the CPF-OA\'s 2.5% p.a. guaranteed rate to be worthwhile',
@@ -8620,7 +8621,7 @@ export const MODULES = [
                         icon: '📊',
                         label: 'Market Risk',
                         description: 'The risk that the whole market falls',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'Market risk affects all investments simultaneously — it cannot be eliminated through stock-picking',
                           'Even strong companies lose value during broad market downturns',
@@ -8632,7 +8633,7 @@ export const MODULES = [
                         icon: '💸',
                         label: 'Inflation Risk',
                         description: 'The risk that returns don\'t beat inflation',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Inflation risk is the primary risk of being too conservative — keeping everything in cash or low-yield savings',
                           'You can grow your balance in dollar terms while losing real purchasing power',
@@ -8644,7 +8645,7 @@ export const MODULES = [
                         icon: '🔒',
                         label: 'Liquidity Risk',
                         description: 'The risk of not being able to exit when needed',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Highly liquid assets (stocks, ETFs) can be sold instantly at market price',
                           'Illiquid assets (property, private equity) may take months or years to exit',
@@ -8656,7 +8657,7 @@ export const MODULES = [
                         icon: '🎯',
                         label: 'Concentration Risk',
                         description: 'The risk of being overexposed to one asset',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Concentration risk is the most common and most avoidable risk for beginner investors',
                           'A large position in a single company, sector, or geography means one bad outcome devastates your whole portfolio',
@@ -8969,7 +8970,7 @@ export const MODULES = [
                         icon: '🏛️',
                         label: 'Asset Class',
                         sublabel: 'Stocks, bonds, cash',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Stocks: high return, high volatility', 'Bonds: lower return, lower volatility', 'Cash: stable, inflation risk'],
                         details: [
                           'Different asset classes behave differently under the same market conditions — when stocks fall, bonds often hold steady or rise.',
@@ -8982,7 +8983,7 @@ export const MODULES = [
                         icon: '🌍',
                         label: 'Geography',
                         sublabel: 'Singapore, US, global',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['Singapore STI: local exposure', 'S&P 500: US exposure', 'Global ETF: 50+ countries'],
                         details: [
                           'Concentrating all investments in Singapore means your portfolio rises and falls with the Singapore economy alone.',
@@ -8995,7 +8996,7 @@ export const MODULES = [
                         icon: '🧰',
                         label: 'Instrument',
                         sublabel: 'ETFs, unit trusts, individual stocks',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['ETF: low cost, instant diversification', 'Unit trust: managed, higher fees', 'Individual stocks: high risk, high effort'],
                         details: [
                           'The instrument you use determines how efficiently you diversify — an ETF gives you hundreds of holdings in one trade.',
@@ -9214,10 +9215,10 @@ export const MODULES = [
                     initialValue: 10000,
                     prefix: '$',
                     calculateResult: (amount) => [
-                      { label: '📊 ETF (0.20% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.068, 20)).toLocaleString()}`, color: '#059669' },
-                      { label: '🏦 Robo-advisor (0.65% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.0635, 20)).toLocaleString()}`, color: '#0891B2' },
-                      { label: '📋 Unit trust (1.50% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.055, 20)).toLocaleString()}`, color: '#F59E0B' },
-                      { label: '💼 Active fund (2.50% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.045, 20)).toLocaleString()}`, color: '#DC2626' },
+                      { label: '📊 ETF (0.20% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.068, 20)).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                      { label: '🏦 Robo-advisor (0.65% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.0635, 20)).toLocaleString()}`, ...MODULE_COLORS['module-2'] },
+                      { label: '📋 Unit trust (1.50% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.055, 20)).toLocaleString()}`, color: C.primary },
+                      { label: '💼 Active fund (2.50% p.a.) after 20 years', value: `$${Math.round(amount * Math.pow(1.045, 20)).toLocaleString()}`, ...MODULE_COLORS['module-4'] },
                     ],
                   },
                   {
@@ -9371,7 +9372,7 @@ export const MODULES = [
                         icon: '🖥️',
                         label: 'Apply Online',
                         sublabel: 'SGX website — 15 minutes',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Valid student pass', 'Passport', 'Singapore bank account details'],
                         details: [
                           'Submit your CDP application at SGX.com — the form takes about 15 minutes to complete.',
@@ -9384,7 +9385,7 @@ export const MODULES = [
                         icon: '⏳',
                         label: 'Wait 3–5 Days',
                         sublabel: 'SGX processes your application',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['CDP account number sent by mail or email', 'No action needed during this window'],
                         details: [
                           'SGX processes your application within 3–5 business days.',
@@ -9397,7 +9398,7 @@ export const MODULES = [
                         icon: '🚀',
                         label: 'Start Investing',
                         sublabel: 'Link CDP to your broker and trade',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Link CDP account number to your chosen broker', 'Place your first trade', 'Shares appear in CDP within T+2'],
                         details: [
                           'Provide your CDP account number to your chosen CDP-linked brokerage to complete the link.',
@@ -9466,7 +9467,7 @@ export const MODULES = [
                         icon: '🏛️',
                         label: 'CDP-Linked Broker',
                         description: 'Shares flow directly into your CDP account after every trade.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Shares are held in your own CDP account — legally yours, ring-fenced from the broker.',
                           'If the broker goes bankrupt, your shares are completely safe — they are not the broker\'s property.',
@@ -9480,7 +9481,7 @@ export const MODULES = [
                         icon: '🔒',
                         label: 'Custodian Broker',
                         description: 'Shares are held internally under the broker\'s name — not in your CDP account.',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         details: [
                           'Shares are held in the broker\'s own custody account — you own them beneficially, but they are registered under the broker\'s name.',
                           'Lower commissions — from 0.05–0.06% per trade — because the broker handles settlement internally.',
@@ -9604,7 +9605,7 @@ export const MODULES = [
                       {
                         icon: '🐯',
                         name: 'Tiger Brokers',
-                        color: '#F59E0B',
+                        color: C.primary,
                         tagline: 'Low-cost custodian broker with SGX and US access',
                         cost: 'From 0.06% commission',
                         rating: 4.4,
@@ -9615,7 +9616,7 @@ export const MODULES = [
                       {
                         icon: '🐄',
                         name: 'Moomoo',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         tagline: 'Feature-rich custodian broker with strong US ETF access',
                         cost: 'From 0.05% commission',
                         rating: 4.3,
@@ -9626,7 +9627,7 @@ export const MODULES = [
                       {
                         icon: '📋',
                         name: 'POEMS (PhillipCapital)',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         tagline: 'CDP-linked broker with RSP plans and wide market access',
                         cost: 'From 0.08% commission',
                         rating: 4.0,
@@ -9637,7 +9638,7 @@ export const MODULES = [
                       {
                         icon: '🏦',
                         name: 'DBS Vickers',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         tagline: 'CDP-linked broker inside the DBS ecosystem',
                         cost: 'From 0.12% commission',
                         rating: 3.9,
@@ -9648,7 +9649,7 @@ export const MODULES = [
                       {
                         icon: '🌐',
                         name: 'Interactive Brokers',
-                        color: '#7C3AED',
+                        ...MODULE_COLORS['module-1'],
                         tagline: 'Institutional-grade platform for serious global investors',
                         cost: 'From 0.05% commission',
                         rating: 4.5,
@@ -9674,9 +9675,9 @@ export const MODULES = [
                       const standardFee = annual * 0.002;
                       const saving = standardFee - lowCostFee;
                       return [
-                        { label: '✅ Low-cost broker (0.06%) — annual commission', value: `$${lowCostFee.toFixed(2)}`, color: '#059669' },
-                        { label: '⚠️ Standard broker (0.20%) — annual commission', value: `$${standardFee.toFixed(2)}`, color: '#DC2626' },
-                        { label: '💰 Annual saving with low-cost broker', value: `$${saving.toFixed(2)}`, color: '#4F46E5' },
+                        { label: '✅ Low-cost broker (0.06%) — annual commission', value: `$${lowCostFee.toFixed(2)}`, ...MODULE_COLORS['module-3'] },
+                        { label: '⚠️ Standard broker (0.20%) — annual commission', value: `$${standardFee.toFixed(2)}`, ...MODULE_COLORS['module-4'] },
+                        { label: '💰 Annual saving with low-cost broker', value: `$${saving.toFixed(2)}`, ...MODULE_COLORS['module-1'] },
                       ];
                     },
                   },
@@ -9815,7 +9816,7 @@ export const MODULES = [
                         icon: '🏦',
                         label: 'Singapore\'s Top 30',
                         sublabel: 'Instant exposure to the largest SGX companies',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['DBS Bank — largest bank in Southeast Asia', 'OCBC Bank — second largest Singapore bank', 'Singapore Telecommunications (Singtel)'],
                         details: [
                           'The STI includes Singapore\'s 30 largest listed companies by market cap — dominated by banks, REITs, and telcos.',
@@ -9828,7 +9829,7 @@ export const MODULES = [
                         icon: '💰',
                         label: 'Low Cost',
                         sublabel: 'Expense ratio ~0.30% per year',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['SPDR STI ETF (ES3): ~0.30% p.a.', 'Nikko AM STI ETF (G3B): ~0.30% p.a.', 'Active unit trusts: often 1.0–2.0% p.a.'],
                         details: [
                           'An expense ratio of 0.30% means you pay $3 per year for every $1,000 invested — automatically deducted from the fund.',
@@ -9841,7 +9842,7 @@ export const MODULES = [
                         icon: '📅',
                         label: 'Dividends Paid',
                         sublabel: 'Twice yearly cash distributions',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Dividends paid twice per year', 'Historically ~3–4% dividend yield', 'Cash credited to your brokerage or CDP account'],
                         details: [
                           'Both STI ETFs distribute dividends twice per year — collected from the underlying 30 companies and passed through to unitholders.',
@@ -9916,7 +9917,7 @@ export const MODULES = [
                         icon: '🏦',
                         label: 'Blue Chip Stocks',
                         description: 'Large, established companies with a long track record of stable earnings and dividends.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Singapore\'s blue chips are dominated by the three local banks — DBS, OCBC, and UOB — which together make up ~40–45% of the STI.',
                           'Other major blue chips include Singapore Telecommunications (Singtel), Jardine Matheson, and Keppel Corporation.',
@@ -9929,7 +9930,7 @@ export const MODULES = [
                         icon: '🏢',
                         label: 'Singapore REITs (S-REITs)',
                         description: 'Listed funds owning income-producing real estate, required to pay out 90%+ of income as dividends.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Singapore has one of the largest and most developed REIT markets in Asia — over 40 S-REITs are listed on SGX.',
                           'Popular S-REITs include CapitaLand Integrated Commercial Trust (CICT), Mapletree Logistics Trust, and Parkway Life REIT.',
@@ -10261,7 +10262,7 @@ export const MODULES = [
                         icon: '📋',
                         label: 'Answer Questions',
                         sublabel: 'Risk profile and goal setting',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Time horizon: 1 year vs 20 years', 'Risk tolerance: conservative vs aggressive', 'Goal: wealth accumulation, income, or capital preservation'],
                         details: [
                           'You complete a short onboarding questionnaire covering your investment goals, time horizon, and comfort with risk.',
@@ -10274,7 +10275,7 @@ export const MODULES = [
                         icon: '🏗️',
                         label: 'Portfolio Built',
                         sublabel: 'Automatic ETF allocation',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['Global equities ETF (e.g. VWRA)', 'Bond ETF for stability', 'Singapore or Asia-focused allocation'],
                         details: [
                           'The platform automatically builds a diversified portfolio of low-cost ETFs matching your risk profile.',
@@ -10287,7 +10288,7 @@ export const MODULES = [
                         icon: '🔄',
                         label: 'Auto-Rebalanced',
                         sublabel: 'Portfolio maintained over time',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Drift correction when allocations shift', 'Dividends reinvested automatically', 'No manual action required from you'],
                         details: [
                           'As markets move, your portfolio allocations drift from their targets — equities may grow to 70% when the target was 60%.',
@@ -10356,7 +10357,7 @@ export const MODULES = [
                       {
                         icon: '🟢',
                         name: 'Syfe',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         tagline: 'Flexible portfolios with a strong Singapore income option',
                         cost: '0.35–0.65% p.a. (tiered by AUM)',
                         rating: 4.4,
@@ -10367,7 +10368,7 @@ export const MODULES = [
                       {
                         icon: '🔵',
                         name: 'StashAway',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         tagline: 'Goal-based investing with proprietary risk management',
                         cost: '0.20–0.80% p.a. (tiered by AUM)',
                         rating: 4.3,
@@ -10378,7 +10379,7 @@ export const MODULES = [
                       {
                         icon: '🟣',
                         name: 'Endowus',
-                        color: '#7C3AED',
+                        ...MODULE_COLORS['module-1'],
                         tagline: 'The only platform that invests CPF and SRS funds',
                         cost: '0.25–0.60% p.a. (tiered by AUM)',
                         rating: 4.5,
@@ -10564,9 +10565,9 @@ export const MODULES = [
                       const diyFee = portfolio * 0.0006;
                       const difference = roboFee - diyFee;
                       return [
-                        { label: '🤖 Robo-advisor fee (0.40% p.a.)', value: `$${roboFee.toFixed(2)}/year`, color: '#0891B2' },
-                        { label: '📊 DIY ETF cost (0.06% commission)', value: `$${diyFee.toFixed(2)}/year`, color: '#059669' },
-                        { label: '💡 Convenience premium you pay', value: `$${difference.toFixed(2)}/year`, color: '#7C3AED' },
+                        { label: '🤖 Robo-advisor fee (0.40% p.a.)', value: `$${roboFee.toFixed(2)}/year`, ...MODULE_COLORS['module-2'] },
+                        { label: '📊 DIY ETF cost (0.06% commission)', value: `$${diyFee.toFixed(2)}/year`, ...MODULE_COLORS['module-3'] },
+                        { label: '💡 Convenience premium you pay', value: `$${difference.toFixed(2)}/year`, ...MODULE_COLORS['module-1'] },
                       ];
                     },
                   },
@@ -10990,9 +10991,9 @@ export const MODULES = [
 
                       const difference = consistentTotal - pausedTotal;
                       return [
-                        { label: '✅ Consistent DCA investor — portfolio value', value: `$${Math.round(consistentTotal).toLocaleString()}`, color: '#059669' },
-                        { label: '⚠️ Paused 6 months during downturn — portfolio value', value: `$${Math.round(pausedTotal).toLocaleString()}`, color: '#DC2626' },
-                        { label: '💸 Cost of pausing — compounded gap', value: `$${Math.round(difference).toLocaleString()}`, color: '#7C3AED' },
+                        { label: '✅ Consistent DCA investor — portfolio value', value: `$${Math.round(consistentTotal).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                        { label: '⚠️ Paused 6 months during downturn — portfolio value', value: `$${Math.round(pausedTotal).toLocaleString()}`, ...MODULE_COLORS['module-4'] },
+                        { label: '💸 Cost of pausing — compounded gap', value: `$${Math.round(difference).toLocaleString()}`, ...MODULE_COLORS['module-1'] },
                       ];
                     },
                   },
@@ -11135,7 +11136,7 @@ export const MODULES = [
                         icon: '🏠',
                         label: 'OA — Ordinary Account',
                         sublabel: '2.5% guaranteed · CPFIS eligible above $20,000',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Used for: housing (HDB), education, investments', 'Interest rate: 2.5% p.a. guaranteed', 'CPFIS minimum: $20,000 must remain in OA'],
                         details: [
                           'The OA is the most versatile CPF account — it can be used for housing, education, and investments via CPFIS.',
@@ -11148,7 +11149,7 @@ export const MODULES = [
                         icon: '🏦',
                         label: 'SA — Special Account',
                         sublabel: '4% guaranteed · CPFIS eligible above $40,000',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['Used for: retirement savings only', 'Interest rate: 4% p.a. guaranteed', 'CPFIS minimum: $40,000 must remain in SA'],
                         details: [
                           'The SA earns a higher guaranteed rate of 4% per year — specifically designed for retirement savings.',
@@ -11161,7 +11162,7 @@ export const MODULES = [
                         icon: '💊',
                         label: 'MA — Medisave Account',
                         sublabel: '4% guaranteed · Not eligible for CPFIS',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Used for: healthcare, MediShield Life premiums', 'Interest rate: 4% p.a. guaranteed', 'CPFIS: not eligible — cannot be invested'],
                         details: [
                           'The MA is specifically for healthcare expenses and MediShield Life insurance premiums.',
@@ -11839,9 +11840,9 @@ export const MODULES = [
                       const yearsInvesting = retirementAge - startAge;
 
                       return [
-                        { label: `📅 Starting at age ${startAge} — portfolio at 65`, value: `$${Math.round(total).toLocaleString()}`, color: '#0891B2' },
-                        { label: '✅ Starting at age 22 — portfolio at 65', value: `$${Math.round(earlyTotal).toLocaleString()}`, color: '#059669' },
-                        { label: `💸 Cost of waiting — compounded gap`, value: `$${Math.round(gap).toLocaleString()}`, color: '#DC2626' },
+                        { label: `📅 Starting at age ${startAge} — portfolio at 65`, value: `$${Math.round(total).toLocaleString()}`, ...MODULE_COLORS['module-2'] },
+                        { label: '✅ Starting at age 22 — portfolio at 65', value: `$${Math.round(earlyTotal).toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                        { label: `💸 Cost of waiting — compounded gap`, value: `$${Math.round(gap).toLocaleString()}`, ...MODULE_COLORS['module-4'] },
                       ];
                     },
                   },
@@ -11957,14 +11958,14 @@ export const MODULES = [
     title: 'CPF & Advanced Topics',
     description: 'Master Singapore\'s unique financial systems before you enter the workforce',
     icon: '🏛️',
-    color: '#DC2626',
-    colorLight: '#FEF2F2',
+    ...MODULE_COLORS['module-4'],
+    ...MODULE_COLORS['module-4'],
     chapters: [
       {
         id: 'chapter-10',
         title: 'CPF Fundamentals',
         icon: '🏦',
-        description: 'Understand Singapore\'s Central Provident Fund inside out',
+        description: 'Understand Singapore\'s Central Provident Fund',
         lessons: [
           {
             id: '10-1',
@@ -12006,7 +12007,7 @@ export const MODULES = [
                         icon: '🏖️',
                         label: 'Retirement',
                         description: 'Building a lifelong income stream through CPF LIFE — Singapore\'s national annuity scheme.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'CPF contributions accumulate over a working lifetime in the Ordinary and Special Accounts.',
                           'At age 55, funds transfer into a Retirement Account (RA) — the foundation of your CPF LIFE monthly payout.',
@@ -12019,7 +12020,7 @@ export const MODULES = [
                         icon: '🏠',
                         label: 'Housing',
                         description: 'Using CPF Ordinary Account funds to finance HDB flat purchases and monthly mortgage payments.',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         details: [
                           'CPF OA funds can be used for the downpayment and monthly mortgage of HDB flats and approved private properties.',
                           'This is the most common use of OA funds for most Singapore residents — housing typically absorbs a large share of lifetime OA contributions.',
@@ -12032,7 +12033,7 @@ export const MODULES = [
                         icon: '💊',
                         label: 'Healthcare',
                         description: 'Funding MediShield Life premiums and approved medical expenses through the MediSave Account.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'The MediSave Account (MA) is specifically for healthcare — it pays MediShield Life premiums automatically.',
                           'MA funds can also be used for approved outpatient treatments, hospitalisation, and certain chronic disease management programmes.',
@@ -12118,7 +12119,7 @@ export const MODULES = [
                         icon: '💼',
                         label: 'Working Years (22–55)',
                         sublabel: 'OA, SA, MA accumulate with every payslip',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['OA builds: housing downpayment, mortgage, CPFIS', 'SA builds: retirement savings at 4% guaranteed', 'MA builds: MediShield Life premiums, healthcare'],
                         details: [
                           'Every month, your employer deducts your CPF contribution and adds their own — both flow into your OA, SA, and MA according to the allocation rates for your age.',
@@ -12131,7 +12132,7 @@ export const MODULES = [
                         icon: '🎂',
                         label: 'Age 55 — Retirement Account Created',
                         sublabel: 'OA + SA funds transfer into new RA',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['RA created automatically — no action needed', 'OA + SA funds transferred up to the Full Retirement Sum', 'Excess above FRS stays in OA and SA'],
                         details: [
                           'At age 55, a Retirement Account is automatically created and funded by transferring OA and SA balances up to the Full Retirement Sum (FRS).',
@@ -12144,7 +12145,7 @@ export const MODULES = [
                         icon: '🌅',
                         label: 'Draw-Down Age (65+)',
                         sublabel: 'CPF LIFE monthly payouts begin',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['Monthly CPF LIFE payouts begin for life', 'Standard Plan: ~$1,400–$1,600/month at FRS (2025)', 'MA continues to cover healthcare costs'],
                         details: [
                           'From your draw-down age (currently 65), CPF LIFE pays a guaranteed monthly income for the rest of your life — regardless of how long you live.',
@@ -12545,11 +12546,11 @@ export const MODULES = [
                       const ma = totalCPF - oa - sa;
                       const takeHome = value - empContrib;
                       return [
-                        { label: 'Your CPF deduction (20%) — credited to your accounts', value: `$${empContrib.toLocaleString()}`, color: '#4F46E5' },
-                        { label: 'Employer top-up (17%) — additional, not from your salary', value: `$${emplrContrib.toLocaleString()}`, color: '#0891B2' },
-                        { label: `OA receives (62.2% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${oa.toLocaleString()}`, color: '#059669' },
-                        { label: `SA receives (16.2% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${sa.toLocaleString()}`, color: '#F59E0B' },
-                        { label: `MA receives (21.6% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${ma.toLocaleString()}`, color: '#DC2626' },
+                        { label: 'Your CPF deduction (20%) — credited to your accounts', value: `$${empContrib.toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                        { label: 'Employer top-up (17%) — additional, not from your salary', value: `$${emplrContrib.toLocaleString()}`, ...MODULE_COLORS['module-2'] },
+                        { label: `OA receives (62.2% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${oa.toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                        { label: `SA receives (16.2% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${sa.toLocaleString()}`, color: C.primary },
+                        { label: `MA receives (21.6% of $${totalCPF.toLocaleString()} total CPF)`, value: `$${ma.toLocaleString()}`, ...MODULE_COLORS['module-4'] },
                         { label: 'Your take-home pay (gross minus your 20%)', value: `$${takeHome.toLocaleString()}`, color: '#6B7280' },
                       ];
                     },
@@ -12563,7 +12564,7 @@ export const MODULES = [
                         icon: '🏠',
                         label: 'OA',
                         percentage: 62,
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         amount: '62.2%',
                         description: 'The largest share goes to your OA — used for housing downpayment, monthly mortgage, education, and investments via CPFIS. For most Singapore graduates, OA funds are eventually directed toward an HDB flat.',
                       },
@@ -12571,7 +12572,7 @@ export const MODULES = [
                         icon: '💊',
                         label: 'MA',
                         percentage: 22,
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         amount: '21.6%',
                         description: 'The MA covers MediShield Life premiums automatically and can be used for hospitalisation and approved medical treatments. It cannot be invested or withdrawn for non-medical purposes.',
                       },
@@ -12579,7 +12580,7 @@ export const MODULES = [
                         icon: '🏖️',
                         label: 'SA',
                         percentage: 16,
-                        color: '#F59E0B',
+                        color: C.primary,
                         amount: '16.2%',
                         description: 'The smallest allocation but the most powerful for retirement — SA earns 4% guaranteed, compounding tax-free over your working lifetime. Every dollar here has decades to grow before you turn 55.',
                       },
@@ -12882,7 +12883,7 @@ export const MODULES = [
                         icon: '🏠',
                         label: 'Housing (HDB)',
                         percentage: 68,
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         amount: '~68%',
                         description: 'For most Singapore residents, housing absorbs the vast majority of OA funds — downpayment and monthly mortgage payments on an HDB flat over 25–30 years. This is the dominant OA use case by far.',
                       },
@@ -12890,7 +12891,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Investments (CPFIS)',
                         percentage: 20,
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         amount: '~20%',
                         description: 'Funds above the $20,000 OA minimum threshold can be invested via CPFIS in eligible instruments — STI ETF, unit trusts, bonds. In practice, many residents use little OA for investments because housing absorbs most of it.',
                       },
@@ -12898,7 +12899,7 @@ export const MODULES = [
                         icon: '🎓',
                         label: 'Education',
                         percentage: 7,
-                        color: '#F59E0B',
+                        color: C.primary,
                         amount: '~7%',
                         description: 'OA funds can be used for approved local and overseas institution fees — NTU, NUS, SMU, and many polytechnics. This is a loan from your OA that must be repaid with 2.5% interest after graduation.',
                       },
@@ -12920,7 +12921,7 @@ export const MODULES = [
                         icon: '🏠',
                         label: 'Housing',
                         description: 'HDB downpayment, monthly mortgage, and stamp duties on approved properties.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'OA funds can cover the downpayment (typically 10–20% of flat price) and monthly HDB loan instalments.',
                           'Only HDB flats and approved private properties are eligible — not commercial property.',
@@ -12933,7 +12934,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Investments (CPFIS)',
                         description: 'Invest OA funds above $20,000 in approved instruments via the CPF Investment Scheme.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Only OA funds above the $20,000 threshold are eligible for CPFIS investment.',
                           'Eligible instruments include STI ETF, selected unit trusts, Singapore Government Bonds, and gold.',
@@ -12946,7 +12947,7 @@ export const MODULES = [
                         icon: '🎓',
                         label: 'Education',
                         description: 'Pay approved tuition fees at local and selected overseas institutions.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'OA funds can be used as an education loan for approved institutions — NTU, NUS, SMU, polytechnics, and selected overseas universities.',
                           'This is treated as a loan from your own OA — you must repay the amount used plus 2.5% interest after graduation.',
@@ -12959,7 +12960,7 @@ export const MODULES = [
                         icon: '🛡️',
                         label: 'Insurance & Others',
                         description: 'Pay CPF-approved insurance premiums and selected other approved purposes.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'OA funds can pay premiums for CPF-approved life insurance policies.',
                           'A small portion can be used for the CPF Dependants\' Protection Scheme (DPS) — a low-cost term insurance for CPF members.',
@@ -13052,10 +13053,10 @@ export const MODULES = [
                       const totalOAused = downpayment + (monthly * 12 * 10);
                       const accruedInterest = Math.round(totalOAused * (Math.pow(1.025, 10) - 1));
                       return [
-                        { label: 'OA downpayment required (10% of flat price)', value: `$${downpayment.toLocaleString()}`, color: '#4F46E5' },
-                        { label: 'Estimated monthly mortgage from OA (HDB loan at 2.6%)', value: `$${monthly.toLocaleString()}/mo`, color: '#0891B2' },
-                        { label: 'Total OA used in first 10 years (downpayment + instalments)', value: `$${totalOAused.toLocaleString()}`, color: '#F59E0B' },
-                        { label: 'Accrued interest to refund CPF if sold after 10 years', value: `$${accruedInterest.toLocaleString()}`, color: '#DC2626' },
+                        { label: 'OA downpayment required (10% of flat price)', value: `$${downpayment.toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                        { label: 'Estimated monthly mortgage from OA (HDB loan at 2.6%)', value: `$${monthly.toLocaleString()}/mo`, ...MODULE_COLORS['module-2'] },
+                        { label: 'Total OA used in first 10 years (downpayment + instalments)', value: `$${totalOAused.toLocaleString()}`, color: C.primary },
+                        { label: 'Accrued interest to refund CPF if sold after 10 years', value: `$${accruedInterest.toLocaleString()}`, ...MODULE_COLORS['module-4'] },
                       ];
                     },
                   },
@@ -13337,7 +13338,7 @@ export const MODULES = [
         id: 'chapter-11',
         title: 'Tax & Insurance',
         icon: '📋',
-        description: 'Navigate Singapore\'s tax system and protect what you build',
+        description: 'Navigate Singapore\'s tax and insurance system',
         lessons: [
           {
             id: '11-1',
@@ -13380,7 +13381,7 @@ export const MODULES = [
                         icon: '📅',
                         label: 'Jan – Dec',
                         sublabel: 'Income year (Year of Assessment basis)',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         examples: ['Salary received Jan–Dec 2025', 'Bonuses paid in this period', 'Freelance income earned'],
                         details: [
                           'Singapore taxes income on a preceding-year basis. Tax for income earned in 2025 is assessed and filed in 2026.',
@@ -13393,7 +13394,7 @@ export const MODULES = [
                         icon: '📝',
                         label: 'Mar – Apr',
                         sublabel: 'Filing window at myTax Portal',
-                        color: '#0891B2',
+                        ...MODULE_COLORS['module-2'],
                         examples: ['File at mytax.iras.gov.sg', 'Deadline: 18 April (e-filing)', 'Claim all eligible reliefs'],
                         details: [
                           'IRAS opens the filing window in March each year.',
@@ -13406,7 +13407,7 @@ export const MODULES = [
                         icon: '💳',
                         label: 'May – Nov',
                         sublabel: 'Notice of Assessment issued, tax due',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         examples: ['IRAS issues Notice of Assessment (NOA)', 'Pay by GIRO, PayNow, or credit card', 'GIRO instalments available interest-free'],
                         details: [
                           'IRAS issues your Notice of Assessment (NOA) typically between May and September.',
@@ -13534,10 +13535,10 @@ export const MODULES = [
                         : chargeableIncome <= 200000 ? '18%' : '19%+';
 
                       return [
-                        { label: 'Estimated chargeable income (after CPF relief + earned income relief)', value: `$${chargeableIncome.toLocaleString()}`, color: '#4F46E5' },
-                        { label: 'Estimated annual tax payable', value: `$${tax.toLocaleString()}`, color: '#DC2626' },
-                        { label: 'Your effective tax rate (tax ÷ gross salary)', value: `${effectiveRate}%`, color: '#059669' },
-                        { label: 'Your marginal tax rate (rate on last dollar earned)', value: marginalRate, color: '#F59E0B' },
+                        { label: 'Estimated chargeable income (after CPF relief + earned income relief)', value: `$${chargeableIncome.toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                        { label: 'Estimated annual tax payable', value: `$${tax.toLocaleString()}`, ...MODULE_COLORS['module-4'] },
+                        { label: 'Your effective tax rate (tax ÷ gross salary)', value: `${effectiveRate}%`, ...MODULE_COLORS['module-3'] },
+                        { label: 'Your marginal tax rate (rate on last dollar earned)', value: marginalRate, color: C.primary },
                       ];
                     },
                   },
@@ -13661,7 +13662,7 @@ export const MODULES = [
                         icon: '🏦',
                         label: 'CPF Relief',
                         description: 'Auto-applied by IRAS — your mandatory employee CPF contributions reduce your chargeable income dollar for dollar.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'IRAS automatically deducts your mandatory CPF employee contributions from your assessable income.',
                           'For a $60,000 earner contributing 20% CPF, this is $12,000 of automatic relief — the single largest relief for most young workers.',
@@ -13674,7 +13675,7 @@ export const MODULES = [
                         icon: '💼',
                         label: 'Earned Income Relief',
                         description: 'Automatic relief for all working Singapore tax residents — $1,000 for those under 55.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Every working tax resident below 55 receives a $1,000 earned income relief automatically.',
                           'This increases to $6,000 for workers aged 55–59 and $8,000 for those 60 and above.',
@@ -13686,7 +13687,7 @@ export const MODULES = [
                         icon: '📚',
                         label: 'Course Fee Relief',
                         description: 'Claim up to $5,500 for approved courses and skills upgrading — must be claimed manually.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'If you attend approved courses related to your work or business, you can claim up to $5,500 in course fee relief.',
                           'Qualifying courses include SkillsFuture-approved programmes, professional certifications, and approved degree programmes.',
@@ -13699,7 +13700,7 @@ export const MODULES = [
                         icon: '👨‍👩‍👧',
                         label: 'Parent Relief',
                         description: 'Claim $9,000 per dependent parent (or $14,000 if parent lives with you) — must be claimed manually.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'If you are supporting a parent aged 55 or above with annual income below $4,000, you can claim parent relief.',
                           '$9,000 per parent if they do not live with you; $14,000 if they live in the same household.',
@@ -13885,7 +13886,7 @@ export const MODULES = [
                         icon: '🛡️',
                         label: 'MediShield Life',
                         description: 'Mandatory basic insurance covering large hospital bills at Class B2/C wards. Premiums from MediSave.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Covers all Singapore citizens and PRs automatically — no opt-out.',
                           'Designed for Class B2 and C ward subsidised hospitalisation in public hospitals.',
@@ -13899,7 +13900,7 @@ export const MODULES = [
                         icon: '💊',
                         label: 'MediSave',
                         description: 'CPF savings account for healthcare. Funds MediShield Life premiums and direct medical expenses.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'MediSave is not insurance — it is your personal healthcare savings pool within CPF.',
                           'Used to pay MediShield Life premiums automatically each year.',
@@ -13913,7 +13914,7 @@ export const MODULES = [
                         icon: '🏥',
                         label: 'MediFund',
                         description: 'Safety net for Singapore citizens who cannot afford their subsidised hospital bills even after MediShield Life and MediSave.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'MediFund is an endowment fund that provides assistance to the lowest-income Singapore citizens who cannot afford medical bills.',
                           'Only citizens are eligible — PRs and foreigners cannot apply.',
@@ -14334,7 +14335,7 @@ export const MODULES = [
                         icon: '🧑',
                         label: 'Self Top-Up',
                         description: 'Top up your own SA (before 55) or RA (after 55) with cash and claim up to $8,000 tax relief.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'Top up your own SA with cash — funds go directly into SA earning 4% guaranteed.',
                           'Tax relief of up to $8,000 per year for self top-ups — dollar for dollar.',
@@ -14348,7 +14349,7 @@ export const MODULES = [
                         icon: '👨‍👩‍👧',
                         label: 'Family Member Top-Up',
                         description: 'Top up a parent, spouse, sibling, or grandparent\'s CPF account and claim up to an additional $8,000 tax relief.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Top up a parent, grandparent, spouse, sibling, or child\'s SA or RA with cash.',
                           'Claim up to $8,000 additional tax relief per year for family top-ups — separate from the $8,000 self top-up limit.',
@@ -14438,10 +14439,10 @@ export const MODULES = [
                       const saving15 = Math.round(cappedSelf * 0.15);
                       const growth37 = Math.round(cappedSelf * Math.pow(1.04, 37));
                       return [
-                        { label: `Tax saving at 7% marginal rate (chargeable income $40K–$80K)`, value: `$${saving7.toLocaleString()}`, color: '#4F46E5' },
-                        { label: `Tax saving at 11.5% marginal rate (chargeable income $80K–$120K)`, value: `$${saving115.toLocaleString()}`, color: '#0891B2' },
-                        { label: `Tax saving at 15% marginal rate (chargeable income $120K–$160K)`, value: `$${saving15.toLocaleString()}`, color: '#059669' },
-                        { label: `SA value at age 65 if topped up at age 28 (4% p.a. over 37 years)`, value: `$${growth37.toLocaleString()}`, color: '#F59E0B' },
+                        { label: `Tax saving at 7% marginal rate (chargeable income $40K–$80K)`, value: `$${saving7.toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                        { label: `Tax saving at 11.5% marginal rate (chargeable income $80K–$120K)`, value: `$${saving115.toLocaleString()}`, ...MODULE_COLORS['module-2'] },
+                        { label: `Tax saving at 15% marginal rate (chargeable income $120K–$160K)`, value: `$${saving15.toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                        { label: `SA value at age 65 if topped up at age 28 (4% p.a. over 37 years)`, value: `$${growth37.toLocaleString()}`, color: C.primary },
                       ];
                     },
                   },
@@ -14776,7 +14777,7 @@ export const MODULES = [
                         icon: '💰',
                         label: 'Fixed Monthly Salary',
                         description: 'The guaranteed base — what you receive every month regardless of performance.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'This is the foundation of your financial planning — budget only around your fixed salary, never around bonuses.',
                           'CPF contributions are calculated on your fixed monthly salary plus variable components that are contractual.',
@@ -14789,7 +14790,7 @@ export const MODULES = [
                         icon: '📊',
                         label: 'Variable Bonus',
                         description: 'Performance-based pay — not guaranteed and should never be factored into your base budget.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'Variable bonuses are typically stated as a range (e.g. "0–3 months") and depend on both company and individual performance.',
                           'They may or may not attract CPF contributions — check your offer letter carefully.',
@@ -14802,7 +14803,7 @@ export const MODULES = [
                         icon: '🏥',
                         label: 'Benefits Package',
                         description: 'Non-salary compensation — often worth $5,000–$15,000/year and critical to evaluate.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Key benefits to look for: medical insurance (what ward class, is family covered?), dental, annual leave (14–21 days is typical in Singapore), and flexible benefits allowance.',
                           'Group hospitalisation insurance provided by employer reduces your personal insurance cost significantly.',
@@ -14815,7 +14816,7 @@ export const MODULES = [
                         icon: '📋',
                         label: 'Leave & Other Entitlements',
                         description: 'Annual leave, sick leave, and other statutory entitlements — know your rights.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'Minimum annual leave under Singapore law: 7 days in year 1, increasing by 1 day per year up to 14 days.',
                           'Most professional roles offer 14–21 days annual leave — negotiate this if the offer is below market.',
@@ -15047,10 +15048,10 @@ export const MODULES = [
                       const savings = Math.round(value * 0.20);
                       const emergencyMonths = Math.round((needs * 6) / savings);
                       return [
-                        { label: 'Needs — 50% (rent, food, transport, utilities, insurance)', value: `$${needs.toLocaleString()}/mo`, color: '#4F46E5' },
-                        { label: 'Wants — 30% (dining out, entertainment, shopping, travel)', value: `$${wants.toLocaleString()}/mo`, color: '#F59E0B' },
-                        { label: 'Savings & Investments — 20% (emergency fund, investments)', value: `$${savings.toLocaleString()}/mo`, color: '#059669' },
-                        { label: 'Months to build 6-month emergency fund at this savings rate', value: `${emergencyMonths} months`, color: '#DC2626' },
+                        { label: 'Needs — 50% (rent, food, transport, utilities, insurance)', value: `$${needs.toLocaleString()}/mo`, ...MODULE_COLORS['module-1'] },
+                        { label: 'Wants — 30% (dining out, entertainment, shopping, travel)', value: `$${wants.toLocaleString()}/mo`, color: C.primary },
+                        { label: 'Savings & Investments — 20% (emergency fund, investments)', value: `$${savings.toLocaleString()}/mo`, ...MODULE_COLORS['module-3'] },
+                        { label: 'Months to build 6-month emergency fund at this savings rate', value: `${emergencyMonths} months`, ...MODULE_COLORS['module-4'] },
                       ];
                     },
                   },
@@ -15512,10 +15513,10 @@ export const MODULES = [
                       const returns5 = fv5 - totalContrib5;
                       const returns10 = fv10 - totalContrib10;
                       return [
-                        { label: 'Portfolio value after 5 years (6% p.a.)', value: `$${fv5.toLocaleString()}`, color: '#4F46E5' },
-                        { label: 'Portfolio value after 10 years (6% p.a.)', value: `$${fv10.toLocaleString()}`, color: '#059669' },
-                        { label: 'Your total contributions over 10 years', value: `$${totalContrib10.toLocaleString()}`, color: '#0891B2' },
-                        { label: 'Investment returns earned over 10 years (compounding)', value: `$${returns10.toLocaleString()}`, color: '#F59E0B' },
+                        { label: 'Portfolio value after 5 years (6% p.a.)', value: `$${fv5.toLocaleString()}`, ...MODULE_COLORS['module-1'] },
+                        { label: 'Portfolio value after 10 years (6% p.a.)', value: `$${fv10.toLocaleString()}`, ...MODULE_COLORS['module-3'] },
+                        { label: 'Your total contributions over 10 years', value: `$${totalContrib10.toLocaleString()}`, ...MODULE_COLORS['module-2'] },
+                        { label: 'Investment returns earned over 10 years (compounding)', value: `$${returns10.toLocaleString()}`, color: C.primary },
                       ];
                     },
                   },
@@ -15715,7 +15716,7 @@ export const MODULES = [
                         icon: '🔄',
                         label: 'How RA is Formed',
                         description: 'At age 55, OA and SA balances are merged into your Retirement Account up to the retirement sum threshold.',
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         details: [
                           'At age 55, CPF automatically creates your Retirement Account.',
                           'Funds are transferred from SA first, then OA, up to the prevailing Full Retirement Sum (FRS).',
@@ -15729,7 +15730,7 @@ export const MODULES = [
                         icon: '💰',
                         label: 'What Determines Your Payout',
                         description: 'Your monthly CPF LIFE payout depends on your RA balance at 65, your plan choice, and your start age.',
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         details: [
                           'The higher your RA balance at 65, the higher your monthly payout — the relationship is roughly linear.',
                           'CPF LIFE Standard Plan gives higher monthly payouts but lower bequest. Escalating Plan gives lower initial payouts that increase 2% annually. Basic Plan gives lower payouts but higher bequest.',
@@ -15742,7 +15743,7 @@ export const MODULES = [
                         icon: '🛡️',
                         label: 'Longevity Protection',
                         description: 'CPF LIFE pays for as long as you live — you cannot outlive your CPF retirement income.',
-                        color: '#F59E0B',
+                        color: C.primary,
                         details: [
                           'Traditional savings deplete over time — if you live to 95, savings you planned for 20 years of retirement run out.',
                           'CPF LIFE is an annuity — payouts continue regardless of how long you live. This is its most important feature.',
@@ -15755,7 +15756,7 @@ export const MODULES = [
                         icon: '📋',
                         label: 'CPF LIFE Plans',
                         description: 'Three plan options balancing monthly payout level against bequest amount left for beneficiaries.',
-                        color: '#DC2626',
+                        ...MODULE_COLORS['module-4'],
                         details: [
                           'Standard Plan: highest monthly payouts, lower bequest (most popular choice for maximum retirement income).',
                           'Escalating Plan: lower initial payouts that increase 2% per year — designed for inflation protection over a long retirement.',
@@ -15869,10 +15870,10 @@ export const MODULES = [
                       const brsLabel = value < 102900 ? 'Below BRS — consider topping up RA' : value < 205800 ? 'Between BRS and FRS' : value < 308700 ? 'At or above FRS ✓' : 'At or above ERS ✓';
                       const yearsTo20k = Math.round(20000 / (monthlyPayout * 12) * 10) / 10;
                       return [
-                        { label: 'Estimated monthly CPF LIFE payout (Standard Plan)', value: `$${monthlyPayout.toLocaleString()}/mo`, color: '#4F46E5' },
-                        { label: 'Estimated annual CPF LIFE income', value: `$${annualPayout.toLocaleString()}/yr`, color: '#059669' },
-                        { label: 'Retirement sum status', value: brsLabel, color: '#0891B2' },
-                        { label: 'Years to recover full RA balance through payouts', value: `~${Math.round(value / annualPayout * 10) / 10} years`, color: '#F59E0B' },
+                        { label: 'Estimated monthly CPF LIFE payout (Standard Plan)', value: `$${monthlyPayout.toLocaleString()}/mo`, ...MODULE_COLORS['module-1'] },
+                        { label: 'Estimated annual CPF LIFE income', value: `$${annualPayout.toLocaleString()}/yr`, ...MODULE_COLORS['module-3'] },
+                        { label: 'Retirement sum status', value: brsLabel, ...MODULE_COLORS['module-2'] },
+                        { label: 'Years to recover full RA balance through payouts', value: `~${Math.round(value / annualPayout * 10) / 10} years`, color: C.primary },
                       ];
                     },
                   },
@@ -15992,7 +15993,7 @@ export const MODULES = [
                         icon: '🛡️',
                         label: 'CPF LIFE',
                         percentage: 40,
-                        color: '#4F46E5',
+                        ...MODULE_COLORS['module-1'],
                         amount: '~40%',
                         description: 'Your guaranteed income floor — CPF LIFE Standard Plan at FRS pays ~$1,600/month for life from age 65. This pillar never runs out regardless of how long you live. For most Singapore residents, CPF LIFE is the foundation everything else is built on top of.',
                       },
@@ -16000,7 +16001,7 @@ export const MODULES = [
                         icon: '📈',
                         label: 'Cash Investments',
                         percentage: 35,
-                        color: '#059669',
+                        ...MODULE_COLORS['module-3'],
                         amount: '~35%',
                         description: 'Your flexibility and growth pillar — a portfolio of equities, bonds, ETFs, and robo-advisor investments built through consistent monthly investing throughout your career. This provides withdrawal flexibility, inflation upside, and the ability to fund lump-sum expenses in retirement that CPF LIFE monthly payouts cannot cover.',
                       },
@@ -16008,7 +16009,7 @@ export const MODULES = [
                         icon: '🏠',
                         label: 'Property / Other',
                         percentage: 25,
-                        color: '#F59E0B',
+                        color: C.primary,
                         amount: '~25%',
                         description: 'Property equity (through HDB upgrading or rental income) and other assets including SRS, business interests, or inheritance. Property in Singapore has historically appreciated and provides both equity and potential rental income in retirement. Not all retirees rely on this pillar — those who downsize HDB flats in retirement can unlock significant cash.',
                       },

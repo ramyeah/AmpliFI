@@ -8,6 +8,7 @@ import {
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { getProgress } from '../../lib/progress';
 import { MODULES } from '../../constants/modules';
+import { Colors as C, Fonts as F } from '../../constants/theme';
 
 const { width: SW, height: SH } = Dimensions.get('window');
 
@@ -40,8 +41,8 @@ function ConfettiPiece({ delay, color, startX, size }) {
         Animated.timing(y,       { toValue: SH * 0.7, duration: 2400, useNativeDriver: true }),
         Animated.timing(x,       { toValue: drift,    duration: 2400, useNativeDriver: true }),
         Animated.sequence([
-          Animated.timing(opacity, { toValue: 1, duration: 150,                      useNativeDriver: true }),
-          Animated.timing(opacity, { toValue: 0, duration: 700, delay: 1500,         useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 1, duration: 150,                    useNativeDriver: true }),
+          Animated.timing(opacity, { toValue: 0, duration: 700, delay: 1500,       useNativeDriver: true }),
         ]),
         Animated.timing(rotate, { toValue: 1, duration: 2400, useNativeDriver: true }),
       ]).start();
@@ -85,7 +86,7 @@ function Confetti() {
 function LessonRow({ lesson, isCompleted, moduleColor }) {
   return (
     <View style={[row.container, isCompleted && row.containerDone]}>
-      <View style={[row.iconCircle, { backgroundColor: isCompleted ? moduleColor : '#F3F4F6' }]}>
+      <View style={[row.iconCircle, { backgroundColor: isCompleted ? moduleColor : C.lightGray }]}>
         <Text style={row.icon}>{lesson.icon}</Text>
       </View>
       <View style={row.text}>
@@ -141,26 +142,15 @@ export default function ChapterCompleteScreen() {
     .filter(l => completedLessons.includes(l.id))
     .reduce((sum, l) => sum + (l.fincoins ?? 55), 0);
 
-  // ── Next chapter (within same module) ──────────────────────────────────────
-  const allChapters = mod.chapters;
-  const chapIdx     = allChapters.findIndex(c => c.id === chapterId);
-  const nextChapter = allChapters[chapIdx + 1] ?? null;
-
-  // ── Next module ────────────────────────────────────────────────────────────
-  const modIdx     = MODULES.findIndex(m => m.id === mod.id);
-  const nextModule = MODULES[modIdx + 1] ?? null;
-
-  // ── Is this the last chapter in the module? ───────────────────────────────
+  const allChapters           = mod.chapters;
+  const chapIdx               = allChapters.findIndex(c => c.id === chapterId);
+  const nextChapter           = allChapters[chapIdx + 1] ?? null;
+  const modIdx                = MODULES.findIndex(m => m.id === mod.id);
+  const nextModule            = MODULES[modIdx + 1] ?? null;
   const isLastChapterInModule = chapIdx === allChapters.length - 1;
 
-  // ── Continue handler ───────────────────────────────────────────────────────
-  // Priority:
-  // 1. Last chapter in module → module complete page
-  // 2. Next chapter exists    → first lesson of that chapter
-  // 3. Journey complete       → back to learn map
   const handleContinue = () => {
     if (isLastChapterInModule) {
-      // Always show module complete when finishing the last chapter
       router.replace(`/module-complete/${mod.id}`);
     } else if (nextChapter) {
       const firstLesson = nextChapter.lessons[0];
@@ -170,7 +160,6 @@ export default function ChapterCompleteScreen() {
     }
   };
 
-  // CTA label
   const ctaLabel = isLastChapterInModule
     ? `${mod.title} Complete 🏆`
     : nextChapter
@@ -213,7 +202,6 @@ export default function ChapterCompleteScreen() {
         {/* ── Body ── */}
         <Animated.View style={[styles.body, { opacity: bodyOpacity }]}>
 
-          {/* Lessons summary */}
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>Lessons in this chapter</Text>
             {chapter.lessons.map(l => (
@@ -226,7 +214,6 @@ export default function ChapterCompleteScreen() {
             ))}
           </View>
 
-          {/* What's next */}
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>What's next</Text>
             {nextChapter ? (
@@ -241,7 +228,7 @@ export default function ChapterCompleteScreen() {
                 </View>
               </View>
             ) : nextModule ? (
-              <View style={[styles.nextCard, { borderColor: nextModule.color + '40', backgroundColor: nextModule.colorLight ?? '#F9FAFB' }]}>
+              <View style={[styles.nextCard, { borderColor: nextModule.color + '40', backgroundColor: nextModule.colorLight ?? C.lightGray }]}>
                 <Text style={styles.nextIcon}>{nextModule.icon}</Text>
                 <View style={styles.nextText}>
                   <Text style={[styles.nextLabel, { color: nextModule.color }]}>Next Module</Text>
@@ -252,10 +239,10 @@ export default function ChapterCompleteScreen() {
                 </View>
               </View>
             ) : (
-              <View style={[styles.nextCard, { borderColor: '#F59E0B40', backgroundColor: '#FFFBEB' }]}>
+              <View style={[styles.nextCard, { borderColor: C.warningDark + '40', backgroundColor: C.warningLight }]}>
                 <Text style={styles.nextIcon}>🏆</Text>
                 <View style={styles.nextText}>
-                  <Text style={[styles.nextLabel, { color: '#D97706' }]}>Journey Complete</Text>
+                  <Text style={[styles.nextLabel, { color: C.warningDark }]}>Journey Complete</Text>
                   <Text style={styles.nextTitle}>You've finished the entire roadmap!</Text>
                 </View>
               </View>
@@ -281,7 +268,7 @@ export default function ChapterCompleteScreen() {
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  container:     { flex: 1, backgroundColor: '#F8F7FF' },
+  container:     { flex: 1, backgroundColor: C.surface },
   scroll:        { flex: 1 },
   scrollContent: { paddingBottom: 120 },
 
@@ -292,7 +279,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   backBtn:     { position: 'absolute', top: 56, left: 20, padding: 8 },
-  backBtnText: { fontSize: 15, fontWeight: '600', color: 'rgba(255,255,255,0.85)' },
+  backBtnText: { fontFamily: F.semiBold, fontSize: 15, color: 'rgba(255,255,255,0.85)' },
 
   badge: {
     width: 88, height: 88, borderRadius: 44,
@@ -302,12 +289,13 @@ const styles = StyleSheet.create({
   },
   badgeEmoji:    { fontSize: 44 },
   completeLabel: {
-    fontSize: 11, fontWeight: '800', color: 'rgba(255,255,255,0.7)',
+    fontFamily: F.extraBold, fontSize: 11,
+    color: 'rgba(255,255,255,0.7)',
     letterSpacing: 2, marginBottom: 8,
   },
   chapterTitle: {
-    fontSize: 24, fontWeight: '800', color: '#fff',
-    textAlign: 'center', marginBottom: 20, lineHeight: 30,
+    fontFamily: F.extraBold, fontSize: 24,
+    color: C.white, textAlign: 'center', marginBottom: 20, lineHeight: 30,
   },
   coinChip: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
@@ -315,57 +303,56 @@ const styles = StyleSheet.create({
     borderRadius: 20, paddingHorizontal: 20, paddingVertical: 10,
   },
   coinEmoji: { fontSize: 22 },
-  coinText:  { fontSize: 16, fontWeight: '800', color: '#fff' },
+  coinText:  { fontFamily: F.extraBold, fontSize: 16, color: C.white },
 
   body:    { paddingHorizontal: 20, paddingTop: 16, gap: 24 },
   section: { gap: 10 },
   sectionLabel: {
-    fontSize: 12, fontWeight: '700', color: '#9CA3AF',
-    letterSpacing: 0.5, marginBottom: 4,
+    fontFamily: F.bold, fontSize: 12,
+    color: C.textMuted, letterSpacing: 0.5, marginBottom: 4,
   },
 
   nextCard: {
     flexDirection: 'row', alignItems: 'center', gap: 14,
-    backgroundColor: '#fff', borderRadius: 16, padding: 16,
-    borderWidth: 2,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    backgroundColor: C.white, borderRadius: 16, padding: 16, borderWidth: 2,
+    shadowColor: C.black, shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05, shadowRadius: 6, elevation: 2,
   },
   nextIcon:  { fontSize: 30 },
   nextText:  { flex: 1 },
-  nextLabel: { fontSize: 11, fontWeight: '700', color: '#6B7280', letterSpacing: 0.3, marginBottom: 2 },
-  nextTitle: { fontSize: 15, fontWeight: '700', color: '#111827', marginBottom: 2 },
-  nextDesc:  { fontSize: 12, color: '#6B7280', lineHeight: 17 },
+  nextLabel: { fontFamily: F.bold,      fontSize: 11, color: C.textMuted, letterSpacing: 0.3, marginBottom: 2 },
+  nextTitle: { fontFamily: F.bold,      fontSize: 15, color: C.textPrimary, marginBottom: 2 },
+  nextDesc:  { fontFamily: F.regular,   fontSize: 12, color: C.textMuted, lineHeight: 17 },
 
   ctaBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: '#F8F7FF', paddingHorizontal: 20,
+    backgroundColor: C.surface, paddingHorizontal: 20,
     paddingTop: 12, paddingBottom: 36,
-    borderTopWidth: 1, borderTopColor: '#E5E7EB',
+    borderTopWidth: 1, borderTopColor: C.border,
   },
   ctaBtn: {
     borderRadius: 18, paddingVertical: 18, alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
+    shadowColor: C.black, shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15, shadowRadius: 8, elevation: 4,
   },
-  ctaBtnText: { fontSize: 16, fontWeight: '800', color: '#fff' },
+  ctaBtnText: { fontFamily: F.extraBold, fontSize: 16, color: C.white },
 });
 
 // ─── Lesson Row Styles ────────────────────────────────────────────────────────
 const row = StyleSheet.create({
   container: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#fff', borderRadius: 14, padding: 14,
-    borderWidth: 1, borderColor: '#F3F4F6',
+    backgroundColor: C.white, borderRadius: 14, padding: 14,
+    borderWidth: 1, borderColor: C.lightGray,
   },
-  containerDone: { borderColor: '#E5E7EB' },
+  containerDone: { borderColor: C.border },
   iconCircle: {
     width: 40, height: 40, borderRadius: 20,
     justifyContent: 'center', alignItems: 'center',
   },
   icon:  { fontSize: 18 },
   text:  { flex: 1 },
-  title: { fontSize: 14, fontWeight: '600', color: '#111827' },
-  meta:  { fontSize: 12, color: '#6B7280', marginTop: 2 },
-  check: { fontSize: 18, fontWeight: '800' },
+  title: { fontFamily: F.semiBold, fontSize: 14, color: C.textPrimary },
+  meta:  { fontFamily: F.regular,  fontSize: 12, color: C.textMuted, marginTop: 2 },
+  check: { fontFamily: F.extraBold, fontSize: 18 },
 });
