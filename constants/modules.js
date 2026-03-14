@@ -913,7 +913,7 @@ export const MODULES = [
             icon: '🎯',
             topic: 'Setting SMART financial goals',
             duration: '5 min',
-            fincoins: 35,
+            fincoins: 45,
             sections: [
 
               // ─── Section 1: Why Goals Change Financial Behaviour ──
@@ -1717,7 +1717,7 @@ export const MODULES = [
             icon: '🥧',
             topic: 'The 50/30/20 budgeting framework applied to Singapore student life',
             duration: '6 min',
-            fincoins: 45,
+            fincoins: 55,
             sections: [
 
               // ─── SECTION 1 ───────────────────────────

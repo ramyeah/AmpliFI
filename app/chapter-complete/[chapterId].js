@@ -268,7 +268,7 @@ export default function ChapterCompleteScreen() {
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  container:     { flex: 1, backgroundColor: C.surface },
+  container:     { flex: 1, backgroundColor: C.background },
   scroll:        { flex: 1 },
   scrollContent: { paddingBottom: 120 },
 
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
 
   ctaBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: C.surface, paddingHorizontal: 20,
+    backgroundColor: C.background, paddingHorizontal: 20,
     paddingTop: 12, paddingBottom: 36,
     borderTopWidth: 1, borderTopColor: C.border,
   },

@@ -666,7 +666,7 @@ const lcm = StyleSheet.create({
     paddingHorizontal: 32,
   },
   card: {
-    backgroundColor: C.white, borderRadius: 28,
+    backgroundColor: C.background, borderRadius: 28,
     overflow: 'hidden', width: '100%',
     shadowColor: C.black, shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.2, shadowRadius: 24, elevation: 20,

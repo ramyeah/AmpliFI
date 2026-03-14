@@ -284,7 +284,7 @@ export default function ModuleCompleteScreen() {
       {/* ── CTA ── */}
       <View style={s.ctaBar}>
         <TouchableOpacity
-          style={[s.ctaBtn, { backgroundColor: mod.color }]}
+          style={[s.ctaBtn, { backgroundColor: nextModule?.color ?? mod.color }]}
           onPress={handleContinue}
           activeOpacity={0.87}
         >
@@ -299,7 +299,7 @@ export default function ModuleCompleteScreen() {
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
-  container:     { flex: 1, backgroundColor: C.surface },
+  container:     { flex: 1, backgroundColor: C.background },
   scroll:        { flex: 1 },
   scrollContent: { paddingBottom: 120 },
 
@@ -364,7 +364,7 @@ const s = StyleSheet.create({
 
   ctaBar: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: C.surface, paddingHorizontal: 20,
+    backgroundColor: C.background, paddingHorizontal: 20,
     paddingTop: 12, paddingBottom: 36,
     borderTopWidth: 1, borderTopColor: C.border,
   },

@@ -248,7 +248,8 @@ export default function LearnScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={s.finishBanner}>
-          <Text style={s.finishEmoji}>🏁</Text>
+          <Text style={s.finishEmoji}>🏆</Text>
+          <Text style={s.originText}>That's it for now!</Text>
         </View>
 
         {renderItems.map((item) => {
