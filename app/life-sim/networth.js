@@ -24,7 +24,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useUserStore from '../../store/userStore';
 import { loadSimProgress } from '../../lib/lifeSim';
 import { Colors, Fonts, Spacing, Radii, Shadows, MODULE_COLORS } from '../../constants/theme';
-import { formatDual } from '../../constants/lifeSimStages';
 import { auth } from '../../lib/firebase';
 import { useSafeBack } from '../../hooks/useHardwareBack';
 
