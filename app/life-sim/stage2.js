@@ -1,421 +1,537 @@
-// app/life-sim/stage2.js
+// app/life-sim/stage4.js
 //
-// Stage 2 — Your First Paycheck
+// Stage 4 — Open a Bank Account
 //
-// The user splits their income across Needs / Wants / Savings using sliders.
-// Pre-filled at 70/30/0 — they have to actively fix it.
-// No target markers — they apply what they learned.
-// Fin is silent unless Savings = 0 at 100% total, then surfaces the implication.
-// Soft nudge if Savings < 10% (can still proceed).
-// Paycheck animation on entry.
+// Flow:
+//   1. StageHeader + wallet balance context card (animated counter)
+//   2. Fin RAG recommendation based on Stage 3 spending profile
+//   3. Three bank comparison cards — DBS / OCBC / UOB (expandable)
+//   4. Select a bank → transfer confirmation sheet → open account CTA
+//   5. Transfer animation: wallet → bank account (progress bar)
+//   6. Interest preview card: "You'll earn $X this year"
+//   7. StageCompleteModal → outfit 'card' unlocked
 //
-// On completion: setBudget() + completeStage() → outfit 'notebook' unlocked.
+// Saves: bankAccountId, bankChosen, openingBalance
+// Gate:  lesson '4-1' — The Big Three Local Banks
+// Outfit unlock: 'card'
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
-  View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, Animated, Platform,
+  View, Text, StyleSheet, TouchableOpacity,
+  ScrollView, Animated, Modal,
 } from 'react-native';
-import Slider from '@react-native-community/slider';
 import { useRouter } from 'expo-router';
 import useUserStore from '../../store/userStore';
-import { setBudget, completeStage, loadSimProgress } from '../../lib/lifeSim';
-import { getIncomeBracket, formatDual, STAGES } from '../../constants/lifeSimStages';
+import { completeStage, loadSimProgress, saveSimProgress } from '../../lib/lifeSim';
+import { STAGES, BANK_ACCOUNTS, formatDual, WALLET_TEMPLATES } from '../../constants/lifeSimStages';
 import { getUnlockedOutfits, getNewOutfit } from '../../constants/avatars';
 import { Colors, Fonts, Spacing, Radii, Shadows } from '../../constants/theme';
 import { auth } from '../../lib/firebase';
-import { FinBubble, StageHeader, StageCompleteModal, DualAmount } from '../../components/LifeSimComponents';
+import { ragAsk } from '../../lib/api';
+import { FinBubble, StageHeader, StageCompleteModal } from '../../components/LifeSimComponents';
 
 const STAGE = STAGES.find(s => s.id === 'stage-2');
 
-// ─── Paycheck float animation ─────────────────────────────────────────────────
-function PaycheckToast({ amount, visible }) {
-  const y  = useRef(new Animated.Value(0)).current;
-  const op = useRef(new Animated.Value(0)).current;
-
+// ─── Animated balance counter ─────────────────────────────────────────────────
+function AnimatedCounter({ from, to, duration = 1400, style }) {
+  const anim = useRef(new Animated.Value(from)).current;
+  const [display, setDisplay] = useState(from);
   useEffect(() => {
-    if (!visible) return;
-    y.setValue(0); op.setValue(0);
-    Animated.sequence([
-      Animated.parallel([
-        Animated.spring(y,  { toValue: -60, friction: 6, useNativeDriver: true }),
-        Animated.timing(op, { toValue: 1, duration: 200, useNativeDriver: true }),
-      ]),
-      Animated.delay(800),
-      Animated.timing(op, { toValue: 0, duration: 400, useNativeDriver: true }),
-    ]).start();
-  }, [visible]);
-
-  if (!visible) return null;
-  return (
-    <Animated.View style={[pt.wrap, { opacity: op, transform: [{ translateY: y }] }]}>
-      <Text style={pt.text}>💸  +{formatDual(amount).sgd} arrived!</Text>
-    </Animated.View>
-  );
+    Animated.timing(anim, { toValue: to, duration, useNativeDriver: false }).start();
+    const id = anim.addListener(({ value }) => setDisplay(Math.round(value)));
+    return () => anim.removeListener(id);
+  }, [to]);
+  return <Text style={style}>${display.toLocaleString()}</Text>;
 }
-const pt = StyleSheet.create({
-  wrap: { position: 'absolute', alignSelf: 'center', top: 0, backgroundColor: Colors.successDark, borderRadius: Radii.full, paddingHorizontal: 20, paddingVertical: 10, zIndex: 100, ...Shadows.medium },
-  text: { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
-});
 
-// ─── Single slider row ────────────────────────────────────────────────────────
-function BudgetSlider({ label, icon, value, color, dollarAmt, income, onChange }) {
-  const pct = Math.round((dollarAmt / income) * 100);
+// ─── Feature tag ──────────────────────────────────────────────────────────────
+function FeatureTag({ text, color }) {
   return (
-    <View style={sl.wrap}>
-      <View style={sl.topRow}>
-        <Text style={sl.icon}>{icon}</Text>
-        <Text style={sl.label}>{label}</Text>
-        <View style={{ flex: 1 }} />
-        <Text style={[sl.pct, { color }]}>{value}%</Text>
-      </View>
-      <Slider
-        style={{ width: '100%', height: 36 }}
-        minimumValue={0}
-        maximumValue={100}
-        step={1}
-        value={value}
-        onValueChange={v => onChange(Math.round(v))}
-        minimumTrackTintColor={color}
-        maximumTrackTintColor={Colors.border}
-        thumbTintColor={color}
-      />
-      <Text style={[sl.dollar, { color }]}>{formatDual(dollarAmt).sgd} / month</Text>
+    <View style={[ft.tag, { backgroundColor: color + '18' }]}>
+      <Text style={[ft.text, { color }]}>{text}</Text>
     </View>
   );
 }
-const sl = StyleSheet.create({
-  wrap:   { backgroundColor: Colors.white, borderRadius: Radii.md, padding: Spacing.md, marginBottom: Spacing.sm, ...Shadows.soft },
-  topRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 2 },
-  icon:   { fontSize: 18 },
-  label:  { fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.textPrimary },
-  pct:    { fontFamily: Fonts.extraBold, fontSize: 20, minWidth: 44, textAlign: 'right' },
-  dollar: { fontFamily: Fonts.regular, fontSize: 12, marginTop: -4, paddingHorizontal: 2 },
+const ft = StyleSheet.create({
+  tag:  { borderRadius: Radii.full, paddingHorizontal: 9, paddingVertical: 3, marginRight: 6, marginBottom: 6 },
+  text: { fontFamily: Fonts.semiBold, fontSize: 10 },
+});
+
+// ─── Bank comparison card ─────────────────────────────────────────────────────
+function BankCard({ bank, selected, onSelect, recommended }) {
+  const [expanded, setExpanded] = useState(false);
+  const isSelected = selected === bank.id;
+  const annualRate = (bank.baseRate * 100).toFixed(2);
+
+  return (
+    <TouchableOpacity
+      style={[bc.card,
+        isSelected ? { borderColor: bank.color, borderWidth: 2 }
+                   : { borderColor: Colors.border, borderWidth: 1 }]}
+      onPress={() => setExpanded(e => !e)}
+      activeOpacity={0.85}
+    >
+      {recommended && (
+        <View style={[bc.ribbon, { backgroundColor: bank.color }]}>
+          <Text style={bc.ribbonText}>⭐ Fin recommends</Text>
+        </View>
+      )}
+
+      <View style={bc.headerRow}>
+        <View style={[bc.logoBadge, { backgroundColor: bank.colorLight }]}>
+          <Text style={[bc.logoText, { color: bank.color }]}>{bank.bank}</Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={bc.bankName}>{bank.name}</Text>
+          <View style={bc.rateRow}>
+            <Text style={[bc.rate, { color: bank.color }]}>{annualRate}%</Text>
+            <Text style={bc.rateLabel}> p.a. base</Text>
+          </View>
+        </View>
+        {isSelected
+          ? <View style={[bc.selectBadge, { backgroundColor: bank.color }]}>
+              <Text style={bc.selectBadgeText}>✓</Text>
+            </View>
+          : <Text style={bc.chevron}>{expanded ? '▲' : '▼'}</Text>
+        }
+      </View>
+
+      {bank.minBalance > 0 && (
+        <View style={bc.minRow}>
+          <Text style={bc.minText}>
+            Min. balance ${bank.minBalance.toLocaleString()} · ${bank.fallBelowFee}/mo fee if below
+          </Text>
+        </View>
+      )}
+
+      {expanded && (
+        <View style={bc.expandWrap}>
+          <View style={bc.divider} />
+          <Text style={bc.featuresTitle}>Key features</Text>
+          <View style={bc.featureTags}>
+            {bank.features.map((f, i) => <FeatureTag key={i} text={f} color={bank.color} />)}
+          </View>
+          {bank.bonusRate > 0 && (
+            <View style={[bc.bonusRow, { backgroundColor: bank.colorLight }]}>
+              <Text style={[bc.bonusText, { color: bank.color }]}>
+                🚀  Up to {(bank.bonusRate * 100).toFixed(0)}% p.a. with bonus criteria
+              </Text>
+            </View>
+          )}
+          <Text style={bc.finNote}>{bank.finNote}</Text>
+        </View>
+      )}
+
+      <TouchableOpacity
+        style={[bc.selectBtn, { backgroundColor: isSelected ? bank.color : bank.color + '18' }]}
+        onPress={() => onSelect(bank.id)}
+        activeOpacity={0.8}
+      >
+        <Text style={[bc.selectBtnText, { color: isSelected ? Colors.white : bank.color }]}>
+          {isSelected ? '✓ Selected' : 'Select this bank'}
+        </Text>
+      </TouchableOpacity>
+    </TouchableOpacity>
+  );
+}
+
+const bc = StyleSheet.create({
+  card:           { backgroundColor: Colors.white, borderRadius: Radii.lg, padding: Spacing.md, marginBottom: Spacing.md, ...Shadows.soft },
+  ribbon:         { alignSelf: 'flex-start', borderRadius: Radii.full, paddingHorizontal: 10, paddingVertical: 3, marginBottom: 10 },
+  ribbonText:     { fontFamily: Fonts.bold, fontSize: 10, color: Colors.white },
+  headerRow:      { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
+  logoBadge:      { width: 44, height: 44, borderRadius: Radii.md, alignItems: 'center', justifyContent: 'center' },
+  logoText:       { fontFamily: Fonts.extraBold, fontSize: 11 },
+  bankName:       { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary, marginBottom: 2 },
+  rateRow:        { flexDirection: 'row', alignItems: 'baseline' },
+  rate:           { fontFamily: Fonts.extraBold, fontSize: 16 },
+  rateLabel:      { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  chevron:        { fontSize: 12, color: Colors.textMuted, marginTop: 2 },
+  selectBadge:    { width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  selectBadgeText:{ fontFamily: Fonts.extraBold, fontSize: 12, color: Colors.white },
+  minRow:         { backgroundColor: Colors.warningLight, borderRadius: Radii.sm, paddingHorizontal: 10, paddingVertical: 5, marginBottom: 8 },
+  minText:        { fontFamily: Fonts.regular, fontSize: 11, color: Colors.warningDark },
+  expandWrap:     { marginTop: 4 },
+  divider:        { height: 1, backgroundColor: Colors.border, marginBottom: Spacing.sm },
+  featuresTitle:  { fontFamily: Fonts.bold, fontSize: 11, color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: 8 },
+  featureTags:    { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 8 },
+  bonusRow:       { borderRadius: Radii.sm, paddingHorizontal: 10, paddingVertical: 6, marginBottom: 10 },
+  bonusText:      { fontFamily: Fonts.bold, fontSize: 12 },
+  finNote:        { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary, lineHeight: 18, marginBottom: Spacing.sm },
+  selectBtn:      { borderRadius: Radii.md, paddingVertical: 10, alignItems: 'center', marginTop: 4 },
+  selectBtnText:  { fontFamily: Fonts.bold, fontSize: 13 },
+});
+
+// ─── Transfer confirmation sheet ──────────────────────────────────────────────
+function TransferSheet({ visible, bank, walletBalance, onDone }) {
+  const slideY    = useRef(new Animated.Value(300)).current;
+  const fillAnim  = useRef(new Animated.Value(0)).current;
+  const [phase,   setPhase]   = useState('ready');
+  const [earning, setEarning] = useState(null);
+
+  useEffect(() => {
+    if (!visible) return;
+    setPhase('ready');
+    fillAnim.setValue(0);
+    Animated.spring(slideY, { toValue: 0, useNativeDriver: true, tension: 60, friction: 10 }).start();
+  }, [visible]);
+
+  const startTransfer = () => {
+    setPhase('transferring');
+    Animated.timing(fillAnim, { toValue: 1, duration: 1600, useNativeDriver: false }).start(() => {
+      setEarning(walletBalance * (bank?.baseRate ?? 0.0005));
+      setPhase('done');
+    });
+  };
+
+  if (!bank) return null;
+  const dual = formatDual(walletBalance);
+  const fillWidth = fillAnim.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] });
+
+  return (
+    <Modal transparent visible={visible} animationType="none">
+      <View style={ts.backdrop}>
+        <Animated.View style={[ts.sheet, { transform: [{ translateY: slideY }] }]}>
+          <View style={[ts.handle, { backgroundColor: bank.color }]} />
+
+          {phase === 'ready' && <>
+            <Text style={ts.title}>Open {bank.bank} Account</Text>
+            <Text style={ts.subtitle}>Your wallet balance transfers into your new bank account.</Text>
+            <View style={ts.transferRow}>
+              <View style={ts.acctBox}>
+                <Text style={ts.acctIcon}>💳</Text>
+                <Text style={ts.acctLabel}>Cash Wallet</Text>
+                <Text style={ts.acctAmt}>{dual.sgd}</Text>
+              </View>
+              <Text style={ts.arrow}>→</Text>
+              <View style={[ts.acctBox, { borderColor: bank.color + '40', borderWidth: 1.5 }]}>
+                <View style={[ts.bankBadge, { backgroundColor: bank.colorLight }]}>
+                  <Text style={[ts.bankBadgeText, { color: bank.color }]}>{bank.bank}</Text>
+                </View>
+                <Text style={ts.acctLabel}>{bank.name}</Text>
+                <Text style={[ts.acctAmt, { color: bank.color }]}>{dual.sgd}</Text>
+              </View>
+            </View>
+            <View style={ts.rateInfo}>
+              <Text style={ts.rateInfoText}>
+                {(bank.baseRate * 100).toFixed(2)}% p.a. — your money starts earning from day one.
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={[ts.confirmBtn, { backgroundColor: bank.color }]}
+              onPress={startTransfer} activeOpacity={0.85}
+            >
+              <Text style={ts.confirmBtnText}>Open Account →</Text>
+            </TouchableOpacity>
+          </>}
+
+          {phase === 'transferring' && <>
+            <Text style={ts.title}>Transferring…</Text>
+            <Text style={ts.subtitle}>Moving {dual.sgd} into your {bank.bank} account.</Text>
+            <View style={ts.barTrack}>
+              <Animated.View style={[ts.barFill, { width: fillWidth, backgroundColor: bank.color }]} />
+            </View>
+            <Text style={ts.transferNote}>Setting up account · Applying interest rate · Confirming deposit</Text>
+          </>}
+
+          {phase === 'done' && <>
+            <Text style={[ts.title, { color: bank.color }]}>🎉 Account Opened!</Text>
+            <Text style={ts.subtitle}>Your money has a proper home now.</Text>
+            <View style={[ts.doneCard, { backgroundColor: bank.colorLight, borderColor: bank.color + '30' }]}>
+              <Text style={[ts.doneBank, { color: bank.color }]}>{bank.bank} · {bank.name}</Text>
+              <Text style={ts.doneBalance}>{dual.sgd}</Text>
+              <Text style={ts.doneCoins}>{dual.coins}</Text>
+              {earning !== null && (
+                <Text style={[ts.doneEarn, { color: bank.color }]}>
+                  At {(bank.baseRate * 100).toFixed(2)}% p.a. — you'll earn ~${earning.toFixed(2)} this year
+                </Text>
+              )}
+            </View>
+            <TouchableOpacity
+              style={[ts.confirmBtn, { backgroundColor: bank.color }]}
+              onPress={onDone} activeOpacity={0.85}
+            >
+              <Text style={ts.confirmBtnText}>Complete Stage 4 →</Text>
+            </TouchableOpacity>
+          </>}
+        </Animated.View>
+      </View>
+    </Modal>
+  );
+}
+
+const ts = StyleSheet.create({
+  backdrop:       { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  sheet:          { backgroundColor: Colors.white, borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: Spacing.xl, paddingTop: Spacing.md },
+  handle:         { width: 36, height: 4, borderRadius: 2, alignSelf: 'center', marginBottom: Spacing.lg },
+  title:          { fontFamily: Fonts.extraBold, fontSize: 22, color: Colors.textPrimary, marginBottom: 6 },
+  subtitle:       { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textSecondary, lineHeight: 20, marginBottom: Spacing.lg },
+  transferRow:    { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: Spacing.md },
+  acctBox:        { flex: 1, backgroundColor: Colors.lightGray, borderRadius: Radii.md, padding: Spacing.sm, alignItems: 'center', gap: 4 },
+  acctIcon:       { fontSize: 22 },
+  acctLabel:      { fontFamily: Fonts.semiBold, fontSize: 10, color: Colors.textMuted, textAlign: 'center' },
+  acctAmt:        { fontFamily: Fonts.extraBold, fontSize: 15, color: Colors.textPrimary },
+  arrow:          { fontFamily: Fonts.extraBold, fontSize: 20, color: Colors.textMuted },
+  bankBadge:      { borderRadius: Radii.sm, paddingHorizontal: 8, paddingVertical: 3 },
+  bankBadgeText:  { fontFamily: Fonts.extraBold, fontSize: 11 },
+  rateInfo:       { backgroundColor: Colors.successLight, borderRadius: Radii.md, padding: Spacing.sm, marginBottom: Spacing.lg },
+  rateInfoText:   { fontFamily: Fonts.regular, fontSize: 12, color: Colors.successDark, lineHeight: 18 },
+  confirmBtn:     { borderRadius: Radii.lg, paddingVertical: 16, alignItems: 'center' },
+  confirmBtnText: { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
+  barTrack:       { height: 10, backgroundColor: Colors.lightGray, borderRadius: 5, overflow: 'hidden', marginBottom: Spacing.md },
+  barFill:        { height: 10, borderRadius: 5 },
+  transferNote:   { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, textAlign: 'center', lineHeight: 18 },
+  doneCard:       { borderWidth: 1, borderRadius: Radii.lg, padding: Spacing.md, alignItems: 'center', marginBottom: Spacing.lg, gap: 4 },
+  doneBank:       { fontFamily: Fonts.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.4 },
+  doneBalance:    { fontFamily: Fonts.extraBold, fontSize: 34, color: Colors.textPrimary },
+  doneCoins:      { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted },
+  doneEarn:       { fontFamily: Fonts.semiBold, fontSize: 12, marginTop: 4, textAlign: 'center' },
 });
 
 // ─── Main screen ──────────────────────────────────────────────────────────────
-export default function Stage2() {
+export default function Stage4() {
   const router     = useRouter();
   const profile    = useUserStore(s => s.profile);
   const setProfile = useUserStore(s => s.setProfile);
 
   const uid       = auth.currentUser?.uid;
   const finCoins  = profile?.finCoins ?? 0;
-  const avatarId  = profile?.avatarId ?? 'alex';
   const firstName = profile?.name?.split(' ')[0] ?? 'there';
-  const bracket   = getIncomeBracket(finCoins);
-  const income    = bracket.income;
 
-  // Budget sliders — pre-filled at 70/30/0 (the "bad default")
-  const [needs,   setNeeds]   = useState(70);
-  const [wants,   setWants]   = useState(30);
-  const [savings, setSavings] = useState(0);
-
+  const [sim,          setSim]          = useState(null);
+  const [loading,      setLoading]      = useState(true);
+  const [selected,     setSelected]     = useState(null);
+  const [recommended,  setRecommended]  = useState(null);
+  const [finMsg,       setFinMsg]       = useState(null);
+  const [loadingFin,   setLoadingFin]   = useState(true);
+  const [showTransfer, setShowTransfer] = useState(false);
   const [saving,       setSaving]       = useState(false);
   const [showComplete, setShowComplete] = useState(false);
-  const [toastVisible, setToastVisible] = useState(false);
-  const [locked,       setLocked]       = useState(false);
 
   const scrollRef = useRef(null);
 
-  // Show paycheck toast on mount
   useEffect(() => {
-    const t = setTimeout(() => {
-      setToastVisible(true);
-      setTimeout(() => setToastVisible(false), 2200);
-    }, 400);
-    return () => clearTimeout(t);
-  }, []);
+    if (!uid) return;
+    loadSimProgress(uid)
+      .then(data => setSim(data))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [uid]);
 
-  // ── Derived values ─────────────────────────────────────────────────────────
-  const total     = needs + wants + savings;
-  const remaining = 100 - total;
-  const needsAmt   = Math.round((needs   / 100) * income);
-  const wantsAmt   = Math.round((wants   / 100) * income);
-  const savingsAmt = Math.round((savings / 100) * income);
+  // Fire RAG once sim data is available (uid-keyed to avoid re-firing)
+  const finFired = useRef(false);
+  useEffect(() => {
+    if (!sim || finFired.current) return;
+    finFired.current = true;
+    fireFinRecommendation(sim);
+  }, [sim]);
 
-  // ── Clamped slider change — total never exceeds 100 ───────────────────────
-  const handleNeeds = useCallback((v) => {
-    const clamped = Math.min(v, 100 - wants - savings);
-    setNeeds(Math.max(0, clamped));
-  }, [wants, savings]);
+  const walletBalance = (sim?.wallets ?? []).find(w => w.id === 'wallet')?.balance ?? 0;
+  const selectedBank  = BANK_ACCOUNTS.find(b => b.id === selected);
 
-  const handleWants = useCallback((v) => {
-    const clamped = Math.min(v, 100 - needs - savings);
-    setWants(Math.max(0, clamped));
-  }, [needs, savings]);
-
-  const handleSavings = useCallback((v) => {
-    const clamped = Math.min(v, 100 - needs - wants);
-    setSavings(Math.max(0, clamped));
-  }, [needs, wants]);
-
-  // ── Fin's nudge logic ──────────────────────────────────────────────────────
-  // Fin only speaks when savings = 0 AND total = 100
-  const showFinNudge = savings === 0 && total === 100 && !locked;
-
-  // Soft warning when savings is very low but non-zero
-  const showSoftNudge = savings > 0 && savings < 10 && total === 100 && !locked;
-
-  // ── Lock in budget ─────────────────────────────────────────────────────────
-  const handleLockIn = async () => {
-    if (saving || total !== 100) return;
-    setSaving(true);
-    setLocked(true);
+  const fireFinRecommendation = async (simData) => {
+    setLoadingFin(true);
+    const budget = simData?.monthlyBudget;
+    const cut    = simData?.stage3Cut;
     try {
-      await setBudget(uid, {
-        needsPct:   needs,
-        wantsPct:   wants,
-        savingsPct: savings,
-        income,
+      const result = await ragAsk(
+        'Singapore bank account DBS OCBC UOB comparison student savings',
+        `You are Fin, a financial advisor for NTU international students in Singapore.
+The user just finished tracking their first month of spending and is now choosing their first Singapore bank account.
+
+Their financial profile:
+- Monthly income: $${simData?.income ?? 2000}
+- Budget split: ${budget ? `${budget.needs}% Needs / ${budget.wants}% Wants / ${budget.savings}% Savings` : 'not set'}
+- Stage 3 spending cut: ${cut ? `${cut.label} ($${cut.amount}/mo saved)` : 'not set'}
+- Wallet balance to transfer: $${Math.round(walletBalance)}
+
+The three choices are:
+- DBS Savings Account: 0.05% p.a., $3,000 min balance, $2/mo fee if below, best mobile app in SG, pathway to DBS Multiplier (powerful once salary credit + card spend begins)
+- OCBC 360 Account: 0.05% p.a., $1,000 min balance, $2/mo fee if below, up to 4% p.a. with salary credit + card spend + investments
+- UOB One Account: 0.05% p.a., $1,000 min balance, $5/mo fee if below, up to 7.8% p.a. with $500/mo card spend + GIRO
+
+Recommend exactly ONE bank by name and explain why it fits their profile in 2 sentences. Be direct — no hedging. End your response with the bank id in parentheses: exactly one of (dbs) (ocbc) (uob).`,
+        { name: firstName }
+      );
+      const text = result?.response ?? '';
+      setFinMsg(text);
+      const match = text.match(/\((dbs|ocbc|uob)\)/);
+      if (match) setRecommended(match[1]);
+    } catch {
+      setFinMsg(`For a student just starting out, DBS is my pick — the Multiplier account becomes powerful once you're receiving a regular salary, and the digibank app is rated the best in Singapore. Set it up now and it'll grow with you. (dbs)`);
+      setRecommended('dbs');
+    } finally {
+      setLoadingFin(false);
+    }
+  };
+
+  const handleOpenAccount = async () => {
+    if (!selectedBank || saving) return;
+    setSaving(true);
+    try {
+      const freshSim  = await loadSimProgress(uid);
+      const walletBal = (freshSim?.wallets ?? []).find(w => w.id === 'wallet')?.balance ?? walletBalance;
+
+      const bankWallet = {
+        ...WALLET_TEMPLATES.bank,
+        id:              selectedBank.id,
+        label:           selectedBank.name,
+        icon:            '🏦',
+        balance:         walletBal,
+        interestRate:    selectedBank.baseRate,
+        color:           selectedBank.color,
+        colorLight:      selectedBank.colorLight,
+        institution:     selectedBank.bank,
+        linkedTo:        null,
+        unlockedAtStage: 'stage-4',
+      };
+
+      // Zero out cash wallet, append bank wallet
+      const updatedWallets = [
+        ...(freshSim?.wallets ?? []).map(w =>
+          w.id === 'wallet' ? { ...w, balance: 0 } : w
+        ),
+        bankWallet,
+      ];
+
+      await completeStage(uid, 'stage-2', {
+        bankChosen:     selectedBank.bank,
+        openingBalance: walletBal,
+        bankAccountId:  selectedBank.id,
+      }, updatedWallets);
+
+      // Persist bankAccountId at doc root so simulate.js buildSummary finds it
+      await saveSimProgress(uid, {
+        ...freshSim,
+        bankAccountId: selectedBank.id,
+        wallets:       updatedWallets,
       });
 
-      const sim = await loadSimProgress(uid);
-      await completeStage(uid, 'stage-2', {
-        needsPct: needs, wantsPct: wants, savingsPct: savings,
-        needsAmt, wantsAmt, savingsAmt,
-      }, sim?.wallets ?? []);
-
       setProfile({ ...profile, finCoins: finCoins + 50 });
-      setShowComplete(true);
     } catch (e) {
-      console.error('Stage2 lockIn:', e);
-      setLocked(false);
+      console.error('Stage4 handleOpenAccount:', e);
     } finally {
       setSaving(false);
     }
   };
 
-  // ── Outfit ─────────────────────────────────────────────────────────────────
-  const completedStages = profile?.completedStages ?? [];
-  const newOutfit       = getNewOutfit('stage-2');
-  const unlockedOutfits = [
-    ...getUnlockedOutfits(completedStages).map(o => o.id),
-    ...(showComplete && newOutfit ? [newOutfit.id] : []),
-  ];
+  const completedStages = sim?.completedStages ?? [];
+  const unlockedOutfits = getUnlockedOutfits([...completedStages, 'stage-4']).map(o => o.id);
+  const newOutfit       = getNewOutfit('stage-4');
 
-  // ── Button state ───────────────────────────────────────────────────────────
-  const canLock     = total === 100 && !locked;
-  const btnColor    = canLock ? STAGE.color : Colors.border;
-  const btnTextColor = canLock ? Colors.white : Colors.textMuted;
-
-  // ── Budget bar (visual split) ──────────────────────────────────────────────
-  const barSegments = [
-    { pct: needs,   color: '#3AAECC' },   // teal — needs
-    { pct: wants,   color: Colors.accent }, // orange — wants
-    { pct: savings, color: Colors.successDark }, // green — savings
-  ];
+  if (loading) {
+    return (
+      <View style={s.loadingWrap}>
+        <Text style={s.loadingText}>Loading your sim…</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={s.container}>
-      <StageHeader
-        title={STAGE.title}
-        color={STAGE.color}
-        sim={null}
-        onBack={() => router.back()}
-      />
-
       <ScrollView
         ref={scrollRef}
         style={s.scroll}
         contentContainerStyle={s.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── Paycheck banner ── */}
-        <View style={s.paycheckBannerWrap}>
-          <PaycheckToast amount={income} visible={toastVisible} />
-          <View style={[s.paycheckBanner, { backgroundColor: STAGE.colorLight, borderColor: STAGE.color + '50' }]}>
-            <View>
-              <Text style={s.paycheckLabel}>Your paycheck arrived</Text>
-              <Text style={[s.paycheckAmount, { color: STAGE.color }]}>
-                {formatDual(income).combined}
-              </Text>
-            </View>
-            <View style={[s.bracketPill, { backgroundColor: STAGE.color + '20' }]}>
-              <Text style={[s.bracketText, { color: STAGE.color }]}>
-                {bracket.emoji} {bracket.label}
-              </Text>
-            </View>
-          </View>
-        </View>
+        <StageHeader stage={STAGE} />
 
-        {/* ── Intro ── */}
-        <Text style={s.intro}>
-          Before you spend a single dollar — you need a plan.{'\n'}
-          Split your income across the three buckets below.
-        </Text>
-
-        {/* ── Visual budget bar ── */}
-        <View style={s.barWrap}>
-          {barSegments.map((seg, i) => (
-            seg.pct > 0 && (
-              <View
-                key={i}
-                style={[s.barSeg, { flex: seg.pct, backgroundColor: seg.color }]}
-              />
-            )
-          ))}
-          {remaining > 0 && (
-            <View style={[s.barSeg, { flex: remaining, backgroundColor: Colors.lightGray }]} />
-          )}
-        </View>
-
-        {/* ── Total indicator ── */}
-        <View style={s.totalRow}>
-          <Text style={s.totalLabel}>Allocated</Text>
-          <Text style={[
-            s.totalValue,
-            total === 100 && { color: Colors.successDark },
-            total > 100  && { color: Colors.danger },
-          ]}>
-            {total}%
-            {total === 100 ? '  ✓' : total > 100 ? '  ↑ over' : `  (${remaining}% unallocated)`}
-          </Text>
-        </View>
-
-        {/* ── Sliders ── */}
-        <BudgetSlider
-          label="Needs"
-          icon="🏠"
-          value={needs}
-          color="#3AAECC"
-          dollarAmt={needsAmt}
-          income={income}
-          onChange={handleNeeds}
-        />
-        <BudgetSlider
-          label="Wants"
-          icon="🎉"
-          value={wants}
-          color={Colors.accent}
-          dollarAmt={wantsAmt}
-          income={income}
-          onChange={handleWants}
-        />
-        <BudgetSlider
-          label="Savings"
-          icon="💰"
-          value={savings}
-          color={Colors.successDark}
-          dollarAmt={savingsAmt}
-          income={income}
-          onChange={handleSavings}
-        />
-
-        {/* ── Fin's nudge (only when savings = 0 and total = 100) ── */}
-        {showFinNudge && (
-          <FinBubble
-            text={`You've allocated $0 to savings — that's ${formatDual(0).sgd}/month going toward your future. At this rate, your FI Number takes... well, forever. Is that intentional, ${firstName}?`}
+        {/* ── Wallet balance context ── */}
+        <View style={[s.contextCard, { borderColor: STAGE.color + '35' }]}>
+          <Text style={[s.contextLabel, { color: STAGE.color }]}>💳  Your cash wallet</Text>
+          <AnimatedCounter
+            from={0}
+            to={walletBalance}
+            style={[s.walletAmt, { color: STAGE.color }]}
           />
-        )}
-
-        {/* ── Soft nudge (savings > 0 but < 10%) ── */}
-        {showSoftNudge && (
-          <View style={[s.softNudge, { backgroundColor: Colors.warningLight, borderColor: Colors.warningDark + '40' }]}>
-            <Text style={[s.softNudgeText, { color: Colors.warningDark }]}>
-              💡  Most financial advisors recommend at least 20% to savings. You've set {savings}% — that's {formatDual(savingsAmt).sgd}/month. You can still proceed, but consider adjusting.
-            </Text>
-          </View>
-        )}
-
-        {/* ── Breakdown preview (once total = 100) ── */}
-        {total === 100 && (
-          <View style={[s.breakdownCard, { borderColor: STAGE.color + '40' }]}>
-            <Text style={[s.breakdownTitle, { color: STAGE.color }]}>Your monthly budget</Text>
-            {[
-              { label: 'Needs',   emoji: '🏠', pct: needs,   amt: needsAmt,   color: '#3AAECC' },
-              { label: 'Wants',   emoji: '🎉', pct: wants,   amt: wantsAmt,   color: Colors.accent },
-              { label: 'Savings', emoji: '💰', pct: savings, amt: savingsAmt, color: Colors.successDark },
-            ].map(row => (
-              <View key={row.label} style={s.breakdownRow}>
-                <Text style={s.breakdownEmoji}>{row.emoji}</Text>
-                <Text style={s.breakdownLabel}>{row.label}</Text>
-                <Text style={[s.breakdownPct, { color: row.color }]}>{row.pct}%</Text>
-                <Text style={s.breakdownAmt}>{formatDual(row.amt).sgd}</Text>
-              </View>
-            ))}
-            {savings > 0 && (
-              <View style={[s.savingsNote, { backgroundColor: Colors.successLight }]}>
-                <Text style={[s.savingsNoteText, { color: Colors.successDark }]}>
-                  {formatDual(savingsAmt).sgd}/month saved = {formatDual(savingsAmt * 12).sgd}/year toward your FI Number
-                </Text>
-              </View>
-            )}
-          </View>
-        )}
-
-        {/* ── Lock in button ── */}
-        <TouchableOpacity
-          style={[s.lockBtn, { backgroundColor: btnColor }]}
-          onPress={handleLockIn}
-          disabled={!canLock || saving}
-          activeOpacity={canLock ? 0.8 : 1}
-        >
-          <Text style={[s.lockBtnText, { color: btnTextColor }]}>
-            {saving
-              ? 'Saving…'
-              : total !== 100
-              ? `Allocate ${remaining > 0 ? `${remaining}% more` : 'exactly 100%'} to continue`
-              : 'Lock in my budget →'}
+          <Text style={s.contextBody}>
+            This transfers into your bank account when you open one. Even at a 0.05% base rate, your money earns interest from day one — and the account unlocks higher rates later.
           </Text>
-        </TouchableOpacity>
+        </View>
+
+        {/* ── Fin recommendation ── */}
+        <View style={s.section}>
+          <Text style={s.sectionLabel}>🦉 Fin's recommendation</Text>
+          <FinBubble
+            text={finMsg ? finMsg.replace(/\s*\((dbs|ocbc|uob)\)\s*$/, '').trim() : ''}
+            loading={loadingFin}
+          />
+        </View>
+
+        {/* ── Bank comparison ── */}
+        <Text style={s.sectionLabel}>Compare the three major banks</Text>
+        <Text style={s.sectionHint}>Tap a card to expand · Select one to open your account</Text>
+
+        {BANK_ACCOUNTS.map(bank => (
+          <BankCard
+            key={bank.id}
+            bank={bank}
+            selected={selected}
+            onSelect={id => setSelected(id)}
+            recommended={recommended === bank.id}
+          />
+        ))}
+
+        {/* ── CTA ── */}
+        {selected ? (
+          <TouchableOpacity
+            style={[s.openBtn, { backgroundColor: selectedBank.color }]}
+            onPress={() => setShowTransfer(true)}
+            activeOpacity={0.85}
+          >
+            <Text style={s.openBtnText}>Open {selectedBank.bank} Account →</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={s.selectHint}>
+            <Text style={s.selectHintText}>👆  Select a bank above to continue</Text>
+          </View>
+        )}
 
         <View style={{ height: 60 }} />
       </ScrollView>
+
+      <TransferSheet
+        visible={showTransfer}
+        bank={selectedBank}
+        walletBalance={walletBalance}
+        onDone={async () => {
+          setShowTransfer(false);
+          await handleOpenAccount();
+          setShowComplete(true);
+        }}
+      />
 
       <StageCompleteModal
         visible={showComplete}
         stageTitle={STAGE.title}
         outfitItem={newOutfit}
-        avatarId={avatarId}
+        avatarId={profile?.avatarId ?? 'alex'}
         unlockedOutfits={unlockedOutfits}
-        onContinue={() => { setShowComplete(false); router.replace('/(tabs)/simulate'); }}
+        onContinue={() => {
+          setShowComplete(false);
+          router.replace('/(tabs)/simulate');
+        }}
       />
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  container:       { flex: 1, backgroundColor: Colors.background },
-  scroll:          { flex: 1 },
-  content:         { padding: Spacing.lg, paddingTop: Spacing.md, paddingBottom: 60 },
-
-  // Paycheck
-  paycheckBannerWrap: { position: 'relative', marginBottom: Spacing.lg },
-  paycheckBanner:  { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderRadius: Radii.lg, padding: Spacing.md },
-  paycheckLabel:   { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, marginBottom: 2 },
-  paycheckAmount:  { fontFamily: Fonts.extraBold, fontSize: 22 },
-  bracketPill:     { borderRadius: Radii.full, paddingHorizontal: 12, paddingVertical: 6 },
-  bracketText:     { fontFamily: Fonts.bold, fontSize: 12 },
-
-  // Intro
-  intro:           { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, lineHeight: 22, marginBottom: Spacing.lg },
-
-  // Budget bar
-  barWrap:         { flexDirection: 'row', height: 10, borderRadius: 5, overflow: 'hidden', marginBottom: Spacing.sm, backgroundColor: Colors.lightGray },
-  barSeg:          { height: 10 },
-
-  // Total
-  totalRow:        { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: Spacing.md, paddingHorizontal: 2 },
-  totalLabel:      { fontFamily: Fonts.semiBold, fontSize: 13, color: Colors.textMuted },
-  totalValue:      { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary },
-
-  // Soft nudge
-  softNudge:       { borderWidth: 1, borderRadius: Radii.md, padding: Spacing.md, marginBottom: Spacing.md },
-  softNudgeText:   { fontFamily: Fonts.regular, fontSize: 13, lineHeight: 20 },
-
-  // Breakdown card
-  breakdownCard:   { backgroundColor: Colors.white, borderWidth: 1.5, borderRadius: Radii.lg, padding: Spacing.md, marginBottom: Spacing.md, ...Shadows.soft },
-  breakdownTitle:  { fontFamily: Fonts.bold, fontSize: 13, textTransform: 'uppercase', letterSpacing: 0.4, marginBottom: Spacing.sm },
-  breakdownRow:    { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 0.5, borderBottomColor: Colors.border, gap: 8 },
-  breakdownEmoji:  { fontSize: 16, width: 22 },
-  breakdownLabel:  { fontFamily: Fonts.semiBold, fontSize: 13, color: Colors.textPrimary, flex: 1 },
-  breakdownPct:    { fontFamily: Fonts.bold, fontSize: 14, minWidth: 36, textAlign: 'right' },
-  breakdownAmt:    { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, minWidth: 70, textAlign: 'right' },
-  savingsNote:     { borderRadius: Radii.sm, padding: Spacing.sm, marginTop: Spacing.sm },
-  savingsNoteText: { fontFamily: Fonts.semiBold, fontSize: 12, textAlign: 'center' },
-
-  // Lock button
-  lockBtn:         { borderRadius: Radii.lg, paddingVertical: 16, alignItems: 'center' },
-  lockBtnText:     { fontFamily: Fonts.bold, fontSize: 15 },
+  container:      { flex: 1, backgroundColor: Colors.background },
+  loadingWrap:    { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  loadingText:    { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textMuted },
+  scroll:         { flex: 1 },
+  content:        { padding: Spacing.lg, paddingTop: Spacing.md },
+  contextCard:    { borderWidth: 1.5, borderRadius: Radii.lg, padding: Spacing.md, marginBottom: Spacing.lg, backgroundColor: Colors.white, ...Shadows.soft },
+  contextLabel:   { fontFamily: Fonts.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 },
+  walletAmt:      { fontFamily: Fonts.extraBold, fontSize: 38, marginBottom: 8 },
+  contextBody:    { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textSecondary, lineHeight: 19 },
+  section:        { marginBottom: Spacing.md },
+  sectionLabel:   { fontFamily: Fonts.bold, fontSize: 11, color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 6 },
+  sectionHint:    { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, marginBottom: Spacing.md },
+  openBtn:        { borderRadius: Radii.lg, paddingVertical: 16, alignItems: 'center', marginBottom: Spacing.md },
+  openBtnText:    { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
+  selectHint:     { borderRadius: Radii.md, backgroundColor: Colors.lightGray, paddingVertical: 14, alignItems: 'center', marginBottom: Spacing.md },
+  selectHintText: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted },
 });

@@ -10,13 +10,14 @@
 //   DualAmount          — renders "$X,XXX · XX🪙" in a consistent style
 
 import { useRef, useEffect } from 'react';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   View, Text, TouchableOpacity, StyleSheet,
   Modal, Animated, ActivityIndicator, ScrollView,
 } from 'react-native';
 import { Colors, Fonts, Spacing, Radii, Shadows } from '../constants/theme';
-import { AvatarDisplay } from '../constants/avatars';
+// Avatar system removed — outfits scrapped in favour of narrative progression
 import { formatDual } from '../constants/lifeSimStages';
 import { ADVISOR } from '../constants/simulation';
 
@@ -98,12 +99,27 @@ const da = StyleSheet.create({
 
 export function StageHeader({ title, color, sim, onBack }) {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const bankWallet = (sim?.wallets ?? []).find(w => w.type === 'bank');
   const fundWallet = (sim?.wallets ?? []).find(w => w.id === 'emergency-fund');
 
+  // Safe back: use provided onBack, otherwise try router.back() with fallback
+  const handleBack = () => {
+    if (onBack) { onBack(); return; }
+    try {
+      if (router.canGoBack?.()) {
+        router.back();
+      } else {
+        router.replace('/(tabs)/simulate');
+      }
+    } catch {
+      router.replace('/(tabs)/simulate');
+    }
+  };
+
   return (
     <View style={[sh.bar, { borderBottomColor: color + '30', paddingTop: insets.top + 10 }]}>
-      <TouchableOpacity onPress={onBack} style={sh.backBtn} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
+      <TouchableOpacity onPress={handleBack} style={sh.backBtn} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
         <Text style={[sh.backText, { color }]}>← Back</Text>
       </TouchableOpacity>
 
@@ -331,13 +347,26 @@ const pb = StyleSheet.create({
 //   unlockedOutfits string[]
 //   onContinue      fn
 
+// ─── StageCompleteModal ───────────────────────────────────────────────────────
+// Chapter complete celebration. Clean, no avatar/outfit references.
+// Props:
+//   visible      bool
+//   stageTitle   string
+//   chapterNum   number   — shown as "Chapter N complete"
+//   onContinue   fn
+//
+// outfitItem / avatarId / unlockedOutfits props accepted but ignored
+// (kept for call-site compatibility while we migrate stage screens)
+
 export function StageCompleteModal({
   visible,
   stageTitle,
-  outfitItem,
-  avatarId = 'alex',
-  unlockedOutfits = [],
+  chapterNum,
   onContinue,
+  // legacy props — accepted but unused
+  outfitItem,
+  avatarId,
+  unlockedOutfits,
 }) {
   const scale = useRef(new Animated.Value(0.7)).current;
   const op    = useRef(new Animated.Value(0)).current;
@@ -357,32 +386,24 @@ export function StageCompleteModal({
       <View style={sc.backdrop}>
         <Animated.View style={[sc.card, { opacity: op, transform: [{ scale }] }]}>
 
-          <AvatarDisplay
-            avatarId={avatarId}
-            state="celebrating"
-            size={96}
-            unlockedOutfits={unlockedOutfits}
-          />
-
-          <Text style={sc.title}>Stage Complete! 🎉</Text>
-          <Text style={sc.subtitle}>{stageTitle}</Text>
-
-          {outfitItem && (
-            <View style={sc.outfitRow}>
-              <Text style={sc.outfitEmoji}>{outfitItem.emoji}</Text>
-              <View style={{ flex: 1 }}>
-                <Text style={sc.outfitLabel}>New item: {outfitItem.label}</Text>
-                <Text style={sc.outfitDesc}>{outfitItem.description}</Text>
-              </View>
-            </View>
-          )}
-
-          <View style={sc.coinRow}>
-            <Text style={sc.coinText}>+50 🪙 earned</Text>
+          <View style={sc.emojiWrap}>
+            <Text style={sc.emoji}>🎉</Text>
           </View>
 
+          {chapterNum != null && (
+            <Text style={sc.chapter}>Chapter {chapterNum}</Text>
+          )}
+          <Text style={sc.title}>Complete!</Text>
+          <Text style={sc.subtitle}>{stageTitle}</Text>
+
+          <View style={sc.coinRow}>
+            <Text style={sc.coinText}>+50 🪙 FinCoins earned</Text>
+          </View>
+
+          <Text style={sc.returnHint}>Fin is waiting to tell you what's next.</Text>
+
           <TouchableOpacity style={sc.btn} onPress={onContinue}>
-            <Text style={sc.btnText}>Continue →</Text>
+            <Text style={sc.btnText}>Back to simulation →</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>
@@ -391,16 +412,16 @@ export function StageCompleteModal({
 }
 
 const sc = StyleSheet.create({
-  backdrop:   { flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', alignItems: 'center', justifyContent: 'center', padding: Spacing.xl },
-  card:       { backgroundColor: Colors.white, borderRadius: 28, padding: Spacing.xl, width: '100%', alignItems: 'center', ...Shadows.medium },
-  title:      { fontFamily: Fonts.extraBold, fontSize: 24, color: Colors.textPrimary, marginTop: Spacing.md, marginBottom: 4 },
-  subtitle:   { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textMuted, marginBottom: Spacing.lg, textAlign: 'center' },
-  outfitRow:  { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: Colors.warningLight, borderRadius: Radii.md, padding: Spacing.md, width: '100%', marginBottom: Spacing.md },
-  outfitEmoji:{ fontSize: 28 },
-  outfitLabel:{ fontFamily: Fonts.bold, fontSize: 13, color: Colors.warningDark, marginBottom: 2 },
-  outfitDesc: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textSecondary, lineHeight: 16 },
-  coinRow:    { backgroundColor: Colors.warningLight, borderRadius: Radii.full, paddingHorizontal: 20, paddingVertical: 8, marginBottom: Spacing.lg },
-  coinText:   { fontFamily: Fonts.bold, fontSize: 14, color: Colors.warningDark },
-  btn:        { backgroundColor: Colors.primary, borderRadius: Radii.lg, paddingVertical: 14, paddingHorizontal: Spacing.xl, alignItems: 'center', width: '100%' },
-  btnText:    { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
+  backdrop:    { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', alignItems: 'center', justifyContent: 'center', padding: Spacing.xl },
+  card:        { backgroundColor: Colors.white, borderRadius: 28, padding: Spacing.xl, width: '100%', alignItems: 'center', ...Shadows.medium },
+  emojiWrap:   { width: 72, height: 72, borderRadius: 36, backgroundColor: Colors.warningLight, alignItems: 'center', justifyContent: 'center', marginBottom: Spacing.md },
+  emoji:       { fontSize: 36 },
+  chapter:     { fontFamily: Fonts.bold, fontSize: 12, color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
+  title:       { fontFamily: Fonts.extraBold, fontSize: 32, color: Colors.textPrimary, marginBottom: 4 },
+  subtitle:    { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textMuted, marginBottom: Spacing.lg, textAlign: 'center' },
+  coinRow:     { backgroundColor: Colors.warningLight, borderRadius: Radii.full, paddingHorizontal: 20, paddingVertical: 8, marginBottom: Spacing.sm },
+  coinText:    { fontFamily: Fonts.bold, fontSize: 14, color: Colors.warningDark },
+  returnHint:  { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, marginBottom: Spacing.lg, textAlign: 'center' },
+  btn:         { backgroundColor: Colors.primary, borderRadius: Radii.lg, paddingVertical: 14, paddingHorizontal: Spacing.xl, alignItems: 'center', width: '100%' },
+  btnText:     { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
 });
