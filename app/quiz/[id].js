@@ -112,7 +112,7 @@ export default function QuizScreen() {
 
     if (passed) {
       await updateDoc(doc(db, 'users', uid), {
-        finCoins: increment(lesson.xp)
+        finCoins: increment(lesson.fincoins ?? 55)
       });
 
       const progressRef = doc(db, 'progress', uid);
@@ -122,7 +122,7 @@ export default function QuizScreen() {
         await setDoc(progressRef, { completedLessons: [...completed, id] }, { merge: true });
       }
 
-      setProfile({ ...profile, finCoins: (profile?.finCoins || 0) + lesson.xp });
+      setProfile({ ...profile, finCoins: (profile?.finCoins || 0) + (lesson.fincoins ?? 55) });
     }
   };
 
@@ -162,7 +162,7 @@ export default function QuizScreen() {
         <Text style={styles.resultScore}>{score}/{total} correct</Text>
         {passed ? (
           <Text style={styles.resultMsg}>
-            You earned {lesson.xp} FinCoins! The next lesson is now unlocked.
+            You earned {lesson.fincoins ?? 55} FinCoins! The next lesson is now unlocked.
           </Text>
         ) : (
           <Text style={styles.resultMsg}>

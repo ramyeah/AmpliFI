@@ -500,7 +500,7 @@ export default function LessonScreen() {
             </View>
             <View style={s.metaPill}>
               <Text style={s.metaIcon}>🪙</Text>
-              <Text style={s.metaText}>{lesson.fincoins ?? lesson.xp} FinCoins</Text>
+              <Text style={s.metaText}>{lesson.fincoins ?? 55} FinCoins</Text>
             </View>
             {flashcards.length > 0 && (
               <View style={s.metaPill}>

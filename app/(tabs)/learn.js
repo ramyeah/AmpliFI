@@ -380,7 +380,7 @@ export default function LearnScreen() {
                         <View style={[s.nodeMetaRow, labelOnLeft && { justifyContent: 'flex-end' }]}>
                           <View style={s.metaCoinRow}>
                             <Image source={require('../../assets/coin.png')} style={s.coinImg} />
-                            <Text style={s.nodeMeta}>{lesson.fincoins ?? lesson.xp ?? 55}</Text>
+                            <Text style={s.nodeMeta}>{lesson.fincoins ?? 55}</Text>
                           </View>
                           {!!lesson.duration && <Text style={s.nodeMeta}>⏱ {lesson.duration}</Text>}
                         </View>
