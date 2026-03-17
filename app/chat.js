@@ -1,40 +1,128 @@
 import { useState, useRef, useEffect } from 'react';
 import {
   View, Text, ScrollView, TextInput, TouchableOpacity,
-  StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator
+  StyleSheet, KeyboardAvoidingView, Platform, Animated,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { askRAG } from '../lib/api';
 import useUserStore from '../store/userStore';
+import { Colors, Typography, Spacing, Radii, Shadows } from '../constants/theme';
 
 const SUGGESTED_QUESTIONS = [
-  "What is the CPF Ordinary Account interest rate?",
-  "How does dollar-cost averaging work?",
-  "What is the MAS-regulated investment limit for retail investors?",
-  "How do Singapore Savings Bonds work?",
-  "What is the difference between stocks and ETFs?",
+  { icon: '🏦', text: 'What is the CPF Ordinary Account interest rate?' },
+  { icon: '📅', text: 'How does dollar-cost averaging work?' },
+  { icon: '📋', text: 'What is the MAS-regulated investment limit?' },
+  { icon: '🇸🇬', text: 'How do Singapore Savings Bonds work?' },
+  { icon: '📈', text: "What's the difference between stocks and ETFs?" },
+  { icon: '💡', text: 'How should a student start investing in Singapore?' },
 ];
 
+// ─── Typing indicator — bouncing dots with scale + opacity ────────────────────
+function TypingDots() {
+  const anims = [
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+    useRef(new Animated.Value(0)).current,
+  ];
+
+  useEffect(() => {
+    anims.forEach((anim, i) => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.delay(i * 160),
+          Animated.spring(anim, { toValue: 1, friction: 3, tension: 200, useNativeDriver: true }),
+          Animated.timing(anim, { toValue: 0, duration: 250, useNativeDriver: true }),
+          Animated.delay((anims.length - i) * 160),
+        ])
+      ).start();
+    });
+  }, []);
+
+  return (
+    <View style={td.row}>
+      {anims.map((anim, i) => {
+        const scale   = anim.interpolate({ inputRange: [0, 1], outputRange: [1, 1.5] });
+        const opacity = anim.interpolate({ inputRange: [0, 0.4, 1], outputRange: [0.35, 1, 0.35] });
+        const translateY = anim.interpolate({ inputRange: [0, 1], outputRange: [0, -5] });
+        return (
+          <Animated.View
+            key={i}
+            style={[td.dot, { transform: [{ scale }, { translateY }], opacity }]}
+          />
+        );
+      })}
+    </View>
+  );
+}
+const td = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingVertical: 6, paddingHorizontal: 2 },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: Colors.primary },
+});
+
+// ─── Suggestion card ──────────────────────────────────────────────────────────
+function SuggestionCard({ icon, text, onPress }) {
+  const scale = useRef(new Animated.Value(1)).current;
+  const onIn  = () => Animated.spring(scale, { toValue: 0.96, useNativeDriver: true }).start();
+  const onOut = () => Animated.spring(scale, { toValue: 1, friction: 4, useNativeDriver: true }).start();
+
+  return (
+    <Animated.View style={[sg.cardWrap, { transform: [{ scale }] }]}>
+      <TouchableOpacity
+        style={sg.card}
+        onPress={onPress}
+        onPressIn={onIn}
+        onPressOut={onOut}
+        activeOpacity={1}
+      >
+        <Text style={sg.icon}>{icon}</Text>
+        <Text style={sg.text} numberOfLines={3}>{text}</Text>
+        <Text style={sg.arrow}>→</Text>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+}
+const sg = StyleSheet.create({
+  cardWrap: { width: '48.5%' },
+  card: {
+    backgroundColor: Colors.white,
+    borderRadius: Radii.lg,
+    padding: Spacing.md,
+    gap: Spacing.xs,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    ...Shadows.soft,
+    minHeight: 80,
+    justifyContent: 'space-between',
+  },
+  icon:  { fontSize: 18 },
+  text:  { fontFamily: Typography.fontFamily.semiBold, fontSize: Typography.fontSize.xs, color: Colors.textPrimary, lineHeight: 17, flex: 1 },
+  arrow: { fontFamily: Typography.fontFamily.bold, fontSize: Typography.fontSize.xs, color: Colors.textMuted, alignSelf: 'flex-end' },
+});
+
+// ─── Main screen ──────────────────────────────────────────────────────────────
 export default function ChatScreen() {
-  const router = useRouter();
-  const profile = useUserStore((state) => state.profile);
+  const router    = useRouter();
+  const profile   = useUserStore((s) => s.profile);
   const scrollRef = useRef(null);
+  const insets    = useSafeAreaInsets();
+  const firstName = profile?.name?.split(' ')[0] || 'there';
 
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      text: `Hi ${profile?.name?.split(' ')[0] || 'there'}! 👋 I'm AmpliFI, your Singapore financial literacy assistant.\n\nAsk me anything about investing, CPF, savings, or managing money in Singapore!`,
-    }
+      text: `Hi ${firstName}! 👋 I'm Finn, your Singapore financial literacy assistant.\n\nAsk me anything about investing, CPF, savings, or managing money in Singapore!`,
+    },
   ]);
-  const [input, setInput] = useState('');
+  const [input,   setInput]   = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
-  }, [messages]);
+  }, [messages, loading]);
 
   const sendMessage = async (text) => {
-    const userText = text || input.trim();
+    const userText = (text || input).trim();
     if (!userText || loading) return;
 
     setInput('');
@@ -43,7 +131,6 @@ export default function ChatScreen() {
 
     try {
       const result = await askRAG(userText, profile);
-
       if (result.disclaimer) {
         setMessages(prev => [...prev, {
           role: 'assistant',
@@ -51,12 +138,9 @@ export default function ChatScreen() {
           isDisclaimer: true,
         }]);
       } else {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          text: result.response,
-        }]);
+        setMessages(prev => [...prev, { role: 'assistant', text: result.response }]);
       }
-    } catch (e) {
+    } catch {
       setMessages(prev => [...prev, {
         role: 'assistant',
         text: "Sorry, I'm having trouble connecting right now. Please check your connection and try again.",
@@ -69,149 +153,223 @@ export default function ChatScreen() {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={s.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={90}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
     >
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backText}>← Back</Text>
+      {/* ── Header ── */}
+      <View style={s.header}>
+        <TouchableOpacity style={s.backBtn} onPress={() => router.back()}>
+          <Text style={s.backIcon}>←</Text>
         </TouchableOpacity>
-        <View style={styles.headerCenter}>
-          <Text style={styles.headerTitle}>AmpliFI Chat</Text>
-          <View style={styles.onlineDot} />
+        <View style={s.headerCenter}>
+          <View style={s.finnAvatar}>
+            <Text style={s.finnEmoji}>🦉</Text>
+          </View>
+          <View>
+            <Text style={s.headerTitle}>Finn</Text>
+            <View style={s.onlineRow}>
+              <View style={s.onlineDot} />
+              <Text style={s.onlineText}>Online</Text>
+            </View>
+          </View>
         </View>
-        <View style={{ width: 48 }} />
+        <View style={{ width: 40 }} />
       </View>
 
-      {/* Messages */}
+      {/* ── Messages ── */}
       <ScrollView
         ref={scrollRef}
-        style={styles.messages}
-        contentContainerStyle={styles.messagesContent}
+        style={s.messages}
+        contentContainerStyle={s.messagesContent}
+        showsVerticalScrollIndicator={false}
         onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
       >
-        {/* Suggested questions — only show at start */}
+        {/* Suggestion cards — only at start */}
         {messages.length === 1 && (
-          <View style={styles.suggestions}>
-            <Text style={styles.suggestionsLabel}>Try asking:</Text>
-            {SUGGESTED_QUESTIONS.map((q, i) => (
-              <TouchableOpacity
-                key={i}
-                style={styles.suggestionChip}
-                onPress={() => sendMessage(q)}
-              >
-                <Text style={styles.suggestionText}>{q}</Text>
-              </TouchableOpacity>
-            ))}
+          <View style={s.suggestions}>
+            <Text style={s.suggestionsLabel}>SUGGESTED QUESTIONS</Text>
+            <View style={s.suggestionsGrid}>
+              {SUGGESTED_QUESTIONS.map((q, i) => (
+                <SuggestionCard
+                  key={i}
+                  icon={q.icon}
+                  text={q.text}
+                  onPress={() => sendMessage(q.text)}
+                />
+              ))}
+            </View>
           </View>
         )}
 
+        {/* Message bubbles */}
         {messages.map((msg, i) => (
           <View
             key={i}
             style={[
-              styles.bubble,
-              msg.role === 'user' ? styles.userBubble : styles.assistantBubble,
-              msg.isDisclaimer && styles.disclaimerBubble,
-              msg.isError && styles.errorBubble,
+              s.bubbleRow,
+              msg.role === 'user' ? s.bubbleRowUser : s.bubbleRowAssistant,
             ]}
           >
             {msg.role === 'assistant' && (
-              <Text style={styles.bubbleLabel}>🤖 AmpliFI</Text>
+              <View style={s.bubbleAvatar}>
+                <Text style={s.bubbleAvatarEmoji}>🦉</Text>
+              </View>
             )}
-            <Text style={[
-              styles.bubbleText,
-              msg.role === 'user' && styles.userBubbleText,
-              msg.isDisclaimer && styles.disclaimerText,
+            <View style={[
+              s.bubble,
+              msg.role === 'user' ? s.userBubble      : s.assistantBubble,
+              msg.isDisclaimer    ? s.disclaimerBubble : null,
+              msg.isError         ? s.errorBubble      : null,
             ]}>
-              {msg.text}
-            </Text>
+              <Text style={[
+                s.bubbleText,
+                msg.role === 'user' ? s.userBubbleText : null,
+                msg.isDisclaimer    ? s.disclaimerText : null,
+                msg.isError         ? s.errorText      : null,
+              ]}>
+                {msg.text}
+              </Text>
+            </View>
           </View>
         ))}
 
+        {/* Typing indicator */}
         {loading && (
-          <View style={styles.assistantBubble}>
-            <Text style={styles.bubbleLabel}>🤖 AmpliFI</Text>
-            <View style={styles.typingIndicator}>
-              <ActivityIndicator size="small" color="#1F4E79" />
-              <Text style={styles.typingText}>Searching knowledge base...</Text>
+          <View style={[s.bubbleRow, s.bubbleRowAssistant]}>
+            <View style={s.bubbleAvatar}>
+              <Text style={s.bubbleAvatarEmoji}>🦉</Text>
+            </View>
+            <View style={[s.assistantBubble, s.typingBubble]}>
+              <TypingDots />
             </View>
           </View>
         )}
       </ScrollView>
 
-      {/* Input */}
-      <View style={styles.inputRow}>
+      {/* ── Input bar ── */}
+      <View style={[s.inputBar, { paddingBottom: Math.max(insets.bottom, Spacing.md) }]}>
         <TextInput
-          style={styles.input}
+          style={s.input}
           value={input}
           onChangeText={setInput}
-          placeholder="Ask about CPF, investing, savings..."
-          placeholderTextColor="#aaa"
+          placeholder="Ask Finn anything..."
+          placeholderTextColor={Colors.textMuted}
           multiline
           maxLength={300}
-          onSubmitEditing={() => sendMessage()}
           returnKeyType="send"
+          onSubmitEditing={() => sendMessage()}
         />
         <TouchableOpacity
-          style={[styles.sendBtn, (!input.trim() || loading) && styles.sendBtnDisabled]}
+          style={[s.sendBtn, (!input.trim() || loading) && s.sendBtnOff]}
           onPress={() => sendMessage()}
           disabled={!input.trim() || loading}
+          activeOpacity={0.8}
         >
-          <Text style={styles.sendBtnText}>↑</Text>
+          <Text style={s.sendIcon}>↑</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5' },
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: Colors.background },
+
+  // ── Header
   header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 48, paddingBottom: 12,
-    backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#eee',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.xxxl + Spacing.sm,
+    paddingBottom: Spacing.md,
+    backgroundColor: Colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
-  backText: { color: '#1F4E79', fontSize: 16, width: 48 },
-  headerCenter: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  headerTitle: { fontSize: 16, fontWeight: 'bold', color: '#1F4E79' },
-  onlineDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#27AE60' },
-  messages: { flex: 1 },
-  messagesContent: { padding: 16, paddingBottom: 8 },
-  suggestions: { marginBottom: 16 },
-  suggestionsLabel: { fontSize: 13, color: '#999', marginBottom: 8 },
-  suggestionChip: {
-    backgroundColor: '#fff', borderWidth: 1, borderColor: '#D6E4F0',
-    borderRadius: 20, paddingHorizontal: 14, paddingVertical: 8, marginBottom: 8,
-    alignSelf: 'flex-start',
+  backBtn: {
+    width: 40, height: 40, borderRadius: Radii.full,
+    backgroundColor: Colors.lightGray,
+    alignItems: 'center', justifyContent: 'center',
   },
-  suggestionText: { fontSize: 13, color: '#1F4E79' },
-  bubble: { borderRadius: 16, padding: 14, marginBottom: 12, maxWidth: '85%' },
-  userBubble: { backgroundColor: '#1F4E79', alignSelf: 'flex-end', borderBottomRightRadius: 4 },
-  assistantBubble: { backgroundColor: '#fff', alignSelf: 'flex-start', borderBottomLeftRadius: 4 },
-  disclaimerBubble: { backgroundColor: '#FFF9E6', borderWidth: 1, borderColor: '#F39C12' },
-  errorBubble: { backgroundColor: '#FEF0F0', borderWidth: 1, borderColor: '#E74C3C' },
-  bubbleLabel: { fontSize: 11, color: '#999', marginBottom: 6, fontWeight: '600' },
-  bubbleText: { fontSize: 15, color: '#333', lineHeight: 22 },
-  userBubbleText: { color: '#fff' },
-  disclaimerText: { color: '#666' },
-  typingIndicator: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  typingText: { fontSize: 13, color: '#666' },
-  inputRow: {
-    flexDirection: 'row', alignItems: 'flex-end', padding: 12,
-    backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#eee', gap: 8,
+  backIcon:    { fontFamily: Typography.fontFamily.bold, fontSize: Typography.fontSize.base, color: Colors.textPrimary },
+  headerCenter:{ flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
+  finnAvatar:  { width: 40, height: 40, borderRadius: Radii.full, backgroundColor: Colors.primaryLight, alignItems: 'center', justifyContent: 'center' },
+  finnEmoji:   { fontSize: 22 },
+  headerTitle: { fontFamily: Typography.fontFamily.bold, fontSize: Typography.fontSize.base, color: Colors.textPrimary },
+  onlineRow:   { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 1 },
+  onlineDot:   { width: 7, height: 7, borderRadius: 4, backgroundColor: Colors.successDark },
+  onlineText:  { fontFamily: Typography.fontFamily.regular, fontSize: Typography.fontSize.xs, color: Colors.successDark },
+
+  // ── Messages
+  messages:        { flex: 1 },
+  messagesContent: { padding: Spacing.lg, paddingBottom: Spacing.md, gap: Spacing.md },
+
+  // ── Suggestions
+  suggestions:      { marginBottom: Spacing.lg, gap: Spacing.md },
+  suggestionsLabel: {
+    fontFamily: Typography.fontFamily.bold,
+    fontSize: Typography.fontSize.xs,
+    color: Colors.textMuted,
+    letterSpacing: 1.2,
+  },
+  suggestionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    gap: Spacing.sm,
+  },
+
+  // ── Bubble rows
+  bubbleRow:          { flexDirection: 'row', alignItems: 'flex-end', gap: Spacing.sm },
+  bubbleRowUser:      { justifyContent: 'flex-end' },
+  bubbleRowAssistant: { justifyContent: 'flex-start' },
+  bubbleAvatar: {
+    width: 30, height: 30, borderRadius: Radii.full,
+    backgroundColor: Colors.primaryLight,
+    alignItems: 'center', justifyContent: 'center',
+    marginBottom: 2,
+  },
+  bubbleAvatarEmoji: { fontSize: 16 },
+
+  // ── Bubbles
+  bubble: { borderRadius: Radii.xl, padding: Spacing.lg, maxWidth: '78%' },
+  userBubble:       { backgroundColor: Colors.primary, borderBottomRightRadius: Radii.sm },
+  assistantBubble:  { backgroundColor: Colors.white, borderBottomLeftRadius: Radii.sm, ...Shadows.soft },
+  disclaimerBubble: { backgroundColor: Colors.warningLight, borderWidth: 1, borderColor: Colors.warningDark },
+  errorBubble:      { backgroundColor: Colors.dangerLight, borderWidth: 1, borderColor: Colors.dangerMid },
+
+  typingBubble:     { paddingHorizontal: Spacing.lg, paddingVertical: Spacing.md, minWidth: 72 },
+  bubbleText:     { fontFamily: Typography.fontFamily.regular, fontSize: Typography.fontSize.base, color: Colors.textPrimary, lineHeight: 24 },
+  userBubbleText: { color: Colors.white },
+  disclaimerText: { color: Colors.warningDark },
+  errorText:      { color: Colors.dangerDark },
+
+  // ── Input bar
+  inputBar: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingHorizontal: Spacing.md,
+    paddingTop: Spacing.sm,
+    paddingBottom: Spacing.md,
+    backgroundColor: Colors.white,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+    gap: Spacing.sm,
   },
   input: {
-    flex: 1, backgroundColor: '#f5f5f5', borderRadius: 20,
-    paddingHorizontal: 16, paddingVertical: 10, fontSize: 15,
-    color: '#333', maxHeight: 100,
+    flex: 1,
+    backgroundColor: Colors.lightGray,
+    borderRadius: Radii.xl,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    fontFamily: Typography.fontFamily.regular,
+    fontSize: Typography.fontSize.base,
+    color: Colors.textPrimary,
+    maxHeight: 100,
   },
-  sendBtn: {
-    width: 44, height: 44, borderRadius: 22,
-    backgroundColor: '#1F4E79', justifyContent: 'center', alignItems: 'center',
-  },
-  sendBtnDisabled: { backgroundColor: '#ccc' },
-  sendBtnText: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  sendBtn:    { width: 46, height: 46, borderRadius: Radii.full, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center', ...Shadows.soft },
+  sendBtnOff: { backgroundColor: Colors.border },
+  sendIcon:   { fontFamily: Typography.fontFamily.bold, fontSize: 20, color: Colors.white },
 });
