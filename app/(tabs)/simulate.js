@@ -514,7 +514,7 @@ function SalaryModal({ visible, sim, onDone }) {
                 </View>
               </View>
 
-              <TouchableOpacity style={[sal.cta, { backgroundColor: color }]} onPress={startAnimation} activeOpacity={0.88}>
+              <TouchableOpacity style={[sal.cta, { backgroundColor: Colors.textPrimary }]} onPress={startAnimation} activeOpacity={0.88}>
                 <Text style={sal.ctaText}>Watch it land 🎉</Text>
               </TouchableOpacity>
             </>
@@ -853,7 +853,7 @@ function FINumberSheet({ sim, onDone }) {
           </View>
         </View>
 
-        <TouchableOpacity style={[act.cta, { backgroundColor: TEAL }]} onPress={() => setPage(1)} activeOpacity={0.88}>
+        <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={() => setPage(1)} activeOpacity={0.88}>
           <Text style={act.ctaText}>Calculate my FI Number →</Text>
         </TouchableOpacity>
         <View style={{ height: 20 }} />
@@ -892,12 +892,12 @@ function FINumberSheet({ sim, onDone }) {
       <View style={act.ffnResult}>
         <Text style={act.ffnLabel}>Your FI Number</Text>
         <Text style={[act.ffnAmt, { color: TEAL }]}>${ffn.toLocaleString()}</Text>
-        <Text style={act.ffnFormula}>${monthlyTotal.toLocaleString()}/mo × 12 × 25</Text>
+        <Text style={[act.ffnFormula, { color: TEAL }]}>${monthlyTotal.toLocaleString()}/mo × 12 × 25</Text>
         <Text style={fi_s.ffnNote}>
           At 4% withdrawal, ${ffn.toLocaleString()} invested generates ${monthlyTotal.toLocaleString()}/mo — enough to cover this lifestyle without ever working again.
         </Text>
       </View>
-      <TouchableOpacity style={[act.cta, { backgroundColor: TEAL }]} onPress={() => onDone({ ffn, monthlyTotal })} activeOpacity={0.88}>
+      <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={() => onDone({ ffn, monthlyTotal })} activeOpacity={0.88}>
         <Text style={act.ctaText}>Lock this in →</Text>
       </TouchableOpacity>
       <View style={{ height: 20 }} />
@@ -1017,7 +1017,7 @@ function BankAccountSheet({ sim, onDone }) {
             </TouchableOpacity>
           ))}
           {selectedBank && (
-            <TouchableOpacity style={[act.cta, { backgroundColor: chosenBank?.color ?? ORANGE }]} onPress={() => onDone({ bankId: selectedBank, accountType, bank: chosenBank })} activeOpacity={0.88}>
+            <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={() => onDone({ bankId: selectedBank, accountType, bank: chosenBank })} activeOpacity={0.88}>
               <Text style={act.ctaText}>Open {chosenBank?.bank} account →</Text>
             </TouchableOpacity>
           )}
@@ -1108,7 +1108,7 @@ function BudgetSheet({ sim, onDone }) {
           {automate ? 'Savings will transfer automatically each month' : 'You\'ll manually transfer savings to the bank'}
         </Text>
       </View>
-      <TouchableOpacity style={[act.cta, { backgroundColor: TEAL }]} onPress={() => onDone({ needs, wants, savings, needsAmt, wantsAmt, savingsAmt, automate })} activeOpacity={0.88}>
+      <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={() => onDone({ needs, wants, savings, needsAmt, wantsAmt, savingsAmt, automate })} activeOpacity={0.88}>
         <Text style={act.ctaText}>Lock in this budget →</Text>
       </TouchableOpacity>
     </View>
@@ -1149,7 +1149,7 @@ function ManualTransferSheet({ sim, onDone }) {
         <Text style={act.transferDetailText}>Transferring ${savingsAmt.toLocaleString()} — your monthly savings allocation</Text>
       </View>
       {!transferred
-        ? <TouchableOpacity style={[act.cta, { backgroundColor: GREEN }]} onPress={() => setTransferred(true)} activeOpacity={0.88}>
+        ? <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={() => setTransferred(true)} activeOpacity={0.88}>
             <Text style={act.ctaText}>Transfer ${savingsAmt.toLocaleString()} →</Text>
           </TouchableOpacity>
         : <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={onDone} activeOpacity={0.88}>
@@ -1192,7 +1192,7 @@ function EmergencyFundSheet({ sim, onDone }) {
           <Text style={[act.fundResultAmt, { color: GREEN }]}>{monthsToFull} month{monthsToFull !== 1 ? 's' : ''}</Text>
         </View>
       </View>
-      <TouchableOpacity style={[act.cta, { backgroundColor: GREEN }]} onPress={() => onDone({ target, monthlyContrib, months })} activeOpacity={0.88}>
+      <TouchableOpacity style={[act.cta, { backgroundColor: Colors.textPrimary }]} onPress={() => onDone({ target, monthlyContrib, months })} activeOpacity={0.88}>
         <Text style={act.ctaText}>Set up emergency fund →</Text>
       </TouchableOpacity>
     </View>
@@ -1219,7 +1219,7 @@ function LifeEventModal({ event, hasFund, onClose }) {
             </Text>
           </View>
           <Text style={le.finNote}>{event.finMessage}</Text>
-          <TouchableOpacity style={[le.btn, { backgroundColor: hasFund ? Colors.successDark : Colors.textPrimary }]} onPress={onClose} activeOpacity={0.88}>
+          <TouchableOpacity style={[le.btn, { backgroundColor: Colors.textPrimary }]} onPress={onClose} activeOpacity={0.88}>
             <Text style={le.btnText}>Understood →</Text>
           </TouchableOpacity>
         </View>
@@ -1720,7 +1720,7 @@ export default function SimulateScreen() {
         <View style={{ gap: Spacing.md }}>
           <View style={{ gap: 8 }}>
             {[
-              { label: 'Needs', amt: currentMonthReport.needsSpent, color: TEAL },
+              { label: 'Needs', amt: currentMonthReport.needsSpent, color: Colors.primary },
               { label: 'Wants', amt: currentMonthReport.wantsSpent, color: ORANGE },
               { label: 'Savings', amt: currentMonthReport.savingsAmt, color: GREEN },
             ].map(c => (
@@ -1801,17 +1801,17 @@ export default function SimulateScreen() {
           <View style={s.fiCard}>
             <View style={s.fiTop}>
               <View>
-                <Text style={s.fiLabel}>FINANCIAL INDEPENDENCE</Text>
-                <Text style={[s.fiPct, { color: TEAL }]}>{Math.round(fiPct * 100)}%</Text>
+                <Text style={[s.fiLabel, { color: 'rgba(255,255,255,0.75)' }]}>FINANCIAL INDEPENDENCE</Text>
+                <Text style={[s.fiPct, { color: Colors.white }]}>{Math.round(fiPct * 100)}%</Text>
               </View>
               <View style={{ alignItems: 'flex-end' }}>
-                <Text style={s.fiTargetLabel}>Target</Text>
-                <Text style={s.fiTargetAmt}>${Math.round(sim.ffn).toLocaleString()}</Text>
-                <Text style={s.fiInvestedLabel}>${Math.round(invested).toLocaleString()} invested</Text>
+                <Text style={[s.fiTargetLabel, { color: 'rgba(255,255,255,0.75)' }]}>Target</Text>
+                <Text style={[s.fiTargetAmt, { color: Colors.white }]}>${Math.round(sim.ffn).toLocaleString()}</Text>
+                <Text style={[s.fiInvestedLabel, { color: 'rgba(255,255,255,0.85)' }]}>${Math.round(invested).toLocaleString()} invested</Text>
               </View>
             </View>
-            <View style={s.fiTrack}>
-              <View style={[s.fiFill, { width: `${Math.round(fiPct * 100)}%`, backgroundColor: TEAL }]} />
+            <View style={[s.fiTrack, { backgroundColor: 'rgba(255,255,255,0.25)' }]}>
+              <View style={[s.fiFill, { width: `${Math.round(fiPct * 100)}%`, backgroundColor: Colors.white }]} />
             </View>
           </View>
         ) : (
@@ -1819,7 +1819,7 @@ export default function SimulateScreen() {
             <TouchableOpacity style={s.fiCardEmpty} onPress={() => { setSheetOpen(true); }} activeOpacity={0.85}>
               <Text style={s.fiEmptyTitle}>Set your FI number</Text>
               <Text style={s.fiEmptyBody}>Tap to calculate your Financial Independence target — the number every decision is working toward.</Text>
-              <Text style={[s.fiEmptyLink, { color: TEAL }]}>Calculate now →</Text>
+              <Text style={[s.fiEmptyLink, { color: Colors.primary }]}>Calculate now →</Text>
             </TouchableOpacity>
           )
         )}
@@ -1830,9 +1830,9 @@ export default function SimulateScreen() {
             <View style={s.nwRow}>
               <View>
                 <Text style={s.nwLabel}>NET WORTH</Text>
-                <Text style={[s.nwAmt, { color: TEAL }]}>${Math.round(netWorth).toLocaleString()}</Text>
+                <Text style={[s.nwAmt, { color: Colors.primary }]}>${Math.round(netWorth).toLocaleString()}</Text>
               </View>
-              <Text style={[s.nwLink, { color: TEAL }]}>Full dashboard →</Text>
+              <Text style={[s.nwLink, { color: Colors.primary }]}>Full dashboard →</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -1843,76 +1843,76 @@ export default function SimulateScreen() {
             <Text style={s.sectionLabel}>YOUR ACCOUNTS</Text>
             <View style={s.cardGrid}>
 
-              {/* Bank */}
+              {/* Bank — Module 1: TEAL background */}
               <TouchableOpacity
-                style={[s.hudCard, { borderColor: (bankW?.color ?? ORANGE) + '40', backgroundColor: bankW ? Colors.white : Colors.lightGray }]}
+                style={[s.hudCard, { backgroundColor: bankW ? TEAL : Colors.lightGray, borderColor: 'transparent' }]}
                 onPress={() => router.push('/life-sim/bank')}
                 activeOpacity={0.82}
               >
                 <Text style={s.hudCardIcon}>🏦</Text>
-                <Text style={s.hudCardTitle}>Bank</Text>
+                <Text style={[s.hudCardTitle, { color: bankW ? 'rgba(255,255,255,0.8)' : Colors.textMuted }]}>Bank</Text>
                 {bankW ? (
                   <>
-                    <Text style={[s.hudCardAmt, { color: bankW.color ?? ORANGE }]}>
+                    <Text style={[s.hudCardAmt, { color: Colors.white }]}>
                       ${Math.round(bankW.balance ?? 0).toLocaleString()}
                     </Text>
-                    <Text style={s.hudCardSub}>{bankW.institution} · {((bankW.interestRate ?? 0) * 100).toFixed(2)}% p.a.</Text>
+                    <Text style={[s.hudCardSub, { color: 'rgba(255,255,255,0.75)' }]}>{bankW.institution} · {((bankW.interestRate ?? 0) * 100).toFixed(2)}% p.a.</Text>
                   </>
                 ) : (
                   <Text style={s.hudCardLocked}>Not set up</Text>
                 )}
               </TouchableOpacity>
 
-              {/* Emergency Fund */}
+              {/* Emergency Fund — Module 3: GREEN background */}
               <TouchableOpacity
-                style={[s.hudCard, { borderColor: GREEN + '40', backgroundColor: fundW ? Colors.white : Colors.lightGray }]}
+                style={[s.hudCard, { backgroundColor: fundW ? GREEN : Colors.lightGray, borderColor: 'transparent' }]}
                 onPress={() => router.push('/life-sim/bank')}
                 activeOpacity={0.82}
               >
                 <Text style={s.hudCardIcon}>🛡️</Text>
-                <Text style={s.hudCardTitle}>Emergency</Text>
+                <Text style={[s.hudCardTitle, { color: fundW ? 'rgba(255,255,255,0.8)' : Colors.textMuted }]}>Emergency</Text>
                 {fundW ? (
                   <>
-                    <Text style={[s.hudCardAmt, { color: GREEN }]}>
+                    <Text style={[s.hudCardAmt, { color: Colors.white }]}>
                       ${Math.round(fundW.balance ?? 0).toLocaleString()}
                     </Text>
-                    <View style={s.fundMiniTrack}>
-                      <View style={[s.fundMiniFill, { width: `${Math.round(fundPct * 100)}%` }]} />
+                    <View style={[s.fundMiniTrack, { backgroundColor: 'rgba(255,255,255,0.25)' }]}>
+                      <View style={[s.fundMiniFill, { width: `${Math.round(fundPct * 100)}%`, backgroundColor: Colors.white }]} />
                     </View>
-                    <Text style={s.hudCardSub}>{Math.round(fundPct * 100)}% of target</Text>
+                    <Text style={[s.hudCardSub, { color: 'rgba(255,255,255,0.75)' }]}>{Math.round(fundPct * 100)}% of target</Text>
                   </>
                 ) : (
                   <Text style={s.hudCardLocked}>Not set up</Text>
                 )}
               </TouchableOpacity>
 
-              {/* This Month */}
+              {/* This Month — Module 2: ORANGE background */}
               <TouchableOpacity
-                style={[s.hudCard, { borderColor: accentColor + '40' }]}
+                style={[s.hudCard, { backgroundColor: ORANGE, borderColor: 'transparent' }]}
                 onPress={() => { if (currentMonthReport) setSheetOpen(true); }}
                 activeOpacity={0.82}
               >
                 <Text style={s.hudCardIcon}>📅</Text>
-                <Text style={s.hudCardTitle}>This Month</Text>
-                <Text style={[s.hudCardAmt, { color: accentColor, fontSize: 18 }]}>
+                <Text style={[s.hudCardTitle, { color: 'rgba(255,255,255,0.8)' }]}>This Month</Text>
+                <Text style={[s.hudCardAmt, { color: Colors.white, fontSize: 18 }]}>
                   {dayLabel(simDay, simMonth)}
                 </Text>
                 {currentMonthReport ? (
-                  <Text style={s.hudCardSub}>Tap to see report</Text>
+                  <Text style={[s.hudCardSub, { color: 'rgba(255,255,255,0.75)' }]}>Tap to see report</Text>
                 ) : (
-                  <Text style={s.hudCardSub}>{scene.bg === SCENE_BG.arrival ? 'Getting started' : 'Month in progress'}</Text>
+                  <Text style={[s.hudCardSub, { color: 'rgba(255,255,255,0.75)' }]}>{scene.bg === SCENE_BG.arrival ? 'Getting started' : 'Month in progress'}</Text>
                 )}
               </TouchableOpacity>
 
-              {/* Investments */}
+              {/* Investments — Module 4: PURPLE background (dimmed = locked) */}
               <TouchableOpacity
-                style={[s.hudCard, { borderColor: PURPLE + '40', backgroundColor: Colors.lightGray, opacity: 0.7 }]}
+                style={[s.hudCard, { backgroundColor: PURPLE, borderColor: 'transparent', opacity: 0.55 }]}
                 activeOpacity={1}
               >
                 <Text style={s.hudCardIcon}>📈</Text>
-                <Text style={s.hudCardTitle}>Invest</Text>
-                <Text style={[s.hudCardAmt, { color: PURPLE, fontSize: 16 }]}>—</Text>
-                <Text style={s.hudCardSub}>Module 3</Text>
+                <Text style={[s.hudCardTitle, { color: 'rgba(255,255,255,0.8)' }]}>Invest</Text>
+                <Text style={[s.hudCardAmt, { color: Colors.white, fontSize: 16 }]}>—</Text>
+                <Text style={[s.hudCardSub, { color: 'rgba(255,255,255,0.7)' }]}>Module 3</Text>
               </TouchableOpacity>
 
             </View>
@@ -1957,7 +1957,7 @@ export default function SimulateScreen() {
 
         <View style={s.finCard}>
           {/* Fin avatar — small */}
-          <View style={[s.finAvatarWrap, { backgroundColor: accentColor + '18' }]}>
+          <View style={[s.finAvatarWrap, { backgroundColor: Colors.primaryLight }]}>
             <Text style={s.finAvatar}>🦉</Text>
           </View>
 
@@ -1971,12 +1971,12 @@ export default function SimulateScreen() {
                 {lines.map((_, i) => (
                   <View key={i} style={[
                     s.dot,
-                    i < lineIdx   && { backgroundColor: accentColor + '50' },
-                    i === lineIdx && { backgroundColor: accentColor, width: 14 },
+                    i < lineIdx   && { backgroundColor: Colors.primaryLight },
+                    i === lineIdx && { backgroundColor: Colors.primary, width: 14 },
                     i > lineIdx   && { backgroundColor: Colors.border },
                   ]} />
                 ))}
-                <Text style={[s.tapHint, { color: accentColor + '90' }]}>tap ›</Text>
+                <Text style={[s.tapHint, { color: Colors.primary + '90' }]}>tap ›</Text>
               </View>
             )}
           </TouchableOpacity>
@@ -1985,7 +1985,7 @@ export default function SimulateScreen() {
         {/* CTA button */}
         {ctaReady && (
           <TouchableOpacity
-            style={[s.ctaBtn, { backgroundColor: accentColor }, saving && { opacity: 0.6 }]}
+            style={[s.ctaBtn, { backgroundColor: Colors.textPrimary }, saving && { opacity: 0.6 }]}
             onPress={handleCta}
             disabled={saving}
             activeOpacity={0.88}
@@ -2000,7 +2000,7 @@ export default function SimulateScreen() {
         {/* First launch begin button */}
         {!sim && !loading && (
           <TouchableOpacity
-            style={[s.ctaBtn, { backgroundColor: TEAL }]}
+            style={[s.ctaBtn, { backgroundColor: Colors.textPrimary }]}
             onPress={async () => {
               const fresh = createSimProgress(uid, profile?.finCoins ?? 0);
               await saveSimProgress(uid, fresh);
@@ -2074,16 +2074,16 @@ const s = StyleSheet.create({
   scroll:          { paddingHorizontal: Spacing.lg, paddingTop: Spacing.sm, gap: Spacing.md },
 
   // FI progress card
-  fiCard:          { backgroundColor: Colors.white, borderRadius: Radii.xl, borderWidth: 1.5, borderColor: TEAL + '30', padding: Spacing.lg, gap: Spacing.md, ...Shadows.soft },
+  fiCard:          { backgroundColor: Colors.primary, borderRadius: Radii.xl, padding: Spacing.lg, gap: Spacing.md, ...Shadows.medium },
   fiTop:           { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   fiLabel:         { fontFamily: Fonts.bold, fontSize: 9, color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
   fiPct:           { fontFamily: Fonts.extraBold, fontSize: 32 },
   fiTargetLabel:   { fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted, textAlign: 'right' },
   fiTargetAmt:     { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textSecondary, textAlign: 'right' },
-  fiInvestedLabel: { fontFamily: Fonts.regular, fontSize: 11, color: TEAL, textAlign: 'right' },
+  fiInvestedLabel: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.primary, textAlign: 'right' },
   fiTrack:         { height: 10, backgroundColor: Colors.border, borderRadius: 5, overflow: 'hidden' },
   fiFill:          { height: 10, borderRadius: 5 },
-  fiCardEmpty:     { backgroundColor: Colors.white, borderRadius: Radii.xl, borderWidth: 1.5, borderColor: TEAL + '30', borderStyle: 'dashed', padding: Spacing.lg, gap: Spacing.sm, ...Shadows.soft },
+  fiCardEmpty:     { backgroundColor: Colors.white, borderRadius: Radii.xl, borderWidth: 1.5, borderColor: Colors.primaryLight, borderStyle: 'dashed', padding: Spacing.lg, gap: Spacing.sm, ...Shadows.soft },
   fiEmptyTitle:    { fontFamily: Fonts.extraBold, fontSize: 15, color: Colors.textPrimary },
   fiEmptyBody:     { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, lineHeight: 18 },
   fiEmptyLink:     { fontFamily: Fonts.bold, fontSize: 13 },
@@ -2100,8 +2100,9 @@ const s = StyleSheet.create({
 
   // 2×2 HUD cards
   cardGrid:        { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.sm },
-  hudCard:         { width: CARD_W, backgroundColor: Colors.white, borderRadius: Radii.lg, borderWidth: 1.5, padding: Spacing.md, gap: 3, ...Shadows.soft },
-  hudCardIcon:     { fontSize: 20, marginBottom: 2 },
+  hudCard:         { width: CARD_W, borderRadius: Radii.lg, borderWidth: 0, padding: Spacing.md, gap: 3, ...Shadows.medium },
+  hudCardIconWrap: { width: 36, height: 36, borderRadius: Radii.md, alignItems: 'center', justifyContent: 'center', marginBottom: 2 },
+  hudCardIcon:     { fontSize: 20 },
   hudCardTitle:    { fontFamily: Fonts.bold, fontSize: 11, color: Colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.5 },
   hudCardAmt:      { fontFamily: Fonts.extraBold, fontSize: 20, marginTop: 2 },
   hudCardSub:      { fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted },

@@ -334,15 +334,19 @@ export default function LessonScreen() {
         sectionFincoinsRef.current = updated;
         return updated;
       });
-      setToastAmount(fincoins);
-      setToastVisible(false);
-      if (toastTimer.current) clearTimeout(toastTimer.current);
-      toastTimer.current = setTimeout(() => {
-        setToastVisible(true);
-        toastTimer.current = setTimeout(() => setToastVisible(false), 2000);
-      }, 100);
+
+      // Only show toast on first-time completion, not redos
+      if (!alreadyComplete) {
+        setToastAmount(fincoins);
+        setToastVisible(false);
+        if (toastTimer.current) clearTimeout(toastTimer.current);
+        toastTimer.current = setTimeout(() => {
+          setToastVisible(true);
+          toastTimer.current = setTimeout(() => setToastVisible(false), 2000);
+        }, 100);
+      }
     }
-  }, []);
+  }, [alreadyComplete]);
 
   const handleSectionComplete = useCallback(async (sectionIndex) => {
     setCompletedSections(prev =>
@@ -360,8 +364,8 @@ export default function LessonScreen() {
 
       try {
         if (alreadyComplete) {
-          // Lesson already done — redo awards section coins only
-          const result = await redoSection(id, sectionIndex, thisSectionFincoins);
+          // Lesson already done — redo awards no coins
+          const result = await redoSection(id, sectionIndex);
           if (result) syncProfileAfterSection(result);
         } else {
           const result = await completeSectionInFirestore(id, sectionIndex);
@@ -377,8 +381,8 @@ export default function LessonScreen() {
 
       try {
         if (alreadyComplete) {
-          // Redo of final section — award section coins only
-          const result = await redoSection(id, sectionIndex, thisSectionFincoins);
+          // Redo of final section — no coins awarded
+          const result = await redoSection(id, sectionIndex);
           if (result) syncProfileAfterSection(result);
           setLessonResult(null);
         } else {
