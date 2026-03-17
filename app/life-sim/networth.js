@@ -26,6 +26,7 @@ import { loadSimProgress } from '../../lib/lifeSim';
 import { Colors, Fonts, Spacing, Radii, Shadows, MODULE_COLORS } from '../../constants/theme';
 import { formatDual } from '../../constants/lifeSimStages';
 import { auth } from '../../lib/firebase';
+import { useSafeBack } from '../../hooks/useHardwareBack';
 
 const { width: SW } = Dimensions.get('window');
 
@@ -261,6 +262,7 @@ const sc = StyleSheet.create({
 
 export default function NetWorthScreen() {
   const router  = useRouter();
+  const goBack  = useSafeBack('/(tabs)/simulate');
   const insets  = useSafeAreaInsets();
   const profile = useUserStore(s => s.profile);
 
@@ -332,7 +334,7 @@ export default function NetWorthScreen() {
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <View style={[s.header, { paddingTop: insets.top + 10 }]}>
-        <TouchableOpacity onPress={() => router.back()} style={s.backBtn} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+        <TouchableOpacity onPress={goBack} style={s.backBtn} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
           <Text style={s.backIcon}>←</Text>
         </TouchableOpacity>
         <Text style={s.headerTitle}>Net Worth</Text>

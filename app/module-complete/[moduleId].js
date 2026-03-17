@@ -9,6 +9,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { getProgress } from '../../lib/progress';
 import { MODULES } from '../../constants/modules';
 import { Colors as C, Fonts as F } from '../../constants/theme';
+import useHardwareBack from '../../hooks/useHardwareBack';
 
 const { width: SW, height: SH } = Dimensions.get('window');
 
@@ -141,6 +142,7 @@ function ChapterRow({ chapter, completedLessons, moduleColor, index }) {
 export default function ModuleCompleteScreen() {
   const router = useRouter();
   const { moduleId } = useLocalSearchParams();
+  const goBack = useHardwareBack('/(tabs)/learn');
 
   const [completedLessons, setCompletedLessons] = useState([]);
   const [loading, setLoading]                   = useState(true);
@@ -208,7 +210,7 @@ export default function ModuleCompleteScreen() {
       >
         {/* ── Hero header ── */}
         <View style={[s.hero, { backgroundColor: mod.color }]}>
-          <TouchableOpacity style={s.backBtn} onPress={() => router.back()}>
+          <TouchableOpacity style={s.backBtn} onPress={goBack}>
             <Text style={s.backText}>← Back</Text>
           </TouchableOpacity>
 

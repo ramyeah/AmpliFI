@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { askRAG } from '../lib/api';
 import useUserStore from '../store/userStore';
 import { Colors, Typography, Spacing, Radii, Shadows } from '../constants/theme';
+import { useSafeBack } from '../hooks/useHardwareBack';
 
 const SUGGESTED_QUESTIONS = [
   { icon: '🏦', text: 'What is the CPF Ordinary Account interest rate?' },
@@ -103,6 +104,7 @@ const sg = StyleSheet.create({
 // ─── Main screen ──────────────────────────────────────────────────────────────
 export default function ChatScreen() {
   const router    = useRouter();
+  const goBack    = useSafeBack('/(tabs)/home');
   const profile   = useUserStore((s) => s.profile);
   const scrollRef = useRef(null);
   const insets    = useSafeAreaInsets();
@@ -159,7 +161,7 @@ export default function ChatScreen() {
     >
       {/* ── Header ── */}
       <View style={s.header}>
-        <TouchableOpacity style={s.backBtn} onPress={() => router.back()}>
+        <TouchableOpacity style={s.backBtn} onPress={goBack}>
           <Text style={s.backIcon}>←</Text>
         </TouchableOpacity>
         <View style={s.headerCenter}>

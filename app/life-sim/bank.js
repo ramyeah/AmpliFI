@@ -51,6 +51,7 @@ import {
 } from '../../constants/lifeSimStages';
 import { Colors, Fonts, Spacing, Radii, Shadows, MODULE_COLORS } from '../../constants/theme';
 import { auth } from '../../lib/firebase';
+import { useSafeBack } from '../../hooks/useHardwareBack';
 
 const { width: SW } = Dimensions.get('window');
 
@@ -1050,6 +1051,7 @@ const lb = StyleSheet.create({
 
 export default function BankScreen() {
   const router     = useRouter();
+  const goBack     = useSafeBack('/(tabs)/simulate');
   const profile    = useUserStore(s => s.profile);
   const setProfile = useUserStore(s => s.setProfile);
   const insets     = useSafeAreaInsets();
@@ -1162,7 +1164,7 @@ export default function BankScreen() {
       <BankLobby
         sim={sim}
         profile={profile}
-        onBack={() => router.back()}
+        onBack={goBack}
         onReload={loadSim}
       />
     );
@@ -1182,7 +1184,7 @@ export default function BankScreen() {
         </Text>
         <TouchableOpacity
           style={{ backgroundColor: ORANGE, borderRadius: Radii.lg, paddingVertical: 13, paddingHorizontal: 32, marginTop: 8 }}
-          onPress={() => router.back()}
+          onPress={goBack}
           activeOpacity={0.88}
         >
           <Text style={{ fontFamily: Fonts.bold, fontSize: 14, color: Colors.white }}>← Back</Text>
@@ -1198,7 +1200,7 @@ export default function BankScreen() {
     <View style={{ flex: 1, backgroundColor: Colors.background }}>
       {/* Header */}
       <View style={[lb.header, { paddingTop: insets.top + 10 }]}>
-        <TouchableOpacity onPress={() => step > 1 ? setStep(s => s - 1) : router.back()} style={lb.backBtn} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+        <TouchableOpacity onPress={() => step > 1 ? setStep(s => s - 1) : goBack()} style={lb.backBtn} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
           <Text style={lb.backIcon}>←</Text>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>

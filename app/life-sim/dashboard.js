@@ -24,6 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { loadSimProgress } from '../../lib/lifeSim';
 import { Colors, Fonts, Spacing, Radii, Shadows, MODULE_COLORS } from '../../constants/theme';
 import { auth } from '../../lib/firebase';
+import { useSafeBack } from '../../hooks/useHardwareBack';
 
 const { width: SW } = Dimensions.get('window');
 const TEAL   = MODULE_COLORS['module-1'].color;
@@ -281,6 +282,7 @@ const st = StyleSheet.create({ t: { fontFamily: Fonts.extraBold, fontSize: 17, c
 
 export default function DashboardScreen() {
   const router  = useRouter();
+  const goBack  = useSafeBack('/(tabs)/simulate');
   const insets  = useSafeAreaInsets();
 
   const [sim,     setSim]     = useState(null);
@@ -345,7 +347,7 @@ export default function DashboardScreen() {
 
       {/* ── Header ── */}
       <View style={[s.header, { paddingTop: insets.top + 10 }]}>
-        <TouchableOpacity onPress={() => router.back()} style={s.backBtn} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+        <TouchableOpacity onPress={goBack} style={s.backBtn} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
           <Text style={s.backIcon}>←</Text>
         </TouchableOpacity>
         <Text style={s.headerTitle}>Dashboard</Text>

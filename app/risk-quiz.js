@@ -7,6 +7,7 @@ import { auth, db } from '../lib/firebase';
 import useUserStore from '../store/userStore';
 import { Colors, Fonts, Spacing, Radii, Shadows } from '../constants/theme';
 import { ADVISOR } from '../constants/simulation';
+import { useSafeBack } from '../hooks/useHardwareBack';
 
 // ─── Quiz questions ────────────────────────────────────────────────────────────
 const QUESTIONS = [
@@ -95,6 +96,7 @@ const PROFILE_INFO = {
 
 export default function RiskQuizScreen() {
   const router = useRouter();
+  const goBack = useSafeBack('/(tabs)/simulate');
   const setProfile = useUserStore((state) => state.setProfile);
   const profile = useUserStore((state) => state.profile);
 
@@ -183,7 +185,7 @@ export default function RiskQuizScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
 
       {/* Back */}
-      <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
+      <TouchableOpacity onPress={goBack} style={styles.backBtn}>
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 

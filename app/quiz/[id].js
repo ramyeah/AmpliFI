@@ -6,10 +6,12 @@ import { generateQuiz } from '../../lib/api';
 import useUserStore from '../../store/userStore';
 import { doc, updateDoc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
+import { useSafeBack } from '../../hooks/useHardwareBack';
 
 export default function QuizScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const goBack = useSafeBack('/(tabs)/learn');
   const profile = useUserStore((state) => state.profile);
   const setProfile = useUserStore((state) => state.setProfile);
   const lesson = getLessonById(id);
@@ -143,7 +145,7 @@ export default function QuizScreen() {
         <TouchableOpacity style={styles.btn} onPress={loadQuiz}>
           <Text style={styles.btnText}>Retry</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.btn, { backgroundColor: '#999', marginTop: 12 }]} onPress={() => router.back()}>
+        <TouchableOpacity style={[styles.btn, { backgroundColor: '#999', marginTop: 12 }]} onPress={goBack}>
           <Text style={styles.btnText}>Go Back</Text>
         </TouchableOpacity>
       </View>
