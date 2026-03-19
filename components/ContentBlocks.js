@@ -1777,19 +1777,23 @@ const fd = StyleSheet.create({
   title:             { fontSize: 14, fontFamily: F.bold, color: C.textPrimary, marginBottom: 4 },
   hint:              { fontSize: 12, color: C.midGray, marginBottom: 10 },
   cardContainer:     { position: 'relative' },
-  card:              { position: 'absolute', top: 0, left: 0, borderRadius: 18, padding: 20, justifyContent: 'space-between', backfaceVisibility: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.08, shadowRadius: 10, elevation: 3 },
-  // ── Reframe variant (red/green) ──
-  cardFront:     { backgroundColor: '#FFF0F0', borderWidth: 1.5, borderColor: '#FFB3B3' },
-  badgeFront:    { backgroundColor: '#E8000D', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  cardTextFront: { fontSize: 16, fontFamily: F.bold, color: '#CC0000', lineHeight: 24, flex: 1, paddingVertical: 10 },
-  tapHintFront:  { fontSize: 12, color: '#E8000D', fontFamily: F.semiBold, opacity: 0.7 },
-  cardBack:      { backgroundColor: '#E6F9F0', borderWidth: 1.5, borderColor: '#6EDBA8' },
-  badgeBack:     { backgroundColor: '#00875A', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
-  cardTextBack:  { fontSize: 16, fontFamily: F.bold, color: '#00583C', lineHeight: 24, flex: 1, paddingVertical: 10 },
-  backLabel:     { alignSelf: 'flex-start', backgroundColor: '#00875A', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
-  backLabelText: { fontSize: 11, fontFamily: F.bold, color: C.white },
-  badgeText:         { fontSize: 11, fontFamily: F.extraBold, color: C.white },
-  // ── Neutral variant (white) ──
+  card:              { position: 'absolute', top: 0, left: 0, borderRadius: 18, padding: 20, justifyContent: 'space-between', backfaceVisibility: 'hidden', shadowColor: '#121211', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.08, shadowRadius: 10, elevation: 3 },
+
+  // ── Reframe variant ──
+  cardFront:         { backgroundColor: '#FFF0F0', borderWidth: 1.5, borderColor: '#FFAAAA' },
+  badgeFront:        { backgroundColor: '#E8000D', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  cardTextFront:     { fontSize: 16, fontFamily: F.bold, color: '#B00020', lineHeight: 24, flex: 1, paddingVertical: 10 },
+  tapHintFront:      { fontSize: 12, color: '#B00020', fontFamily: F.semiBold, opacity: 0.7 },
+
+  cardBack:          { backgroundColor: '#F0FFF4', borderWidth: 1.5, borderColor: '#86EFAC' },
+  badgeBack:         { backgroundColor: '#16A34A', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
+  cardTextBack:      { fontSize: 16, fontFamily: F.bold, color: '#15803D', lineHeight: 24, flex: 1, paddingVertical: 10 },
+  backLabel:         { alignSelf: 'flex-start', backgroundColor: '#16A34A', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  backLabelText:     { fontSize: 11, fontFamily: F.bold, color: '#FFFFFF' },
+
+  badgeText:         { fontSize: 11, fontFamily: F.extraBold, color: '#FFFFFF' },
+
+  // ── Neutral variant ──
   cardNeutral:       { backgroundColor: C.white, borderWidth: 1.5, borderColor: C.border },
   badgeNeutral:      { backgroundColor: C.lightGray, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4 },
   badgeTextNeutral:  { fontSize: 11, fontFamily: F.bold, color: C.textMuted },
@@ -1797,12 +1801,13 @@ const fd = StyleSheet.create({
   tapHintNeutral:    { fontSize: 12, color: C.midGray, fontFamily: F.semiBold, opacity: 0.7 },
   backLabelNeutral:  { alignSelf: 'flex-start', backgroundColor: C.lightGray, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
   backLabelTextNeutral: { fontSize: 11, fontFamily: F.bold, color: C.textMuted },
+
   // ── Shared ──
   cardTopRow:        { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   cardNum:           { fontSize: 12, color: C.midGray, fontFamily: F.semiBold },
   dots:              { flexDirection: 'row', justifyContent: 'center', gap: 6, marginTop: 12 },
   dot:               { width: 6, height: 6, borderRadius: 3, backgroundColor: C.border },
-  dotFlipped: { backgroundColor: '#00875A' },
+  dotFlipped:        { backgroundColor: '#16A34A' },
 });
 
 const tl = StyleSheet.create({

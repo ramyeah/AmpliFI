@@ -618,6 +618,9 @@ export function createSimProgress(uid, finCoins = 0) {
     incomeLabel:  bracket.label,
     incomeEmoji:  bracket.emoji,
 
+    // Pending FinCoins — accumulated until month advance
+    pendingFinCoins: 0,
+
     // ── Stage completion data ──────────────────────────────────────────────
     // stage1Data: set in Stage 1
     stage1Data: null,

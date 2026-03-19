@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs -0 ls -1)",
+      "Bash(find /c/Users/ramya/Documents/NTU/FYP/AmpliFI -type f -name \"*.js\" ! -path \"*/node_modules/*\" -exec grep -l \"^[[:space:]]*//.*\" {})",
+      "Bash(cut -d'\\(' -f1)"
+    ]
+  }
+}
