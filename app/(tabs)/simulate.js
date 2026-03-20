@@ -32,6 +32,8 @@ import Quest9 from '../quests/quest-9';
 import Quest10 from '../quests/quest-10';
 import Quest11 from '../quests/quest-11';
 import Quest12 from '../quests/quest-12';
+import BankModal from '../life-sim/bank-modal';
+import PortfolioModal from '../life-sim/portfolio-modal';
 
 const { width: SW, height: SH } = Dimensions.get('window');
 
@@ -233,6 +235,8 @@ export default function SimulateScreen() {
   const [closingGoal, setClosingGoal] = useState(false);
   const [portfolioLoading, setPortfolioLoading] = useState(false);
   const [portfolioSim, setPortfolioSim] = useState(null);
+  const [showBankModal, setShowBankModal] = useState(false);
+  const [showPortfolioModal, setShowPortfolioModal] = useState(false);
 
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -572,8 +576,8 @@ export default function SimulateScreen() {
 
         {/* Nav pills */}
         <View style={s.navRow}>
-          <TouchableOpacity style={s.navPill} onPress={() => { handleChipPress('bank'); dismissBankNotif(); }}><Text style={{ fontSize: 16 }}>{'\uD83C\uDFE6'}</Text><Text style={s.navPillLabel}>Bank</Text>{bankNotif && <View style={s.notifDot} />}</TouchableOpacity>
-          <TouchableOpacity style={[s.navPill, !completedStages.includes('stage-9') && { opacity: 0.5 }]} onPress={() => { if (completedStages.includes('stage-9')) handleChipPress('portfolio'); }}><Text style={{ fontSize: 16 }}>{'\uD83D\uDCC8'}</Text><Text style={s.navPillLabel}>Portfolio</Text>{!completedStages.includes('stage-9') && <Text style={{ fontSize: 10 }}>{'\uD83D\uDD12'}</Text>}</TouchableOpacity>
+          <TouchableOpacity style={s.navPill} onPress={() => { setShowBankModal(true); dismissBankNotif(); }}><Text style={{ fontSize: 16 }}>{'\uD83C\uDFE6'}</Text><Text style={s.navPillLabel}>Bank</Text>{bankNotif && <View style={s.notifDot} />}</TouchableOpacity>
+          <TouchableOpacity style={[s.navPill, !completedStages.includes('stage-9') && { opacity: 0.5 }]} onPress={() => { if (completedStages.includes('stage-9')) setShowPortfolioModal(true); }}><Text style={{ fontSize: 16 }}>{'\uD83D\uDCC8'}</Text><Text style={s.navPillLabel}>Portfolio</Text>{!completedStages.includes('stage-9') && <Text style={{ fontSize: 10 }}>{'\uD83D\uDD12'}</Text>}</TouchableOpacity>
           <TouchableOpacity style={s.navPill} onPress={() => handleChipPress('history')}><Text style={{ fontSize: 16 }}>{'\uD83D\uDCDC'}</Text><Text style={s.navPillLabel}>History</Text></TouchableOpacity>
         </View>
 
@@ -619,7 +623,7 @@ export default function SimulateScreen() {
             return <>
               <View style={s.walletRow}>
               {wls.map((w, wcIdx) => { const theme = WALLET_CYCLE[wcIdx % WALLET_CYCLE.length]; const isLone = wls.length === 1 || (wls.length % 2 === 1 && wcIdx === wls.length - 1); return (
-                    <TouchableOpacity key={w.id} style={[s.wcCard, isLone ? s.wcCardFull : s.wcCardHalf, { backgroundColor: theme.color }]} activeOpacity={0.85} onPress={() => handleChipPress('bank')}>
+                    <TouchableOpacity key={w.id} style={[s.wcCard, isLone ? s.wcCardFull : s.wcCardHalf, { backgroundColor: theme.color }]} activeOpacity={0.85} onPress={() => { setShowBankModal(true); dismissBankNotif(); }}>
                       <View style={s.wcIconCircle}><Text style={{ fontSize: 18 }}>{w.icon ?? '\uD83D\uDCB5'}</Text></View>
                       <Text style={s.wcName} numberOfLines={1}>{w.label}</Text>
                       {(w.type === 'savings-goal' || w.type === 'emergency') && <Text style={s.wcSubAccount}>Sub-account {'\u00B7'} {w.institution ?? 'Your Bank'}</Text>}
@@ -643,7 +647,7 @@ export default function SimulateScreen() {
                     </TouchableOpacity>
                   ); })}
               </View>
-              {inv && <View style={{ marginTop: 10 }}><TouchableOpacity style={[s.wcCard, s.wcCardFull, { backgroundColor: MODULE_COLORS['module-4'].color }]} activeOpacity={0.85} onPress={() => handleChipPress('portfolio')}>
+              {inv && <View style={{ marginTop: 10 }}><TouchableOpacity style={[s.wcCard, s.wcCardFull, { backgroundColor: MODULE_COLORS['module-4'].color }]} activeOpacity={0.85} onPress={() => setShowPortfolioModal(true)}>
                 <View style={s.wcIconCircle}><Text style={{ fontSize: 18 }}>{'\uD83D\uDCC8'}</Text></View>
                 <Text style={s.wcName}>{inv.label}</Text>
                 <View style={s.wcBalRow}><Image source={COIN_ASSET} style={s.wcCoin} /><Text style={s.wcBal}>{Math.round(inv.balance ?? 0).toLocaleString()}</Text></View>
@@ -819,180 +823,50 @@ export default function SimulateScreen() {
         </View>
       )}
 
-      {/* Bottom sheets */}
-      {activeSheet && (
+      {/* History bottom sheet */}
+      {activeSheet === 'history' && (
         <Modal transparent animationType="none" statusBarTranslucent onRequestClose={closeSheet}>
-          <TouchableOpacity style={s.sheetBackdrop} activeOpacity={1} onPress={closeSheet}>
-            <Animated.View style={[s.sheetContainer, { transform: [{ translateY: sheetAnim }], paddingBottom: insets.bottom + 24 }]}>
-              <View onStartShouldSetResponder={() => true}>
+          <TouchableOpacity style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }]} activeOpacity={1} onPress={closeSheet} />
+          <Animated.View style={[s.sheetContainer, { transform: [{ translateY: sheetAnim }], paddingBottom: insets.bottom + 24, position: 'absolute', bottom: 0, left: 0, right: 0 }]}>
+            <>
                 <View style={s.sheetHandle} />
                 <View style={s.sheetTitleRow}>
-                  <Text style={s.sheetTitle}>{activeSheet === 'bank' ? '\uD83C\uDFE6 Bank' : activeSheet === 'portfolio' ? '\uD83D\uDCC8 Portfolio' : '\uD83D\uDCDC History'}</Text>
+                  <Text style={s.sheetTitle}>{'\uD83D\uDCDC History'}</Text>
                   <TouchableOpacity onPress={closeSheet}><Text style={s.sheetCloseX}>{'\u2715'}</Text></TouchableOpacity>
                 </View>
 
-                {/* Bank */}
-                {activeSheet === 'bank' && <ScrollView style={{ maxHeight: SH * 0.75 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 32 }}>
-                  {wallets.length === 0 ? <Text style={s.sheetEmpty}>No accounts yet. Complete your first steps.</Text> : wallets.map(w => {
-                    const isEF = w.id === 'emergency-fund';
-                    const efPct = isEF && w.target ? Math.round((w.balance / w.target) * 100) : 0;
-                    return <View key={w.id} style={s.sheetCard}>
-                      <View style={s.sheetCardTop}><Text style={{ fontSize: 22 }}>{w.icon ?? '\uD83D\uDCB5'}</Text><View style={{ flex: 1 }}><Text style={s.sheetCardName}>{w.label ?? 'Cash'}</Text><Text style={s.sheetCardSub}>{w.institution ? `${w.institution} \u00B7 ` : ''}{w.interestRate ? `${(w.interestRate * 100).toFixed(1)}% p.a.` : w.type}</Text></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}><Image source={COIN_ASSET} style={{ width: 14, height: 14 }} /><Text style={s.sheetCardBal}>{Math.round(w.balance ?? 0).toLocaleString()}</Text></View></View>
-                      {isEF && w.target > 0 && <View style={{ marginTop: 10 }}><View style={s.sheetTrack}><View style={[s.sheetFill, { width: `${Math.min(efPct, 100)}%`, backgroundColor: Colors.successDark }]} /></View><Text style={s.sheetCardSub}>{efPct}% of {'\uD83E\uDE99'}{Math.round(w.target).toLocaleString()} target</Text></View>}
-                      <View style={s.sheetCardActions}><TouchableOpacity style={s.sheetActionBtn} onPress={() => setShowComingSoon(true)}><Text style={s.sheetActionText}>Transfer in</Text></TouchableOpacity><TouchableOpacity style={s.sheetActionBtn} onPress={() => setShowComingSoon(true)}><Text style={s.sheetActionText}>Transfer out</Text></TouchableOpacity></View>
-                    </View>;
-                  })}
-                  <TouchableOpacity style={s.sheetOutlineBtn} onPress={() => { setComingSoonName('New Savings Goal'); setShowComingSoon(true); }}><Text style={s.sheetOutlineBtnText}>+ Open new savings goal</Text></TouchableOpacity>
-                </ScrollView>}
-
-                {/* Portfolio */}
-                {activeSheet === 'portfolio' && (() => {
-                  if (portfolioLoading) return (
-                    <View style={{ alignItems: 'center', justifyContent: 'center', paddingVertical: 60 }}>
-                      <ActivityIndicator size="large" color={MODULE_COLORS['module-4'].color} />
-                      <Text style={{ fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, marginTop: 12 }}>Loading portfolio...</Text>
-                    </View>
-                  );
-                  const activeSim = portfolioSim ?? sim;
-                  const activeWallets = activeSim?.wallets ?? [];
-                  const iw = activeWallets.find(w => w.type === 'investment');
-                  const pHoldings = iw?.holdings ?? [];
-                  const targetAllocations = activeSim?.portfolioAllocations ?? {};
-                  const hasRebalance = (activeSim?.completedStages ?? []).includes('stage-12') || activeSim?.lastRebalancedMonth != null || (activeSim?.portfolioAllocations != null && (activeSim?.completedStages ?? []).includes('stage-11'));
-                  const monthlyDCA = activeSim?.monthlyDCA ?? 0;
-                  const openedMonth = iw?.openedMonth ?? 1;
-                  const monthsInvested = Math.max(1, (activeSim?.currentMonth ?? 1) - openedMonth);
-                  const totalContributed = monthlyDCA * monthsInvested;
-                  const currentValue = Math.round(iw?.balance ?? 0);
-                  const totalGain = currentValue - totalContributed;
-                  const totalGainPct = totalContributed > 0 ? Math.round((totalGain / totalContributed) * 1000) / 10 : 0;
-                  const riskScore = iw?.riskScore ?? calcRiskScore(Object.fromEntries(pHoldings.map(h => [h.assetId, h.allocation ?? 0])));
-                  const expectedReturn = iw?.expectedReturn ?? calcExpReturn(Object.fromEntries(pHoldings.map(h => [h.assetId, h.allocation ?? 0])));
-                  const riskInfo = getRiskLabel(riskScore);
-                  const PIE_SIZE = SW * 0.55;
-                  const paths = generatePortfolioPiePaths(pHoldings, PIE_SIZE);
-                  const holeRadius = PIE_SIZE * 0.18;
-                  const holeCenter = PIE_SIZE / 2;
-                  const lastRebalancedMonth = activeSim?.lastRebalancedMonth ?? null;
-                  console.log('PORTFOLIO DEBUG:', { completedStages: activeSim?.completedStages, hasStage12: (activeSim?.completedStages ?? []).includes('stage-12'), hasStage11: (activeSim?.completedStages ?? []).includes('stage-11'), portfolioAllocations: activeSim?.portfolioAllocations != null, lastRebalancedMonth: activeSim?.lastRebalancedMonth, hasRebalance });
-
-                  return <>
-                    {!iw ? (
-                      <View style={s.sheetEmptyCenter}><Text style={{ fontSize: 40 }}>{'\uD83D\uDCC8'}</Text><Text style={s.sheetEmptyTitle}>No investments yet</Text><Text style={s.sheetEmpty}>Complete Quest 4.3 to make your first investment.</Text></View>
-                    ) : (
-                      <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
-                        {/* Pie chart */}
-                        {pHoldings.length > 0 && (
-                          <View style={s.portfolioPieSection}>
-                            <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-                              <Svg width={PIE_SIZE} height={PIE_SIZE}>
-                                <G>
-                                  {paths.map((p, i) => <Path key={i} d={p.d} fill={p.color} stroke={Colors.white} strokeWidth={2} />)}
-                                  <Path d={`M ${holeCenter} ${holeCenter} m -${holeRadius} 0 a ${holeRadius} ${holeRadius} 0 1 0 ${holeRadius * 2} 0 a ${holeRadius} ${holeRadius} 0 1 0 -${holeRadius * 2} 0`} fill={Colors.white} />
-                                </G>
-                              </Svg>
-                              <View style={[s.portfolioPieCenter, { top: PIE_SIZE / 2 - 22, left: PIE_SIZE / 2 - 30 }]}>
-                                <Text style={[s.portfolioPieCenterScore, { color: riskInfo.color }]}>{riskScore}</Text>
-                                <Text style={s.portfolioPieCenterLabel}>Risk</Text>
-                              </View>
-                            </View>
-                            <View style={s.portfolioPieLegend}>
-                              {pHoldings.map(h => <View key={h.assetId} style={s.portfolioPieLegendRow}><View style={[s.portfolioPieLegendDot, { backgroundColor: h.color }]} /><Text style={s.portfolioPieLegendName} numberOfLines={1}>{h.name}</Text><Text style={[s.portfolioPieLegendPct, { color: h.color }]}>{h.allocation ?? 0}%</Text></View>)}
-                            </View>
-                          </View>
-                        )}
-                        {/* Risk + return summary */}
-                        <View style={s.portfolioSummaryRow}>
-                          <View style={s.portfolioSummaryCard}><Text style={s.portfolioSummaryLabel}>RISK LEVEL</Text><Text style={[s.portfolioSummaryValue, { color: riskInfo.color }]}>{riskInfo.label}</Text><View style={s.portfolioRiskBar}><View style={[s.portfolioRiskBarFill, { width: `${riskScore}%`, backgroundColor: riskInfo.color }]} /></View><Text style={s.portfolioSummarySubValue}>{riskScore} / 100</Text></View>
-                          <View style={s.portfolioSummaryCard}><Text style={s.portfolioSummaryLabel}>EXPECTED RETURN</Text><Text style={[s.portfolioSummaryValue, { color: MODULE_COLORS['module-3'].color }]}>{expectedReturn?.toFixed(1)}%</Text><Text style={s.portfolioSummarySubLabel}>per year</Text><Text style={s.portfolioSummarySubValue}>after fees</Text></View>
-                        </View>
-                        {/* Holdings */}
-                        {pHoldings.length > 0 && (
-                          <View style={s.portfolioSection}><Text style={s.portfolioSectionTitle}>HOLDINGS</Text>
-                            {pHoldings.map(h => {
-                              const target = targetAllocations[h.assetId] ?? 0;
-                              const current = h.allocation ?? 0;
-                              const drift = Math.round((current - target) * 10) / 10;
-                              const hasDrift = target > 0 && Math.abs(drift) > 2;
-                              return (
-                                <View key={h.assetId} style={s.portfolioHoldingCard}>
-                                  <View style={s.portfolioHoldingTop}>
-                                    <Text style={{ fontSize: 22 }}>{h.icon ?? '\uD83D\uDCCA'}</Text>
-                                    <View style={{ flex: 1 }}>
-                                      <Text style={s.portfolioHoldingName} numberOfLines={1}>{h.name}</Text>
-                                      {hasDrift && <Text style={[s.portfolioHoldingDrift, { color: drift > 0 ? '#FF9500' : MODULE_COLORS['module-1'].color }]}>Target: {target}% {'\u00B7'} {drift > 0 ? '\u25B2' : '\u25BC'} {Math.abs(drift)}% {drift > 0 ? 'overweight' : 'underweight'}</Text>}
-                                      {!hasDrift && target > 0 && <Text style={[s.portfolioHoldingDrift, { color: MODULE_COLORS['module-3'].color }]}>Target: {target}% {'\u00B7'} On target {'\u2713'}</Text>}
-                                    </View>
-                                    <View style={{ alignItems: 'flex-end' }}>
-                                      <Text style={[s.portfolioHoldingPct, { color: h.color }]}>{current}%</Text>
-                                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={s.portfolioHoldingValue}>{Math.round(h.value ?? 0).toLocaleString()}</Text></View>
-                                    </View>
-                                  </View>
-                                  <View style={s.portfolioHoldingBars}>
-                                    {target > 0 && <View style={s.portfolioHoldingBarRow}><Text style={s.portfolioHoldingBarLabel}>Target</Text><View style={s.portfolioHoldingBarTrack}><View style={[s.portfolioHoldingBarFill, { width: `${target}%`, backgroundColor: Colors.border }]} /></View></View>}
-                                    <View style={s.portfolioHoldingBarRow}><Text style={s.portfolioHoldingBarLabel}>Now</Text><View style={s.portfolioHoldingBarTrack}><View style={[s.portfolioHoldingBarFill, { width: `${current}%`, backgroundColor: h.color ?? Colors.primary }]} /></View></View>
-                                  </View>
-                                </View>
-                              );
-                            })}
-                          </View>
-                        )}
-                        {/* Performance */}
-                        <View style={s.portfolioSection}><Text style={s.portfolioSectionTitle}>PERFORMANCE</Text>
-                          <View style={s.portfolioPerformanceCard}>
-                            {[
-                              { label: 'Monthly DCA', value: monthlyDCA.toLocaleString(), coin: true, suffix: '/month' },
-                              { label: 'Total contributed', value: totalContributed.toLocaleString(), coin: true },
-                              { label: 'Current value', value: currentValue.toLocaleString(), coin: true, color: Colors.textPrimary },
-                              { label: 'Total gain', value: `${totalGain >= 0 ? '+' : ''}${Math.round(totalGain).toLocaleString()}`, coin: true, color: totalGain >= 0 ? MODULE_COLORS['module-3'].color : '#FF4444', suffix: ` (${totalGainPct >= 0 ? '+' : ''}${totalGainPct}%)`, bold: true },
-                            ].map((row, i, arr) => (
-                              <View key={i} style={[s.portfolioPerfRow, i === arr.length - 1 && { borderBottomWidth: 0 }, row.bold && { paddingTop: 12 }]}>
-                                <Text style={s.portfolioPerfLabel}>{row.label}</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
-                                  {row.coin && <Image source={COIN_ASSET} style={{ width: 12, height: 12 }} />}
-                                  <Text style={[s.portfolioPerfValue, row.color && { color: row.color }, row.bold && { fontFamily: Fonts.extraBold, fontSize: 16 }]}>{row.value}</Text>
-                                  {row.suffix && <Text style={[s.portfolioPerfSuffix, row.color && { color: row.color }]}>{row.suffix}</Text>}
-                                </View>
-                              </View>
-                            ))}
-                          </View>
-                        </View>
-                        {/* Rebalance */}
-                        <View style={s.portfolioSection}>
-                          {hasRebalance ? (
-                            <>
-                              <TouchableOpacity style={s.portfolioRebalanceBtn} onPress={() => { closeSheet(); setTimeout(() => setActiveQuest('quest-12'), 300); }} activeOpacity={0.88}><Text style={s.portfolioRebalanceBtnText}>{'\u2696\uFE0F'} Rebalance Portfolio</Text></TouchableOpacity>
-                              <Text style={s.portfolioRebalanceMeta}>0.1% fee applies{lastRebalancedMonth ? ` \u00B7 Last rebalanced: Month ${lastRebalancedMonth}` : ' \u00B7 Never rebalanced'}</Text>
-                            </>
-                          ) : (
-                            <View style={s.portfolioRebalanceLocked}><Text style={s.portfolioRebalanceLockedText}>{'\uD83D\uDD12'} Rebalance tool unlocks after Quest 4.6</Text></View>
-                          )}
-                        </View>
-                      </ScrollView>
-                    )}
-                  </>;
-                })()}
-
-                {/* History */}
-                {activeSheet === 'history' && (() => {
+                {(() => {
                   const sl = { 'stage-1': { icon: '\uD83C\uDFAF', text: 'Set FI Number' }, 'stage-2': { icon: '\uD83C\uDFE6', text: 'Opened bank account' }, 'stage-3': { icon: '\uD83D\uDCCA', text: 'Built monthly budget' }, 'stage-4': { icon: '\uD83D\uDCBC', text: 'Received first paycheck' }, 'stage-5': { icon: '\uD83D\uDCC8', text: 'Started investing' } };
                   const evts = [...completedStages.filter(sid => sl[sid]).map(sid => ({ ...sl[sid], type: 'milestone' })), ...history.map(h => ({ icon: '\uD83D\uDCC5', text: `Month ${h.month} \u2014 Net worth \uD83E\uDE99${Math.round(Object.values(h.walletSnapshots ?? {}).reduce((a, b) => a + b, 0)).toLocaleString()}`, type: 'month' }))].reverse();
                   return <ScrollView style={{ maxHeight: SH * 0.75 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 32 }}>
                     {evts.length === 0 ? <View style={s.sheetEmptyCenter}><Text style={{ fontSize: 40 }}>{'\uD83D\uDCD6'}</Text><Text style={s.sheetEmptyTitle}>Your story starts here</Text><Text style={s.sheetEmpty}>Every decision you make will appear here.</Text></View> : evts.map((e, i) => <View key={i} style={s.historyRow}><View style={[s.historyIconCircle, e.type === 'milestone' && { backgroundColor: Colors.primaryLight }]}><Text style={{ fontSize: 16 }}>{e.icon}</Text></View><Text style={s.historyText}>{e.text}</Text></View>)}
                   </ScrollView>;
                 })()}
-              </View>
-            </Animated.View>
-          </TouchableOpacity>
+            </>
+          </Animated.View>
         </Modal>
       )}
+
+      {/* Bank & Portfolio full-screen modals */}
+      <BankModal
+        visible={showBankModal}
+        onClose={() => setShowBankModal(false)}
+        sim={sim}
+        onSimUpdate={refreshAll}
+      />
+      <PortfolioModal
+        visible={showPortfolioModal}
+        onClose={() => setShowPortfolioModal(false)}
+        sim={sim}
+        onSimUpdate={refreshAll}
+      />
 
       {/* Advance Confirm Modal */}
       {showAdvanceConfirm && (
         <Modal transparent animationType="none" statusBarTranslucent onRequestClose={closeAdvanceConfirm}>
-          <TouchableOpacity style={s.sheetBackdrop} activeOpacity={1} onPress={closeAdvanceConfirm}>
-            <Animated.View style={[s.sheetContainer, { transform: [{ translateY: advanceConfirmAnim }], paddingBottom: insets.bottom + 24 }]}>
-              <View onStartShouldSetResponder={() => true}>
+          <TouchableOpacity style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }]} activeOpacity={1} onPress={closeAdvanceConfirm} />
+          <Animated.View style={[s.sheetContainer, { transform: [{ translateY: advanceConfirmAnim }], paddingBottom: insets.bottom + 24, position: 'absolute', bottom: 0, left: 0, right: 0 }]}>
+            <>
                 <View style={s.sheetHandle} />
                 <Text style={{ fontSize: 28, textAlign: 'center', marginBottom: 4 }}>{'\uD83D\uDC1F'}</Text>
                 <Text style={s.summaryTitle}>Advance to {MONTH_NAMES[simMonthRaw % 12]}?</Text>
@@ -1038,9 +912,8 @@ export default function SimulateScreen() {
                     <Text style={s.advConfirmGoText}>{"Let's go \u2192"}</Text>
                   </TouchableOpacity>
                 </View>
-              </View>
-            </Animated.View>
-          </TouchableOpacity>
+            </>
+          </Animated.View>
         </Modal>
       )}
 
@@ -1063,9 +936,9 @@ export default function SimulateScreen() {
       {/* Monthly Summary Modal */}
       {showMonthlySummary && monthSummary && (
         <Modal transparent animationType="none" statusBarTranslucent onRequestClose={closeMonthlySummary}>
-          <TouchableOpacity style={s.sheetBackdrop} activeOpacity={1} onPress={closeMonthlySummary}>
-            <Animated.View style={[s.sheetContainer, { transform: [{ translateY: summarySheetAnim }], paddingBottom: insets.bottom + 24 }]}>
-              <View onStartShouldSetResponder={() => true}>
+          <TouchableOpacity style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(0,0,0,0.5)' }]} activeOpacity={1} onPress={closeMonthlySummary} />
+          <Animated.View style={[s.sheetContainer, { transform: [{ translateY: summarySheetAnim }], paddingBottom: insets.bottom + 24, position: 'absolute', bottom: 0, left: 0, right: 0 }]}>
+            <>
                 <View style={s.sheetHandle} />
                 <Text style={s.summaryTitle}>Month {(monthSummary.newMonth ?? 2) - 1} Complete</Text>
                 <Text style={s.summarySubtitle}>{MONTH_NAMES[((monthSummary.newMonth ?? 2) - 2) % 12]}</Text>
@@ -1104,9 +977,8 @@ export default function SimulateScreen() {
                 <TouchableOpacity style={s.summaryCta} onPress={() => { closeMonthlySummary(); if (monthSummary.salaryCredit > 0) setBankNotif(true); }} activeOpacity={0.88}>
                   <Text style={s.summaryCtaText}>{"Let's go \u2192"}</Text>
                 </TouchableOpacity>
-              </View>
-            </Animated.View>
-          </TouchableOpacity>
+            </>
+          </Animated.View>
         </Modal>
       )}
 
@@ -1169,7 +1041,7 @@ export default function SimulateScreen() {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity style={s.jobCta} onPress={async () => {
-                  if (uid && selectedSalary) await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), { income: selectedSalary, incomeLabel: 'Luminary salary', incomeEmoji: '\uD83D\uDCBC', updatedAt: Date.now() });
+                  if (uid && selectedSalary) await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), { income: selectedSalary, incomeStartMonth: sim?.currentMonth ?? 1, incomeLabel: 'Luminary salary', incomeEmoji: '\uD83D\uDCBC', updatedAt: Date.now() });
                   setShowJobOffer(false);
                   setJobOfferStep(1);
                   setSelectedSalary(null);
