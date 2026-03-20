@@ -10,11 +10,20 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { auth } from '../../lib/firebase';
-import { saveSimProgress, completeStage, queueFinCoins } from '../../lib/lifeSim';
+import { saveSimProgress, completeStage } from '../../lib/lifeSim';
 import { Colors, Fonts, Radii, Shadows, Spacing, MODULE_COLORS } from '../../constants/theme';
 
-const { width: SW } = Dimensions.get('window');
+const { width: SW, height: SH } = Dimensions.get('window');
 const COIN = require('../../assets/coin.png');
+
+const CONFETTI_COLORS = ['#FFD700', '#FF6B6B', '#4F46E5', '#059669', '#F59E0B', '#EC4899', '#0891B2'];
+function ConfettiPiece({ delay, color, startX, size }) {
+  const y = useRef(new Animated.Value(-30)).current; const x = useRef(new Animated.Value(0)).current; const opacity = useRef(new Animated.Value(0)).current; const rotate = useRef(new Animated.Value(0)).current;
+  useEffect(() => { const drift = (Math.random() - 0.5) * 160; setTimeout(() => { Animated.parallel([Animated.timing(y, { toValue: SH * 0.7, duration: 2400, useNativeDriver: true }), Animated.timing(x, { toValue: drift, duration: 2400, useNativeDriver: true }), Animated.sequence([Animated.timing(opacity, { toValue: 1, duration: 150, useNativeDriver: true }), Animated.timing(opacity, { toValue: 0, duration: 700, delay: 1500, useNativeDriver: true })]), Animated.timing(rotate, { toValue: 1, duration: 2400, useNativeDriver: true })]).start(); }, delay); }, []);
+  const spin = rotate.interpolate({ inputRange: [0, 1], outputRange: ['0deg', `${Math.random() > 0.5 ? 540 : -720}deg`] });
+  return <Animated.View style={{ position: 'absolute', left: startX, top: 0, width: size, height: size, borderRadius: Math.random() > 0.5 ? size / 2 : 2, backgroundColor: color, opacity, transform: [{ translateY: y }, { translateX: x }, { rotate: spin }] }} />;
+}
+function QConfetti() { const pieces = Array.from({ length: 50 }, (_, i) => ({ id: i, delay: Math.random() * 1000, color: CONFETTI_COLORS[i % CONFETTI_COLORS.length], startX: Math.random() * SW, size: 6 + Math.random() * 8 })); return <View style={StyleSheet.absoluteFill} pointerEvents="none">{pieces.map(p => <ConfettiPiece key={p.id} {...p} />)}</View>; }
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 const EXPENSE_CATEGORIES = [
@@ -37,7 +46,10 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
   const [tiers, setTiers]             = useState(Object.fromEntries(EXPENSE_CATEGORIES.map(c => [c.id, c.defaultTier])));
   const [retirementAge, setAge]       = useState(null);
   const [saving, setSaving]           = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [showError, setShowError]     = useState(false);
   const [displayedFI, setDisplayedFI] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // ── Derived ─────────────────────────────────────────────────────────────
   const monthlyTotal  = EXPENSE_CATEGORIES.reduce((sum, c) => sum + c.tiers[tiers[c.id]].amount, 0);
@@ -52,18 +64,18 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
   const getFinVerdict = () => {
     if (!monthlyNeeded || !yearsToRetire) return null;
     if (monthlyNeeded < 500)
-      return { emoji: '\uD83D\uDFE2', label: 'Very Achievable', color: Colors.successDark, text: `At \uD83E\uDE99${monthlyNeeded.toLocaleString()}/month, you'd barely notice it leaving your account. Compounding will do the heavy lifting over ${yearsToRetire} years.` };
+      return { emoji: '\uD83D\uDFE2', label: 'Very Achievable', color: Colors.successDark, text: `At FC ${monthlyNeeded.toLocaleString()}/month, your timeline is aggressive but achievable. It means saving and investing a significant portion of every paycheck from day one. No wasted months.` };
     if (monthlyNeeded < 1200)
-      return { emoji: '\uD83D\uDFE2', label: 'Achievable', color: Colors.successDark, text: `\uD83E\uDE99${monthlyNeeded.toLocaleString()}/month is realistic on a grad salary. Start small, increase as your income grows \u2014 you'll get there in ${yearsToRetire} years.` };
+      return { emoji: '\uD83D\uDFE2', label: 'Achievable', color: Colors.successDark, text: `FC ${monthlyNeeded.toLocaleString()}/month is realistic for most disciplined savers. You have time on your side \u2014 but only if you start now, not later.` };
     if (monthlyNeeded < 2500)
-      return { emoji: '\uD83D\uDFE1', label: 'Challenging', color: Colors.warningDark, text: `\uD83E\uDE99${monthlyNeeded.toLocaleString()}/month is a stretch on an entry salary \u2014 but very doable as your career grows. Consider a later retirement age if the number feels tight.` };
-    return { emoji: '\uD83D\uDD34', label: 'Very Difficult', color: Colors.danger, text: `\uD83E\uDE99${monthlyNeeded.toLocaleString()}/month would be tough to sustain. Try a later retirement age or reduce your monthly expenses \u2014 small changes have a big impact over time.` };
+      return { emoji: '\uD83D\uDFE1', label: 'Challenging', color: Colors.warningDark, text: `FC ${monthlyNeeded.toLocaleString()}/month is a stretch on an entry salary \u2014 but very doable as your career grows. Consider a later retirement age if the number feels tight.` };
+    return { emoji: '\uD83D\uDD34', label: 'Very Difficult', color: Colors.danger, text: `FC ${monthlyNeeded.toLocaleString()}/month would be tough to sustain. This is the default retirement age most people drift toward. Nothing wrong with it \u2014 but it's driven by inaction, not intention.` };
   };
 
   // ── Reset on open ───────────────────────────────────────────────────────
   useEffect(() => {
     if (visible) {
-      setStep(1); setAge(null); setDisplayedFI(0); setSaving(false);
+      setStep(1); setAge(null); setDisplayedFI(0); setSaving(false); setShowConfetti(false);
       countAnim.setValue(0);
       setTiers(Object.fromEntries(EXPENSE_CATEGORIES.map(c => [c.id, c.defaultTier])));
     }
@@ -80,7 +92,7 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
   }, [step]);
 
   const handleClose = () => {
-    if (step < 5) Alert.alert('Leave this quest?', 'Your progress here will be lost.', [{ text: 'Keep going', style: 'cancel' }, { text: 'Leave', style: 'destructive', onPress: onClose }]);
+    if (step < 5) setShowExitConfirm(true);
     else onClose();
   };
 
@@ -95,10 +107,10 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
         },
       });
       await completeStage(uid, 'stage-1', { ffn: fiNumber, ffnAge: retirementAge });
-      await queueFinCoins(uid, 15);
+      setShowConfetti(true);
       onComplete();
     } catch (e) {
-      Alert.alert('Something went wrong', 'Please try again.');
+      setShowError(true);
       setSaving(false);
     }
   };
@@ -108,7 +120,7 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
     <View style={[st.header, { paddingTop: insets.top + 8 }]}>
       <View style={st.headerTopRow}>
         {step > 1 ? (
-          <TouchableOpacity style={st.backBtn} onPress={() => setStep(s => s - 1)}>
+          <TouchableOpacity style={st.backBtn} onPress={() => setStep(step - 1)}>
             <Text style={st.backBtnText}>{'\u2039'} Back</Text>
           </TouchableOpacity>
         ) : (
@@ -138,22 +150,18 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
       <Header />
       <ScrollView contentContainerStyle={st.content} showsVerticalScrollIndicator={false}>
         <Text style={st.questTitle}>What is a{'\n'}FI Number?</Text>
-        <Text style={st.infoText}>
-          Financial Independence means having enough invested that you never <Text style={st.bold}>have</Text> to work again.
-        </Text>
-        <Text style={st.infoText}>
-          Your FI Number is the exact portfolio value that makes this possible. Once you hit it, your investments generate enough income to live on {'\u2014'} forever.
-        </Text>
+        <Text style={st.infoText}>Financial Independence means having enough invested that you never <Text style={st.bold}>have</Text> to work again.</Text>
+        <Text style={st.infoText}>Your FI Number is the exact portfolio value that makes this possible. Once you hit it, your investments generate enough income to live on {'\u2014'} forever.</Text>
         <View style={st.explainerCard}>
           <Text style={st.explainerTitle}>How it works</Text>
           {[{ icon: '\uD83D\uDCB0', text: 'Figure out your monthly expenses' }, { icon: '\uD83D\uDCD0', text: "Apply the 4% rule (we'll explain this)" }, { icon: '\uD83C\uDFAF', text: "That's your FI Number" }].map((row, i) => (
             <View key={i} style={st.explainerRow}><Text style={st.explainerIcon}>{row.icon}</Text><Text style={st.explainerText}>{row.text}</Text></View>
           ))}
         </View>
+        <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+          <TouchableOpacity style={st.ctaBtn} onPress={() => setStep(2)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Let's figure out my expenses \u2192"}</Text></TouchableOpacity>
+        </View>
       </ScrollView>
-      <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-        <TouchableOpacity style={st.ctaBtn} onPress={() => setStep(2)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Let's figure out my expenses \u2192"}</Text></TouchableOpacity>
-      </View>
     </>
   );
 
@@ -181,14 +189,13 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
             </View>
           </View>
         ))}
-      </ScrollView>
-      <View style={[st.totalBar, { paddingBottom: insets.bottom + 12 }]}>
-        <View>
+        <View style={{ backgroundColor: Colors.white, borderRadius: Radii.lg, padding: 16, marginTop: 8, alignItems: 'center' }}>
           <Text style={st.totalBarLabel}>Monthly expenses</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Image source={COIN} style={{ width: 18, height: 18 }} /><Text style={st.totalBarValue}>{monthlyTotal.toLocaleString()}</Text></View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4, marginBottom: 12 }}><Image source={COIN} style={{ width: 18, height: 18 }} /><Text style={st.totalBarValue}>{monthlyTotal.toLocaleString()}</Text></View>
+          <TouchableOpacity style={[st.ctaBtn, { width: '100%' }]} onPress={() => setStep(3)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Looks right \u2192"}</Text></TouchableOpacity>
         </View>
-        <TouchableOpacity style={st.ctaBtnSmall} onPress={() => setStep(3)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Looks right \u2192"}</Text></TouchableOpacity>
-      </View>
+        <View style={{ height: insets.bottom + 32 }} />
+      </ScrollView>
     </>
   );
 
@@ -198,12 +205,8 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
       <Header />
       <ScrollView contentContainerStyle={st.content} showsVerticalScrollIndicator={false}>
         <Text style={st.questTitle}>The 4% Rule</Text>
-        <Text style={st.infoText}>
-          If you invest enough, your portfolio grows ~7% per year. You can safely withdraw 4% annually {'\u2014'} forever {'\u2014'} without running out.
-        </Text>
-        <Text style={st.infoText}>
-          This means your FI Number is simply your annual expenses {'\u00D7'} 25. It's called the 4% rule.
-        </Text>
+        <Text style={st.infoText}>If you invest enough, your portfolio grows ~7% per year. You can safely withdraw 4% annually {'\u2014'} forever {'\u2014'} without running out.</Text>
+        <Text style={st.infoText}>This means your FI Number is simply your annual expenses {'\u00D7'} 25. It's called the 4% rule.</Text>
         <View style={st.calcCard}>
           <Text style={st.calcCardTitle}>Your calculation</Text>
           <View style={st.calcRow}><Text style={st.calcLabel}>Monthly expenses</Text><View style={st.calcValueRow}><Image source={COIN} style={{ width: 13, height: 13 }} /><Text style={st.calcValue}>{monthlyTotal.toLocaleString()}</Text></View></View>
@@ -212,10 +215,10 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
           <View style={st.calcDivider} />
           <View style={st.calcHeroRow}><Image source={COIN} style={{ width: 24, height: 24 }} /><Text style={st.calcHeroNumber}>{displayedFI.toLocaleString()}</Text></View>
         </View>
+        <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+          <TouchableOpacity style={st.ctaBtn} onPress={() => setStep(4)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Now pick my retirement age \u2192"}</Text></TouchableOpacity>
+        </View>
       </ScrollView>
-      <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-        <TouchableOpacity style={st.ctaBtn} onPress={() => setStep(4)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Now pick my retirement age \u2192"}</Text></TouchableOpacity>
-      </View>
     </>
   );
 
@@ -243,10 +246,10 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
               <View style={st.verdictStat}><Text style={st.verdictStatLabel}>Monthly investment needed</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}><Image source={COIN} style={{ width: 14, height: 14 }} /><Text style={[st.verdictStatValue, { color: verdict.color }]}>{monthlyNeeded?.toLocaleString()}</Text></View></View>
             </View>
           )}
+          <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+            <TouchableOpacity style={[st.ctaBtn, !retirementAge && st.ctaBtnDisabled]} onPress={() => retirementAge && setStep(5)} disabled={!retirementAge} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"See my summary \u2192"}</Text></TouchableOpacity>
+          </View>
         </ScrollView>
-        <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-          <TouchableOpacity style={[st.ctaBtn, !retirementAge && st.ctaBtnDisabled]} onPress={() => retirementAge && setStep(5)} activeOpacity={retirementAge ? 0.88 : 1}><Text style={st.ctaBtnText}>{"See my summary \u2192"}</Text></TouchableOpacity>
-        </View>
       </>
     );
   };
@@ -280,31 +283,41 @@ export default function Quest1({ visible, onComplete, onClose, income = 4500 }) 
           ))}
         </View>
 
-        <FinCard>{"Invest \uD83E\uDE99"}{monthlyNeeded?.toLocaleString()}{" every month and you'll never have to worry about money again. That's the goal. Everything else in this simulation builds toward this number."}</FinCard>
+        <FinCard>{`That's your number. FC ${fiNumber.toLocaleString()} invested, by age ${retirementAge}. Every quest from here moves you closer to it. Open a bank account in Quest 2 \u2014 your money needs a home before anything else can happen.`}</FinCard>
 
-        <View style={st.rewardRow}><Image source={COIN} style={{ width: 16, height: 16 }} /><Text style={st.rewardText}>+15 FinCoins queued</Text><Text style={st.rewardSub}> · arrives on payday</Text></View>
+        <View style={st.unlockCard}>
+          <Text style={st.unlockPill}>{'\uD83D\uDD13'} UNLOCKED</Text>
+          <Text style={st.unlockText}>FI Number set. You know what you're working toward.</Text>
+          <View style={st.unlockDivider} />
+          <Text style={st.unlockHint}>{'\uD83D\uDCCA'} FI progress bar now visible on your dashboard</Text>
+        </View>
+        <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+          <TouchableOpacity style={[st.ctaBtn, saving && st.ctaBtnDisabled]} onPress={handleComplete} disabled={saving} activeOpacity={0.88}>
+            {saving ? <ActivityIndicator color={Colors.white} /> : <Text style={st.ctaBtnText}>{"Lock in my FI Number \uD83C\uDFAF"}</Text>}
+          </TouchableOpacity>
+        </View>
       </ScrollView>
-      <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-        <TouchableOpacity style={[st.ctaBtn, saving && st.ctaBtnDisabled]} onPress={handleComplete} disabled={saving} activeOpacity={0.88}>
-          {saving ? <ActivityIndicator color={Colors.white} /> : <Text style={st.ctaBtnText}>{"Lock in my FI Number \uD83C\uDFAF"}</Text>}
-        </TouchableOpacity>
-      </View>
     </>
   );
 
   // ── Render ──────────────────────────────────────────────────────────────
   return (
-    <Modal visible={visible} transparent animationType="fade" statusBarTranslucent onRequestClose={handleClose}>
-      <View style={st.backdrop}>
-        <View style={st.card}>
-          {step === 1 && renderStep1()}
-          {step === 2 && renderStep2()}
-          {step === 3 && renderStep3()}
-          {step === 4 && renderStep4()}
-          {step === 5 && renderStep5()}
+    <>
+      <Modal visible={visible} transparent animationType="fade" statusBarTranslucent onRequestClose={handleClose}>
+        <View style={st.backdrop}>
+          <View style={st.card}>
+            {showConfetti && <QConfetti />}
+            {step === 1 && renderStep1()}
+            {step === 2 && renderStep2()}
+            {step === 3 && renderStep3()}
+            {step === 4 && renderStep4()}
+            {step === 5 && renderStep5()}
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+      <Modal visible={showExitConfirm} transparent animationType="fade"><View style={st.alertBg}><View style={st.alertCard}><Text style={st.alertEmoji}>{'\uD83D\uDC1F'}</Text><Text style={st.alertTitle}>Leave this quest?</Text><Text style={st.alertBody}>Your progress in this step won't be saved.</Text><View style={st.alertBtns}><TouchableOpacity style={st.alertCancel} onPress={() => setShowExitConfirm(false)}><Text style={st.alertCancelText}>Stay</Text></TouchableOpacity><TouchableOpacity style={st.alertConfirm} onPress={() => { setShowExitConfirm(false); onClose(); }}><Text style={st.alertConfirmText}>Leave</Text></TouchableOpacity></View></View></View></Modal>
+      <Modal visible={showError} transparent animationType="fade"><View style={st.alertBg}><View style={st.alertCard}><Text style={st.alertEmoji}>{'\uD83D\uDE2C'}</Text><Text style={st.alertTitle}>Something went wrong</Text><Text style={st.alertBody}>Please try again.</Text><View style={st.alertBtns}><TouchableOpacity style={st.alertConfirm} onPress={() => setShowError(false)}><Text style={st.alertConfirmText}>OK</Text></TouchableOpacity></View></View></View></Modal>
+    </>
   );
 }
 
@@ -398,12 +411,25 @@ const st = StyleSheet.create({
   fiHeroLabel: { fontFamily: Fonts.bold, fontSize: 11, color: 'rgba(255,255,255,0.7)', letterSpacing: 1.2, textTransform: 'uppercase' },
   fiHeroNumber: { fontFamily: Fonts.extraBold, fontSize: 36, color: Colors.white },
 
-  rewardRow: { flexDirection: 'row', alignItems: 'center', gap: 6, alignSelf: 'center', marginTop: 8, backgroundColor: Colors.warningLight, borderRadius: Radii.full, paddingHorizontal: 14, paddingVertical: 8 },
-  rewardText: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.warningDark },
-  rewardSub: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  unlockCard: { backgroundColor: MODULE_COLORS['module-1'].colorLight, borderRadius: Radii.lg, padding: 16, marginBottom: 16, width: '100%' },
+  unlockPill: { fontFamily: Fonts.bold, fontSize: 10, color: MODULE_COLORS['module-1'].color, letterSpacing: 1.2, textTransform: 'uppercase', backgroundColor: MODULE_COLORS['module-1'].colorLight, paddingHorizontal: 8, paddingVertical: 3, borderRadius: Radii.full, overflow: 'hidden', alignSelf: 'flex-start', marginBottom: 8 },
+  unlockText: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textPrimary, lineHeight: 22, marginBottom: 10 },
+  unlockDivider: { height: 1, backgroundColor: MODULE_COLORS['module-1'].color, opacity: 0.2, marginBottom: 10 },
+  unlockHint: { fontFamily: Fonts.regular, fontSize: 12, color: MODULE_COLORS['module-1'].color },
 
   ctaContainer: { paddingHorizontal: 24, paddingTop: 12, backgroundColor: Colors.background, borderTopWidth: 1, borderTopColor: Colors.border },
   ctaBtn: { backgroundColor: Colors.primary, borderRadius: Radii.lg, height: 52, alignItems: 'center', justifyContent: 'center' },
   ctaBtnDisabled: { opacity: 0.5 },
   ctaBtnText: { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
+
+  alertBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
+  alertCard: { backgroundColor: Colors.white, borderRadius: 20, padding: 24, marginHorizontal: 32, alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 8, width: '100%' },
+  alertEmoji: { fontSize: 36, marginBottom: 12 },
+  alertTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, textAlign: 'center', marginBottom: 8 },
+  alertBody: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, textAlign: 'center', lineHeight: 20, marginBottom: 20 },
+  alertBtns: { flexDirection: 'row', gap: 8, width: '100%' },
+  alertCancel: { flex: 1, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: Colors.border, alignItems: 'center' },
+  alertCancelText: { fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.textSecondary },
+  alertConfirm: { flex: 1, paddingVertical: 12, borderRadius: 12, backgroundColor: Colors.primary, alignItems: 'center' },
+  alertConfirmText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white },
 });

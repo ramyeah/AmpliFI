@@ -33,6 +33,19 @@
 //   SGD_PER_FINCOIN / sgdToFincoins / fincoinsToSgd
 
 import { Colors, MODULE_COLORS } from './theme';
+import { MODULES } from './modules';
+
+// ─── Derived income constants ────────────────────────────────────────────────
+export const MAX_LESSON_FINCOINS = MODULES
+  .flatMap(m => m.chapters.flatMap(c => c.lessons))
+  .reduce((sum, l) => sum + (l.fincoins ?? 55), 0);
+
+export const STARTING_SIM_INCOME = Math.round(MAX_LESSON_FINCOINS * 0.15);
+
+export const RESET_FINCOIN_BALANCE = 36 * 55; // 1,980
+
+console.log('Max lesson FC:', MAX_LESSON_FINCOINS);
+console.log('Sim monthly income:', STARTING_SIM_INCOME);
 
 // ─── Income Brackets ──────────────────────────────────────────────────────────
 // FinCoins earned from lessons determine the user's simulated monthly income.
@@ -119,8 +132,8 @@ export const STAGES = [
   {
     id:          'stage-3',
     number:      3,
-    title:       'Track Your Spending',
-    subtitle:    'Month 1 — where does it all go?',
+    title:       'First Paycheck',
+    subtitle:    'Your first salary is waiting',
     icon:        '🔍',
     color:       MODULE_COLORS['module-1'].color,
     colorLight:  MODULE_COLORS['module-1'].colorLight,
@@ -134,8 +147,8 @@ export const STAGES = [
   {
     id:          'stage-4',
     number:      4,
-    title:       'Your First Paycheck',
-    subtitle:    'Month 2 — salary lands in your account',
+    title:       'Build Your Budget',
+    subtitle:    'Tell your money where to go',
     icon:        '💸',
     color:       MODULE_COLORS['module-1'].color,
     colorLight:  MODULE_COLORS['module-1'].colorLight,
@@ -596,8 +609,7 @@ export const WALLET_TEMPLATES = {
 // Call once when a user first enters the sim.
 
 export function createSimProgress(uid, finCoins = 0) {
-  const bracket = getIncomeBracket(finCoins);
-  const now     = Date.now();
+  const now = Date.now();
 
   return {
     uid,
@@ -608,18 +620,14 @@ export function createSimProgress(uid, finCoins = 0) {
     currentStage:    'stage-1',
     completedStages: [],
 
-    // Global month counter — advances as the user progresses through stages
-    // Stage 3 = Month 1 (paycheck), Stage 4 = Month 2 (tracking), etc.
+    // Global month counter
     currentMonth:          1,
-    nextMonthAvailableAt:  null,   // 4-hour gate between month advances
+    nextMonthAvailableAt:  null,
 
-    // Income — determined by FinCoins at sim creation, fixed for Module 1
-    income:       bracket.income,
-    incomeLabel:  bracket.label,
-    incomeEmoji:  bracket.emoji,
-
-    // Pending FinCoins — accumulated until month advance
-    pendingFinCoins: 0,
+    // Income — set to null initially, assigned in job offer modal
+    income:       null,
+    incomeLabel:  null,
+    incomeEmoji:  null,
 
     // ── Stage completion data ──────────────────────────────────────────────
     // stage1Data: set in Stage 1
@@ -662,7 +670,7 @@ export function createSimProgress(uid, finCoins = 0) {
     wallets: [
       {
         ...WALLET_TEMPLATES.wallet,
-        balance: finCoins * 10,   // 1 FinCoin = $10 SGD starting cash
+        balance: finCoins,  // 1:1 — real FinCoins = sim cash
       },
     ],
 
@@ -723,3 +731,36 @@ export function getMonthLabel(month) {
   ];
   return labels[month] ?? `Month ${month - 1}`;
 }
+
+// ─── Savings Goal Wallet Factory ─────────────────────────────────────────────
+export const createSavingsGoalWallet = (goalName, targetAmount, monthlyContribution, bankName, parentInterestRate) => ({
+  id: 'savings-goal',
+  type: 'savings-goal',
+  label: goalName,
+  icon: '\uD83C\uDFAF',
+  balance: 0,
+  interestRate: parentInterestRate ?? 0.0005,
+  color: MODULE_COLORS['module-3'].color,
+  colorLight: MODULE_COLORS['module-3'].colorLight,
+  target: targetAmount,
+  monthlyContribution,
+  institution: bankName,
+  parentAccountType: (parentInterestRate ?? 0) > 0.01 ? 'hysa' : 'basic',
+});
+
+// ─── Emergency Fund Wallet Factory ───────────────────────────────────────────
+export const createEmergencyFundWallet = (targetAmount, bankName, parentInterestRate) => ({
+  id: 'emergency-fund',
+  type: 'emergency',
+  label: 'Emergency Fund',
+  icon: '\uD83D\uDEE1\uFE0F',
+  balance: 0,
+  interestRate: parentInterestRate ?? 0.0005,
+  color: '#F5883A',
+  colorLight: '#FEF0E6',
+  target: targetAmount,
+  monthlyContribution: 0,
+  institution: bankName,
+  monthsCovered: 0,
+  parentAccountType: (parentInterestRate ?? 0) > 0.01 ? 'hysa' : 'basic',
+});

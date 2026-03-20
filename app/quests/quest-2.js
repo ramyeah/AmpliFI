@@ -11,11 +11,20 @@ import {
 import Slider from '@react-native-community/slider';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { auth } from '../../lib/firebase';
-import { setBankAccount, completeStage, queueFinCoins } from '../../lib/lifeSim';
+import { setBankAccount, completeStage } from '../../lib/lifeSim';
 import { Colors, Fonts, Radii, Shadows, Spacing, MODULE_COLORS } from '../../constants/theme';
 
-const { width: SW } = Dimensions.get('window');
+const { width: SW, height: SH } = Dimensions.get('window');
 const COIN = require('../../assets/coin.png');
+
+const CONFETTI_COLORS = ['#FFD700', '#FF6B6B', '#4F46E5', '#059669', '#F59E0B', '#EC4899', '#0891B2'];
+function ConfettiPiece({ delay, color, startX, size }) {
+  const y = useRef(new Animated.Value(-30)).current; const x = useRef(new Animated.Value(0)).current; const opacity = useRef(new Animated.Value(0)).current; const rotate = useRef(new Animated.Value(0)).current;
+  useEffect(() => { const drift = (Math.random() - 0.5) * 160; setTimeout(() => { Animated.parallel([Animated.timing(y, { toValue: SH * 0.7, duration: 2400, useNativeDriver: true }), Animated.timing(x, { toValue: drift, duration: 2400, useNativeDriver: true }), Animated.sequence([Animated.timing(opacity, { toValue: 1, duration: 150, useNativeDriver: true }), Animated.timing(opacity, { toValue: 0, duration: 700, delay: 1500, useNativeDriver: true })]), Animated.timing(rotate, { toValue: 1, duration: 2400, useNativeDriver: true })]).start(); }, delay); }, []);
+  const spin = rotate.interpolate({ inputRange: [0, 1], outputRange: ['0deg', `${Math.random() > 0.5 ? 540 : -720}deg`] });
+  return <Animated.View style={{ position: 'absolute', left: startX, top: 0, width: size, height: size, borderRadius: Math.random() > 0.5 ? size / 2 : 2, backgroundColor: color, opacity, transform: [{ translateY: y }, { translateX: x }, { rotate: spin }] }} />;
+}
+function QConfetti() { const pieces = Array.from({ length: 50 }, (_, i) => ({ id: i, delay: Math.random() * 1000, color: CONFETTI_COLORS[i % CONFETTI_COLORS.length], startX: Math.random() * SW, size: 6 + Math.random() * 8 })); return <View style={StyleSheet.absoluteFill} pointerEvents="none">{pieces.map(p => <ConfettiPiece key={p.id} {...p} />)}</View>; }
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 const ACCOUNT_TYPES = [
@@ -56,6 +65,9 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
   const [depositAmount, setDeposit] = useState(0);
   const [saving, setSaving]       = useState(false);
   const [transferDone, setTransferDone] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const progressAnim = useRef(new Animated.Value(0)).current;
 
@@ -68,15 +80,14 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
   // ── Reset ───────────────────────────────────────────────────────────────
   useEffect(() => {
     if (visible) {
-      setStep(1); setType(null); setBank(null); setSaving(false); setTransferDone(false);
+      setStep(1); setType(null); setBank(null); setSaving(false); setTransferDone(false); setShowConfetti(false);
       setDeposit(Math.round(cashBalance * 0.5));
       progressAnim.setValue(0);
     }
   }, [visible]);
 
   const handleClose = () => {
-    if (!transferDone)
-      Alert.alert('Leave this quest?', 'Your progress here will be lost.', [{ text: 'Keep going', style: 'cancel' }, { text: 'Leave', style: 'destructive', onPress: onClose }]);
+    if (!transferDone) setShowExitConfirm(true);
     else onClose();
   };
 
@@ -87,12 +98,11 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
     Animated.timing(progressAnim, { toValue: 1, duration: 1500, easing: Easing.inOut(Easing.quad), useNativeDriver: false }).start();
     try {
       const uid = auth.currentUser?.uid;
-      await setBankAccount(uid, { ...selectedBank, baseRate: selectedBank.rate, openingBalance: depositAmount });
+      await setBankAccount(uid, { ...selectedBank, baseRate: selectedBank.rate, openingBalance: depositAmount, accountType });
       await completeStage(uid, 'stage-2', { bankId: selectedBank.id, bankName: selectedBank.name, accountType, openingBalance: depositAmount });
-      await queueFinCoins(uid, 15);
-      setTimeout(() => { setSaving(false); setTransferDone(true); }, 1600);
+      setTimeout(() => { setSaving(false); setTransferDone(true); setShowConfetti(true); }, 1600);
     } catch (e) {
-      Alert.alert('Something went wrong', 'Please try again.');
+      setShowError(true);
       progressAnim.setValue(0); setSaving(false);
     }
   };
@@ -101,7 +111,7 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
   const Header = () => (
     <View style={[st.header, { paddingTop: insets.top + 8 }]}>
       <View style={st.headerTopRow}>
-        {step > 1 && !saving ? <TouchableOpacity style={st.backBtn} onPress={() => setStep(s => s - 1)}><Text style={st.backBtnText}>{'\u2039'} Back</Text></TouchableOpacity> : <View style={{ width: 60 }} />}
+        {step > 1 && !saving ? <TouchableOpacity style={st.backBtn} onPress={() => setStep(step - 1)}><Text style={st.backBtnText}>{'\u2039'} Back</Text></TouchableOpacity> : <View style={{ width: 60 }} />}
         <TouchableOpacity style={st.closeBtn} onPress={handleClose}><Text style={st.closeBtnText}>{'\u2715'}</Text></TouchableOpacity>
       </View>
       <Text style={st.headerTitle}>{'Quest 2 · Open Your Bank Account'}</Text>
@@ -117,16 +127,16 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
         <Text style={st.questTitle}>Welcome to{'\n'}Drakon Bank</Text>
         <View style={st.finCard}>
           <View style={st.finCardTop}><View style={st.finCardAvatar}><Text style={{ fontSize: 16 }}>{'\uD83D\uDC1F'}</Text></View><Text style={st.finCardLabel}>FIN SAYS</Text></View>
-          <Text style={st.finCardText}>"Your FinCoins are sitting in cash. A bank account does two things: keeps your money safe, and makes it grow. Let's get you set up."</Text>
+          <Text style={st.finCardText}>A basic savings account earns almost nothing — 0.05% a year on most accounts. A High-Yield Savings Account earns 10 to 100 times more, but only if you meet specific conditions. Choosing the right account from the start is one of the highest-impact financial decisions you can make.</Text>
         </View>
         <View style={st.infoGrid}>
           <View style={st.infoTile}><Text style={st.infoTileIcon}>{'\uD83D\uDEE1\uFE0F'}</Text><Text style={st.infoTileTitle}>Protected</Text><Text style={st.infoTileText}>Your deposits are protected up to {'\uD83E\uDE99'}75,000 by the FSDC</Text></View>
           <View style={st.infoTile}><Text style={st.infoTileIcon}>{'\uD83D\uDCA1'}</Text><Text style={st.infoTileTitle}>60{'\u00D7'} more</Text><Text style={st.infoTileText}>The right account earns 60{'\u00D7'} more interest than the wrong one</Text></View>
         </View>
+        <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+          <TouchableOpacity style={st.ctaBtn} onPress={() => setStep(2)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Show me my options \u2192"}</Text></TouchableOpacity>
+        </View>
       </ScrollView>
-      <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-        <TouchableOpacity style={st.ctaBtn} onPress={() => setStep(2)} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Show me my options \u2192"}</Text></TouchableOpacity>
-      </View>
     </>
   );
 
@@ -179,7 +189,7 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
               </View>
               {bank.conditions.length > 0 && <View style={st.bankConditions}><Text style={st.bankConditionsLabel}>CONDITIONS</Text>{bank.conditions.map((c, i) => <Text key={i} style={st.bankCondition}>{'\u00B7'} {c}</Text>)}</View>}
               <Text style={st.bankBestFor}>Best for: {bank.bestFor}</Text>
-              <View style={[st.bankFinNote, { borderLeftColor: bank.color }]}><Text style={st.bankFinNoteLabel}>{'\uD83D\uDC1F'} FIN</Text><Text style={st.bankFinNoteText}>"{bank.finNote}"</Text></View>
+              <View style={[st.bankFinNote, { borderLeftColor: bank.color }]}><Text style={st.bankFinNoteLabel}>{'\uD83D\uDC1F'} FIN</Text><Text style={st.bankFinNoteText}>{bank.finNote}</Text></View>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -220,13 +230,18 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
             </View>
             <View style={[st.finCard, { width: '100%' }]}>
               <View style={st.finCardTop}><View style={st.finCardAvatar}><Text style={{ fontSize: 16 }}>{'\uD83D\uDC1F'}</Text></View><Text style={st.finCardLabel}>FIN SAYS</Text></View>
-              <Text style={st.finCardText}>"Your money has a home now. Check your Bank to see your new account. Next {'\u2014'} let's set a budget before your first paycheck arrives."</Text>
+              <Text style={st.finCardText}>Bank account open and funded. Your cash is now earning interest instead of sitting idle. Head back to FinCity and tap me — I have news.</Text>
             </View>
-            <View style={st.rewardRow}><Image source={COIN} style={{ width: 16, height: 16 }} /><Text style={st.rewardText}>+15 FinCoins queued</Text><Text style={st.rewardSub}> · arrives on payday</Text></View>
+            <View style={st.unlockCard}>
+              <Text style={st.unlockPill}>{'\uD83D\uDD13'} UNLOCKED</Text>
+              <Text style={st.unlockText}>Bank account open. Your money has a home.</Text>
+              <View style={st.unlockDivider} />
+              <Text style={st.unlockHint}>{'\u23ED'} Month advancement now unlocked</Text>
+            </View>
+            <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32, width: '100%' }}>
+              <TouchableOpacity style={st.ctaBtn} onPress={onComplete} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Continue \u2192"}</Text></TouchableOpacity>
+            </View>
           </ScrollView>
-          <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-            <TouchableOpacity style={st.ctaBtn} onPress={onComplete} activeOpacity={0.88}><Text style={st.ctaBtnText}>{"Continue \u2192"}</Text></TouchableOpacity>
-          </View>
         </>
       );
     }
@@ -253,39 +268,44 @@ export default function Quest2({ visible, onComplete, onClose, sim }) {
             <View style={st.interestPreviewRow}><Text style={st.interestPreviewLabel}>At {selectedBank?.rateLabel}</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}><Image source={COIN} style={{ width: 13, height: 13 }} /><Text style={[st.interestPreviewValue, { color: selectedBank?.color }]}>{annualInterest}/year</Text></View></View>
             <Text style={st.interestPreviewSub}>{cashBalance - depositAmount > 0 ? `\uD83E\uDE99${Math.round(cashBalance - depositAmount).toLocaleString()} stays in your wallet` : 'Transferring your full balance'}</Text>
           </View>
-        </ScrollView>
 
-        {saving ? (
-          <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-            <View style={st.transferBar}>
-              <View style={st.transferBarHeader}>
-                <Text style={st.transferBarLabel}>Transferring to {selectedBank?.name}...</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}><Image source={COIN} style={{ width: 13, height: 13 }} /><Text style={st.transferBarAmount}>{Math.round(depositAmount).toLocaleString()}</Text></View>
+          {saving ? (
+            <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+              <View style={st.transferBar}>
+                <View style={st.transferBarHeader}>
+                  <Text style={st.transferBarLabel}>Transferring to {selectedBank?.name}...</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}><Image source={COIN} style={{ width: 13, height: 13 }} /><Text style={st.transferBarAmount}>{Math.round(depositAmount).toLocaleString()}</Text></View>
+                </View>
+                <View style={st.transferTrack}><Animated.View style={[st.transferFill, { width: progressAnim.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]} /></View>
               </View>
-              <View style={st.transferTrack}><Animated.View style={[st.transferFill, { width: progressAnim.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]} /></View>
             </View>
-          </View>
-        ) : (
-          <View style={[st.ctaContainer, { paddingBottom: insets.bottom + 16 }]}>
-            <TouchableOpacity style={[st.ctaBtn, depositAmount < minDeposit && st.ctaBtnDisabled]} onPress={handleDeposit} disabled={depositAmount < minDeposit} activeOpacity={0.88}>
-              <Text style={st.ctaBtnText}>{"Open my account \u2192"}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+          ) : (
+            <View style={{ paddingTop: 16, paddingBottom: insets.bottom + 32 }}>
+              <TouchableOpacity style={[st.ctaBtn, depositAmount < minDeposit && st.ctaBtnDisabled]} onPress={handleDeposit} disabled={depositAmount < minDeposit} activeOpacity={0.88}>
+                <Text style={st.ctaBtnText}>{"Open my account \u2192"}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </ScrollView>
       </>
     );
   };
 
   // ── Render ──────────────────────────────────────────────────────────────
   return (
-    <Modal visible={visible} transparent animationType="fade" statusBarTranslucent onRequestClose={handleClose}>
-      <View style={st.backdrop}><View style={st.card}>
-        {step === 1 && renderStep1()}
-        {step === 2 && renderStep2()}
-        {step === 3 && renderStep3()}
-        {step === 4 && renderStep4()}
-      </View></View>
-    </Modal>
+    <>
+      <Modal visible={visible} transparent animationType="fade" statusBarTranslucent onRequestClose={handleClose}>
+        <View style={st.backdrop}><View style={st.card}>
+          {showConfetti && <QConfetti />}
+          {step === 1 && renderStep1()}
+          {step === 2 && renderStep2()}
+          {step === 3 && renderStep3()}
+          {step === 4 && renderStep4()}
+        </View></View>
+      </Modal>
+      <Modal visible={showExitConfirm} transparent animationType="fade"><View style={st.alertBg}><View style={st.alertCard}><Text style={st.alertEmoji}>{'\uD83D\uDC1F'}</Text><Text style={st.alertTitle}>Leave this quest?</Text><Text style={st.alertBody}>Your progress in this step won't be saved.</Text><View style={st.alertBtns}><TouchableOpacity style={st.alertCancel} onPress={() => setShowExitConfirm(false)}><Text style={st.alertCancelText}>Stay</Text></TouchableOpacity><TouchableOpacity style={st.alertConfirm} onPress={() => { setShowExitConfirm(false); onClose(); }}><Text style={st.alertConfirmText}>Leave</Text></TouchableOpacity></View></View></View></Modal>
+      <Modal visible={showError} transparent animationType="fade"><View style={st.alertBg}><View style={st.alertCard}><Text style={st.alertEmoji}>{'\uD83D\uDE2C'}</Text><Text style={st.alertTitle}>Something went wrong</Text><Text style={st.alertBody}>Please try again.</Text><View style={st.alertBtns}><TouchableOpacity style={st.alertConfirm} onPress={() => setShowError(false)}><Text style={st.alertConfirmText}>OK</Text></TouchableOpacity></View></View></View></Modal>
+    </>
   );
 }
 
@@ -382,12 +402,24 @@ const st = StyleSheet.create({
   summaryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: Colors.border },
   summaryLabel: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textSecondary },
   summaryValue: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
-  rewardRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8, backgroundColor: Colors.warningLight, borderRadius: Radii.full, paddingHorizontal: 14, paddingVertical: 8 },
-  rewardText: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.warningDark },
-  rewardSub: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  unlockCard: { backgroundColor: MODULE_COLORS['module-1'].colorLight, borderRadius: Radii.lg, padding: 16, marginBottom: 16, width: '100%' },
+  unlockPill: { fontFamily: Fonts.bold, fontSize: 10, color: MODULE_COLORS['module-1'].color, letterSpacing: 1.2, textTransform: 'uppercase', paddingHorizontal: 8, paddingVertical: 3, borderRadius: Radii.full, overflow: 'hidden', alignSelf: 'flex-start', marginBottom: 8 },
+  unlockText: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textPrimary, lineHeight: 22, marginBottom: 10 },
+  unlockDivider: { height: 1, backgroundColor: MODULE_COLORS['module-1'].color, opacity: 0.2, marginBottom: 10 },
+  unlockHint: { fontFamily: Fonts.regular, fontSize: 12, color: MODULE_COLORS['module-1'].color },
 
   ctaContainer: { paddingHorizontal: 24, paddingTop: 12, backgroundColor: Colors.background, borderTopWidth: 1, borderTopColor: Colors.border },
   ctaBtn: { backgroundColor: Colors.primary, borderRadius: Radii.lg, height: 52, alignItems: 'center', justifyContent: 'center' },
   ctaBtnDisabled: { opacity: 0.5 },
   ctaBtnText: { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
+  alertBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
+  alertCard: { backgroundColor: Colors.white, borderRadius: 20, padding: 24, marginHorizontal: 32, alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 8, width: '100%' },
+  alertEmoji: { fontSize: 36, marginBottom: 12 },
+  alertTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, textAlign: 'center', marginBottom: 8 },
+  alertBody: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, textAlign: 'center', lineHeight: 20, marginBottom: 20 },
+  alertBtns: { flexDirection: 'row', gap: 8, width: '100%' },
+  alertCancel: { flex: 1, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: Colors.border, alignItems: 'center' },
+  alertCancelText: { fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.textSecondary },
+  alertConfirm: { flex: 1, paddingVertical: 12, borderRadius: 12, backgroundColor: Colors.primary, alignItems: 'center' },
+  alertConfirmText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white },
 });
