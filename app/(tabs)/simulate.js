@@ -6,13 +6,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,
-  Animated, Alert, Dimensions, PanResponder, Modal, Easing, ActivityIndicator,
+  Animated, Alert, Dimensions, PanResponder, Modal, Easing, ActivityIndicator, TextInput,
+  Pressable,
 } from 'react-native';
 import { useRouter, useFocusEffect } from 'expo-router';
 import Svg, { Path, G } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useUserStore from '../../store/userStore';
-import { loadSimProgress, saveSimProgress, advanceMonth as advanceMonthFn, resetSimProgress, closeSavingsGoalAccount } from '../../lib/lifeSim';
+import { loadSimProgress, saveSimProgress, advanceMonth as advanceMonthFn, advanceMultipleMonths, resetSimProgress, closeSavingsGoalAccount } from '../../lib/lifeSim';
 import { doc as firestoreDoc, updateDoc as firestoreUpdateDoc, getDoc as firestoreGetDoc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import { createSimProgress, getMonthLabel } from '../../constants/lifeSimStages';
@@ -75,19 +76,29 @@ function getEntryGreeting(sim) {
 
 function getFinNarrative(sim) {
   const completed = sim?.completedStages ?? [];
-  if (!completed.includes('stage-1')) return 'Welcome to FinCity. Before you touch a single coin, you need to know what you\'re actually building toward. Your FI Number is the foundation \u2014 everything else is just tactics. Start with Quest 1.';
-  if (!completed.includes('stage-2')) return 'FI Number locked in. Now your money needs somewhere to live. A bank account is the difference between cash that sits and cash that compounds. Open one in Quest 2 before we go any further.';
-  if (!completed.includes('stage-3') && !sim?.income) return 'Bank account sorted. Your cash is earning interest. Now \u2014 I pulled some strings. There\'s a job waiting for you at Luminary. Tap me to see the offer.';
-  if (!completed.includes('stage-3')) return `Your offer is accepted. \uD83E\uDE99${(sim?.income ?? 0).toLocaleString()} a month from Luminary. Open Quest 3 to watch your first salary land \u2014 it's a bigger moment than you think.`;
-  if (!completed.includes('stage-4')) return 'First salary is in your account. Right now it\'s just sitting there. Quest 4 is where you decide what happens to every coin of it \u2014 needs, savings, and the wants budget you actually get to spend.';
-  if (completed.includes('stage-4') && !completed.includes('stage-5') && sim?.stage2Data?.accountType === 'basic') return 'Your salary is split and your budget is running. But your savings are earning almost nothing in a basic account. The HYSA upgrade side quest in Chapter 3 fixes this in one step. Open Quest 5 to give your savings a goal.';
-  if (!completed.includes('stage-5')) return 'Your salary is split and your budget is running. But right now all your savings are sitting in the same account as your spending money. That is a problem \u2014 savings need a separate home with a name and a target. Open Quest 5 to fix that.';
+  if (!completed.includes('stage-1')) return 'Welcome to FinCity. Before you touch a single coin, you need to know what you\'re actually building toward. Your FI Number is the foundation \u2014 everything else is just tactics. Start with Quest 1.1.';
+  if (!completed.includes('stage-2')) return 'FI Number locked in. Now your money needs somewhere to live. A bank account is the difference between cash that sits and cash that compounds. Open one in Quest 1.2 before we go any further.';
+  if (!completed.includes('stage-3') && !sim?.income) return 'Bank account sorted. Your cash is sitting idle. I pulled some strings at Luminary \u2014 there is a job offer waiting for you.';
+  if (!completed.includes('stage-3')) return `Your offer is accepted. \uD83E\uDE99${(sim?.income ?? 0).toLocaleString()} a month from Luminary. Open Quest 2.1 to watch your first salary land \u2014 it's a bigger moment than you think.`;
+  if (!completed.includes('stage-4')) return 'First salary is in your account. Right now it\'s just sitting there. Quest 2.2 is where you decide what happens to every coin of it \u2014 needs, savings, and the wants budget you actually get to spend.';
+  if (completed.includes('stage-4') && !completed.includes('stage-5') && sim?.stage2Data?.accountType === 'basic') return 'Your salary is split and your budget is running. But your savings are earning almost nothing in a basic account. The HYSA upgrade side quest in Chapter 3 fixes this in one step. Open Quest 3.1 to give your savings a goal.';
+  if (!completed.includes('stage-5')) return 'Your salary is split and your budget is running. But right now all your savings are sitting in the same account as your spending money. That is a problem \u2014 savings need a separate home with a name and a target. Open Quest 3.1 to fix that.';
   if (completed.includes('stage-5') && !completed.includes('stage-6') && sim?.stage2Data?.accountType === 'basic') return 'Your savings goal and emergency fund are earning almost nothing in a basic account. The HYSA upgrade side quest in Chapter 3 fixes this in one step \u2014 it is worth doing before you go further.';
-  if (!completed.includes('stage-6')) return 'Savings goal created. Now let us talk about the other thing that derails most people \u2014 unexpected costs. One medical bill, one broken device, and suddenly you are raiding your savings. Quest 6 builds the wall that stops that from happening.';
-  if (!completed.includes('stage-7')) return 'Safety net in place. Savings goal running. Budget on autopilot. You have built the foundation that most people never get right. Now it is time to make your money work harder \u2014 the investing chapter starts in Quest 7.';
+  if (!completed.includes('stage-6')) return 'Savings goal created. Now let us talk about the other thing that derails most people \u2014 unexpected costs. One medical bill, one broken device, and suddenly you are raiding your savings. Quest 3.2 builds the wall that stops that from happening.';
+  if (!completed.includes('stage-7')) {
+  const efWallet = (sim?.wallets ?? []).find(w => w.type === 'emergency');
+  const efPct = efWallet?.target > 0 ? Math.round(((efWallet.balance ?? 0) / efWallet.target) * 100) : 100;
+  if (efPct < 50) return `Your emergency fund is only ${efPct}% funded. Starting to invest before your safety net is complete is risky \u2014 one bad month and you could be forced to sell investments at a loss. Consider fast forwarding a few months to build the fund before Quest 4.1.`;
+  if (efPct < 100) return `Emergency fund is ${efPct}% there. You can start Quest 4.1 now \u2014 but be aware that investing before your safety net is complete carries risk. A fully funded emergency fund means you never need to touch your investments in a crisis.`;
+  return 'Safety net fully funded. Emergency fund complete. The foundation is solid \u2014 now it is time to make your money work harder. Quest 4.1 \u2014 Compound Interest is next.';
+}
   if (!completed.includes('stage-8')) return 'You have seen what compounding does over time. Now the question is which investment vehicle fits your life. Quest 4.2 gives you three options \u2014 each with different fees, effort, and returns. Pick the one that matches how you want to invest.';
   if (!completed.includes('stage-9')) { const vehicle = sim?.investmentVehicle; return `${vehicle?.name ?? 'Your vehicle'} is locked in. Now it is time to make your first actual investment. Quest 4.3 \u2014 open your investment account and watch your portfolio appear on the dashboard for the first time.`; }
-  if (!completed.includes('stage-10')) { const inv = (sim?.wallets ?? []).find(w => w.type === 'investment'); return `Your portfolio is live. FC ${Math.round(inv?.balance ?? 0).toLocaleString()} invested and growing. Every month advance adds your DCA and applies returns. Quest 4.4 is next \u2014 the market is about to drop. How you respond to that moment defines your investing future.`; }
+  if (completed.includes('stage-9') && !completed.includes('stage-10')) {
+    const invWallets = (sim?.wallets ?? []).filter(w => w.type === 'investment');
+    if (invWallets.length === 1) return `Portfolio live with ${invWallets[0].label ?? 'your vehicle'}. Every month advance adds your DCA and applies returns. You can open up to 2 more investment accounts in your Portfolio tab \u2014 different vehicles, different strategies, all growing simultaneously. Quest 4.4 is next.`;
+  }
+  if (!completed.includes('stage-10')) { const inv = (sim?.wallets ?? []).find(w => w.type === 'investment'); return `Your portfolio is live. ${Math.round(inv?.balance ?? 0).toLocaleString()} invested and growing. Every month advance adds your DCA and applies returns. Quest 4.4 is next \u2014 the market is about to drop. How you respond to that moment defines your investing future.`; }
   if (!completed.includes('stage-11')) { const dipChoice = sim?.marketDipChoice ?? 'hold'; if (dipChoice === 'sell') return 'You sold during the dip. That is the lesson most investors need to experience once. The good news \u2014 you still have your bank balance and you know what not to do next time. Quest 4.5 is about making sure your next portfolio is built to weather storms better.'; return 'You survived your first market dip. That is not nothing \u2014 most new investors panic at exactly this moment. Quest 4.5 takes that further \u2014 a diversified portfolio is more resilient to exactly the kind of drop you just experienced.'; }
   if (!completed.includes('stage-12')) return `Portfolio diversified across ${sim?.portfolioAllocations ? Object.keys(sim.portfolioAllocations).length : 'multiple'} asset classes. Risk score: ${sim?.portfolioRiskScore ?? '\u2014'}. Quest 4.6 is the final investing quest \u2014 your portfolio will drift over time as different assets grow at different rates. Rebalancing brings it back to your target allocation.`;
   return 'Chapter 4 complete. You have built a diversified portfolio, survived a market dip, and learned to rebalance. The rebalance tool lives in your Portfolio tab permanently \u2014 check it every few months. The investing chapter is done.';
@@ -106,12 +117,6 @@ const QC_ICONS = { '1.1': '\uD83C\uDFAF', '1.2': '\uD83C\uDFE6', '2.1': '\uD83D\
 const QC_DESCS = { '1.1': 'Figure out what your money is actually working toward.', '1.2': 'Your cash needs a home before anything else happens.', '2.1': 'Watch your first salary from Luminary land.', '2.2': 'Tell every coin where to go before it disappears.', '3.1': 'Create a dedicated account for a specific goal.', '3.2': 'Build a financial safety net for the unexpected.', '4.1': 'See how time turns small amounts into serious wealth.', '4.2': 'Pick your investment style and commit to it.', '4.3': 'Make your first real investment and watch it grow.', '4.4': 'The market drops. What do you do?', '4.5': 'Spread your risk across different asset classes.', '4.6': 'Correct your portfolio back to its target allocation.', '5.1': 'Understand how Singapore forces you to save for retirement.', '5.2': 'Should you invest your CPF or leave it at 2.5%?', '5.3': 'When do you actually hit your FI Number?', '6.1': 'Your portfolio hits the target. This is what it all led to.', '6.2': 'Test whether your portfolio can sustain retirement withdrawals.' };
 const CH_NAMES = { 1: 'Chapter 1 \u00B7 Foundations', 2: 'Chapter 2 \u00B7 First Job', 3: 'Chapter 3 \u00B7 Banking Pro', 4: 'Chapter 4 \u00B7 Investing', 5: 'Chapter 5 \u00B7 Advanced', 6: 'Endgame' };
 
-const WALLET_CYCLE = [
-  { color: MODULE_COLORS['module-1'].color, colorLight: MODULE_COLORS['module-1'].colorLight },
-  { color: MODULE_COLORS['module-2'].color, colorLight: MODULE_COLORS['module-2'].colorLight },
-  { color: MODULE_COLORS['module-3'].color, colorLight: MODULE_COLORS['module-3'].colorLight },
-  { color: MODULE_COLORS['module-4'].color, colorLight: MODULE_COLORS['module-4'].colorLight },
-];
 
 const ASSET_VOLATILITY = { 'nestvault': 50, 'drakon-rss': 45, 'apextrade-diy': 60, 'apex-global': 80, 'sg-blue-chip': 55, 'sg-reit': 50, 'fsa-bond': 15, 'drakon-fd': 0, 'voltcoin': 100, 'gold-trust': 30 };
 const ASSET_RETURN = { 'nestvault': 6.5, 'drakon-rss': 5.5, 'apextrade-diy': 6, 'apex-global': 7, 'sg-blue-chip': 5, 'sg-reit': 6, 'fsa-bond': 3.5, 'drakon-fd': 2.8, 'voltcoin': 25, 'gold-trust': 4 };
@@ -183,21 +188,441 @@ function getMonthSummary(sim) {
   if (!completed.includes('stage-6')) {
     const sgName = sim?.stage5Data?.goalName ?? 'Savings goal';
     const sgContrib = (sim?.wallets ?? []).find(w => w.type === 'savings-goal')?.monthlyContribution ?? 0;
-    return { label, body: `${sgName} active. FC ${sgContrib} auto-saving each month.` };
+    return { label, body: `${sgName} active. ${sgContrib.toLocaleString()} auto-saving each month.` };
   }
   if (!completed.includes('stage-7')) {
     const efContrib = sim?.stage6Data?.monthlyContribution ?? 0;
-    return { label, body: `Foundation complete. FC ${efContrib} to emergency fund each month.` };
+    return { label, body: `Foundation complete. ${efContrib.toLocaleString()} to emergency fund each month.` };
   }
   if (!completed.includes('stage-8')) return { label, body: 'Compounding understood. Choose your investment vehicle next.' };
   if (!completed.includes('stage-9')) return { label, body: `${sim?.investmentVehicle?.name ?? 'Vehicle'} chosen. Make your first investment next.` };
-  if (!completed.includes('stage-10')) { const inv = (sim?.wallets ?? []).find(w => w.type === 'investment'); return { label, body: `Portfolio live. FC ${Math.round(inv?.balance ?? 0).toLocaleString()} invested and growing.` }; }
+  if (!completed.includes('stage-10')) { const inv = (sim?.wallets ?? []).find(w => w.type === 'investment'); return { label, body: `Portfolio live. ${Math.round(inv?.balance ?? 0).toLocaleString()} invested and growing.` }; }
   if (!completed.includes('stage-11')) return { label, body: 'Market dip survived. Diversify your portfolio next.' };
   if (!completed.includes('stage-12')) return { label, body: `Portfolio diversified. ${Object.keys(sim?.portfolioAllocations ?? {}).length} assets. Rebalance next.` };
   return { label, body: 'Chapter 4 complete. Portfolio rebalanced and maintained.' };
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
+// ─── Portfolio bento grid ────────────────────────────────────────────────────
+
+function PortfolioBento({ wallets: allWallets, sim, onPress }) {
+  const investmentWallets = (allWallets ?? []).filter(w => w.type === 'investment');
+  if (investmentWallets.length === 0) return null;
+
+  const holdings = investmentWallets.flatMap(w => w.holdings ?? []);
+  const balance = Math.round(investmentWallets.reduce((s, w) => s + (w.balance ?? 0), 0));
+  const totalBal = investmentWallets.reduce((s, w) => s + (w.balance ?? 0), 0) || 1;
+  const riskScore = Math.round(investmentWallets.reduce((s, w) => s + (w.riskScore ?? 50) * ((w.balance ?? 0) / totalBal), 0));
+  const expectedReturn = investmentWallets.reduce((s, w) => s + (w.expectedReturn ?? 5) * ((w.balance ?? 0) / totalBal), 0);
+  const riskInfo = getRiskLabel(riskScore);
+  const ffn = sim?.ffn ?? null;
+  const monthlyDCA = investmentWallets.reduce((s, w) => s + (w.monthlyDCA ?? 0), 0) || (sim?.monthlyDCA ?? 0);
+  const history = sim?.history ?? [];
+
+  const lastHistory = history[history.length - 1];
+  const prevInv = Object.entries(lastHistory?.walletSnapshots ?? {})
+    .filter(([k]) => k.startsWith('investment'))
+    .reduce((s, [, v]) => s + v, 0) || (lastHistory?.walletSnapshots?.investment ?? 0);
+  const delta = balance - Math.round(prevInv);
+
+  const yearsToFI = (() => {
+    if (!ffn || balance >= ffn) return null;
+    let b = balance; const mr = expectedReturn / 100 / 12; let months = 0;
+    while (b < ffn && months < 600) { b += monthlyDCA; b *= (1 + mr); months++; }
+    return months < 600 ? Math.round(months / 12) : null;
+  })();
+
+  const projected = (() => {
+    let b = balance; const mr = expectedReturn / 100 / 12;
+    for (let m = 0; m < 120; m++) { b += monthlyDCA; b *= (1 + mr); }
+    return Math.round(b);
+  })();
+
+  // Sparkline data
+  const sparkData = (() => {
+    const invH = history.slice(-6).map(h => {
+      const snaps = h.walletSnapshots ?? {};
+      const invTotal = Object.entries(snaps).filter(([k]) => k.startsWith('investment')).reduce((s, [, v]) => s + v, 0);
+      return invTotal || (snaps.investment ?? 0);
+    });
+    if (invH.length < 2) return null;
+    invH.push(balance);
+    return invH;
+  })();
+
+  // Pie paths
+  const PIE = 100, R = PIE * 0.4, C = PIE / 2, HOLE = PIE * 0.18;
+  const total = holdings.reduce((s, h) => s + (h.allocation ?? 0), 0);
+  let startAngle = -Math.PI / 2;
+  const paths = total > 0 ? holdings.map(h => {
+    const pct = (h.allocation ?? 0) / total;
+    if (pct <= 0) return null;
+    const end = startAngle + pct * 2 * Math.PI;
+    const x1 = C + R * Math.cos(startAngle), y1 = C + R * Math.sin(startAngle);
+    const x2 = C + R * Math.cos(end), y2 = C + R * Math.sin(end);
+    const d = `M ${C} ${C} L ${x1} ${y1} A ${R} ${R} 0 ${pct > 0.5 ? 1 : 0} 1 ${x2} ${y2} Z`;
+    startAngle = end;
+    return { d, color: h.color ?? Colors.primary };
+  }).filter(Boolean) : [];
+
+  // Sparkline renderer
+  const SPARK_W = 130;
+  const SPARK_H = 48;
+  const renderBarChart = (data, width, height) => {
+    if (!data || data.length < 2) return null;
+    const max = Math.max(...data, 1);
+    const barCount = data.length;
+    const gap = 3;
+    const barWidth = (width - (gap * (barCount - 1))) / barCount;
+    return (
+      <View style={{ width, height, flexDirection: 'row', alignItems: 'flex-end' }}>
+        {data.map((val, i) => {
+          const barHeight = Math.max(4, (val / max) * height);
+          const opacity = 0.3 + (i / (barCount - 1)) * 0.7;
+          const isLast = i === barCount - 1;
+          return <View key={i} style={{ width: barWidth, height: barHeight, borderRadius: 3, backgroundColor: MODULE_COLORS['module-4'].color, opacity: isLast ? 1 : opacity, marginRight: i < barCount - 1 ? gap : 0 }} />;
+        })}
+      </View>
+    );
+  };
+
+  return (
+    <Pressable
+      style={({ pressed }) => [pb.container, pressed && pb.containerPressed]}
+      onPress={onPress}
+    >
+      {/* Tile 1: Balance + Sparkline */}
+      <View style={[pb.tile, pb.tileFull]}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <View>
+            <Text style={pb.tileEyebrow}>INVESTED</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
+              <Image source={COIN_ASSET} style={{ width: 18, height: 18 }} />
+              <Text style={[pb.tileHero, { color: Colors.textPrimary, fontSize: 28 }]}>{balance.toLocaleString()}</Text>
+            </View>
+            {delta !== 0 && <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 4 }}><Text style={[pb.tileDelta, { color: delta > 0 ? MODULE_COLORS['module-3'].color : '#FF4444' }]}>{delta > 0 ? '\u2191' : '\u2193'}</Text><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={[pb.tileDelta, { color: delta > 0 ? MODULE_COLORS['module-3'].color : '#FF4444' }]}>{Math.abs(delta).toLocaleString()} this month</Text></View>}
+            {(() => { const streak = sim?.dcaStreak ?? 0; if (streak < 2) return null; return <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 }}><Text style={{ fontSize: 12 }}>{'\uD83D\uDD25'}</Text><Text style={[pb.tileDelta, { color: MODULE_COLORS['module-2'].color }]}>{streak} month DCA streak</Text></View>; })()}
+          </View>
+          {sparkData && <View style={{ width: SPARK_W, height: SPARK_H, overflow: 'hidden', marginTop: 8 }}>{renderBarChart(sparkData, SPARK_W, SPARK_H)}</View>}
+        </View>
+      </View>
+
+      {/* Row 2: Pie chart | Asset breakdown */}
+      {holdings.length > 0 && (
+        <View style={[pb.tile, pb.tileFull, { flexDirection: 'row', gap: 16, alignItems: 'center' }]}>
+          <View style={{ alignItems: 'center' }}>
+            <Svg width={PIE} height={PIE}><G>
+              {paths.map((p, i) => <Path key={i} d={p.d} fill={p.color} stroke={Colors.white} strokeWidth={2} />)}
+              <Path d={`M ${C} ${C} m -${HOLE} 0 a ${HOLE} ${HOLE} 0 1 0 ${HOLE * 2} 0 a ${HOLE} ${HOLE} 0 1 0 -${HOLE * 2} 0`} fill={Colors.white} />
+            </G></Svg>
+          </View>
+          <View style={{ flex: 1, gap: 8 }}>
+            <View style={{ flexDirection: 'row', height: 10, borderRadius: 5, overflow: 'hidden', backgroundColor: Colors.border }}>
+              {holdings.map((h, i) => <View key={i} style={{ width: `${Math.round(h.allocation ?? 0)}%`, backgroundColor: h.color ?? Colors.primary, borderRightWidth: i < holdings.length - 1 ? 1 : 0, borderRightColor: Colors.white }} />)}
+            </View>
+            {holdings.map((h, i) => <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: h.color ?? Colors.primary, flexShrink: 0 }} /><Text style={[pb.assetName, { flex: 1 }]} numberOfLines={1}>{h.name}</Text><Text style={[pb.assetPct, { color: h.color ?? Colors.primary }]}>{Math.round(h.allocation ?? 0)}%</Text></View>)}
+          </View>
+        </View>
+      )}
+
+      {/* Best/worst performer */}
+      {holdings.length > 1 && (() => {
+        const hist2 = history.slice(-2);
+        if (hist2.length < 2) return null;
+        const prevSnap = hist2[0]?.holdingSnapshots ?? {};
+        const changes = holdings.map(h => { const prev = prevSnap[h.assetId] ?? h.value; const change = prev > 0 ? ((h.value - prev) / prev) * 100 : 0; return { ...h, changePct: Math.round(change * 10) / 10 }; }).filter(h => h.changePct !== 0);
+        if (changes.length === 0) return null;
+        const best = changes.reduce((a, b) => a.changePct > b.changePct ? a : b);
+        const worst = changes.reduce((a, b) => a.changePct < b.changePct ? a : b);
+        return (
+          <View style={[pb.tile, pb.tileFull, { flexDirection: 'row', gap: 8 }]}>
+            <View style={{ flex: 1 }}><Text style={pb.tileEyebrow}>BEST THIS MONTH</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}><Text style={{ fontSize: 16 }}>{best.icon ?? '\uD83D\uDCCA'}</Text><View><Text style={[pb.tileSubLabel, { color: Colors.textPrimary, fontFamily: Fonts.bold }]} numberOfLines={1}>{best.name}</Text><Text style={[pb.tileSubLabel, { color: MODULE_COLORS['module-3'].color, fontFamily: Fonts.bold }]}>{'\u2191'} {best.changePct}%</Text></View></View></View>
+            {best.assetId !== worst.assetId && <><View style={{ width: 1, backgroundColor: Colors.border }} /><View style={{ flex: 1 }}><Text style={pb.tileEyebrow}>WORST THIS MONTH</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}><Text style={{ fontSize: 16 }}>{worst.icon ?? '\uD83D\uDCCA'}</Text><View><Text style={[pb.tileSubLabel, { color: Colors.textPrimary, fontFamily: Fonts.bold }]} numberOfLines={1}>{worst.name}</Text><Text style={[pb.tileSubLabel, { color: '#FF4444', fontFamily: Fonts.bold }]}>{'\u2193'} {Math.abs(worst.changePct)}%</Text></View></View></View></>}
+          </View>
+        );
+      })()}
+
+      {/* Row 3: Risk | Return | Time to FI */}
+      <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={[pb.tile, pb.tileThird]}>
+          <Text style={[pb.tileEyebrow, { color: riskInfo.color }]}>RISK</Text>
+          <Text style={[pb.tileHero, { color: riskInfo.color, fontSize: 26 }]}>{riskScore}</Text>
+          <Text style={[pb.tileSubLabel, { color: riskInfo.color }]}>{riskInfo.label}</Text>
+          <View style={[pb.miniBar, { backgroundColor: riskInfo.color + '20' }]}><View style={[pb.miniBarFill, { width: `${riskScore}%`, backgroundColor: riskInfo.color }]} /></View>
+        </View>
+        <View style={[pb.tile, pb.tileThird]}>
+          <Text style={[pb.tileEyebrow, { color: MODULE_COLORS['module-3'].color }]}>RETURN</Text>
+          <Text style={[pb.tileHero, { color: MODULE_COLORS['module-3'].color, fontSize: 26 }]}>{expectedReturn.toFixed(1)}%</Text>
+          <Text style={[pb.tileSubLabel, { color: MODULE_COLORS['module-3'].color }]}>per year</Text>
+          <Text style={[pb.tileSubLabel, { color: Colors.textMuted, fontSize: 9 }]}>after fees</Text>
+        </View>
+        <View style={[pb.tile, pb.tileThird]}>
+          <Text style={[pb.tileEyebrow, { color: MODULE_COLORS['module-1'].color }]}>TIME TO FI</Text>
+          {yearsToFI ? (<><Text style={[pb.tileHero, { color: MODULE_COLORS['module-1'].color, fontSize: 26 }]}>{yearsToFI}</Text><Text style={[pb.tileSubLabel, { color: MODULE_COLORS['module-1'].color }]}>years</Text></>) : balance >= (ffn ?? Infinity) ? (<Text style={[pb.tileHero, { color: MODULE_COLORS['module-3'].color, fontSize: 18 }]}>{'\uD83C\uDFAF'} Done</Text>) : (<Text style={[pb.tileSubLabel, { color: Colors.textMuted }]}>Set FI Number first</Text>)}
+        </View>
+      </View>
+
+      {/* Tile 4: 10-year projection */}
+      <View style={[pb.tile, pb.tileFull]}>
+        <Text style={pb.tileEyebrow}>10-YEAR PROJECTION</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 4 }}>
+          <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Image source={COIN_ASSET} style={{ width: 16, height: 16 }} /><Text style={[pb.tileHero, { color: Colors.textPrimary, fontSize: 22 }]}>{projected.toLocaleString()}</Text></View>
+            <Text style={[pb.tileSubLabel, { color: Colors.textMuted, marginTop: 2 }]}>at {expectedReturn.toFixed(1)}% {'\u00B7'} {monthlyDCA.toLocaleString()}/mo DCA</Text>
+          </View>
+          {ffn && <View style={[pb.projBadge, { backgroundColor: projected >= ffn ? MODULE_COLORS['module-3'].colorLight : Colors.primaryLight }]}><Text style={[pb.projBadgeText, { color: projected >= ffn ? MODULE_COLORS['module-3'].color : Colors.primary }]}>{projected >= ffn ? '\uD83C\uDFAF FI achievable' : `${Math.round((projected / ffn) * 100)}% of FI`}</Text></View>}
+        </View>
+        {ffn && (<>
+          <View style={[pb.projBar, { marginTop: 10 }]}><View style={[pb.projBarFill, { width: `${Math.min(100, Math.round((projected / ffn) * 100))}%`, backgroundColor: projected >= ffn ? MODULE_COLORS['module-3'].color : Colors.primary }]} /></View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 4 }}><Text style={[pb.tileSubLabel, { color: Colors.textMuted }]}>Current: {Math.round((balance / ffn) * 100)}%</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Text style={[pb.tileSubLabel, { color: Colors.textMuted }]}>FI: </Text><Image source={COIN_ASSET} style={{ width: 10, height: 10 }} /><Text style={[pb.tileSubLabel, { color: Colors.textMuted }]}>{Math.round(ffn).toLocaleString()}</Text></View></View>
+        </>)}
+        {/* Portfolio vs savings comparison */}
+        {(() => {
+          const openedMonth = investmentWallets[0]?.openedMonth ?? 1;
+          const monthsInvested = Math.max(1, (sim?.currentMonth ?? 1) - openedMonth);
+          const totalContributed = monthlyDCA * monthsInvested;
+          const savingsValue = Math.round(totalContributed * Math.pow(1 + 0.005 / 12, monthsInvested));
+          const extraGained = balance - savingsValue;
+          if (extraGained <= 0 || monthsInvested < 2) return null;
+          return (
+            <View style={{ marginTop: 8, paddingTop: 8, borderTopWidth: 1, borderTopColor: Colors.border }}>
+              <Text style={pb.tileEyebrow}>VS SAVINGS ACCOUNT</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 4 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[pb.tileSubLabel, { color: MODULE_COLORS['module-3'].color, fontFamily: Fonts.bold, fontSize: 12 }]}>+{Math.round(extraGained).toLocaleString()} more than a savings account</Text></View>
+              <Text style={[pb.tileSubLabel, { marginTop: 2 }]}>Investing beat 0.5% p.a. savings over {monthsInvested} months</Text>
+            </View>
+          );
+        })()}
+      </View>
+    </Pressable>
+  );
+}
+
+// ─── Monthly snapshot card ───────────────────────────────────────────────────
+
+function MonthlySnapshotCard({ sim }) {
+  const budget = sim?.monthlyBudget ?? null;
+  const income = sim?.income ?? 0;
+  const monthlyDCA = (sim?.wallets ?? []).filter(w => w.type === 'investment').reduce((s, w) => s + (w.monthlyDCA ?? 0), 0) || (sim?.monthlyDCA ?? 0);
+  const completedStages = sim?.completedStages ?? [];
+  if (!completedStages.includes('stage-3') || !income) return null;
+  const needs = budget?.needsAmt ?? 0;
+  const savings = budget?.savingsAmt ?? 0;
+  const free = Math.max(0, income - needs - savings - monthlyDCA);
+  const currentMonth = sim?.currentMonth ?? 1;
+  const rows = [
+    { label: 'Income', amt: income, color: MODULE_COLORS['module-3'].color, prefix: '+' },
+    ...(completedStages.includes('stage-4') && needs > 0 ? [{ label: 'Needs', amt: needs, color: MODULE_COLORS['module-2'].color, prefix: '-' }] : []),
+    ...(completedStages.includes('stage-9') && monthlyDCA > 0 ? [{ label: 'Invested (DCA)', amt: monthlyDCA, color: MODULE_COLORS['module-4'].color, prefix: '-' }] : []),
+    ...(completedStages.includes('stage-4') && savings > 0 ? [{ label: 'Saved', amt: savings, color: MODULE_COLORS['module-1'].color, prefix: '-' }] : []),
+  ];
+  return (
+    <View style={snap.container}>
+      <View style={snap.header}><Text style={snap.eyebrow}>MONTH {currentMonth} SNAPSHOT</Text></View>
+      <View style={snap.rows}>
+        {rows.map((row, i) => (
+          <View key={i} style={snap.row}><Text style={snap.rowLabel}>{row.label}</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[snap.rowAmt, { color: row.color }]}>{row.prefix}{Math.round(row.amt).toLocaleString()}</Text></View></View>
+        ))}
+        <View style={snap.divider} />
+        <View style={snap.row}><Text style={[snap.rowLabel, { fontFamily: Fonts.bold, color: Colors.textPrimary }]}>Free this month</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 13, height: 13 }} /><Text style={[snap.rowAmt, { fontFamily: Fonts.extraBold, fontSize: 16, color: free > 0 ? MODULE_COLORS['module-3'].color : '#FF4444' }]}>{free > 0 ? '+' : ''}{Math.round(free).toLocaleString()}</Text></View></View>
+        {income > 0 && <Text style={snap.savingsRateNote}>{Math.round(((savings + monthlyDCA) / income) * 100)}% savings rate this month</Text>}
+      </View>
+    </View>
+  );
+}
+
+// ─── Accounts bento grid ─────────────────────────────────────────────────────
+
+function AccountsBento({ wallets, sim, onPress }) {
+  if (!wallets || wallets.length === 0) return null;
+  const nonInvestment = wallets.filter(w => w.type !== 'investment');
+  if (nonInvestment.length === 0) return null;
+
+  const budget = sim?.monthlyBudget ?? null;
+  const income = sim?.income ?? 0;
+  const history = sim?.history ?? [];
+  const ACCOUNT_PALETTE = [
+    MODULE_COLORS['module-2'].color,   // 0 — orange (cash)
+    MODULE_COLORS['module-4'].color,   // 1 — purple (bank)
+    MODULE_COLORS['module-1'].color,   // 2 — teal (EF)
+    '#E63946',                         // 3 — red (extra)
+    '#457B9D',                         // 4 — steel blue
+    '#F4A261',                         // 5 — warm amber (savings goals)
+  ];
+  const getWalletColour = (w, used) => {
+    const pref = { cash: 0, bank: 1, emergency: 2, 'savings-goal': 5 };
+    const p = pref[w.type] ?? -1;
+    if (p >= 0 && !used.has(p)) { used.add(p); return p; }
+    for (let i = 0; i < ACCOUNT_PALETTE.length; i++) { if (!used.has(i)) { used.add(i); return i; } }
+    return 0;
+  };
+  const usedColours = new Set();
+  const walletWithColour = nonInvestment.map(w => {
+    const idx = getWalletColour(w, usedColours);
+    return { ...w, assignedColor: ACCOUNT_PALETTE[idx] };
+  });
+  const totalBalance = nonInvestment.reduce((s, w) => s + (w.balance ?? 0), 0);
+  const goalWallets = walletWithColour.filter(w => w.type === 'savings-goal' || w.type === 'emergency');
+  const monthlyNeeds = budget?.needsAmt ?? 0;
+  const totalInterest = history.slice(-12).reduce((sum, h) => sum + (h.interestEarned ?? 0), 0);
+  const interestHistory = (() => { const recent = history.slice(-5); if (recent.length < 2) return null; return recent.map(h => h.interestEarned ?? 0); })();
+  const renderInterestBars = (data, width, height) => {
+    if (!data || data.length < 2) return null;
+    const max = Math.max(...data, 1); const gap = 3; const barWidth = (width - gap * (data.length - 1)) / data.length;
+    return <View style={{ width, height, flexDirection: 'row', alignItems: 'flex-end' }}>{data.map((val, i) => <View key={i} style={{ width: barWidth, height: Math.max(3, (val / max) * height), borderRadius: 2, backgroundColor: MODULE_COLORS['module-4'].color, opacity: i === data.length - 1 ? 1 : 0.3 + (i / (data.length - 1)) * 0.5, marginRight: i < data.length - 1 ? gap : 0 }} />)}</View>;
+  };
+
+  const renderGoalTile = (w, fullWidth) => {
+    const isEF = w.type === 'emergency';
+    const target = w.target ?? 0;
+    const bal = w.balance ?? 0;
+    const pct = target > 0 ? Math.min(100, Math.round((bal / target) * 100)) : null;
+    const monthsCovered = isEF && monthlyNeeds > 0 ? Math.round((bal / monthlyNeeds) * 10) / 10 : null;
+    const targetMonths = isEF && monthlyNeeds > 0 && target > 0 ? Math.round(target / monthlyNeeds) : null;
+
+    // Emergency fund — balance hero + bar, no ring
+    if (isEF) {
+      return (
+        <View key={w.id} style={[ab.tile, fullWidth ? ab.tileFull : { flex: 1 }]}>
+          <Text style={ab.eyebrow}>EMERGENCY FUND</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 6, marginBottom: 4 }}><Image source={COIN_ASSET} style={{ width: 16, height: 16 }} /><Text style={[ab.goalHero, { color: Colors.textPrimary, fontSize: 22 }]}>{Math.round(bal).toLocaleString()}</Text></View>
+          {monthsCovered != null && <Text style={{ fontFamily: Fonts.regular, fontSize: 12, color: w.assignedColor, marginBottom: 8 }}>{monthsCovered} months covered</Text>}
+          {pct != null && (<>
+            <View style={ab.goalBarTrack}><View style={[ab.goalBarFill, { width: `${pct}%`, backgroundColor: pct >= 100 ? MODULE_COLORS['module-3'].color : w.assignedColor }]} />{targetMonths && targetMonths >= 2 && Array.from({ length: targetMonths - 1 }).map((_, i) => <View key={i} style={[ab.goalMarker, { left: `${((i + 1) / targetMonths) * 100}%` }]} />)}</View>
+            <Text style={[ab.efPctLabel, { color: Colors.textMuted }]}>{pct}%{targetMonths ? ` of ${targetMonths} month target` : ' funded'}</Text>
+          </>)}
+          <View style={ab.goalFooter}><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Text style={ab.goalFooterOf}>target</Text><Image source={COIN_ASSET} style={{ width: 10, height: 10 }} /><Text style={[ab.goalFooterOf, { color: Colors.textPrimary }]}>{Math.round(target).toLocaleString()}</Text></View>{targetMonths && <Text style={ab.goalFooterMeta}>{targetMonths} months</Text>}</View>
+        </View>
+      );
+    }
+
+    // Savings goal — centred ring with text below
+    return (
+      <View key={w.id} style={[ab.tile, fullWidth ? { width: '100%' } : { flex: 1 }]}>
+        <Text style={ab.eyebrow}>{(w.label ?? 'SAVINGS GOAL').toUpperCase()}</Text>
+        {pct != null ? (
+          <View style={{ alignItems: 'center', marginVertical: 10 }}>
+            {(() => { const RING = 80, RC = RING / 2, RR = RING * 0.38, circ = 2 * Math.PI * RR, off = circ * (1 - pct / 100); return (
+              <View style={{ width: RING, height: RING }}>
+                <Svg width={RING} height={RING}>
+                  <Path d={`M ${RC} ${RC} m -${RR} 0 a ${RR} ${RR} 0 1 0 ${RR * 2} 0 a ${RR} ${RR} 0 1 0 -${RR * 2} 0`} fill="none" stroke={Colors.border} strokeWidth={6} />
+                  <Path d={`M ${RC} ${RC - RR}`} fill="none" stroke={w.assignedColor} strokeWidth={6} strokeDasharray={`${circ}`} strokeDashoffset={off} strokeLinecap="round" transform={`rotate(-90, ${RC}, ${RC})`} />
+                </Svg>
+                <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}><Text style={[ab.ringPct, { color: w.assignedColor, fontSize: 16 }]}>{pct}%</Text></View>
+              </View>
+            ); })()}
+          </View>
+        ) : null}
+        <View style={{ alignItems: 'center', gap: 4, marginTop: 2 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+            <Image source={COIN_ASSET} style={{ width: 13, height: 13 }} />
+            <Text style={[ab.goalHero, { color: Colors.textPrimary, fontSize: 16 }]}>{Math.round(bal).toLocaleString()}</Text>
+            {target > 0 && <><Text style={[ab.goalFooterOf, { fontSize: 14 }]}> / </Text><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={ab.goalFooterOf}>{Math.round(target).toLocaleString()}</Text></>}
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  return (
+    <Pressable
+      style={({ pressed }) => [ab.container, pressed && ab.containerPressed]}
+      onPress={onPress}
+    >
+      {/* Tile 1: Total balance + donut */}
+      <View style={ab.tile}>
+        <Text style={ab.eyebrow}>TOTAL BALANCE</Text>
+        <View style={ab.balanceRow}><Image source={COIN_ASSET} style={{ width: 20, height: 20 }} /><Text style={ab.balanceHero}>{Math.round(totalBalance).toLocaleString()}</Text><Text style={ab.balanceCount}>{nonInvestment.length} account{nonInvestment.length !== 1 ? 's' : ''}</Text></View>
+
+        {/* Composition bar */}
+        {totalBalance > 0 && (
+          <View style={ab.compBar}>
+            {walletWithColour.map((w, i) => {
+              const pct = Math.max(2, Math.round(((w.balance ?? 0) / totalBalance) * 100));
+              if ((w.balance ?? 0) <= 0) return null;
+              return <View key={w.id} style={{ width: `${pct}%`, height: 10, backgroundColor: w.assignedColor, borderRightWidth: i < walletWithColour.length - 1 ? 1.5 : 0, borderRightColor: Colors.white }} />;
+            })}
+          </View>
+        )}
+        {/* Legend rows */}
+        <View style={ab.pieLegend}>
+          {walletWithColour.map(w => <View key={w.id} style={ab.pieLegendRow}><View style={[ab.pieLegendDot, { backgroundColor: w.assignedColor }]} /><Text style={ab.pieLegendName} numberOfLines={1}>{w.label}</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={ab.pieLegendAmt}>{Math.round(w.balance ?? 0).toLocaleString()}</Text></View></View>)}
+        </View>
+      </View>
+
+      {/* Goal wallets — side by side if 2+, full width if 1 */}
+      {goalWallets.length === 1 ? renderGoalTile(goalWallets[0], true) : goalWallets.length >= 2 ? (
+        <View style={{ flexDirection: 'row', gap: 8 }}>{goalWallets.map(w => renderGoalTile(w, false))}</View>
+      ) : null}
+
+      {/* Budget card */}
+      {budget && income > 0 && (
+        <View style={ab.tile}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+            <Text style={ab.eyebrow}>MONTHLY BUDGET</Text>
+            {(() => { const free = income - (budget.needsAmt ?? 0) - (budget.savingsAmt ?? 0) - (sim?.monthlyDCA ?? 0); return free > 0 ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 10, height: 10 }} /><Text style={[ab.statSub, { color: MODULE_COLORS['module-3'].color, fontFamily: Fonts.bold }]}>+{Math.round(free).toLocaleString()} free</Text></View> : null; })()}
+          </View>
+          <View style={{ gap: 10 }}>
+            {[
+              { label: 'Needs', amt: budget.needsAmt ?? 0, color: MODULE_COLORS['module-2'].color, colorLight: MODULE_COLORS['module-2'].colorLight },
+              { label: 'Wants', amt: budget.wantsAmt ?? 0, color: Colors.primary, colorLight: Colors.primaryLight },
+              { label: 'Savings', amt: budget.savingsAmt ?? 0, color: MODULE_COLORS['module-3'].color, colorLight: MODULE_COLORS['module-3'].colorLight },
+            ].map((row, i) => {
+              const pct = income > 0 ? Math.round((row.amt / income) * 100) : 0;
+              return <View key={i} style={ab.budgetRow}><Text style={ab.budgetLabel}>{row.label}</Text><View style={ab.budgetBarWrap}><View style={[ab.budgetBarTrack, { backgroundColor: row.colorLight }]}><View style={[ab.budgetBarFill, { width: `${pct}%`, backgroundColor: row.color }]} /></View><Text style={[ab.budgetPct, { color: row.color }]}>{pct}%</Text></View><View style={ab.budgetAmtWrap}><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={[ab.budgetAmt, { color: Colors.textPrimary }]}>{Math.round(row.amt).toLocaleString()}</Text></View></View>;
+            })}
+          </View>
+        </View>
+      )}
+
+      {/* Bottom stat row: Interest | Savings rate */}
+      <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={[ab.tile, { flex: 1 }]}>
+          <Text style={ab.eyebrow}>INTEREST EARNED</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 6 }}><Image source={COIN_ASSET} style={{ width: 13, height: 13 }} /><Text style={[ab.statHero, { color: MODULE_COLORS['module-3'].color }]}>+{Math.round(totalInterest).toLocaleString()}</Text></View>
+          <Text style={ab.statSub}>last 12 months</Text>
+          {interestHistory && <View style={{ marginTop: 8 }}>{renderInterestBars(interestHistory, 80, 28)}</View>}
+        </View>
+        {income > 0 && (
+          <View style={[ab.tile, { flex: 1 }]}>
+            {(() => {
+              const savingsRate = Math.round((((budget?.savingsAmt ?? 0) + (sim?.monthlyDCA ?? 0)) / income) * 100);
+              const rateColor = savingsRate >= 20 ? MODULE_COLORS['module-3'].color : savingsRate >= 10 ? '#F4A261' : '#E63946';
+              return <><Text style={ab.eyebrow}>SAVINGS RATE</Text><Text style={[ab.statHero, { color: rateColor, marginTop: 6, fontSize: 26 }]}>{savingsRate}%</Text><Text style={ab.statSub}>of income saved</Text><Text style={[ab.statSub, { marginTop: 4, color: rateColor }]}>{savingsRate >= 20 ? '\u2713 On track' : savingsRate >= 10 ? 'Could be higher' : 'Needs work'}</Text></>;
+            })()}
+          </View>
+        )}
+      </View>
+    </Pressable>
+  );
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+
+const WALKTHROUGH_SLIDES = [
+  { emoji: '\uD83C\uDFD9\uFE0F', title: 'Welcome to FinCity', subtitle: 'Your financial life, simulated.', body: "FinCity is a sandbox where you make real financial decisions with your FinCoins. No real money \u2014 but real consequences. Every choice you make here teaches you something that applies to your actual finances." },
+  { emoji: '\uD83E\uDE99', title: 'Your FinCoins are real', subtitle: 'Earned in AmpliFI. Spent here.', body: "Every FinCoin you've earned through learning lives in FinCity. When you save, your balance actually grows with interest. When you invest, real return rates apply. The maths is real \u2014 only the stakes aren't." },
+  { emoji: '\uD83D\uDEE0\uFE0F', title: 'A full financial toolkit', subtitle: 'Everything a real financial life needs.', bullets: [{ icon: '\uD83C\uDFE6', text: 'Open and close bank accounts \u2014 Basic or HYSA' }, { icon: '\uD83D\uDCC8', text: 'Build an investment portfolio across 7 asset classes' }, { icon: '\u2696\uFE0F', text: 'Rebalance your portfolio as markets shift' }, { icon: '\uD83C\uDFAF', text: 'Set savings goals and track them to completion' }, { icon: '\uD83D\uDEE1\uFE0F', text: 'Build an emergency fund that covers months of expenses' }, { icon: '\uD83D\uDCCA', text: 'See projections of your wealth 10, 20, 30 years out' }, { icon: '\uD83D\uDCBC', text: 'Request promotions and grow your income over time' }] },
+  { emoji: '\uD83D\uDDFA\uFE0F', title: 'Quests unlock the tools', subtitle: 'Learn first. Then do freely.', body: 'Main quests walk you through each tool one at a time \u2014 bank accounts, budgets, investments, rebalancing. Side quests go deeper on advanced topics. Complete all 17 quests and every tool is yours to use however you want, forever.', highlight: { text: 'The goal: reach your Financial Independence Number \uD83C\uDFAF', color: Colors.primary } },
+  { emoji: '\u23ED', title: 'You control time', subtitle: 'Advance months. Watch money grow.', body: 'Tap the advance button to move forward one month \u2014 salary arrives, interest compounds, investments grow. Hold skip to jump months or years at once. The further you go, the more powerful compounding becomes.' },
+  { emoji: '\uD83D\uDC1F', title: 'Fin is your guide', subtitle: 'Always in the bottom right.', body: 'Fin knows where you are in your journey and what to do next. Tap the fish button anytime for guidance, your next step, or a financial reality check. Finish the quests \u2014 then use every tool in FinCity to build toward financial independence your way.', highlight: { text: 'Your FI Number is the finish line. Everything in FinCity helps you get there.', color: MODULE_COLORS['module-3'].color }, isFinal: true },
+];
+
+function SectionDivider({ label }) {
+  return (
+    <View style={sd.container}>
+      <View style={sd.line} />
+      <Text style={sd.label}>{label}</Text>
+      <View style={sd.line} />
+    </View>
+  );
+}
+
+const sd = StyleSheet.create({
+  container: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 16, marginTop: 8, marginBottom: 16, gap: 10 },
+  line: { flex: 1, height: 1, backgroundColor: Colors.border },
+  label: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.5, color: Colors.textMuted },
+});
+
 export default function SimulateScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -220,6 +645,7 @@ export default function SimulateScreen() {
   const [monthSummary, setMonthSummary] = useState(null);
   const [showAdvanceConfirm, setShowAdvanceConfirm] = useState(false);
   const [showGateModal, setShowGateModal] = useState(false);
+  const [showJobOfferGate, setShowJobOfferGate] = useState(false);
   const [gateMessage, setGateMessage] = useState('');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showAdvError, setShowAdvError] = useState(false);
@@ -227,18 +653,36 @@ export default function SimulateScreen() {
   const [comingSoonName, setComingSoonName] = useState('');
   const [showJobOffer, setShowJobOffer] = useState(false);
   const [selectedSalary, setSelectedSalary] = useState(null);
+  const [customSalaryText, setCustomSalaryText] = useState('');
+  const [customSalaryError, setCustomSalaryError] = useState('');
   const [jobOfferStep, setJobOfferStep] = useState(1);
   const [completedGoalQueue, setCompletedGoalQueue] = useState([]);
   const [showGoalComplete, setShowGoalComplete] = useState(false);
   const [currentGoal, setCurrentGoal] = useState(null);
   const [goalCompleteConfetti, setGoalCompleteConfetti] = useState(false);
   const [closingGoal, setClosingGoal] = useState(false);
+  const [pendingLifeEvent, setPendingLifeEvent] = useState(null);
+  const [lifeEventAllocations, setLifeEventAllocations] = useState({});
+  const [lifeEventError, setLifeEventError] = useState('');
+  const [lifeEventApplying, setLifeEventApplying] = useState(false);
   const [portfolioLoading, setPortfolioLoading] = useState(false);
   const [portfolioSim, setPortfolioSim] = useState(null);
   const [showBankModal, setShowBankModal] = useState(false);
   const [showPortfolioModal, setShowPortfolioModal] = useState(false);
+  const [showFFPicker, setShowFFPicker] = useState(false);
+  const [ffMonths, setFfMonths] = useState(1);
+  const [skipping, setSkipping] = useState(false);
+  const [skipSummary, setSkipSummary] = useState(null);
+  const [showSkipSummary, setShowSkipSummary] = useState(false);
+  const [showSavingsGoalFlow, setShowSavingsGoalFlow] = useState(null);
+  const [showEFFlow, setShowEFFlow] = useState(null);
+  const [bankInitialTab, setBankInitialTab] = useState('Accounts');
+  const [showWalkthrough, setShowWalkthrough] = useState(false);
+  const [walkthroughSlide, setWalkthroughSlide] = useState(0);
+  const walkthroughChecked = useRef(false);
 
-
+  const questCardPulse = useRef(new Animated.Value(1)).current;
+  const skipAnimValue = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const drawerAnim = useRef(new Animated.Value(-280)).current;
   const backdropAnim = useRef(new Animated.Value(0)).current;
@@ -372,6 +816,16 @@ export default function SimulateScreen() {
   const closeDrawer = () => { Animated.parallel([Animated.timing(drawerAnim, { toValue: -280, duration: 220, useNativeDriver: true }), Animated.timing(backdropAnim, { toValue: 0, duration: 200, useNativeDriver: true })]).start(() => setDrawerOpen(false)); };
   const panResponder = useRef(PanResponder.create({ onMoveShouldSetPanResponder: (_, gs) => Math.abs(gs.dx) > 10 && Math.abs(gs.dy) < 30, onPanResponderRelease: (_, gs) => { if (gs.dx > 40 && gs.moveX < 60) openDrawer(); if (gs.dx < -40 && drawerOpen) closeDrawer(); } })).current;
 
+  const pulseQuestCard = () => {
+    questCardPulse.setValue(1);
+    Animated.sequence([
+      Animated.timing(questCardPulse, { toValue: 1.04, duration: 300, easing: Easing.out(Easing.ease), useNativeDriver: true }),
+      Animated.timing(questCardPulse, { toValue: 0.97, duration: 200, useNativeDriver: true }),
+      Animated.timing(questCardPulse, { toValue: 1.02, duration: 200, useNativeDriver: true }),
+      Animated.timing(questCardPulse, { toValue: 1, duration: 200, useNativeDriver: true }),
+    ]).start();
+  };
+
   // ── Fin Overlay ─────────────────────────────────────────────────────────
   const showFin = () => { setFinOverlayVisible(true); finBackdropAnim.setValue(0); finSlideAnim.setValue(200); Animated.parallel([Animated.timing(finBackdropAnim, { toValue: 1, duration: 300, useNativeDriver: true }), Animated.spring(finSlideAnim, { toValue: 0, tension: 50, friction: 10, useNativeDriver: true })]).start(); };
   const handleFinModalClose = () => {
@@ -392,6 +846,24 @@ export default function SimulateScreen() {
   };
   useEffect(() => { if (!loading) { swimToNextSpot(); return () => finSwimRef.current?.stop(); } }, [loading]);
 
+  useEffect(() => {
+    if (!insideCity) {
+      // Reset check when user leaves dashboard (returns to entry screen)
+      walkthroughChecked.current = false;
+      return;
+    }
+
+    // insideCity just became true — check if walkthrough needed
+    if (walkthroughChecked.current) return;
+    walkthroughChecked.current = true;
+
+    AsyncStorage.getItem('fincity_walkthrough_seen').then(seen => {
+      if (!seen) {
+        setTimeout(() => setShowWalkthrough(true), 500);
+      }
+    });
+  }, [insideCity]);
+
   const handleFinTap = () => {
     if (!insideCity) { setEntryBubbleVisible(true); entryBubbleOpacity.setValue(0); Animated.timing(entryBubbleOpacity, { toValue: 1, duration: 200, useNativeDriver: true }).start(); setTimeout(() => { Animated.timing(entryBubbleOpacity, { toValue: 0, duration: 300, useNativeDriver: true }).start(() => setEntryBubbleVisible(false)); }, 3000); }
     else {
@@ -399,16 +871,18 @@ export default function SimulateScreen() {
       const cs = sim?.completedStages ?? [];
       const latest = cs[cs.length - 1] ?? null;
       if (latest) AsyncStorage.setItem('fin_last_seen_stage', latest);
-      // Job offer intercept: after bank open, before first paycheck, and no income set yet
-      if (cs.includes('stage-2') && !cs.includes('stage-3') && !sim?.income) {
-        setShowJobOffer(true);
-        setJobOfferStep(1);
-        setSelectedSalary(null);
-        return;
-      }
       setFinVisible(false);
       showFin();
     }
+  };
+
+  const tryOpenQuest = (questId) => {
+    // Gate: quest-3 (first paycheck) requires job offer accepted
+    if (questId === 'quest-3' && !sim?.income) {
+      setShowJobOfferGate(true);
+      return;
+    }
+    setActiveQuest(questId);
   };
 
   // ── Bottom Sheets ───────────────────────────────────────────────────────
@@ -432,6 +906,34 @@ export default function SimulateScreen() {
 
 
   // ── Advance Month ───────────────────────────────────────────────────────
+  const applyLifeEventDeduction = async (allocations) => {
+    setLifeEventApplying(true);
+    setLifeEventError('');
+    try {
+      const updatedWallets = (sim?.wallets ?? []).map(w => {
+        const deduction = allocations[w.id] ?? 0;
+        if (deduction > 0) return { ...w, balance: Math.max(0, (w.balance ?? 0) - deduction) };
+        return w;
+      });
+      await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), { wallets: updatedWallets, updatedAt: Date.now() });
+      await refreshAll();
+      setPendingLifeEvent(null);
+      setLifeEventAllocations({});
+      setLifeEventApplying(false);
+      if (completedGoalQueue.length > 0) {
+        const [next, ...rest] = completedGoalQueue;
+        setCurrentGoal(next);
+        setCompletedGoalQueue(rest);
+        setGoalCompleteConfetti(true);
+        setShowGoalComplete(true);
+      }
+    } catch (e) {
+      console.error('applyLifeEventDeduction error:', e);
+      setLifeEventError('Something went wrong. Please try again.');
+      setLifeEventApplying(false);
+    }
+  };
+
   const doAdvance = async () => {
     setShowAdvanceConfirm(false);
     setAdvancing(true);
@@ -443,6 +945,10 @@ export default function SimulateScreen() {
       if (uid) { const uSnap = await firestoreGetDoc(firestoreDoc(db, 'users', uid)); if (uSnap.exists()) { const ud = uSnap.data(); useUserStore.getState().setProfile({ ...useUserStore.getState().profile, finCoins: ud.finCoins ?? 0 }); } }
       setMonthSummary(result);
       if (result.completedGoals?.length > 0) setCompletedGoalQueue(result.completedGoals);
+      // Queue negative life event for after summary dismissal
+      if (result.lifeEvent && !result.lifeEvent.isPositive) {
+        setPendingLifeEvent(result.lifeEvent);
+      }
       setShowMonthlySummary(true);
       summarySheetAnim.setValue(SH);
       Animated.spring(summarySheetAnim, { toValue: 0, tension: 55, friction: 11, useNativeDriver: true }).start();
@@ -458,6 +964,55 @@ export default function SimulateScreen() {
     Animated.spring(advanceConfirmAnim, { toValue: 0, tension: 55, friction: 11, useNativeDriver: true }).start();
   };
 
+  const doSkip = async (months) => {
+    if (skipping || advancing) return;
+    setSkipping(true);
+    skipAnimValue.setValue(0);
+    Animated.timing(skipAnimValue, { toValue: 1, duration: 1800, easing: Easing.inOut(Easing.quad), useNativeDriver: false }).start();
+    try {
+      const result = await advanceMultipleMonths(uid, months);
+      await refreshAll();
+      setSkipSummary({
+        months,
+        totalSalary: result.totalSalary ?? 0,
+        totalNeeds: result.totalNeeds ?? 0,
+        totalInterest: result.totalInterest ?? 0,
+        totalDCA: result.totalDCA ?? 0,
+        totalReturns: result.totalReturns ?? 0,
+        newMonth: result.finalMonth ?? (simMonthRaw + months),
+        stoppedEarly: result.stoppedEarly ?? false,
+        stoppedAt: result.stoppedAt ?? null,
+        milestones: result.milestones ?? [],
+        finalEFPct: result.finalEFPct,
+        finalSGPct: result.finalSGPct,
+        finalEFBalance: result.finalEFBalance,
+        finalSGBalance: result.finalSGBalance,
+        finalEFTarget: result.finalEFTarget,
+        finalSGTarget: result.finalSGTarget,
+        finalSGLabel: result.finalSGLabel,
+      });
+      if (result.completedGoals?.length > 0) setCompletedGoalQueue(result.completedGoals);
+      setSkipping(false);
+      setTimeout(() => setShowSkipSummary(true), 300);
+    } catch (e) {
+      console.error('doSkip error:', e);
+      setSkipping(false);
+      setShowAdvError(true);
+    }
+  };
+
+  const goToSlide = (nextIdx) => {
+    setWalkthroughSlide(nextIdx);
+  };
+
+  const finishWalkthrough = async () => {
+    await AsyncStorage.setItem('fincity_walkthrough_seen', 'true');
+    setShowWalkthrough(false);
+    setWalkthroughSlide(0);
+    setFinHasUpdate(true);
+    setTimeout(() => showFin(), 800);
+  };
+
   const closeAdvanceConfirm = () => {
     Animated.timing(advanceConfirmAnim, { toValue: SH, duration: 250, useNativeDriver: true }).start(() => setShowAdvanceConfirm(false));
   };
@@ -466,6 +1021,26 @@ export default function SimulateScreen() {
     Animated.timing(summarySheetAnim, { toValue: SH, duration: 250, useNativeDriver: true }).start(() => {
       setShowMonthlySummary(false);
       setMonthSummary(null);
+
+      // Show life event choice if pending
+      if (pendingLifeEvent && !pendingLifeEvent.isPositive) {
+        const efW = (sim?.wallets ?? []).find(w => w.type === 'emergency');
+        const bankW = (sim?.wallets ?? []).find(w => w.type === 'bank');
+        const initAllocs = {};
+        if (efW && (efW.balance ?? 0) > 0) {
+          const efContrib = Math.min(efW.balance ?? 0, pendingLifeEvent.amount);
+          initAllocs[efW.id] = efContrib;
+          const remaining = pendingLifeEvent.amount - efContrib;
+          if (remaining > 0 && bankW) {
+            initAllocs[bankW.id] = Math.min(bankW.balance ?? 0, remaining);
+          }
+        } else if (bankW) {
+          initAllocs[bankW.id] = Math.min(bankW.balance ?? 0, pendingLifeEvent.amount);
+        }
+        setLifeEventAllocations(initAllocs);
+        return;
+      }
+
       if (completedGoalQueue.length > 0) {
         const [next, ...rest] = completedGoalQueue;
         setCurrentGoal(next);
@@ -478,7 +1053,7 @@ export default function SimulateScreen() {
 
   // ── Reset ───────────────────────────────────────────────────────────────
   const handleReset = () => setShowResetConfirm(true);
-  const doReset = async () => { setShowResetConfirm(false); await resetSimProgress(uid); setSim(null); setInsideCity(false); };
+  const doReset = async () => { setShowResetConfirm(false); await resetSimProgress(uid); await AsyncStorage.removeItem('fincity_walkthrough_seen'); await AsyncStorage.removeItem('savings_flow_done'); await AsyncStorage.removeItem('ef_flow_done'); walkthroughChecked.current = false; setSim(null); setInsideCity(false); };
 
   if (loading) return <View style={s.root} />;
 
@@ -526,167 +1101,237 @@ export default function SimulateScreen() {
         <View style={s.progressBarBg}><View style={[s.progressBarFill, { width: `${progressPct}%` }]} /></View>
       </View>
 
+      {/* Floating icon column */}
+      <View style={[s.floatingColumn, { bottom: insets.bottom + 16 }, finOverlayVisible && { opacity: 0, pointerEvents: 'none' }]}>
+        <TouchableOpacity style={[s.floatingBtn, { backgroundColor: MODULE_COLORS['module-2'].colorLight, borderColor: MODULE_COLORS['module-2'].color }]} onPress={() => { setBankInitialTab('Accounts'); setShowBankModal(true); dismissBankNotif(); }} activeOpacity={0.85}>
+          {bankNotif && <View style={s.floatingNotifDot} />}
+          <Text style={{ fontSize: 24 }}>{'\uD83C\uDFE6'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[s.floatingBtn, { backgroundColor: completedStages.includes('stage-9') ? MODULE_COLORS['module-4'].colorLight : Colors.white, borderColor: completedStages.includes('stage-9') ? MODULE_COLORS['module-4'].color : Colors.border }]} onPress={() => { if (completedStages.includes('stage-9')) { setShowPortfolioModal(true); } else { const nq = QUEST_MAP.find(q => !completedStages.includes(q.stageId)); setGateMessage(nq ? `Complete Quest ${nq.id} \u2014 ${nq.name} first to unlock your portfolio.` : 'Complete the investing quests to unlock your portfolio.'); setShowGateModal(true); } }} activeOpacity={0.85}>
+          <Text style={{ fontSize: 24 }}>{'\uD83D\uDCC8'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[s.floatingBtn, { backgroundColor: MODULE_COLORS['module-1'].colorLight, borderColor: finHasUpdate ? '#FF3B30' : MODULE_COLORS['module-1'].color }]} onPress={handleFinTap} activeOpacity={0.85}>
+          {finHasUpdate && <View style={s.floatingNotifDot} />}
+          <Animated.View style={{ transform: [{ scale: finPulse }] }}><Text style={{ fontSize: 24 }}>{FIN.emoji}</Text></Animated.View>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: insets.bottom + 16 }} showsVerticalScrollIndicator={false}>
-        {/* Centred date section */}
-        <View style={s.dtContainer}>
-          <Text style={s.dtYear}>YEAR {simYear}</Text>
-          <View style={s.dtMonthRow}>
-            <Text style={s.dtMonth}>{monthName}</Text>
+        {/* Full-bleed date header */}
+        <View style={s.dateHeader}>
+          <Text style={s.dateHeaderYear}>YEAR {simYear}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Text style={s.dateHeaderMonth}>{monthName}</Text>
             <TouchableOpacity
-              onPress={handleAdvanceMonth}
-              disabled={!unlocks.monthAdvance || advancing}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              style={[s.ffBtn, (!unlocks.monthAdvance || advancing || skipping) && { opacity: 0.35 }]}
+              onPress={() => {
+                if (!unlocks.monthAdvance) {
+                  setGateMessage("Open a bank account first \u2014 your salary needs somewhere to land.");
+                  setShowGateModal(true);
+                  return;
+                }
+                setShowFFPicker(true);
+              }}
+              disabled={advancing || skipping}
+              activeOpacity={0.85}
             >
-              <Text style={[s.dtAdvIconText, !unlocks.monthAdvance && s.dtAdvIconDisabled]}>{'\u23ED'}</Text>
+              {advancing || skipping
+                ? <ActivityIndicator size="small" color={Colors.textPrimary} />
+                : <Svg width={22} height={22} viewBox="0 0 24 24" fill={Colors.textPrimary}><Path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" /></Svg>
+              }
             </TouchableOpacity>
           </View>
-          {(() => { const ms = getMonthSummary(sim); return (
-            <View style={s.dtFinCard}>
-              <View style={s.finCardAvatar}><Text style={{ fontSize: 14 }}>{FIN.emoji}</Text></View>
-              <Text style={s.dtFinCardText}><Text style={s.dtFinCardLabel}>{ms.label}</Text>  {ms.body}</Text>
-            </View>
-          ); })()}
         </View>
 
         {/* Net Worth Card */}
         <View style={s.nwCard}>
+          {/* Top row: label + delta + history */}
           <View style={s.nwTopRow}>
             <Text style={s.nwLabel}>NET WORTH</Text>
-            {nwDelta !== 0 && <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Text style={[s.nwChange, { color: nwDelta > 0 ? MODULE_COLORS['module-3'].color : Colors.danger }]}>{nwDelta > 0 ? '\u2191' : '\u2193'}</Text><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={[s.nwChange, { color: nwDelta > 0 ? MODULE_COLORS['module-3'].color : Colors.danger }]}>{formatCoins(Math.abs(nwDelta))} this month</Text></View>}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              {nwDelta !== 0 && (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                  <Text style={[s.nwChange, {
+                    color: nwDelta > 0
+                      ? MODULE_COLORS['module-3'].color
+                      : Colors.danger
+                  }]}>
+                    {nwDelta > 0 ? '↑' : '↓'}
+                  </Text>
+                  <Image source={COIN_ASSET} style={{ width: 11, height: 11 }} />
+                  <Text style={[s.nwChange, {
+                    color: nwDelta > 0
+                      ? MODULE_COLORS['module-3'].color
+                      : Colors.danger
+                  }]}>
+                    {formatCoins(Math.abs(nwDelta))} this month
+                  </Text>
+                </View>
+              )}
+              <TouchableOpacity
+                onPress={() => handleChipPress('history')}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Text style={{ fontSize: 16 }}>📜</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-            <Image source={COIN_ASSET} style={{ width: 20, height: 20 }} />
+
+          {/* Hero number */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4, marginBottom: 16 }}>
+            <Image source={COIN_ASSET} style={{ width: 22, height: 22 }} />
             <Text style={s.nwHero}>{Math.round(netWorth).toLocaleString()}</Text>
           </View>
+
+          {/* Composition rows */}
+          {(() => {
+            const bankAndSavings = wallets
+              .filter(w => w.type !== 'investment')
+              .reduce((sum, w) => sum + (w.balance ?? 0), 0);
+            const investedTotal = wallets
+              .filter(w => w.type === 'investment')
+              .reduce((sum, w) => sum + (w.balance ?? 0), 0);
+            const total = netWorth || 1;
+            const bankPct = Math.round((bankAndSavings / total) * 100);
+            const investPct = Math.round((investedTotal / total) * 100);
+
+            const rows = [
+              {
+                label: 'Bank & savings',
+                amount: bankAndSavings,
+                pct: bankPct,
+                color: MODULE_COLORS['module-2'].color,
+                colorLight: MODULE_COLORS['module-2'].colorLight,
+                show: bankAndSavings > 0,
+              },
+              {
+                label: 'Invested',
+                amount: investedTotal,
+                pct: investPct,
+                color: MODULE_COLORS['module-4'].color,
+                colorLight: MODULE_COLORS['module-4'].colorLight,
+                show: completedStages.includes('stage-9'),
+              },
+            ];
+
+            const visibleRows = rows.filter(r => r.show);
+            if (visibleRows.length === 0) return null;
+
+            return (
+              <View style={s.nwCompositionRows}>
+                {visibleRows.map((row, i) => (
+                  <View key={i} style={s.nwCompositionRow}>
+                    {/* Label + amount */}
+                    <View style={s.nwCompositionLeft}>
+                      <View style={[s.nwCompositionDot, { backgroundColor: row.color }]} />
+                      <Text style={s.nwCompositionLabel}>{row.label}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginRight: 8 }}>
+                      <Image source={COIN_ASSET} style={{ width: 11, height: 11 }} />
+                      <Text style={s.nwCompositionAmt}>
+                        {Math.round(row.amount).toLocaleString()}
+                      </Text>
+                    </View>
+                    {/* Bar */}
+                    <View style={[s.nwCompositionBarTrack, { backgroundColor: row.colorLight }]}>
+                      <View style={[s.nwCompositionBarFill, {
+                        width: `${row.pct}%`,
+                        backgroundColor: row.color,
+                      }]} />
+                    </View>
+                    {/* Pct */}
+                    <Text style={[s.nwCompositionPct, { color: row.color }]}>
+                      {row.pct}%
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            );
+          })()}
+
+          {/* Divider */}
+          {ffn && <View style={[s.summaryDivider, { marginVertical: 12 }]} />}
+
+          {/* FI progress */}
           {ffn ? (
-            <View style={s.nwBarWrap}>
-              <View style={s.nwBarTrack}>
-                <View style={[s.nwBarFill, { width: `${Math.min(100, Math.round(fiPct * 100))}%`, backgroundColor: fiPct >= 1 ? MODULE_COLORS['module-3'].color : Colors.primary, zIndex: 1 }]} />
-                {[25, 50, 75].map(p => <View key={p} style={[s.nwMilestone, { left: `${p}%` }]} />)}
+            <View>
+              <View style={s.nwBarWrap}>
+                <View style={s.nwBarTrack}>
+                  <View style={[s.nwBarFill, {
+                    width: `${Math.min(100, Math.round(fiPct * 100))}%`,
+                    backgroundColor: fiPct >= 1
+                      ? MODULE_COLORS['module-3'].color
+                      : Colors.primary,
+                    zIndex: 1,
+                  }]} />
+                  {[25, 50, 75].map(p => (
+                    <View key={p} style={[s.nwMilestone, { left: `${p}%` }]} />
+                  ))}
+                </View>
+                <View style={s.nwBarFooter}>
+                  <Text style={s.nwBarLabel}>
+                    {Math.round(fiPct * 100)}% invested toward FI
+                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                    <Image source={COIN_ASSET} style={{ width: 11, height: 11 }} />
+                    <Text style={s.nwBarTarget}>
+                      {Math.round(invested).toLocaleString()} of {Math.round(ffn).toLocaleString()}
+                    </Text>
+                  </View>
+                </View>
               </View>
-              <View style={s.nwBarFooter}>
-                <Text style={s.nwBarLabel}>{Math.round(fiPct * 100)}% to FI</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 11, height: 11 }} /><Text style={s.nwBarTarget}>{Math.round(netWorth).toLocaleString()} of {Math.round(ffn).toLocaleString()}</Text></View>
-              </View>
+              {netWorth > invested * 2 && invested > 0 && (
+                <Text style={[s.nwNoFI, { marginTop: 6, fontStyle: 'italic' }]}>
+                  {formatCoins(Math.round(netWorth - invested))} sitting uninvested in accounts
+                </Text>
+              )}
             </View>
           ) : (
             <Text style={s.nwNoFI}>Complete Quest 1 to set your FI target</Text>
           )}
         </View>
 
-        {/* Nav pills */}
-        <View style={s.navRow}>
-          <TouchableOpacity style={s.navPill} onPress={() => { setShowBankModal(true); dismissBankNotif(); }}><Text style={{ fontSize: 16 }}>{'\uD83C\uDFE6'}</Text><Text style={s.navPillLabel}>Bank</Text>{bankNotif && <View style={s.notifDot} />}</TouchableOpacity>
-          <TouchableOpacity style={[s.navPill, !completedStages.includes('stage-9') && { opacity: 0.5 }]} onPress={() => { if (completedStages.includes('stage-9')) setShowPortfolioModal(true); }}><Text style={{ fontSize: 16 }}>{'\uD83D\uDCC8'}</Text><Text style={s.navPillLabel}>Portfolio</Text>{!completedStages.includes('stage-9') && <Text style={{ fontSize: 10 }}>{'\uD83D\uDD12'}</Text>}</TouchableOpacity>
-          <TouchableOpacity style={s.navPill} onPress={() => handleChipPress('history')}><Text style={{ fontSize: 16 }}>{'\uD83D\uDCDC'}</Text><Text style={s.navPillLabel}>History</Text></TouchableOpacity>
-        </View>
 
-        {/* Divider */}
-        <View style={s.divRow}><View style={s.divLine} /><Text style={s.divLabel}>YOUR JOURNEY</Text><View style={s.divLine} /></View>
-
-        {/* Empty state — no quests completed */}
-        {(!sim?.completedStages || sim.completedStages.length === 0) && (
-          <View style={s.esContainer}>
-            <Text style={s.esEmoji}>{'\uD83D\uDDFA\uFE0F'}</Text>
-            <Text style={s.esTitle}>Your journey starts here</Text>
-            <Text style={s.esBody}>Complete quests to unlock accounts, track your money, and build toward financial independence.</Text>
-            <View style={s.esHintRow}>
-              <View style={s.esHintCard}><Text style={s.esHintIcon}>{'\uD83C\uDFAF'}</Text><Text style={s.esHintText}>Main quests unlock the next chapter of your story</Text></View>
-              <View style={s.esHintCard}><Text style={s.esHintIcon}>{'\uD83C\uDFE6'}</Text><Text style={s.esHintText}>Accounts you open appear here as wallet cards</Text></View>
-            </View>
-            <View style={s.esHintRow}>
-              <View style={s.esHintCard}><Text style={s.esHintIcon}>{'\u25C0'}</Text><Text style={s.esHintText}>Side quests live in the drawer on the left edge</Text></View>
-              <View style={s.esHintCard}><Text style={s.esHintIcon}>{'\u203A'}</Text><Text style={s.esHintText}>Tap {'\u203A'} next to the month to advance time</Text></View>
-            </View>
-            <Text style={s.esCta}>Start with Quest 1 above {'\u2191'}</Text>
-          </View>
-        )}
-
-        {/* Quest Banner */}
+        {/* Quest card */}
         {sim && (() => {
           const cq = QUEST_MAP.find(q => !completedStages.includes(q.stageId));
           if (!cq) return null;
           return (
-            <TouchableOpacity activeOpacity={0.85} onPress={() => { const qid = STAGE_TO_QUEST[cq.stageId]; if (qid) setActiveQuest(qid); }} style={[s.qbBanner, { borderLeftColor: Colors.primary }]}>
-              <View style={[s.qbIcon, { backgroundColor: Colors.primaryLight }]}><Text style={{ fontSize: 16 }}>{QC_ICONS[cq.id] ?? '\uD83C\uDFAF'}</Text></View>
-              <View style={{ flex: 1 }}><Text style={s.qbEyebrow}>CURRENT QUEST</Text><Text style={s.qbName} numberOfLines={1}>{cq.name}</Text></View>
-              <View style={[s.qbCta, { backgroundColor: Colors.primaryLight }]}><Text style={[s.qbCtaText, { color: Colors.primary }]}>Start {'\u2192'}</Text></View>
-            </TouchableOpacity>
+            <Animated.View style={{ transform: [{ scale: questCardPulse }] }}>
+              <Pressable style={({ pressed }) => [s.questCard, pressed && { opacity: 0.92 }]} onPress={() => { const qid = STAGE_TO_QUEST[cq.stageId]; if (qid) tryOpenQuest(qid); }}>
+                <View style={s.questCardInner}>
+                  <View style={[s.questCardIcon, { backgroundColor: Colors.primaryLight }]}><Text style={{ fontSize: 20 }}>{QC_ICONS[cq.id] ?? '\uD83C\uDFAF'}</Text></View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={s.questCardMeta}>Quest {cq.id} {'\u00B7'} Chapter {cq.chapter}</Text>
+                    <Text style={s.questCardTitle} numberOfLines={1}>{cq.name}</Text>
+                    <Text style={s.questCardDesc} numberOfLines={2}>{QC_DESCS[cq.id] ?? ''}</Text>
+                  </View>
+                  <Text style={s.questCardChevron}>{'\u203A'}</Text>
+                </View>
+              </Pressable>
+            </Animated.View>
           );
         })()}
 
-        {/* Wallet grid */}
-        <View style={s.walletGrid}>
-          {(() => {
-            const wls = wallets.filter(w => w.type !== 'investment');
-            const inv = wallets.find(w => w.type === 'investment');
-            return <>
-              <View style={s.walletRow}>
-              {wls.map((w, wcIdx) => { const theme = WALLET_CYCLE[wcIdx % WALLET_CYCLE.length]; const isLone = wls.length === 1 || (wls.length % 2 === 1 && wcIdx === wls.length - 1); return (
-                    <TouchableOpacity key={w.id} style={[s.wcCard, isLone ? s.wcCardFull : s.wcCardHalf, { backgroundColor: theme.color }]} activeOpacity={0.85} onPress={() => { setShowBankModal(true); dismissBankNotif(); }}>
-                      <View style={s.wcIconCircle}><Text style={{ fontSize: 18 }}>{w.icon ?? '\uD83D\uDCB5'}</Text></View>
-                      <Text style={s.wcName} numberOfLines={1}>{w.label}</Text>
-                      {(w.type === 'savings-goal' || w.type === 'emergency') && <Text style={s.wcSubAccount}>Sub-account {'\u00B7'} {w.institution ?? 'Your Bank'}</Text>}
-                      {w.type === 'bank' && w.accountType && (
-                        <View style={[s.wcBadge, w.accountType === 'hysa' ? s.wcBadgeHYSA : s.wcBadgeBasic]}>
-                          <Text style={s.wcBadgeText}>{w.accountType === 'hysa' ? '\u26A1 HYSA' : '\uD83D\uDCCB Basic'}</Text>
-                        </View>
-                      )}
-                      <View style={s.wcBalRow}><Image source={COIN_ASSET} style={s.wcCoin} /><Text style={s.wcBal}>{Math.round(w.balance ?? 0).toLocaleString()}</Text></View>
-                      {w.type === 'cash' && (w.balance ?? 0) === 0 && <Text style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', fontFamily: Fonts.regular }}>All funds in bank</Text>}
-                      {w.type === 'bank' && (w.interestRate ?? 0) > 0.001 && <Text style={s.wcSub}>{(w.interestRate * 100).toFixed(2)}% p.a. interest</Text>}
-                      {w.type === 'bank' && (!w.interestRate || w.interestRate <= 0.001) && <Text style={s.wcSub}>0.05% p.a. {'\u00B7'} upgrade to HYSA for more</Text>}
-                      {w.type !== 'bank' && w.type !== 'savings-goal' && w.type !== 'emergency' && (w.interestRate ?? 0) > 0 && <Text style={s.wcSub}>{(w.interestRate * 100).toFixed(2)}% p.a.</Text>}
-                      {(w.type === 'savings-goal' || w.type === 'emergency') && (w.interestRate ?? 0) > 0 && (
-                        w.parentAccountType === 'hysa'
-                          ? <Text style={s.wcSub}>{(w.interestRate * 100).toFixed(2)}% p.a. {'\u26A1'} HYSA rate</Text>
-                          : <><Text style={s.wcSub}>{(w.interestRate * 100).toFixed(2)}% p.a.</Text><Text style={s.wcSubWarn}>Upgrade to HYSA for more</Text></>
-                      )}
-                      {w.type === 'savings-goal' && w.target > 0 && <><View style={s.wcGoalTrack}><View style={[s.wcGoalFill, { width: `${Math.min(100, Math.round(((w.balance ?? 0) / w.target) * 100))}%` }]} /></View><Text style={s.wcSub}>{Math.round(((w.balance ?? 0) / w.target) * 100)}% of target</Text></>}
-                      {w.type === 'emergency' && w.target > 0 && <><View style={s.wcGoalTrack}><View style={[s.wcGoalFill, { width: `${Math.min(100, Math.round(((w.balance ?? 0) / w.target) * 100))}%` }]} /></View><Text style={s.wcSub}>{Math.round(((w.balance ?? 0) / w.target) * 100)}% funded</Text></>}
-                    </TouchableOpacity>
-                  ); })}
-              </View>
-              {inv && <View style={{ marginTop: 10 }}><TouchableOpacity style={[s.wcCard, s.wcCardFull, { backgroundColor: MODULE_COLORS['module-4'].color }]} activeOpacity={0.85} onPress={() => setShowPortfolioModal(true)}>
-                <View style={s.wcIconCircle}><Text style={{ fontSize: 18 }}>{'\uD83D\uDCC8'}</Text></View>
-                <Text style={s.wcName}>{inv.label}</Text>
-                <View style={s.wcBalRow}><Image source={COIN_ASSET} style={s.wcCoin} /><Text style={s.wcBal}>{Math.round(inv.balance ?? 0).toLocaleString()}</Text></View>
-              </TouchableOpacity></View>}
-            </>;
-          })()}
-        </View>
-
-        {/* Budget card */}
-        {completedStages.includes('stage-4') && budget && (
-          <View style={s.budgetCard}>
-            <View style={s.budgetHeader}><Text style={s.budgetTitle}>THIS MONTH</Text><Text style={s.budgetMonth}>Month {simMonthRaw}</Text></View>
-            {[
-              { icon: '\uD83C\uDFE0', label: 'Needs', amt: budget.needsAmt ?? 0, status: 'Auto-deducted', color: MODULE_COLORS['module-2'].color },
-              { icon: '\uD83D\uDECD\uFE0F', label: 'Wants', amt: budget.wantsAmt ?? 0, status: `${formatCoins(budget.wantsAmt ?? 0)} available`, color: Colors.primary },
-              { icon: '\uD83D\uDCB0', label: 'Savings', amt: budget.savingsAmt ?? 0, status: 'Moves at month end', color: MODULE_COLORS['module-3'].color },
-            ].map((r, i) => (
-              <View key={i} style={s.budgetRow}>
-                <Text style={{ fontSize: 20, marginTop: 2 }}>{r.icon}</Text>
-                <View style={{ flex: 1 }}>
-                  <View style={s.budgetRowHead}><Text style={s.budgetRowLabel}>{r.label}</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[s.budgetRowAmt, { color: r.color }]}>{formatCoins(r.amt)}</Text></View></View>
-                  <View style={s.budgetTrackB}><View style={[s.budgetFillB, { width: '100%', backgroundColor: r.color }]} /></View>
-                  <Text style={s.budgetRowStatus}>{r.status}</Text>
-                </View>
-              </View>
-            ))}
-          </View>
+        {/* ACCOUNTS section */}
+        {wallets.filter(w => w.type !== 'investment').length > 0 && (
+          <>
+            <SectionDivider label="YOUR ACCOUNTS" />
+            <AccountsBento wallets={wallets} sim={sim} onPress={() => { setBankInitialTab('Accounts'); setShowBankModal(true); dismissBankNotif(); }} />
+          </>
         )}
-      </ScrollView>
 
-      {/* Swimming Fin */}
-      <Animated.View style={[{ position: 'absolute', zIndex: 50, opacity: finVisible ? 1 : 0 }, { transform: [{ translateX: finX }, { translateY: finY }, { scaleX: finFlip }] }]} pointerEvents={finVisible ? 'box-none' : 'none'}>
-        <TouchableOpacity onPress={handleFinTap} activeOpacity={0.8} hitSlop={{ top: 16, bottom: 16, left: 16, right: 16 }}>
-          {finHasUpdate && <Animated.View style={[s.finAlertRing, { opacity: finPulse.interpolate({ inputRange: [1, 1.25], outputRange: [0.8, 0.3] }) }]} />}
-          <View style={[s.finBody, s.finBodyTappable, finHasUpdate && s.finBodyAlert]}>
-            <Text style={{ fontSize: 28 }}>{FIN.emoji}</Text>
-          </View>
-        </TouchableOpacity>
-      </Animated.View>
+        {/* Monthly snapshot */}
+        <MonthlySnapshotCard sim={sim} />
+
+        {/* PORTFOLIO section — only if unlocked */}
+        {wallets.some(w => w.type === 'investment') && completedStages.includes('stage-9') ? (
+          <>
+            <SectionDivider label="YOUR PORTFOLIO" />
+            <PortfolioBento wallets={wallets} sim={sim} onPress={() => setShowPortfolioModal(true)} />
+          </>
+        ) : null}
+      </ScrollView>
 
       {/* Drawer tab */}
       <TouchableOpacity style={s.drawerTab} activeOpacity={0.85} onPress={() => drawerOpen ? closeDrawer() : openDrawer()}><Text style={s.drawerTabIcon}>{drawerOpen ? '\u203A' : '\u2039'}</Text></TouchableOpacity>
@@ -742,7 +1387,7 @@ export default function SimulateScreen() {
                       <TouchableOpacity
                         key={quest.id}
                         style={[s.dwQuestCard, isComplete && s.dwQuestCardComplete, isActiveQuest && { borderLeftColor: Colors.primary }]}
-                        onPress={() => { if (!isComplete) { const qid = STAGE_TO_QUEST[quest.stageId]; if (qid) { closeDrawer(); setTimeout(() => setActiveQuest(qid), 300); } } }}
+                        onPress={() => { if (!isComplete) { const qid = STAGE_TO_QUEST[quest.stageId]; if (qid) { closeDrawer(); setTimeout(() => tryOpenQuest(qid), 300); } } }}
                         disabled={isComplete}
                         activeOpacity={0.82}
                       >
@@ -816,7 +1461,47 @@ export default function SimulateScreen() {
             <Animated.View style={[s.finOverlayCard, { transform: [{ translateY: finSlideAnim }], paddingBottom: insets.bottom + 16 }]}>
               <View style={s.finOverlayTopRow}><View style={s.finOverlayCircle}><Text style={{ fontSize: 22 }}>{FIN.emoji}</Text></View><Text style={s.finOverlayName}>Fin</Text><Text style={s.finOverlayMonth}>{getMonthLabel(simMonthRaw)}</Text></View>
               <Text style={s.finOverlayMsg}>{getFinNarrative(sim)}</Text>
-              {nextQuestId ? <TouchableOpacity style={s.finOverlayBtn} activeOpacity={0.88} onPress={() => { handleFinModalClose(); setTimeout(() => setActiveQuest(nextQuestId), 300); }}><Text style={s.finOverlayBtnText}>Next step {'\u2192'}</Text></TouchableOpacity> : <Text style={s.finOverlayCaughtUp}>You're all caught up.</Text>}
+              {/* Job offer available — special CTA */}
+              {completedStages.includes('stage-2') && !completedStages.includes('stage-3') && !sim?.income ? (
+                <TouchableOpacity
+                  style={s.finOverlayBtn}
+                  activeOpacity={0.88}
+                  onPress={() => {
+                    handleFinModalClose();
+                    setTimeout(() => {
+                      setShowJobOffer(true);
+                      setJobOfferStep(1);
+                      setSelectedSalary(null);
+                      setCustomSalaryText('');
+                      setCustomSalaryError('');
+                    }, 300);
+                  }}
+                >
+                  <Text style={s.finOverlayBtnText}>See the job offer {'\u2192'}</Text>
+                </TouchableOpacity>
+              ) : nextQuestId ? (
+                <>
+                  {/* Fast forward CTA — after emergency fund, before compounding */}
+                  {completedStages.includes('stage-6') && !completedStages.includes('stage-7') && (
+                    <TouchableOpacity
+                      style={s.finOverlayBtnSecondary}
+                      activeOpacity={0.85}
+                      onPress={() => { handleFinModalClose(); setTimeout(() => doSkip(6), 300); }}
+                    >
+                      <Text style={s.finOverlayBtnSecondaryText}>{'\u23E9'} Fast forward 6 months</Text>
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity
+                    style={s.finOverlayBtn}
+                    activeOpacity={0.88}
+                    onPress={() => { handleFinModalClose(); setTimeout(() => tryOpenQuest(nextQuestId), 300); }}
+                  >
+                    <Text style={s.finOverlayBtnText}>Next step {'\u2192'}</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <Text style={s.finOverlayCaughtUp}>You're all caught up.</Text>
+              )}
               <TouchableOpacity onPress={handleFinModalClose} activeOpacity={0.7} style={s.finOverlayDismiss}><Text style={s.finOverlayDismissText}>Explore dashboard</Text></TouchableOpacity>
             </Animated.View>
           </View>
@@ -850,7 +1535,39 @@ export default function SimulateScreen() {
       {/* Bank & Portfolio full-screen modals */}
       <BankModal
         visible={showBankModal}
-        onClose={() => setShowBankModal(false)}
+        initialTab={bankInitialTab}
+        onClose={() => {
+          setShowBankModal(false);
+          setBankInitialTab('Accounts');
+          setTimeout(async () => {
+            const fresh = await loadSimProgress(uid);
+            if (fresh) setSim(fresh);
+            const sgDone = await AsyncStorage.getItem('savings_flow_done');
+            const efDone = await AsyncStorage.getItem('ef_flow_done');
+            const sgWallet = (fresh?.wallets ?? []).find(w => w.type === 'savings-goal');
+            const efWallet = (fresh?.wallets ?? []).find(w => w.type === 'emergency');
+
+            if (!sgDone && showSavingsGoalFlow === null && (fresh?.completedStages ?? []).includes('stage-5') && !(fresh?.completedStages ?? []).includes('stage-6')) {
+              const hasAuto = (sgWallet?.monthlyContribution ?? 0) > 0;
+              const hasBalance = (sgWallet?.balance ?? 0) > 0;
+              if (hasAuto) {
+                setShowSavingsGoalFlow('fastforward');
+              } else if (hasBalance) {
+                setShowSavingsGoalFlow('automate');
+              }
+            }
+
+            if (!efDone && showEFFlow === null && (fresh?.completedStages ?? []).includes('stage-6')) {
+              const hasAuto = (efWallet?.monthlyContribution ?? 0) > 0;
+              const hasBalance = (efWallet?.balance ?? 0) > 0;
+              if (hasAuto) {
+                setShowEFFlow('fastforward');
+              } else if (hasBalance) {
+                setShowEFFlow('automate');
+              }
+            }
+          }, 400);
+        }}
         sim={sim}
         onSimUpdate={refreshAll}
       />
@@ -881,8 +1598,8 @@ export default function SimulateScreen() {
                   if (sgWallet && completedStages.includes('stage-5') && sgWallet.balance < sgWallet.target) lines.push({ icon: '\uD83C\uDFAF', label: `Savings goal contribution`, amt: `-${(sgWallet.monthlyContribution ?? 0).toLocaleString()}`, color: MODULE_COLORS['module-3'].color });
                   const efWallet2 = wallets.find(w => w.type === 'emergency');
                   if (efWallet2 && completedStages.includes('stage-6') && efWallet2.balance < efWallet2.target) lines.push({ icon: '\uD83D\uDEE1\uFE0F', label: 'Emergency fund contribution', amt: `-${(sim?.stage6Data?.monthlyContribution ?? 0).toLocaleString()}`, color: '#F5883A' });
-                  const invWallet = wallets.find(w => w.type === 'investment');
-                  if (invWallet && completedStages.includes('stage-9')) lines.push({ icon: '\uD83D\uDCC8', label: 'DCA investment', amt: `-${(sim?.monthlyDCA ?? 0).toLocaleString()}`, color: MODULE_COLORS['module-4'].color });
+                  const totalDCA = wallets.filter(w => w.type === 'investment').reduce((s, w) => s + (w.monthlyDCA ?? 0), 0) || (sim?.monthlyDCA ?? 0);
+                  if (totalDCA > 0 && completedStages.includes('stage-9')) lines.push({ icon: '\uD83D\uDCC8', label: 'DCA investment', amt: `-${totalDCA.toLocaleString()}`, color: MODULE_COLORS['module-4'].color });
                   if (lines.length === 0) return <Text style={s.advConfirmEmpty}>{'\uD83D\uDCC5'} Time passes. Keep building.</Text>;
                   return lines.map((l, i) => (
                     <View key={i} style={s.summaryLineRow}>
@@ -927,6 +1644,34 @@ export default function SimulateScreen() {
               <Text style={s.gateBody}>{gateMessage}</Text>
               <TouchableOpacity style={s.gateCta} onPress={() => setShowGateModal(false)} activeOpacity={0.88}>
                 <Text style={s.gateCtaText}>Got it</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Job offer gate */}
+      {showJobOfferGate && (
+        <Modal transparent animationType="fade" statusBarTranslucent onRequestClose={() => setShowJobOfferGate(false)}>
+          <View style={s.gateBackdrop}>
+            <View style={s.gateCard}>
+              <Text style={{ fontSize: 36, textAlign: 'center', marginBottom: 8 }}>{'\uD83D\uDCBC'}</Text>
+              <Text style={s.gateTitle}>You need a job first</Text>
+              <Text style={s.gateBody}>Before your first paycheck can land, you need to accept a job offer from Luminary. Fin has one waiting for you.</Text>
+              <TouchableOpacity style={s.gateCta} onPress={() => {
+                setShowJobOfferGate(false);
+                setTimeout(() => {
+                  setShowJobOffer(true);
+                  setJobOfferStep(1);
+                  setSelectedSalary(null);
+                  setCustomSalaryText('');
+                  setCustomSalaryError('');
+                }, 300);
+              }} activeOpacity={0.88}>
+                <Text style={s.gateCtaText}>See the job offer {'\u2192'}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowJobOfferGate(false)} activeOpacity={0.7} style={{ marginTop: 12 }}>
+                <Text style={{ fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, textAlign: 'center' }}>Not now</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -985,9 +1730,9 @@ export default function SimulateScreen() {
       {/* Job Offer Modal */}
       {showJobOffer && (
         <Modal visible transparent={false} animationType="fade" statusBarTranslucent>
-          <View style={[s.jobOfferScreen, { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 }]}>
+          <View style={s.jobOfferScreen}>
             <SimConfetti />
-            <ScrollView contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 24, paddingBottom: 24 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
+            <ScrollView contentContainerStyle={{ alignItems: 'center', paddingHorizontal: 24, paddingBottom: 24, paddingTop: insets.top + 32 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
               {jobOfferStep === 1 ? (
                 <>
                   <Text style={{ fontSize: 64, marginBottom: 8 }}>{'\uD83C\uDF89'}</Text>
@@ -1013,6 +1758,43 @@ export default function SimulateScreen() {
                         {selectedSalary === opt.id && <Text style={{ fontSize: 18, color: Colors.primary }}>{'\u2713'}</Text>}
                       </TouchableOpacity>
                     ))}
+                    {/* Custom salary option */}
+                    <TouchableOpacity
+                      style={[s.salaryOption, selectedSalary === 'custom' && s.salaryOptionSelected]}
+                      onPress={() => setSelectedSalary('custom')}
+                      activeOpacity={0.85}
+                    >
+                      <Text style={{ fontSize: 20 }}>{'\u270F\uFE0F'}</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={s.salaryOptTitle}>Enter my own</Text>
+                        <Text style={s.salaryOptDesc}>Simulate your real expected salary</Text>
+                        {selectedSalary === 'custom' && (
+                          <View style={s.customSalaryInputWrap}>
+                            <Image source={COIN_ASSET} style={{ width: 14, height: 14 }} />
+                            <TextInput
+                              style={s.customSalaryInput}
+                              value={customSalaryText}
+                              onChangeText={text => {
+                                setCustomSalaryText(text.replace(/[^0-9]/g, ''));
+                                setCustomSalaryError('');
+                              }}
+                              placeholder="e.g. 4800"
+                              placeholderTextColor={Colors.textMuted}
+                              keyboardType="numeric"
+                              maxLength={6}
+                              autoFocus
+                            />
+                            <Text style={s.customSalaryUnit}>/month</Text>
+                          </View>
+                        )}
+                        {customSalaryError ? (
+                          <Text style={s.customSalaryError}>{customSalaryError}</Text>
+                        ) : null}
+                      </View>
+                      {selectedSalary === 'custom' && customSalaryText.length > 0 && (
+                        <Text style={{ fontSize: 18, color: Colors.primary }}>{'\u2713'}</Text>
+                      )}
+                    </TouchableOpacity>
                   </View>
                 </>
               ) : (
@@ -1022,7 +1804,7 @@ export default function SimulateScreen() {
                   <Text style={s.jobSubtitle}>Experience Architect at Luminary</Text>
                   <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4, marginVertical: 16 }}>
                     <Image source={COIN_ASSET} style={{ width: 24, height: 24 }} />
-                    <Text style={s.jobSalaryHero}>{selectedSalary?.toLocaleString()}</Text>
+                    <Text style={s.jobSalaryHero}>{typeof selectedSalary === 'number' ? selectedSalary.toLocaleString() : selectedSalary}</Text>
                     <Text style={s.jobSalaryUnit}>/month</Text>
                   </View>
                   <View style={s.jobDetailCard}>
@@ -1034,9 +1816,23 @@ export default function SimulateScreen() {
                 </>
               )}
             </ScrollView>
-            <View style={{ paddingHorizontal: 24 }}>
+            <View style={{ paddingHorizontal: 24, paddingBottom: insets.bottom + 16 }}>
               {jobOfferStep === 1 ? (
-                <TouchableOpacity style={[s.jobCta, !selectedSalary && { opacity: 0.5 }]} disabled={!selectedSalary} onPress={() => setJobOfferStep(2)} activeOpacity={0.88}>
+                <TouchableOpacity style={[s.jobCta, !selectedSalary && { opacity: 0.5 }]} disabled={!selectedSalary} onPress={() => {
+                  if (selectedSalary === 'custom') {
+                    const val = parseInt(customSalaryText, 10);
+                    if (!val || val < 500) {
+                      setCustomSalaryError('Please enter a salary of at least 500');
+                      return;
+                    }
+                    if (val > 100000) {
+                      setCustomSalaryError('Maximum salary is 100,000');
+                      return;
+                    }
+                    setSelectedSalary(val);
+                  }
+                  setJobOfferStep(2);
+                }} activeOpacity={0.88}>
                   <Text style={s.jobCtaText}>{"Accept offer \u2192"}</Text>
                 </TouchableOpacity>
               ) : (
@@ -1045,6 +1841,8 @@ export default function SimulateScreen() {
                   setShowJobOffer(false);
                   setJobOfferStep(1);
                   setSelectedSalary(null);
+                  setCustomSalaryText('');
+                  setCustomSalaryError('');
                   await loadSim();
                   setFinHasUpdate(true);
                 }} activeOpacity={0.88}>
@@ -1057,13 +1855,13 @@ export default function SimulateScreen() {
       )}
 
       {/* Reset confirm */}
-      <Modal visible={showResetConfirm} transparent animationType="fade"><View style={s.alertBg}><View style={s.alertCard}><Text style={s.alertEmoji}>{'\u26A0\uFE0F'}</Text><Text style={s.alertTitle}>Reset FinCity?</Text><Text style={s.alertBody}>This will wipe all your simulation progress and start fresh. Your FinCoins will reset to {'\uD83E\uDE99'}1,980. Your learning progress is not affected.</Text><View style={s.alertBtns}><TouchableOpacity style={s.alertCancel} onPress={() => setShowResetConfirm(false)}><Text style={s.alertCancelText}>Cancel</Text></TouchableOpacity><TouchableOpacity style={s.alertConfirm} onPress={doReset}><Text style={s.alertConfirmText}>Reset</Text></TouchableOpacity></View></View></View></Modal>
+      <Modal visible={showResetConfirm} transparent animationType="fade"><View style={s.alertBg}><View style={s.alertCard}><Text style={s.alertEmoji}>{'\u26A0\uFE0F'}</Text><Text style={s.alertTitle}>Reset FinCity?</Text><Text style={s.alertBody}>This will wipe all your simulation progress and start fresh. Your FinCoins will reset to {'\uD83E\uDE99'}1,980. Your learning progress is not affected.</Text><View style={s.alertBtns}><TouchableOpacity style={s.alertCancel} onPress={() => setShowResetConfirm(false)}><Text style={s.alertCancelText}>Cancel</Text></TouchableOpacity><TouchableOpacity style={s.alertConfirm} onPress={doReset}><Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Reset</Text></TouchableOpacity></View></View></View></Modal>
 
       {/* Advance error */}
-      <Modal visible={showAdvError} transparent animationType="fade"><View style={s.alertBg}><View style={s.alertCard}><Text style={s.alertEmoji}>{'\uD83D\uDE2C'}</Text><Text style={s.alertTitle}>Something went wrong</Text><Text style={s.alertBody}>Could not advance the month. Please try again.</Text><View style={s.alertBtns}><TouchableOpacity style={s.alertConfirm} onPress={() => setShowAdvError(false)}><Text style={s.alertConfirmText}>OK</Text></TouchableOpacity></View></View></View></Modal>
+      <Modal visible={showAdvError} transparent animationType="fade"><View style={s.alertBg}><View style={s.alertCard}><Text style={s.alertEmoji}>{'\uD83D\uDE2C'}</Text><Text style={s.alertTitle}>Something went wrong</Text><Text style={s.alertBody}>Could not advance the month. Please try again.</Text><View style={s.alertBtns}><TouchableOpacity style={s.alertConfirm} onPress={() => setShowAdvError(false)}><Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>OK</Text></TouchableOpacity></View></View></View></Modal>
 
       {/* Coming soon */}
-      <Modal visible={showComingSoon} transparent animationType="fade"><View style={s.alertBg}><View style={s.alertCard}><Text style={s.alertEmoji}>{'\uD83D\uDD1C'}</Text><Text style={s.alertTitle}>{comingSoonName || 'Coming soon'}</Text><Text style={s.alertBody}>{comingSoonName === 'New Savings Goal' ? 'Savings goal accounts are coming to the bank in the next update. For now, your Quest 5 savings goal is your primary savings bucket.' : 'This side quest is coming soon. Keep completing main quests to unlock more of FinCity.'}</Text><View style={s.alertBtns}><TouchableOpacity style={s.alertConfirm} onPress={() => setShowComingSoon(false)}><Text style={s.alertConfirmText}>Got it</Text></TouchableOpacity></View></View></View></Modal>
+      <Modal visible={showComingSoon} transparent animationType="fade"><View style={s.alertBg}><View style={s.alertCard}><Text style={s.alertEmoji}>{'\uD83D\uDD1C'}</Text><Text style={s.alertTitle}>{comingSoonName || 'Coming soon'}</Text><Text style={s.alertBody}>{comingSoonName === 'New Savings Goal' ? 'Savings goal accounts are coming to the bank in the next update. For now, your Quest 5 savings goal is your primary savings bucket.' : 'This side quest is coming soon. Keep completing main quests to unlock more of FinCity.'}</Text><View style={s.alertBtns}><TouchableOpacity style={s.alertConfirm} onPress={() => setShowComingSoon(false)}><Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Got it</Text></TouchableOpacity></View></View></View></Modal>
 
       {/* Goal complete modal */}
       <Modal visible={showGoalComplete} transparent={false} animationType="fade" statusBarTranslucent>
@@ -1094,7 +1892,7 @@ export default function SimulateScreen() {
             </View>
             <View style={s.goalNextCard}>
               <Text style={s.goalNextTitle}>What happens to your money?</Text>
-              <Text style={s.goalNextBody}>Your savings goal account is closed and <Text style={{ fontFamily: Fonts.bold, color: Colors.textPrimary }}>FC {Math.round(currentGoal?.target ?? 0).toLocaleString()}</Text> moves back to your bank account automatically.</Text>
+              <Text style={s.goalNextBody}>Your savings goal account is closed and <Text style={{ fontFamily: Fonts.bold, color: Colors.textPrimary }}>{Math.round(currentGoal?.target ?? 0).toLocaleString()}</Text> moves back to your bank account automatically.</Text>
             </View>
           </ScrollView>
           <View style={s.goalBtns}>
@@ -1119,77 +1917,618 @@ export default function SimulateScreen() {
         </View>
       </Modal>
 
+      {/* Fast forward picker */}
+      {showFFPicker && (
+        <Modal visible transparent animationType="fade" statusBarTranslucent>
+          <View style={s.alertBg}>
+            <View style={[s.alertCard, { paddingBottom: 28 }]}>
+              <Text style={ff.modalIconText}>▶▶</Text>
+              <Text style={s.alertTitle}>Fast forward</Text>
+              <Text style={[s.alertBody, { marginBottom: 24 }]}>Choose how far ahead to jump. Salary, interest, and contributions apply automatically each month.</Text>
+
+              {/* Month display */}
+              <View style={ff.monthDisplay}>
+                <Text style={ff.monthCount}>
+                  {ffMonths >= 12 ? ffMonths / 12 : ffMonths}
+                </Text>
+                <Text style={ff.monthUnit}>
+                  {ffMonths >= 12
+                    ? (ffMonths / 12 === 1 ? 'year' : 'years')
+                    : (ffMonths === 1 ? 'month' : 'months')}
+                </Text>
+              </View>
+
+              {/* Human readable label */}
+              <Text style={ff.monthLabel}>
+                {ffMonths === 1
+                  ? '→ Next month'
+                  : ffMonths < 12
+                    ? `→ ${ffMonths} months ahead`
+                    : ffMonths === 12
+                      ? '→ 1 year ahead'
+                      : `→ ${ffMonths / 12} years ahead`}
+              </Text>
+
+              {/* Step slider */}
+              <View style={ff.sliderWrap}>
+                {(() => {
+                  const steps = [1, 3, 6, 12, 36, 60, 120];
+                  const currentIdx = steps.indexOf(ffMonths) >= 0 ? steps.indexOf(ffMonths) : 0;
+                  return (
+                    <>
+                      <View style={ff.track}>
+                        <View style={[ff.trackFill, { width: `${(currentIdx / (steps.length - 1)) * 100}%` }]} />
+                      </View>
+                      <View style={ff.stepsRow}>
+                        {steps.map((step) => (
+                          <TouchableOpacity
+                            key={step}
+                            style={[ff.stepDot, ffMonths === step && ff.stepDotActive]}
+                            onPress={() => setFfMonths(step)}
+                            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
+                          >
+                            <View style={[ff.stepInner, ffMonths === step && ff.stepInnerActive]} />
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                      <View style={ff.labelsRow}>
+                        {steps.map(step => (
+                          <TouchableOpacity key={step} onPress={() => setFfMonths(step)} hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}>
+                            <Text style={[ff.stepLabel, ffMonths === step && ff.stepLabelActive]}>
+                              {step >= 12 ? `${step / 12}y` : `${step}m`}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    </>
+                  );
+                })()}
+              </View>
+
+              {/* Action buttons */}
+              <View style={s.alertBtns}>
+                <TouchableOpacity
+                  style={s.alertCancel}
+                  onPress={() => { setShowFFPicker(false); setFfMonths(1); }}
+                  activeOpacity={0.85}
+                >
+                  <Text style={s.alertCancelText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={s.alertConfirm}
+                  onPress={async () => {
+                    setShowFFPicker(false);
+                    if (ffMonths === 1) {
+                      handleAdvanceMonth();
+                    } else {
+                      await doSkip(ffMonths);
+                    }
+                    setFfMonths(1);
+                  }}
+                  activeOpacity={0.88}
+                >
+                  <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>
+                    {ffMonths === 1
+                      ? 'Advance month →'
+                      : ffMonths < 12
+                        ? `Skip ${ffMonths} months →`
+                        : ffMonths === 12
+                          ? 'Skip 1 year →'
+                          : `Skip ${ffMonths / 12} years →`}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Skipping overlay */}
+      {skipping && (
+        <Modal transparent animationType="fade" statusBarTranslucent>
+          <View style={[s.alertBg, { backgroundColor: 'rgba(0,0,0,0.75)' }]}>
+            <View style={[s.alertCard, { gap: 16, paddingVertical: 32 }]}>
+              <Animated.Text style={{ fontSize: 48, transform: [{ scale: skipAnimValue.interpolate({ inputRange: [0, 0.5, 1], outputRange: [1, 1.3, 1] }) }] }}>{'\u23E9'}</Animated.Text>
+              <Text style={[s.alertTitle, { marginBottom: 0 }]}>Fast forwarding</Text>
+              <Text style={{ fontFamily: Fonts.extraBold, fontSize: 22, color: Colors.primary }}>{MONTH_NAMES[(simMonthRaw - 1) % 12]}</Text>
+              <View style={{ width: '100%', height: 6, backgroundColor: Colors.border, borderRadius: 3, overflow: 'hidden' }}>
+                <Animated.View style={{ height: 6, backgroundColor: Colors.primary, borderRadius: 3, width: skipAnimValue.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }} />
+              </View>
+              <Text style={[s.alertBody, { marginBottom: 0, fontStyle: 'italic' }]}>Applying salary, interest, and contributions...</Text>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Skip summary */}
+      {showSkipSummary && skipSummary && (
+        <Modal visible transparent animationType="fade" statusBarTranslucent>
+          <View style={s.alertBg}>
+            <View style={[s.alertCard, { paddingBottom: 28 }]}>
+              <Text style={{ fontSize: 36, marginBottom: 4 }}>{'\u2705'}</Text>
+              <Text style={s.alertTitle}>{skipSummary.stoppedEarly ? `Skipped to Month ${skipSummary.stoppedAt}` : `${skipSummary.months} months later`}</Text>
+              {skipSummary.stoppedEarly && <Text style={[s.alertBody, { color: Colors.primary, marginBottom: 8 }]}>Stopped early {'\u2014'} bank gate reached</Text>}
+              <ScrollView style={{ width: '100%', maxHeight: SH * 0.45 }} showsVerticalScrollIndicator={false}>
+                {(skipSummary.totalSalary > 0) && <View style={s.skipSummaryRow}><View style={s.skipSummaryRowLeft}><Text style={s.skipSummaryIcon}>{'\uD83D\uDCB0'}</Text><View><Text style={s.skipSummaryLabel}>Salary</Text><Text style={s.skipSummaryBreakdown}>{Math.round(skipSummary.totalSalary / skipSummary.months).toLocaleString()} {'\u00D7'} {skipSummary.months} months</Text></View></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[s.skipSummaryAmt, { color: MODULE_COLORS['module-3'].color }]}>+{Math.round(skipSummary.totalSalary).toLocaleString()}</Text></View></View>}
+                {(skipSummary.totalNeeds > 0) && <View style={s.skipSummaryRow}><View style={s.skipSummaryRowLeft}><Text style={s.skipSummaryIcon}>{'\uD83C\uDFE0'}</Text><View><Text style={s.skipSummaryLabel}>Needs</Text><Text style={s.skipSummaryBreakdown}>{Math.round(skipSummary.totalNeeds / skipSummary.months).toLocaleString()} {'\u00D7'} {skipSummary.months} months</Text></View></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[s.skipSummaryAmt, { color: Colors.textSecondary }]}>-{Math.round(skipSummary.totalNeeds).toLocaleString()}</Text></View></View>}
+                {(skipSummary.totalInterest > 0) && <View style={s.skipSummaryRow}><View style={s.skipSummaryRowLeft}><Text style={s.skipSummaryIcon}>{'\uD83D\uDCC8'}</Text><View><Text style={s.skipSummaryLabel}>Interest earned</Text><Text style={s.skipSummaryBreakdown}>Across all accounts {'\u00B7'} {skipSummary.months} months</Text></View></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[s.skipSummaryAmt, { color: MODULE_COLORS['module-3'].color }]}>+{Math.round(skipSummary.totalInterest).toLocaleString()}</Text></View></View>}
+                {(skipSummary.totalDCA > 0) && <View style={s.skipSummaryRow}><View style={s.skipSummaryRowLeft}><Text style={s.skipSummaryIcon}>{'\uD83D\uDCCA'}</Text><View><Text style={s.skipSummaryLabel}>DCA invested</Text><Text style={s.skipSummaryBreakdown}>{Math.round(skipSummary.totalDCA / skipSummary.months).toLocaleString()} {'\u00D7'} {skipSummary.months} months</Text></View></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[s.skipSummaryAmt, { color: MODULE_COLORS['module-4'].color }]}>-{Math.round(skipSummary.totalDCA).toLocaleString()}</Text></View></View>}
+                {(skipSummary.totalReturns > 0) && <View style={s.skipSummaryRow}><View style={s.skipSummaryRowLeft}><Text style={s.skipSummaryIcon}>{'\uD83D\uDCB9'}</Text><View><Text style={s.skipSummaryLabel}>Investment returns</Text><Text style={s.skipSummaryBreakdown}>Portfolio growth {'\u00B7'} {skipSummary.months} months</Text></View></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 12, height: 12 }} /><Text style={[s.skipSummaryAmt, { color: MODULE_COLORS['module-3'].color }]}>+{Math.round(skipSummary.totalReturns).toLocaleString()}</Text></View></View>}
+                <View style={s.summaryDivider} />
+                <View style={[s.skipSummaryRow, { borderBottomWidth: 0 }]}><View style={s.skipSummaryRowLeft}><Text style={s.skipSummaryIcon}>{'\uD83D\uDC8E'}</Text><Text style={[s.skipSummaryLabel, { fontFamily: Fonts.bold }]}>Net change</Text></View><View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}><Image source={COIN_ASSET} style={{ width: 14, height: 14 }} />{(() => { const net = Math.round((skipSummary.totalSalary ?? 0) + (skipSummary.totalInterest ?? 0) + (skipSummary.totalReturns ?? 0) - (skipSummary.totalNeeds ?? 0)); return <Text style={[s.skipSummaryAmt, { fontFamily: Fonts.extraBold, fontSize: 16, color: net >= 0 ? MODULE_COLORS['module-3'].color : '#FF4444' }]}>{net >= 0 ? '+' : ''}{net.toLocaleString()}</Text>; })()}</View></View>
+
+                {/* Milestones + wallet states */}
+                {(skipSummary.finalEFPct != null || skipSummary.finalSGPct != null) && (
+                  <>
+                    <View style={[s.summaryDivider, { marginVertical: 12 }]} />
+                    <Text style={{ alignSelf: 'flex-start', fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 1.2, color: Colors.textMuted, marginBottom: 8, textTransform: 'uppercase' }}>WHAT HAPPENED</Text>
+
+                    {skipSummary.finalEFPct != null && (
+                      <View style={s.skipMilestoneRow}>
+                        <Text style={s.skipMilestoneIcon}>{'\uD83D\uDEE1\uFE0F'}</Text>
+                        <View style={{ flex: 1 }}>
+                          <Text style={s.skipMilestoneLabel}>Emergency Fund{skipSummary.finalEFPct >= 100 ? ' \u2014 Fully funded! \uD83C\uDF89' : ` \u2014 ${skipSummary.finalEFPct}% funded`}</Text>
+                          <View style={s.skipMilestoneBar}><View style={[s.skipMilestoneBarFill, { width: `${Math.min(skipSummary.finalEFPct, 100)}%`, backgroundColor: skipSummary.finalEFPct >= 100 ? MODULE_COLORS['module-3'].color : Colors.primary }]} /></View>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 }}><Image source={COIN_ASSET} style={{ width: 10, height: 10 }} /><Text style={s.skipMilestoneSub}>{(skipSummary.finalEFBalance ?? 0).toLocaleString()} of {(skipSummary.finalEFTarget ?? 0).toLocaleString()}</Text></View>
+                        </View>
+                      </View>
+                    )}
+
+                    {skipSummary.finalSGPct != null && (
+                      <View style={s.skipMilestoneRow}>
+                        <Text style={s.skipMilestoneIcon}>{'\uD83C\uDFAF'}</Text>
+                        <View style={{ flex: 1 }}>
+                          <Text style={s.skipMilestoneLabel}>{skipSummary.finalSGLabel ?? 'Savings Goal'}{skipSummary.finalSGPct >= 100 ? ' \u2014 Goal reached! \uD83C\uDF89' : ` \u2014 ${skipSummary.finalSGPct}% complete`}</Text>
+                          <View style={s.skipMilestoneBar}><View style={[s.skipMilestoneBarFill, { width: `${Math.min(skipSummary.finalSGPct, 100)}%`, backgroundColor: skipSummary.finalSGPct >= 100 ? MODULE_COLORS['module-3'].color : MODULE_COLORS['module-2'].color }]} /></View>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 2 }}><Image source={COIN_ASSET} style={{ width: 10, height: 10 }} /><Text style={s.skipMilestoneSub}>{(skipSummary.finalSGBalance ?? 0).toLocaleString()} of {(skipSummary.finalSGTarget ?? 0).toLocaleString()}</Text></View>
+                        </View>
+                      </View>
+                    )}
+                  </>
+                )}
+              </ScrollView>
+              <TouchableOpacity style={s.skipSummaryCta} onPress={() => { setShowSkipSummary(false); setSkipSummary(null); if (completedGoalQueue.length > 0) { const [next, ...rest] = completedGoalQueue; setCurrentGoal(next); setCompletedGoalQueue(rest); setGoalCompleteConfetti(true); setShowGoalComplete(true); } }} activeOpacity={0.88}><Text style={s.skipSummaryCtaText}>Continue {'\u2192'}</Text></TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Savings Goal post-quest flow */}
+      {showSavingsGoalFlow && (
+        <Modal visible transparent animationType="fade" statusBarTranslucent>
+          <View style={s.alertBg}>
+            <View style={s.alertCard}>
+              {showSavingsGoalFlow === 'manual' && (
+                <>
+                  <Text style={s.alertEmoji}>{'\uD83C\uDFAF'}</Text>
+                  <Text style={s.alertTitle}>Your savings goal is open</Text>
+                  <Text style={s.alertBody}>Before automating, make your first manual transfer so you understand exactly what's happening to your money.</Text>
+                  <View style={s.alertBtns}>
+                    <TouchableOpacity style={s.alertCancel} onPress={() => setShowSavingsGoalFlow('automate')} activeOpacity={0.85}>
+                      <Text style={s.alertCancelText}>Skip</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={s.alertConfirm} onPress={() => { setShowSavingsGoalFlow(null); setTimeout(() => { setBankInitialTab('Transfers'); setShowBankModal(true); }, 300); }} activeOpacity={0.88}>
+                      <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Transfer now {'\u2192'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+              {showSavingsGoalFlow === 'automate' && (
+                <>
+                  <Text style={s.alertEmoji}>{'\u2699\uFE0F'}</Text>
+                  <Text style={s.alertTitle}>Now automate it</Text>
+                  <Text style={s.alertBody}>Set a monthly contribution so your savings goal grows automatically every month — no manual transfers needed.</Text>
+                  <View style={s.alertBtns}>
+                    <TouchableOpacity style={s.alertCancel} onPress={() => setShowSavingsGoalFlow('fastforward')} activeOpacity={0.85}>
+                      <Text style={s.alertCancelText}>Skip</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={s.alertConfirm} onPress={() => { setShowSavingsGoalFlow(null); setTimeout(() => { setBankInitialTab('Goals'); setShowBankModal(true); }, 300); }} activeOpacity={0.88}>
+                      <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Automate {'\u2192'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+              {showSavingsGoalFlow === 'fastforward' && (
+                <>
+                  <Text style={s.alertEmoji}>{'\u23ED\uFE0F'}</Text>
+                  <Text style={s.alertTitle}>See it in action</Text>
+                  <Text style={s.alertBody}>Fast forward one month and watch your savings goal grow automatically — salary credited, contribution deducted, interest applied.</Text>
+                  <View style={s.alertBtns}>
+                    <TouchableOpacity style={s.alertCancel} onPress={async () => { await AsyncStorage.setItem('savings_flow_done', 'true'); setShowSavingsGoalFlow(null); }} activeOpacity={0.85}>
+                      <Text style={s.alertCancelText}>Later</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={s.alertConfirm} onPress={async () => { await AsyncStorage.setItem('savings_flow_done', 'true'); setShowSavingsGoalFlow(null); await doSkip(1); }} activeOpacity={0.88}>
+                      <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Fast forward {'\u2192'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Emergency Fund post-quest flow */}
+      {showEFFlow && (
+        <Modal visible transparent animationType="fade" statusBarTranslucent>
+          <View style={s.alertBg}>
+            <View style={s.alertCard}>
+              {showEFFlow === 'manual' && (
+                <>
+                  <Text style={s.alertEmoji}>{'\uD83D\uDEE1\uFE0F'}</Text>
+                  <Text style={s.alertTitle}>Your emergency fund is open</Text>
+                  <Text style={s.alertBody}>Make your first manual transfer to understand how money flows into your emergency fund. This is your financial safety net.</Text>
+                  <View style={s.alertBtns}>
+                    <TouchableOpacity style={s.alertCancel} onPress={() => setShowEFFlow('automate')} activeOpacity={0.85}>
+                      <Text style={s.alertCancelText}>Skip</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={s.alertConfirm} onPress={() => { setShowEFFlow(null); setTimeout(() => { setBankInitialTab('Transfers'); setShowBankModal(true); }, 300); }} activeOpacity={0.88}>
+                      <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Transfer now {'\u2192'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+              {showEFFlow === 'automate' && (
+                <>
+                  <Text style={s.alertEmoji}>{'\u2699\uFE0F'}</Text>
+                  <Text style={s.alertTitle}>Automate your safety net</Text>
+                  <Text style={s.alertBody}>Set a monthly contribution to your emergency fund. Every month it grows automatically until you have 3–6 months of expenses covered.</Text>
+                  <View style={s.alertBtns}>
+                    <TouchableOpacity style={s.alertCancel} onPress={() => setShowEFFlow('fastforward')} activeOpacity={0.85}>
+                      <Text style={s.alertCancelText}>Skip</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={s.alertConfirm} onPress={() => { setShowEFFlow(null); setTimeout(() => { setBankInitialTab('Goals'); setShowBankModal(true); }, 300); }} activeOpacity={0.88}>
+                      <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Automate {'\u2192'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+              {showEFFlow === 'fastforward' && (
+                <>
+                  <Text style={s.alertEmoji}>{'\u23ED\uFE0F'}</Text>
+                  <Text style={s.alertTitle}>Watch it work</Text>
+                  <Text style={s.alertBody}>Fast forward one month. Your salary arrives, your emergency fund contribution deducts automatically, and interest is applied.</Text>
+                  <View style={s.alertBtns}>
+                    <TouchableOpacity style={s.alertCancel} onPress={async () => { await AsyncStorage.setItem('ef_flow_done', 'true'); setShowEFFlow(null); }} activeOpacity={0.85}>
+                      <Text style={s.alertCancelText}>Later</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={s.alertConfirm} onPress={async () => { await AsyncStorage.setItem('ef_flow_done', 'true'); setShowEFFlow(null); await doSkip(1); }} activeOpacity={0.88}>
+                      <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>Fast forward {'\u2192'}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              )}
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Walkthrough */}
+      {showWalkthrough && (
+        <Modal
+          visible={showWalkthrough}
+          transparent
+          animationType="fade"
+          statusBarTranslucent
+        >
+          <View style={wt.backdrop}>
+            <View style={wt.card}>
+
+              {/* Skip button */}
+              {!WALKTHROUGH_SLIDES[walkthroughSlide]?.isFinal && (
+                <TouchableOpacity
+                  style={wt.skipBtn}
+                  onPress={finishWalkthrough}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Text style={wt.skipText}>Skip</Text>
+                </TouchableOpacity>
+              )}
+
+              {/* Slide content — scrollable in case content is tall */}
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={wt.slideScroll}
+                scrollEnabled={true}
+              >
+                {(() => {
+                  const slide = WALKTHROUGH_SLIDES[walkthroughSlide];
+                  if (!slide) return null;
+                  return (
+                    <>
+                      <Text style={wt.slideEmoji}>{slide.emoji}</Text>
+                      <Text style={wt.slideTitle}>{slide.title}</Text>
+                      <Text style={wt.slideSubtitle}>{slide.subtitle}</Text>
+
+                      {slide.body ? (
+                        <Text style={wt.slideBody}>{slide.body}</Text>
+                      ) : null}
+
+                      {slide.bullets ? (
+                        <View style={wt.bulletList}>
+                          {slide.bullets.map((b, i) => (
+                            <View key={i} style={wt.bulletRow}>
+                              <Text style={wt.bulletIcon}>{b.icon}</Text>
+                              <Text style={wt.bulletText}>{b.text}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      ) : null}
+
+                      {slide.highlight ? (
+                        <View style={[wt.highlight, { borderLeftColor: slide.highlight.color }]}>
+                          <Text style={[wt.highlightText, { color: slide.highlight.color }]}>
+                            {slide.highlight.text}
+                          </Text>
+                        </View>
+                      ) : null}
+                    </>
+                  );
+                })()}
+              </ScrollView>
+
+              {/* Arrow row + dots */}
+              <View style={wt.arrowRow}>
+                <TouchableOpacity
+                  style={[wt.arrowBtn, walkthroughSlide === 0 && { opacity: 0 }]}
+                  onPress={() => walkthroughSlide > 0 && goToSlide(walkthroughSlide - 1)}
+                  disabled={walkthroughSlide === 0}
+                  hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                >
+                  <Text style={wt.arrowText}>{'\u2039'}</Text>
+                </TouchableOpacity>
+
+                <View style={wt.dots}>
+                  {WALKTHROUGH_SLIDES.map((_, i) => (
+                    <TouchableOpacity
+                      key={i}
+                      onPress={() => goToSlide(i)}
+                      hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+                    >
+                      <View style={[wt.dot, {
+                        backgroundColor: i === walkthroughSlide ? Colors.primary : Colors.border,
+                        width: i === walkthroughSlide ? 20 : 8,
+                      }]} />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                <TouchableOpacity
+                  style={[wt.arrowBtn, WALKTHROUGH_SLIDES[walkthroughSlide]?.isFinal && { opacity: 0 }]}
+                  onPress={() => !WALKTHROUGH_SLIDES[walkthroughSlide]?.isFinal && goToSlide(walkthroughSlide + 1)}
+                  disabled={!!WALKTHROUGH_SLIDES[walkthroughSlide]?.isFinal}
+                  hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                >
+                  <Text style={wt.arrowText}>{'\u203A'}</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Final CTA */}
+              {WALKTHROUGH_SLIDES[walkthroughSlide]?.isFinal && (
+                <TouchableOpacity
+                  style={wt.finalBtn}
+                  onPress={finishWalkthrough}
+                  activeOpacity={0.88}
+                >
+                  <Text style={wt.finalBtnText}>Begin my journey {'\u2192'}</Text>
+                </TouchableOpacity>
+              )}
+
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Life event modal */}
+      {pendingLifeEvent && !pendingLifeEvent.isPositive && (
+        <Modal visible transparent animationType="fade" statusBarTranslucent>
+          <View style={s.alertBg}>
+            <View style={[s.alertCard, { paddingBottom: 24 }]}>
+              <Text style={{ fontSize: 40, textAlign: 'center', marginBottom: 8 }}>{pendingLifeEvent.emoji}</Text>
+              <Text style={s.alertTitle}>{pendingLifeEvent.title}</Text>
+              <Text style={s.alertBody}>{pendingLifeEvent.description}</Text>
+
+              {/* Total cost */}
+              <View style={le.costRow}>
+                <Text style={le.costLabel}>Total cost</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                  <Image source={COIN_ASSET} style={{ width: 14, height: 14 }} />
+                  <Text style={le.costAmt}>{Math.round(pendingLifeEvent.amount).toLocaleString()}</Text>
+                </View>
+              </View>
+
+              {/* Account allocation */}
+              <Text style={le.sectionLabel}>Pay from:</Text>
+
+              {(sim?.wallets ?? [])
+                .filter(w => w.type !== 'investment' && w.type !== 'cash' && (w.balance ?? 0) > 0)
+                .map(w => {
+                  const allocated = lifeEventAllocations[w.id] ?? 0;
+                  const isEF = w.type === 'emergency';
+
+                  return (
+                    <View key={w.id} style={le.walletRow}>
+                      <View style={le.walletInfo}>
+                        <Text style={le.walletName} numberOfLines={1}>
+                          {isEF ? '\uD83D\uDEE1\uFE0F ' : '\uD83C\uDFE6 '}{w.label}
+                        </Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                          <Image source={COIN_ASSET} style={{ width: 10, height: 10 }} />
+                          <Text style={le.walletBal}>{Math.round(w.balance ?? 0).toLocaleString()} available</Text>
+                        </View>
+                      </View>
+
+                      <View style={le.amtInputWrap}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            const cur = lifeEventAllocations[w.id] ?? 0;
+                            setLifeEventAllocations(prev => ({ ...prev, [w.id]: Math.max(0, cur - 100) }));
+                            setLifeEventError('');
+                          }}
+                          style={le.amtBtn}
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                          <Text style={le.amtBtnText}>{'\u2212'}</Text>
+                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                          <Image source={COIN_ASSET} style={{ width: 11, height: 11 }} />
+                          <Text style={le.amtValue}>{Math.round(allocated).toLocaleString()}</Text>
+                        </View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            const cur = lifeEventAllocations[w.id] ?? 0;
+                            const totalOther = Object.entries(lifeEventAllocations)
+                              .filter(([id]) => id !== w.id)
+                              .reduce((a, [, v]) => a + v, 0);
+                            const maxAdd = Math.min(
+                              (w.balance ?? 0) - cur,
+                              pendingLifeEvent.amount - totalOther - cur
+                            );
+                            setLifeEventAllocations(prev => ({ ...prev, [w.id]: cur + Math.min(100, Math.max(0, maxAdd)) }));
+                            setLifeEventError('');
+                          }}
+                          style={le.amtBtn}
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                          <Text style={le.amtBtnText}>+</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                })}
+
+              {/* Remaining unallocated */}
+              {(() => {
+                const totalAllocated = Object.values(lifeEventAllocations).reduce((a, b) => a + b, 0);
+                const unallocated = pendingLifeEvent.amount - totalAllocated;
+                return unallocated > 0 ? (
+                  <View style={le.unallocatedRow}>
+                    <Text style={le.unallocatedText}>Still need to allocate:</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                      <Image source={COIN_ASSET} style={{ width: 12, height: 12 }} />
+                      <Text style={[le.unallocatedText, { color: '#FF4444', fontFamily: Fonts.bold }]}>{Math.round(unallocated).toLocaleString()}</Text>
+                    </View>
+                  </View>
+                ) : (
+                  <View style={[le.unallocatedRow, { backgroundColor: MODULE_COLORS['module-3'].colorLight }]}>
+                    <Text style={[le.unallocatedText, { color: MODULE_COLORS['module-3'].color }]}>{'\u2713'} Fully allocated</Text>
+                  </View>
+                );
+              })()}
+
+              {lifeEventError ? <Text style={le.errorText}>{lifeEventError}</Text> : null}
+
+              {/* CTA */}
+              <View style={[s.alertBtns, { marginTop: 16 }]}>
+                <TouchableOpacity
+                  style={s.alertCancel}
+                  onPress={() => {
+                    const bankW = (sim?.wallets ?? []).find(w => w.type === 'bank');
+                    if (bankW) {
+                      applyLifeEventDeduction({ [bankW.id]: Math.min(bankW.balance ?? 0, pendingLifeEvent.amount) });
+                    } else {
+                      setPendingLifeEvent(null);
+                    }
+                  }}
+                  activeOpacity={0.85}
+                >
+                  <Text style={s.alertCancelText}>Auto-deduct</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[s.alertConfirm, lifeEventApplying && { opacity: 0.6 }]}
+                  disabled={lifeEventApplying}
+                  onPress={() => {
+                    const totalAllocated = Object.values(lifeEventAllocations).reduce((a, b) => a + b, 0);
+                    if (totalAllocated < pendingLifeEvent.amount) {
+                      setLifeEventError(`Allocate the full amount (${Math.round(pendingLifeEvent.amount - totalAllocated).toLocaleString()} remaining)`);
+                      return;
+                    }
+                    applyLifeEventDeduction(lifeEventAllocations);
+                  }}
+                  activeOpacity={0.88}
+                >
+                  <Text style={s.alertConfirmText} numberOfLines={1} adjustsFontSizeToFit>
+                    {lifeEventApplying ? 'Applying...' : 'Confirm \u2192'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
+
       {/* Quest modals */}
       <Quest1
         visible={activeQuest === 'quest-1'}
         income={sim?.income ?? 4500}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest2
         visible={activeQuest === 'quest-2'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setBankNotif(true); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setBankNotif(true); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest3
         visible={activeQuest === 'quest-3'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest4
         visible={activeQuest === 'quest-4'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest5
         visible={activeQuest === 'quest-5'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); setTimeout(() => setShowSavingsGoalFlow('manual'), 1200); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest6
         visible={activeQuest === 'quest-6'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); setTimeout(() => setShowEFFlow('manual'), 1200); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest7
         visible={activeQuest === 'quest-7'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest8
         visible={activeQuest === 'quest-8'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest9
         visible={activeQuest === 'quest-9'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest10
         visible={activeQuest === 'quest-10'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest11
         visible={activeQuest === 'quest-11'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
       <Quest12
         visible={activeQuest === 'quest-12'}
         sim={sim}
-        onComplete={async () => { await refreshAll(); setActiveQuest(null); setFinHasUpdate(true); }}
+        onComplete={async () => { await refreshAll(); setActiveQuest(null); pulseQuestCard(); setFinHasUpdate(true); }}
         onClose={() => setActiveQuest(null)}
       />
     </View>
@@ -1197,6 +2536,224 @@ export default function SimulateScreen() {
 }
 
 // ─── Styles ──────────────────────────────────────────────────────────────────
+// ─── Portfolio bento styles ──────────────────────────────────────────────────
+// ─── Walkthrough styles ─────────────────────────────────────────────────────
+const wt = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
+  card: {
+    backgroundColor: Colors.white,
+    borderRadius: 24,
+    paddingHorizontal: 24,
+    paddingTop: 28,
+    paddingBottom: 20,
+    width: '100%',
+    maxHeight: SH * 0.78,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 12,
+  },
+  skipBtn: {
+    position: 'absolute',
+    top: 18,
+    right: 20,
+    zIndex: 10,
+    padding: 4,
+  },
+  skipText: {
+    fontFamily: Fonts.regular,
+    fontSize: 13,
+    color: Colors.textMuted,
+  },
+  slideScroll: {
+    paddingBottom: 8,
+    paddingTop: 8,
+  },
+  slideEmoji: {
+    fontSize: 52,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  slideTitle: {
+    fontFamily: Fonts.extraBold,
+    fontSize: 22,
+    color: Colors.textPrimary,
+    textAlign: 'center',
+    marginBottom: 6,
+    lineHeight: 28,
+  },
+  slideSubtitle: {
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    color: Colors.primary,
+    textAlign: 'center',
+    marginBottom: 16,
+    fontStyle: 'italic',
+  },
+  slideBody: {
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    color: Colors.textSecondary,
+    lineHeight: 22,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  bulletList: {
+    gap: 10,
+    marginBottom: 8,
+  },
+  bulletRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+  },
+  bulletIcon: {
+    fontSize: 16,
+    width: 24,
+    textAlign: 'center',
+    marginTop: 1,
+  },
+  bulletText: {
+    fontFamily: Fonts.regular,
+    fontSize: 13,
+    color: Colors.textSecondary,
+    lineHeight: 20,
+    flex: 1,
+  },
+  highlight: {
+    borderLeftWidth: 3,
+    paddingLeft: 12,
+    paddingVertical: 8,
+    marginTop: 12,
+    backgroundColor: Colors.background,
+    borderRadius: 8,
+  },
+  highlightText: {
+    fontFamily: Fonts.bold,
+    fontSize: 13,
+    lineHeight: 20,
+  },
+  arrowRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 16,
+    marginBottom: 12,
+  },
+  arrowBtn: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrowText: {
+    fontFamily: Fonts.regular,
+    fontSize: 28,
+    color: Colors.textMuted,
+    lineHeight: 32,
+  },
+  dots: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6,
+  },
+  dot: {
+    height: 8,
+    borderRadius: 4,
+  },
+  finalBtn: {
+    backgroundColor: Colors.primary,
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  finalBtnText: {
+    fontFamily: Fonts.extraBold,
+    fontSize: 15,
+    color: Colors.white,
+  },
+});
+
+// ─── Monthly snapshot styles ─────────────────────────────────────────────────
+const snap = StyleSheet.create({
+  container: { marginHorizontal: 16, marginBottom: 12, backgroundColor: Colors.white, borderRadius: 16, padding: 16, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1 },
+  header: { marginBottom: 12 },
+  eyebrow: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.2, color: Colors.textMuted },
+  rows: { gap: 8 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  rowLabel: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textSecondary },
+  rowAmt: { fontFamily: Fonts.bold, fontSize: 13 },
+  divider: { height: 1, backgroundColor: Colors.border, marginVertical: 4 },
+  savingsRateNote: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 4 },
+});
+
+// ─── Accounts bento styles ───────────────────────────────────────────────────
+const ab = StyleSheet.create({
+  container: { marginHorizontal: 16, marginBottom: 20, gap: 8 },
+  containerPressed: { opacity: 0.92 },
+  tile: { backgroundColor: Colors.white, borderRadius: 16, padding: 16, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1, overflow: 'hidden' },
+  tileFull: { width: '100%' },
+  eyebrow: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.2, color: Colors.textMuted, marginBottom: 0 },
+  balanceRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 6, marginBottom: 12 },
+  balanceHero: { fontFamily: Fonts.extraBold, fontSize: 28, color: Colors.textPrimary },
+  balanceCount: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, marginTop: 4 },
+  compBar: { flexDirection: 'row', height: 10, borderRadius: 5, overflow: 'hidden', backgroundColor: Colors.border, marginBottom: 14, marginTop: 10 },
+  pieLegend: { width: '100%', marginTop: 8, gap: 8 },
+  pieLegendRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  pieLegendDot: { width: 10, height: 10, borderRadius: 5, flexShrink: 0 },
+  pieLegendName: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textSecondary, flex: 1 },
+  pieLegendAmt: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
+  ringPct: { fontFamily: Fonts.extraBold, fontSize: 13 },
+  goalHero: { fontFamily: Fonts.extraBold, fontSize: 28 },
+  goalHeroUnit: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted },
+  goalBarTrack: { height: 8, backgroundColor: Colors.border, borderRadius: 4, overflow: 'hidden', position: 'relative', marginBottom: 4 },
+  goalBarFill: { height: 8, borderRadius: 4, position: 'absolute', left: 0, top: 0 },
+  goalMarker: { position: 'absolute', top: 0, width: 1.5, height: 8, backgroundColor: Colors.white },
+  goalFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  goalFooterAmt: { fontFamily: Fonts.bold, fontSize: 12, color: Colors.textPrimary },
+  goalFooterOf: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
+  goalFooterMeta: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
+  efPctLabel: { fontFamily: Fonts.regular, fontSize: 10, marginTop: 4, marginBottom: 6 },
+  budgetRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  budgetLabel: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textSecondary, width: 56 },
+  budgetBarWrap: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  budgetBarTrack: { flex: 1, height: 8, borderRadius: 4, overflow: 'hidden' },
+  budgetBarFill: { height: 8, borderRadius: 4 },
+  budgetPct: { fontFamily: Fonts.bold, fontSize: 11, width: 30, textAlign: 'right' },
+  budgetAmtWrap: { flexDirection: 'row', alignItems: 'center', gap: 3, width: 52, justifyContent: 'flex-end' },
+  budgetAmt: { fontFamily: Fonts.bold, fontSize: 12 },
+  statHero: { fontFamily: Fonts.extraBold, fontSize: 20 },
+  statSub: { fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted, marginTop: 1 },
+});
+
+// ─── Portfolio bento styles ──────────────────────────────────────────────────
+const pb = StyleSheet.create({
+  container: { marginHorizontal: 16, marginBottom: 20, gap: 8 },
+  containerPressed: { opacity: 0.92 },
+  tile: { backgroundColor: Colors.white, borderRadius: 16, padding: 14, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1, overflow: 'hidden' },
+  tileFull: { width: '100%' },
+  tileThird: { flex: 1, minHeight: 100 },
+  tileEyebrow: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.2, color: Colors.textMuted, marginBottom: 4 },
+  tileHero: { fontFamily: Fonts.extraBold, fontSize: 22, marginBottom: 2 },
+  tileDelta: { fontFamily: Fonts.bold, fontSize: 12 },
+  tileSubLabel: { fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted, lineHeight: 14 },
+  miniBar: { height: 4, borderRadius: 2, overflow: 'hidden', marginTop: 8 },
+  miniBarFill: { height: 4, borderRadius: 2 },
+  assetName: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textSecondary },
+  assetPct: { fontFamily: Fonts.bold, fontSize: 11 },
+  projBar: { height: 6, backgroundColor: Colors.border, borderRadius: 3, overflow: 'hidden' },
+  projBarFill: { height: 6, borderRadius: 3 },
+  projBadge: { borderRadius: 10, paddingHorizontal: 10, paddingVertical: 5, alignSelf: 'flex-end' },
+  projBadgeText: { fontFamily: Fonts.bold, fontSize: 11 },
+});
+
 const s = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.background },
   entryRoot: { flex: 1, backgroundColor: Colors.background },
@@ -1261,7 +2818,7 @@ const s = StyleSheet.create({
   nwTopRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
   nwLabel: { fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 1.2, color: Colors.textMuted },
   nwChange: { fontFamily: Fonts.bold, fontSize: 12 },
-  nwHero: { fontFamily: Fonts.extraBold, fontSize: 28, color: Colors.textPrimary, marginBottom: 12 },
+  nwHero: { fontFamily: Fonts.extraBold, fontSize: 28, color: Colors.textPrimary, lineHeight: 32 },
   nwBarWrap: { gap: 6 },
   nwBarTrack: { height: 10, backgroundColor: Colors.border, borderRadius: 5, position: 'relative' },
   nwBarFill: { height: 10, borderRadius: 5, position: 'absolute', left: 0, top: 0 },
@@ -1270,6 +2827,15 @@ const s = StyleSheet.create({
   nwBarLabel: { fontFamily: Fonts.bold, fontSize: 12, color: Colors.primary },
   nwBarTarget: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
   nwNoFI: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, fontStyle: 'italic', marginTop: 4 },
+  nwCompositionRows: { gap: 10, marginBottom: 4 },
+  nwCompositionRow: { flexDirection: 'row', alignItems: 'center', gap: 0 },
+  nwCompositionLeft: { flexDirection: 'row', alignItems: 'center', gap: 6, width: 110 },
+  nwCompositionDot: { width: 8, height: 8, borderRadius: 4, flexShrink: 0 },
+  nwCompositionLabel: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary },
+  nwCompositionAmt: { fontFamily: Fonts.bold, fontSize: 12, color: Colors.textPrimary, width: 70, textAlign: 'right' },
+  nwCompositionBarTrack: { flex: 1, height: 6, borderRadius: 3, overflow: 'hidden', marginHorizontal: 8 },
+  nwCompositionBarFill: { height: 6, borderRadius: 3 },
+  nwCompositionPct: { fontFamily: Fonts.bold, fontSize: 11, width: 32, textAlign: 'right' },
 
   // Quest banner
   qbBanner: { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.white, borderRadius: 14, padding: 12, marginHorizontal: 16, marginBottom: 12, borderLeftWidth: 4, gap: 10, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 2 },
@@ -1280,25 +2846,6 @@ const s = StyleSheet.create({
   qbCtaText: { fontFamily: Fonts.bold, fontSize: 12 },
 
   // Wallet grid
-  walletGrid: { marginHorizontal: 16, gap: 10, marginBottom: 12 },
-  walletRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  wcCard: { borderRadius: 18, overflow: 'hidden', padding: 16, shadowColor: '#000', shadowOpacity: 0.10, shadowRadius: 10, elevation: 4 },
-  wcCardHalf: { width: (SW - 32 - 10) / 2 },
-  wcCardFull: { width: '100%' },
-  wcIconCircle: { width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center', marginBottom: 24 },
-  wcName: { fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 0.8, color: 'rgba(255,255,255,0.75)', marginBottom: 4, textTransform: 'uppercase' },
-  wcBalRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 8 },
-  wcCoin: { width: 14, height: 14 },
-  wcBal: { fontFamily: Fonts.extraBold, fontSize: 22, color: Colors.white },
-  wcSub: { fontFamily: Fonts.medium, fontSize: 11, color: 'rgba(255,255,255,0.75)', marginBottom: 4 },
-  wcSubAccount: { fontFamily: Fonts.medium, fontSize: 10, color: 'rgba(255,255,255,0.65)', marginBottom: 4 },
-  wcSubWarn: { fontFamily: Fonts.medium, fontSize: 10, color: 'rgba(255,255,255,0.65)', fontStyle: 'italic', marginBottom: 4 },
-  wcBadge: { alignSelf: 'flex-start', borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3, marginBottom: 8 },
-  wcBadgeHYSA: { backgroundColor: 'rgba(255,255,255,0.25)' },
-  wcBadgeBasic: { backgroundColor: 'rgba(255,255,255,0.15)' },
-  wcBadgeText: { fontFamily: Fonts.bold, fontSize: 10, color: 'rgba(255,255,255,0.9)', letterSpacing: 0.5 },
-  wcGoalTrack: { height: 4, backgroundColor: 'rgba(255,255,255,0.25)', borderRadius: 2, marginBottom: 4, overflow: 'hidden' },
-  wcGoalFill: { height: 4, borderRadius: 2, backgroundColor: 'rgba(255,255,255,0.9)' },
 
   // Budget card
   budgetCard: { marginHorizontal: 16, marginBottom: 12, backgroundColor: Colors.white, borderRadius: 18, padding: 16, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
@@ -1371,13 +2918,15 @@ const s = StyleSheet.create({
   // Fin overlay
   finOverlayBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.65)' },
   finOverlayContainer: { ...StyleSheet.absoluteFillObject, justifyContent: 'flex-end' },
-  finOverlayCard: { backgroundColor: Colors.white, borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: 28 },
+  finOverlayCard: { backgroundColor: Colors.white, borderTopLeftRadius: 28, borderTopRightRadius: 28, padding: 28, paddingTop: 36 },
   finOverlayTopRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
   finOverlayCircle: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#E0F5FB', alignItems: 'center', justifyContent: 'center' },
   finOverlayName: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary, marginLeft: 10, flex: 1 },
   finOverlayMonth: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
-  finOverlayMsg: { fontFamily: Fonts.regular, fontSize: 16, color: Colors.textPrimary, lineHeight: 26, marginTop: 16 },
-  finOverlayBtn: { backgroundColor: Colors.primary, borderRadius: Radii.lg, paddingVertical: 16, alignItems: 'center', marginTop: 24 },
+  finOverlayMsg: { fontFamily: Fonts.regular, fontSize: 16, color: Colors.textPrimary, lineHeight: 26, marginTop: 20 },
+  finOverlayBtnSecondary: { borderWidth: 1.5, borderColor: Colors.primary, borderRadius: Radii.lg, paddingVertical: 14, alignItems: 'center', marginTop: 24 },
+  finOverlayBtnSecondaryText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.primary },
+  finOverlayBtn: { backgroundColor: Colors.primary, borderRadius: Radii.lg, paddingVertical: 16, alignItems: 'center', marginTop: 10 },
   finOverlayBtnText: { fontFamily: Fonts.bold, fontSize: 16, color: Colors.white },
   finOverlayCaughtUp: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textMuted, textAlign: 'center', marginTop: 24 },
   finOverlayDismiss: { alignItems: 'center', marginTop: 12, marginBottom: 4 },
@@ -1386,10 +2935,10 @@ const s = StyleSheet.create({
   // Bottom sheets
   sheetBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
   sheetContainer: { backgroundColor: Colors.white, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, maxHeight: SH * 0.85 },
-  sheetHandle: { width: 36, height: 4, borderRadius: 2, backgroundColor: Colors.border, alignSelf: 'center', marginBottom: 20 },
+  sheetHandle: { width: 36, height: 4, borderRadius: 2, backgroundColor: Colors.primary, alignSelf: 'center', marginBottom: 20 },
   sheetTitleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
   sheetTitle: { fontFamily: Fonts.extraBold, fontSize: 20, color: Colors.textPrimary },
-  sheetCloseX: { fontSize: 16, color: Colors.textMuted, padding: 4 },
+  sheetCloseX: { fontFamily: Fonts.bold, fontSize: 18, color: Colors.textMuted, padding: 4 },
   sheetEmpty: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, textAlign: 'center', marginTop: 8 },
   sheetEmptyCenter: { alignItems: 'center', paddingVertical: 32, gap: 8 },
   sheetEmptyTitle: { fontFamily: Fonts.extraBold, fontSize: 16, color: Colors.textPrimary },
@@ -1435,8 +2984,8 @@ const s = StyleSheet.create({
   advConfirmGoText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white },
 
   // Gate modal
-  gateBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 32 },
-  gateCard: { backgroundColor: Colors.white, borderRadius: 24, padding: 28, width: '100%', alignItems: 'center' },
+  gateBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
+  gateCard: { backgroundColor: Colors.white, borderRadius: 24, padding: 28, width: SW * 0.82, alignItems: 'center', alignSelf: 'center', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 8 },
   gateTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, marginBottom: 8 },
   gateBody: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, textAlign: 'center', lineHeight: 22, marginBottom: 20 },
   gateCta: { backgroundColor: Colors.primary, borderRadius: Radii.lg, height: 48, width: '100%', alignItems: 'center', justifyContent: 'center' },
@@ -1462,6 +3011,10 @@ const s = StyleSheet.create({
   salaryOptTitle: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary },
   salaryOptSalary: { fontFamily: Fonts.extraBold, fontSize: 13, color: Colors.primary },
   salaryOptDesc: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 2 },
+  customSalaryInputWrap: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8, backgroundColor: Colors.background, borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6 },
+  customSalaryInput: { flex: 1, fontFamily: Fonts.bold, fontSize: 15, color: Colors.primary, paddingVertical: 0 },
+  customSalaryUnit: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  customSalaryError: { fontFamily: Fonts.regular, fontSize: 11, color: '#FF4444', marginTop: 4 },
   jobSalaryHero: { fontFamily: Fonts.extraBold, fontSize: 36, color: Colors.textPrimary },
   jobSalaryUnit: { fontFamily: Fonts.regular, fontSize: 16, color: Colors.textMuted },
   jobDetailCard: { backgroundColor: Colors.white, borderRadius: 12, padding: 16, width: '100%', marginBottom: 16, ...Shadows.soft },
@@ -1471,15 +3024,15 @@ const s = StyleSheet.create({
 
   // Styled alerts
   alertBg: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center' },
-  alertCard: { backgroundColor: Colors.white, borderRadius: 20, padding: 24, marginHorizontal: 32, alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 8, width: '100%' },
+  alertCard: { backgroundColor: Colors.white, borderRadius: 20, padding: 24, alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 8, width: SW * 0.82, maxHeight: SH * 0.75, alignSelf: 'center' },
   alertEmoji: { fontSize: 36, marginBottom: 12 },
   alertTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, textAlign: 'center', marginBottom: 8 },
   alertBody: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, textAlign: 'center', lineHeight: 20, marginBottom: 20 },
-  alertBtns: { flexDirection: 'row', gap: 8, width: '100%' },
-  alertCancel: { flex: 1, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: Colors.border, alignItems: 'center' },
+  alertBtns: { flexDirection: 'row', gap: 8, width: '100%', marginTop: 8 },
+  alertCancel: { flex: 1, paddingVertical: 12, borderRadius: 12, borderWidth: 1, borderColor: Colors.border, alignItems: 'center', justifyContent: 'center' },
   alertCancelText: { fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.textSecondary },
-  alertConfirm: { flex: 1, paddingVertical: 12, borderRadius: 12, backgroundColor: Colors.primary, alignItems: 'center' },
-  alertConfirmText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white },
+  alertConfirm: { flex: 2, paddingVertical: 12, borderRadius: 12, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
+  alertConfirmText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white, textAlign: 'center' },
 
   // Goal complete modal
   goalScreen: { flex: 1, backgroundColor: Colors.background },
@@ -1541,4 +3094,86 @@ const s = StyleSheet.create({
   portfolioRebalanceMeta: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, textAlign: 'center' },
   portfolioRebalanceLocked: { borderWidth: 1.5, borderColor: Colors.border, borderRadius: 14, paddingVertical: 14, alignItems: 'center' },
   portfolioRebalanceLockedText: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted },
+  dtAdvHint: { fontFamily: Fonts.regular, fontSize: 9, color: Colors.textMuted, textAlign: 'center', marginTop: 2, letterSpacing: 0.5 },
+  skipSummaryCta: { backgroundColor: Colors.primary, borderRadius: 14, paddingVertical: 14, paddingHorizontal: 32, alignItems: 'center', marginTop: 8, width: '100%' },
+  skipSummaryCtaText: { fontFamily: Fonts.bold, fontSize: 15, color: Colors.white },
+  skipSummaryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.border, width: '100%' },
+  skipSummaryRowLeft: { flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 },
+  skipSummaryIcon: { fontSize: 20, width: 28 },
+  skipSummaryLabel: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
+  skipSummaryBreakdown: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 1 },
+  skipSummaryAmt: { fontFamily: Fonts.bold, fontSize: 14 },
+  skipMilestoneRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: Colors.border, width: '100%' },
+  skipMilestoneIcon: { fontSize: 18, width: 24, marginTop: 2 },
+  skipMilestoneLabel: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary, marginBottom: 4 },
+  skipMilestoneSub: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
+  skipMilestoneBar: { height: 4, backgroundColor: Colors.border, borderRadius: 2, overflow: 'hidden', width: '100%' },
+  skipMilestoneBarFill: { height: 4, borderRadius: 2 },
+  // Portfolio dashboard card
+  portfolioSummaryDashCard: { backgroundColor: Colors.white, borderRadius: 18, padding: 16, marginTop: 10, shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, position: 'relative' },
+  portfolioDashHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
+  portfolioDashLabel: { fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 1.2, color: Colors.textMuted },
+  portfolioDashRiskBadge: { borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  portfolioDashRiskText: { fontFamily: Fonts.bold, fontSize: 10 },
+  portfolioDashChevron: { fontSize: 18, color: Colors.textMuted },
+  portfolioDashBalRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
+  portfolioDashBalance: { fontFamily: Fonts.extraBold, fontSize: 24, color: Colors.textPrimary },
+  portfolioDashDelta: { fontFamily: Fonts.bold, fontSize: 12 },
+  portfolioDashHoldingsSub: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 4 },
+  // Date header
+  dateHeader: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 16 },
+  dateHeaderYear: { fontFamily: Fonts.bold, fontSize: 11, letterSpacing: 1.4, color: Colors.textMuted },
+  dateHeaderMonth: { fontFamily: Fonts.extraBold, fontSize: 40, color: Colors.textPrimary, lineHeight: 46, marginBottom: 12 },
+  ffBtn: { padding: 4, alignSelf: 'center' },
+  // Floating column
+  floatingColumn: { position: 'absolute', right: 12, zIndex: 100, gap: 10, alignItems: 'center' },
+  floatingBtn: { width: 54, height: 54, borderRadius: 27, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOpacity: 0.12, shadowRadius: 8, elevation: 6, position: 'relative' },
+  floatingNotifDot: { position: 'absolute', top: -1, right: -1, width: 10, height: 10, borderRadius: 5, backgroundColor: '#FF3B30', borderWidth: 1.5, borderColor: Colors.white, zIndex: 1 },
+  // Quest card
+  questCard: { marginHorizontal: 16, marginBottom: 12, backgroundColor: Colors.white, borderRadius: 16, borderLeftWidth: 3, borderLeftColor: Colors.primary, padding: 16, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 8, elevation: 2 },
+  questCardInner: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  questCardIcon: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  questCardMeta: { fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 0.8, color: Colors.primary, marginBottom: 3 },
+  questCardTitle: { fontFamily: Fonts.extraBold, fontSize: 16, color: Colors.textPrimary, lineHeight: 21, marginBottom: 3 },
+  questCardDesc: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, lineHeight: 17 },
+  questCardChevron: { fontFamily: Fonts.bold, fontSize: 24, color: Colors.textMuted, flexShrink: 0 },
+});
+
+// ─── Fast forward picker styles ──────────────────────────────────────────────
+const ff = StyleSheet.create({
+  monthDisplay: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center', gap: 8, marginBottom: 4 },
+  monthCount: { fontFamily: Fonts.extraBold, fontSize: 52, color: Colors.primary, lineHeight: 58 },
+  monthUnit: { fontFamily: Fonts.regular, fontSize: 18, color: Colors.textMuted, marginBottom: 4 },
+  monthLabel: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, textAlign: 'center', marginBottom: 28, fontStyle: 'italic' },
+  sliderWrap: { width: '100%', marginBottom: 28, paddingHorizontal: 8 },
+  track: { height: 4, backgroundColor: Colors.border, borderRadius: 2, marginBottom: -6, overflow: 'visible' },
+  trackFill: { height: 4, backgroundColor: Colors.primary, borderRadius: 2 },
+  stepsRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', height: 24 },
+  stepDot: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
+  stepDotActive: {},
+  stepInner: { width: 10, height: 10, borderRadius: 5, backgroundColor: Colors.border, borderWidth: 2, borderColor: Colors.white },
+  stepInnerActive: { width: 14, height: 14, borderRadius: 7, backgroundColor: Colors.primary },
+  labelsRow: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 },
+  stepLabel: { fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted, textAlign: 'center', width: 24 },
+  stepLabelActive: { fontFamily: Fonts.bold, color: Colors.primary },
+  modalIconText: { fontSize: 36, color: Colors.textPrimary, letterSpacing: -4, textAlign: 'center', marginBottom: 4 },
+});
+
+// ─── Life event modal styles ─────────────────────────────────────────────────
+const le = StyleSheet.create({
+  costRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: Colors.background, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, marginBottom: 16 },
+  costLabel: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textSecondary },
+  costAmt: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary },
+  sectionLabel: { fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 1.1, color: Colors.textMuted, marginBottom: 8 },
+  walletRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.border },
+  walletInfo: { flex: 1, gap: 2 },
+  walletName: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
+  walletBal: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
+  amtInputWrap: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  amtBtn: { width: 28, height: 28, borderRadius: 14, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: Colors.border },
+  amtBtnText: { fontFamily: Fonts.bold, fontSize: 16, color: Colors.textPrimary, lineHeight: 20 },
+  amtValue: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary, minWidth: 40, textAlign: 'center' },
+  unallocatedRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, backgroundColor: Colors.background, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 8 },
+  unallocatedText: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  errorText: { fontFamily: Fonts.regular, fontSize: 12, color: '#FF4444', textAlign: 'center', marginTop: 8 },
 });

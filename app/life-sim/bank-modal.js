@@ -22,24 +22,22 @@ const COIN = require('../../assets/coin.png');
 // ─── Bank data ──────────────────────────────────────────────────────────────
 
 const ACCOUNT_TYPES = [
-  { id: 'basic', label: 'Basic Savings', icon: '🏦', rate: 0.0005, rateLabel: '0.05% p.a.', tagline: 'Simple and safe',
+  { id: 'basic', label: 'Basic Savings', icon: '📋', rate: 0.0005, rateLabel: '0.05% p.a.', tagline: 'Standard savings. Low interest, no minimum balance.',
     color: MODULE_COLORS['module-2'].color, colorLight: MODULE_COLORS['module-2'].colorLight },
-  { id: 'hysa', label: 'High-Yield Savings', icon: '📈', rate: 0.0465, rateLabel: 'Up to 4.65% p.a.', tagline: 'Earn 60× more',
+  { id: 'hysa', label: 'High-Yield Savings', icon: '⚡', rate: 0.078, rateLabel: 'Up to 7.8% p.a.', tagline: 'Earn more. Best for growing your savings fast.',
     color: MODULE_COLORS['module-3'].color, colorLight: MODULE_COLORS['module-3'].colorLight },
 ];
 
-const BANKS = {
-  basic: [
-    { id: 'drakon', name: 'Drakon Bank', icon: '🏛️', rate: 0.0005, rateLabel: '0.05% p.a.', bank: 'Drakon',
-      colorLight: MODULE_COLORS['module-2'].colorLight, color: MODULE_COLORS['module-2'].color },
-  ],
-  hysa: [
-    { id: 'orbit', name: 'Orbit Bank', icon: '🔵', rate: 0.0465, rateLabel: 'Up to 4.65% p.a.', bank: 'Orbit',
-      colorLight: MODULE_COLORS['module-3'].colorLight, color: MODULE_COLORS['module-3'].color },
-    { id: 'unison', name: 'Unison Bank', icon: '🟡', rate: 0.078, rateLabel: 'Up to 7.8% p.a.', bank: 'Unison',
-      colorLight: MODULE_COLORS['module-4'].colorLight, color: MODULE_COLORS['module-4'].color },
-  ],
-};
+const BANKS = [
+  { id: 'unison', name: 'Unison Bank', icon: '🏛️', bank: 'Unison', rate: 0.078, rateLabel: 'Up to 7.8% p.a.',
+    color: '#F4A261', colorLight: '#F4A26120' },
+  { id: 'orbit', name: 'Orbit Bank', icon: '🪐', bank: 'Orbit', rate: 0.0465, rateLabel: 'Up to 4.65% p.a.',
+    color: MODULE_COLORS['module-1'].color, colorLight: MODULE_COLORS['module-1'].colorLight },
+  { id: 'vertex', name: 'Vertex Bank', icon: '🔷', bank: 'Vertex', rate: 0.035, rateLabel: '3.5% p.a.',
+    color: MODULE_COLORS['module-3'].color, colorLight: MODULE_COLORS['module-3'].colorLight },
+  { id: 'pinnacle', name: 'Pinnacle Bank', icon: '🏔️', bank: 'Pinnacle', rate: 0.025, rateLabel: '2.5% p.a.',
+    color: MODULE_COLORS['module-4'].color, colorLight: MODULE_COLORS['module-4'].colorLight },
+];
 
 const WALLET_CYCLE = [
   { color: MODULE_COLORS['module-1'].color, colorLight: MODULE_COLORS['module-1'].colorLight },
@@ -76,11 +74,28 @@ const FinCard = ({ text }) => (
   </View>
 );
 
+const deepClean = (obj) => {
+  if (Array.isArray(obj)) return obj.map(deepClean);
+  if (obj !== null && typeof obj === 'object') {
+    return Object.fromEntries(
+      Object.entries(obj)
+        .filter(([_, v]) => v !== undefined)
+        .map(([k, v]) => [k, deepClean(v)])
+    );
+  }
+  return obj;
+};
+
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
+export default function BankModal({ visible, onClose, sim, onSimUpdate, initialTab = 'Accounts' }) {
   const insets = useSafeAreaInsets();
-  const [activeTab, setActiveTab] = useState('Accounts');
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  // Reset to initialTab whenever modal opens
+  useEffect(() => {
+    if (visible) setActiveTab(initialTab);
+  }, [visible, initialTab]);
 
   // Accounts state
   const [creatingAccount, setCreatingAccount] = useState(false);
@@ -98,6 +113,8 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
   const [transferring, setTransferring] = useState(false);
   const [transferDone, setTransferDone] = useState(false);
   const transferBarAnim = useRef(new Animated.Value(0)).current;
+  const [showFromPicker, setShowFromPicker] = useState(false);
+  const [showToPicker, setShowToPicker] = useState(false);
 
   // Salary state
   const [promotionBusy, setPromotionBusy] = useState(false);
@@ -114,6 +131,11 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
   const [editField, setEditField] = useState(null);
   const [editValue, setEditValue] = useState(0);
   const [closingGoal, setClosingGoal] = useState(null);
+  const [editingAutoGoalId, setEditingAutoGoalId] = useState(null);
+  const [autoAmount, setAutoAmount] = useState('');
+  const [confirmDisableAuto, setConfirmDisableAuto] = useState(null);
+  const [editingInvestAutoId, setEditingInvestAutoId] = useState(null);
+  const [investAutoAmount, setInvestAutoAmount] = useState('');
 
   const wallets = sim?.wallets ?? [];
   const cashWallet = wallets.find(w => w.id === 'wallet');
@@ -128,18 +150,20 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
     setTransferDone(false);
     setPromotionResult(null);
     setCreatingGoal(false);
+    setShowFromPicker(false);
+    setShowToPicker(false);
   }, [activeTab]);
 
   // ─── Header ─────────────────────────────────────────────────────────────────
 
   const Header = () => (
     <View style={[b.header, { paddingTop: insets.top + 8 }]}>
-      <TouchableOpacity onPress={onClose} style={b.closeBtn}>
-        <Text style={{ fontSize: 18, color: Colors.textPrimary }}>←</Text>
+      <TouchableOpacity onPress={onClose} style={b.backBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+        <Text style={b.backBtnText}>←</Text>
       </TouchableOpacity>
       <Text style={{ fontFamily: Fonts.bold, fontSize: 17, color: Colors.textPrimary }}>Bank</Text>
-      <TouchableOpacity onPress={onClose} style={b.closeBtn}>
-        <Text style={{ fontSize: 16, color: Colors.textSecondary }}>✕</Text>
+      <TouchableOpacity onPress={onClose} style={b.closeBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+        <Text style={b.closeBtnText}>✕</Text>
       </TouchableOpacity>
     </View>
   );
@@ -187,7 +211,7 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
     }).start(async () => {
       try {
         const uid = auth.currentUser?.uid;
-        await setBankAccount(uid, {
+        await setBankAccount(uid, deepClean({
           id: selectedBank.id,
           name: selectedBank.name,
           bank: selectedBank.bank,
@@ -195,8 +219,8 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
           baseRate: selectedBank.rate,
           color: selectedBank.color,
           colorLight: selectedBank.colorLight,
-          openingBalance: depositAmount,
-        });
+          openingBalance: depositAmount ?? 0,
+        }));
         await onSimUpdate();
         setAccountDone(true);
       } catch (e) {
@@ -229,29 +253,33 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
 
     // Step 1: Pick account type
     if (!selectedType) {
-      const available = ACCOUNT_TYPES.filter(t => !existingAccountTypes.includes(t.id));
       return (
         <View style={b.content}>
           <Text style={b.sectionTitle}>Choose Account Type</Text>
-          {available.length === 0 && (
-            <View style={b.card}>
-              <Text style={{ fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary }}>You already have all available account types.</Text>
-            </View>
-          )}
-          {available.map(t => (
-            <TouchableOpacity key={t.id} style={[b.card, { borderWidth: 2, borderColor: t.colorLight }]} onPress={() => setSelectedType(t.id)}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: t.colorLight, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 22 }}>{t.icon}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontFamily: Fonts.bold, fontSize: 15, color: Colors.textPrimary }}>{t.label}</Text>
-                  <Text style={{ fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary }}>{t.tagline}</Text>
-                  <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: t.color, marginTop: 2 }}>{t.rateLabel}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+          <View style={{ flexDirection: 'row', gap: 10, marginBottom: 16 }}>
+            {ACCOUNT_TYPES.map(t => {
+              const alreadyHeld = existingAccountTypes.includes(t.id);
+              return (
+                <TouchableOpacity
+                  key={t.id}
+                  style={[b.accountTypeCard, alreadyHeld && { opacity: 0.5 }]}
+                  onPress={() => !alreadyHeld && setSelectedType(t.id)}
+                  disabled={alreadyHeld}
+                  activeOpacity={0.85}
+                >
+                  <Text style={{ fontSize: 24 }}>{t.icon}</Text>
+                  <Text style={b.accountTypeLabel}>{t.label}</Text>
+                  <Text style={b.accountTypeRate}>{t.rateLabel}</Text>
+                  <Text style={b.accountTypeDesc} numberOfLines={3}>{t.tagline}</Text>
+                  {alreadyHeld && (
+                    <View style={b.accountTypeHeldBadge}>
+                      <Text style={b.accountTypeHeldText}>Already held</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
           <TouchableOpacity onPress={() => setCreatingAccount(false)} style={{ marginTop: 8, alignItems: 'center' }}>
             <Text style={{ fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.textMuted }}>Cancel</Text>
           </TouchableOpacity>
@@ -261,23 +289,23 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
 
     // Step 2: Pick bank
     if (!selectedBank) {
-      const bankList = BANKS[selectedType] ?? [];
+      const bankList = BANKS;
       return (
         <View style={b.content}>
           <Text style={b.sectionTitle}>Choose a Bank</Text>
-          {bankList.map(bank => (
-            <TouchableOpacity key={bank.id} style={[b.card, { borderWidth: 2, borderColor: bank.colorLight }]} onPress={() => { setSelectedBank(bank); setDepositAmount(Math.min(100, cashBalance)); }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-                <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: bank.colorLight, alignItems: 'center', justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 22 }}>{bank.icon}</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+            {bankList.map(bank => (
+              <TouchableOpacity key={bank.id} style={[b.card, { width: (SW - 52) / 2, borderWidth: 2, borderColor: selectedBank?.id === bank.id ? bank.color : Colors.border }]} onPress={() => { setSelectedBank(bank); setDepositAmount(Math.min(100, cashBalance)); }}>
+                <View style={{ alignItems: 'center', gap: 6 }}>
+                  <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: bank.colorLight, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 22 }}>{bank.icon}</Text>
+                  </View>
+                  <Text style={{ fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary, textAlign: 'center' }}>{bank.name}</Text>
+                  <Text style={{ fontFamily: Fonts.semiBold, fontSize: 11, color: bank.color }}>{bank.rateLabel}</Text>
                 </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={{ fontFamily: Fonts.bold, fontSize: 15, color: Colors.textPrimary }}>{bank.name}</Text>
-                  <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: bank.color }}>{bank.rateLabel}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ))}
+          </View>
           <TouchableOpacity onPress={() => setSelectedType(null)} style={{ marginTop: 8, alignItems: 'center' }}>
             <Text style={{ fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.textMuted }}>Back</Text>
           </TouchableOpacity>
@@ -371,25 +399,37 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
                 </View>
               )}
 
-              {isSavingsGoal && w.targetAmount > 0 && (
+              {isSavingsGoal && (w.target ?? w.targetAmount ?? 0) > 0 && (
                 <View style={{ marginTop: 4 }}>
                   <View style={{ height: 6, borderRadius: 3, backgroundColor: Colors.lightGray, overflow: 'hidden' }}>
-                    <View style={{ height: 6, borderRadius: 3, backgroundColor: wColor, width: `${Math.min(100, ((w.balance ?? 0) / w.targetAmount) * 100)}%` }} />
+                    <View style={{ height: 6, borderRadius: 3, backgroundColor: wColor, width: `${Math.min(100, ((w.balance ?? 0) / (w.target ?? w.targetAmount)) * 100)}%` }} />
                   </View>
                   <Text style={{ fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 4 }}>
-                    {Math.round(((w.balance ?? 0) / w.targetAmount) * 100)}% of target
+                    {Math.round(((w.balance ?? 0) / (w.target ?? w.targetAmount)) * 100)}% of target
                   </Text>
                 </View>
               )}
 
-              {isEmergency && w.monthsCovered != null && (
+              {isEmergency && (
                 <View style={{ marginTop: 4 }}>
-                  <View style={{ height: 6, borderRadius: 3, backgroundColor: Colors.lightGray, overflow: 'hidden' }}>
-                    <View style={{ height: 6, borderRadius: 3, backgroundColor: wColor, width: `${Math.min(100, (w.monthsCovered / 6) * 100)}%` }} />
-                  </View>
-                  <Text style={{ fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 4 }}>
-                    {w.monthsCovered} months covered
-                  </Text>
+                  {(() => {
+                    const monthlyNeeds = sim?.monthlyBudget?.needsAmt ?? 0;
+                    const monthsCovered = monthlyNeeds > 0 ? Math.floor((w.balance ?? 0) / monthlyNeeds) : 0;
+                    const targetMonths = monthlyNeeds > 0 && w.target ? Math.round(w.target / monthlyNeeds) : null;
+                    const pct = w.target > 0 ? Math.min(100, Math.round(((w.balance ?? 0) / w.target) * 100)) : 0;
+                    return (
+                      <>
+                        <View style={{ height: 6, borderRadius: 3, backgroundColor: Colors.lightGray, overflow: 'hidden' }}>
+                          <View style={{ height: 6, borderRadius: 3, backgroundColor: wColor, width: `${pct}%` }} />
+                        </View>
+                        <Text style={{ fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 4 }}>
+                          {monthlyNeeds > 0
+                            ? (targetMonths ? `${monthsCovered} of ${targetMonths} months covered` : `${monthsCovered} months covered`)
+                            : `${pct}% funded`}
+                        </Text>
+                      </>
+                    );
+                  })()}
                 </View>
               )}
             </View>
@@ -445,36 +485,41 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
     });
   };
 
-  const WalletPicker = ({ label, selected, onSelect, exclude }) => (
-    <View style={{ marginBottom: 12 }}>
-      <Text style={b.sectionTitle}>{label}</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginBottom: 4 }}>
-        {wallets.filter(w => w.id !== exclude).map((w, idx) => {
-          const isActive = selected?.id === w.id;
-          const cycle = WALLET_CYCLE[idx % WALLET_CYCLE.length];
-          const wColor = w.color ?? cycle.color;
-          const wColorLight = w.colorLight ?? cycle.colorLight;
-          return (
-            <TouchableOpacity
-              key={w.id}
-              onPress={() => onSelect(w)}
-              style={{
-                backgroundColor: isActive ? wColor : wColorLight,
-                paddingHorizontal: 14, paddingVertical: 10, borderRadius: Radii.md,
-                marginRight: 8, minWidth: 100, alignItems: 'center',
-              }}
-            >
-              <Text style={{ fontSize: 18, marginBottom: 2 }}>{w.icon ?? '💰'}</Text>
-              <Text style={{ fontFamily: Fonts.bold, fontSize: 11, color: isActive ? Colors.white : Colors.textPrimary }} numberOfLines={1}>{w.label}</Text>
-              <CoinAmount value={w.balance ?? 0} size={10} fontSize={10} fontFamily={Fonts.semiBold} color={isActive ? Colors.white : Colors.textSecondary} />
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </View>
-  );
-
   const renderTransfers = () => {
+    const recentTransfers = (() => {
+      const history = sim?.history ?? [];
+      const transfers = [];
+      for (let i = history.length - 1; i >= 0 && transfers.length < 10; i--) {
+        const h = history[i];
+        if ((h.salaryCredit ?? 0) > 0) transfers.push({
+          id: `salary-${h.month}`, month: h.month, icon: '💼',
+          label: 'Salary credited', from: 'Luminary', to: 'Bank',
+          amount: h.salaryCredit, type: 'credit',
+        });
+        if ((h.savingsContribution ?? 0) > 0) transfers.push({
+          id: `savings-${h.month}`, month: h.month, icon: '🎯',
+          label: 'Savings goal', from: 'Bank', to: 'Savings',
+          amount: h.savingsContribution, type: 'debit',
+        });
+        if ((h.efContribution ?? 0) > 0) transfers.push({
+          id: `ef-${h.month}`, month: h.month, icon: '🛡️',
+          label: 'Emergency fund', from: 'Bank', to: 'Emergency Fund',
+          amount: h.efContribution, type: 'debit',
+        });
+        if ((h.dcaContribution ?? 0) > 0) transfers.push({
+          id: `dca-${h.month}`, month: h.month, icon: '📈',
+          label: 'Investment DCA', from: 'Bank', to: 'Portfolio',
+          amount: h.dcaContribution, type: 'debit',
+        });
+        if ((h.needsDebit ?? 0) > 0) transfers.push({
+          id: `needs-${h.month}`, month: h.month, icon: '🏠',
+          label: 'Monthly needs', from: 'Bank', to: 'Expenses',
+          amount: h.needsDebit, type: 'debit',
+        });
+      }
+      return transfers.slice(0, 10);
+    })();
+
     if (transferDone) {
       return (
         <ScrollView style={{ flex: 1 }} contentContainerStyle={b.content} showsVerticalScrollIndicator={false}>
@@ -494,10 +539,63 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
       );
     }
 
+    const fromWalletColor = fromWallet?.color ?? WALLET_CYCLE[wallets.indexOf(fromWallet) % WALLET_CYCLE.length]?.color ?? Colors.primary;
+    const toWalletColor = toWallet?.color ?? WALLET_CYCLE[wallets.indexOf(toWallet) % WALLET_CYCLE.length]?.color ?? Colors.primary;
+
     return (
       <ScrollView style={{ flex: 1 }} contentContainerStyle={b.content} showsVerticalScrollIndicator={false}>
-        <WalletPicker label="From" selected={fromWallet} onSelect={(w) => { setFromWallet(w); setTransferAmount(0); }} exclude={toWallet?.id} />
-        <WalletPicker label="To" selected={toWallet} onSelect={setToWallet} exclude={fromWallet?.id} />
+        {/* FROM */}
+        <View style={b.transferSection}>
+          <Text style={b.transferSectionLabel}>FROM</Text>
+          <TouchableOpacity style={b.transferWalletCard} onPress={() => setShowFromPicker(true)} activeOpacity={0.85}>
+            {fromWallet ? (
+              <View style={b.transferWalletSelected}>
+                <View style={[b.transferWalletDot, { backgroundColor: fromWalletColor }]} />
+                <View style={{ flex: 1 }}>
+                  <Text style={b.transferWalletName}>{fromWallet.label}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <Image source={COIN} style={{ width: 12, height: 12 }} />
+                    <Text style={b.transferWalletBalance}>{Math.round(fromWallet.balance ?? 0).toLocaleString()} available</Text>
+                  </View>
+                </View>
+                <Text style={b.transferChevron}>›</Text>
+              </View>
+            ) : (
+              <Text style={b.transferWalletPlaceholder}>Select account →</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+
+        {/* Arrow */}
+        <View style={b.transferArrowRow}>
+          <View style={b.transferArrowLine} />
+          <View style={b.transferArrowCircle}>
+            <Text style={b.transferArrowText}>↓</Text>
+          </View>
+          <View style={b.transferArrowLine} />
+        </View>
+
+        {/* TO */}
+        <View style={b.transferSection}>
+          <Text style={b.transferSectionLabel}>TO</Text>
+          <TouchableOpacity style={b.transferWalletCard} onPress={() => setShowToPicker(true)} activeOpacity={0.85}>
+            {toWallet ? (
+              <View style={b.transferWalletSelected}>
+                <View style={[b.transferWalletDot, { backgroundColor: toWalletColor }]} />
+                <View style={{ flex: 1 }}>
+                  <Text style={b.transferWalletName}>{toWallet.label}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                    <Image source={COIN} style={{ width: 12, height: 12 }} />
+                    <Text style={b.transferWalletBalance}>{Math.round(toWallet.balance ?? 0).toLocaleString()} balance</Text>
+                  </View>
+                </View>
+                <Text style={b.transferChevron}>›</Text>
+              </View>
+            ) : (
+              <Text style={b.transferWalletPlaceholder}>Select account →</Text>
+            )}
+          </TouchableOpacity>
+        </View>
 
         {fromWallet && toWallet && (
           <View style={b.card}>
@@ -519,7 +617,6 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
               <Text style={{ fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted }}>Available:</Text>
               <CoinAmount value={maxTransfer} size={12} fontSize={12} fontFamily={Fonts.semiBold} color={Colors.textSecondary} />
             </View>
-
             {toRate > 0 && transferAmount > 0 && (
               <View style={{ marginTop: 12, backgroundColor: Colors.successLight, borderRadius: Radii.sm, padding: 10 }}>
                 <Text style={{ fontFamily: Fonts.regular, fontSize: 12, color: Colors.successDark }}>
@@ -527,7 +624,6 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
                 </Text>
               </View>
             )}
-
             {transferring && <AnimatedBar anim={transferBarAnim} />}
           </View>
         )}
@@ -538,11 +634,204 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
             onPress={handleTransfer}
             disabled={transferring || transferAmount <= 0}
           >
-            {transferring
-              ? <ActivityIndicator color={Colors.white} />
-              : <Text style={b.ctaBtnText}>Transfer</Text>
-            }
+            {transferring ? <ActivityIndicator color={Colors.white} /> : <Text style={b.ctaBtnText}>Transfer</Text>}
           </TouchableOpacity>
+        )}
+
+        {/* FROM Picker Modal */}
+        {showFromPicker && (
+          <Modal transparent animationType="fade">
+            <TouchableOpacity style={b.pickerBackdrop} activeOpacity={1} onPress={() => setShowFromPicker(false)}>
+              <View style={b.pickerSheet} onStartShouldSetResponder={() => true}>
+                <Text style={b.pickerTitle}>Transfer from</Text>
+                {wallets.filter(w => w.id !== toWallet?.id).map(w => (
+                  <TouchableOpacity key={w.id} style={b.pickerRow} onPress={() => { setFromWallet(w); setShowFromPicker(false); setTransferAmount(0); }} activeOpacity={0.85}>
+                    <Text style={{ fontSize: 20 }}>{w.icon ?? '💰'}</Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={b.pickerRowName}>{w.label}</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                        <Image source={COIN} style={{ width: 11, height: 11 }} />
+                        <Text style={b.pickerRowBalance}>{Math.round(w.balance ?? 0).toLocaleString()}</Text>
+                      </View>
+                    </View>
+                    {fromWallet?.id === w.id && <Text style={{ color: Colors.primary, fontSize: 18 }}>✓</Text>}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </TouchableOpacity>
+          </Modal>
+        )}
+
+        {/* TO Picker Modal */}
+        {showToPicker && (
+          <Modal transparent animationType="fade">
+            <TouchableOpacity style={b.pickerBackdrop} activeOpacity={1} onPress={() => setShowToPicker(false)}>
+              <View style={b.pickerSheet} onStartShouldSetResponder={() => true}>
+                <Text style={b.pickerTitle}>Transfer to</Text>
+                {wallets.filter(w => w.id !== fromWallet?.id).map(w => (
+                  <TouchableOpacity key={w.id} style={b.pickerRow} onPress={() => { setToWallet(w); setShowToPicker(false); }} activeOpacity={0.85}>
+                    <Text style={{ fontSize: 20 }}>{w.icon ?? '💰'}</Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={b.pickerRowName}>{w.label}</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                        <Image source={COIN} style={{ width: 11, height: 11 }} />
+                        <Text style={b.pickerRowBalance}>{Math.round(w.balance ?? 0).toLocaleString()}</Text>
+                      </View>
+                    </View>
+                    {toWallet?.id === w.id && <Text style={{ color: Colors.primary, fontSize: 18 }}>✓</Text>}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </TouchableOpacity>
+          </Modal>
+        )}
+
+        {/* AUTOMATED TRANSFERS */}
+        <View style={b.autoTransferSection}>
+          <View style={b.autoTransferHeader}>
+            <Text style={b.sectionEyebrow}>AUTOMATED TRANSFERS</Text>
+            <Text style={b.autoTransferSub}>Runs every month when you advance time</Text>
+          </View>
+
+          {(() => {
+            const automations = [];
+            const goalWallets = (sim?.wallets ?? []).filter(w => w.type === 'savings-goal' || w.type === 'emergency');
+            for (const w of goalWallets) {
+              automations.push({
+                id: w.id, icon: w.type === 'emergency' ? '🛡️' : '🎯',
+                label: w.label ?? 'Savings Goal', amount: w.monthlyContribution ?? 0,
+                color: w.type === 'emergency' ? MODULE_COLORS['module-3'].color : MODULE_COLORS['module-2'].color,
+                colorLight: w.type === 'emergency' ? MODULE_COLORS['module-3'].colorLight : MODULE_COLORS['module-2'].colorLight,
+                type: 'goal', walletId: w.id,
+              });
+            }
+            const investWallets = (sim?.wallets ?? []).filter(w => w.type === 'investment');
+            for (const w of investWallets) {
+              automations.push({
+                id: w.id, icon: w.icon ?? '📈',
+                label: w.label ?? 'Investment', amount: w.monthlyDCA ?? 0,
+                color: MODULE_COLORS['module-4'].color, colorLight: MODULE_COLORS['module-4'].colorLight,
+                type: 'investment', walletId: w.id,
+              });
+            }
+
+            if (automations.length === 0) {
+              return (
+                <View style={b.autoEmptyState}>
+                  <Text style={b.autoEmptyText}>No automation set up yet. Complete Quest 3.1 to create your first savings goal.</Text>
+                </View>
+              );
+            }
+
+            return (
+              <View style={b.automationList}>
+                {automations.map(auto => (
+                  <View key={auto.id} style={b.automationRow}>
+                    <View style={[b.automationRowIcon, { backgroundColor: auto.colorLight }]}>
+                      <Text style={{ fontSize: 16 }}>{auto.icon}</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={b.automationRowLabel}>{auto.label}</Text>
+                      <Text style={b.automationRowFrom}>From: Bank account</Text>
+                    </View>
+                    <View style={{ alignItems: 'flex-end', gap: 6 }}>
+                      {auto.amount > 0 ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                          <Image source={COIN} style={{ width: 11, height: 11 }} />
+                          <Text style={[b.automationRowAmt, { color: auto.color }]}>{Math.round(auto.amount).toLocaleString()}/mo</Text>
+                        </View>
+                      ) : (
+                        <Text style={b.automationRowNotSet}>Not set</Text>
+                      )}
+                      <TouchableOpacity
+                        style={[b.automationRowEditBtn, { backgroundColor: auto.colorLight }]}
+                        onPress={() => {
+                          if (auto.type === 'investment') {
+                            setEditingInvestAutoId(auto.walletId);
+                            setInvestAutoAmount(String(auto.amount || ''));
+                          } else {
+                            setEditingAutoGoalId(auto.walletId);
+                            setAutoAmount(String(auto.amount || ''));
+                          }
+                        }}
+                        activeOpacity={0.85}
+                      >
+                        <Text style={[b.automationRowEditText, { color: auto.color }]}>{auto.amount > 0 ? 'Edit' : 'Set up'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+
+                {automations.some(a => a.amount > 0) && (
+                  <View style={b.automationTotal}>
+                    <Text style={b.automationTotalLabel}>Total automated /month</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                      <Image source={COIN} style={{ width: 13, height: 13 }} />
+                      <Text style={b.automationTotalAmt}>{automations.reduce((s, a) => s + (a.amount ?? 0), 0).toLocaleString()}</Text>
+                    </View>
+                  </View>
+                )}
+              </View>
+            );
+          })()}
+        </View>
+
+        {/* Fin suggestion */}
+        {(() => {
+          const goalWallets = (sim?.wallets ?? []).filter(w => w.type === 'savings-goal' || w.type === 'emergency');
+          const investWallets = (sim?.wallets ?? []).filter(w => w.type === 'investment');
+          const unautomatedGoals = goalWallets.filter(w => !(w.monthlyContribution > 0));
+          const unautomatedInvest = investWallets.filter(w => !(w.monthlyDCA > 0));
+          const total = unautomatedGoals.length + unautomatedInvest.length;
+
+          if (total === 0 && (goalWallets.length + investWallets.length) > 0) {
+            return (
+              <View style={b.finSuggestionCard}>
+                <View style={b.finSuggestionTop}><Text style={{ fontSize: 16 }}>{'\uD83D\uDC1F'}</Text><Text style={b.finSuggestionLabel}>FIN SAYS</Text></View>
+                <Text style={b.finSuggestionText}>All your accounts are automated. Every month advance moves money exactly where it should go — no manual transfers needed. This is what a well-structured financial system looks like.</Text>
+              </View>
+            );
+          }
+          if (total === 0) return null;
+          const parts = [];
+          if (unautomatedGoals.length > 0) { const names = unautomatedGoals.map(w => w.label).join(', '); parts.push(`${names} ${unautomatedGoals.length === 1 ? 'has' : 'have'} no monthly contribution set`); }
+          if (unautomatedInvest.length > 0) { const names = unautomatedInvest.map(w => w.label).join(', '); parts.push(`${names} ${unautomatedInvest.length === 1 ? 'has' : 'have'} no DCA set`); }
+          return (
+            <View style={b.finSuggestionCard}>
+              <View style={b.finSuggestionTop}><Text style={{ fontSize: 16 }}>{'\uD83D\uDC1F'}</Text><Text style={b.finSuggestionLabel}>FIN SAYS</Text></View>
+              <Text style={b.finSuggestionText}>{parts.join('. ')}. Automation means your money moves without you having to think about it — set it up and every month advance does the work for you.</Text>
+            </View>
+          );
+        })()}
+
+        {/* Recent activity */}
+        {recentTransfers.length > 0 && (
+          <View style={b.recentSection}>
+            <Text style={b.sectionEyebrow}>RECENT ACTIVITY</Text>
+            {recentTransfers.map(t => (
+              <View key={t.id} style={b.recentRow}>
+                <View style={b.recentIconCircle}>
+                  <Text style={{ fontSize: 16 }}>{t.icon}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={b.recentLabel}>{t.label}</Text>
+                  <Text style={b.recentMeta}>
+                    {t.from} → {t.to} · Month {t.month}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                  <Image source={COIN} style={{ width: 11, height: 11 }} />
+                  <Text style={[b.recentAmt, {
+                    color: t.type === 'credit'
+                      ? MODULE_COLORS['module-3'].color
+                      : Colors.textPrimary,
+                  }]}>
+                    {t.type === 'credit' ? '+' : '-'}{Math.round(t.amount).toLocaleString()}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
         )}
       </ScrollView>
     );
@@ -579,7 +868,7 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
 
       try {
         const uid = auth.currentUser?.uid;
-        await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), {
+        await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), deepClean({
           lastPromotionAttempt: currentMonth,
           ...(success && {
             income: newSalary,
@@ -591,7 +880,7 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
               increasePercent,
             }],
           }),
-        });
+        }));
         await onSimUpdate();
         setPromotionResult({ success, increasePercent, newSalary, oldSalary: income });
       } catch (e) {
@@ -741,7 +1030,12 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
   const handleCreateGoal = async () => {
     try {
       const uid = auth.currentUser?.uid;
-      await openSavingsGoalAccount(uid, { goalName, targetAmount: goalTarget, monthlyContribution: goalContribution });
+      await openSavingsGoalAccount(uid, deepClean({
+        goalName: goalName || 'Savings Goal',
+        targetAmount: goalTarget ?? 500,
+        monthlyContribution: goalContribution ?? 50,
+        targetDate: null,
+      }));
       await onSimUpdate();
       setCreatingGoal(false);
       setGoalStep(1);
@@ -770,7 +1064,7 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
       const updatedWallets = wallets.map(w =>
         w.id === wallet.id ? { ...w, targetAmount: newTarget } : w
       );
-      await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), { wallets: updatedWallets, updatedAt: Date.now() });
+      await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), deepClean({ wallets: updatedWallets, updatedAt: Date.now() }));
       await onSimUpdate();
       setEditingGoal(null);
       setEditField(null);
@@ -785,7 +1079,7 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
       const updatedWallets = wallets.map(w =>
         w.id === wallet.id ? { ...w, monthlyContribution: newContribution } : w
       );
-      await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), { wallets: updatedWallets, updatedAt: Date.now() });
+      await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), deepClean({ wallets: updatedWallets, updatedAt: Date.now() }));
       await onSimUpdate();
       setEditingGoal(null);
       setEditField(null);
@@ -897,9 +1191,10 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
           const cycle = WALLET_CYCLE[idx % WALLET_CYCLE.length];
           const wColor = w.color ?? cycle.color;
           const wColorLight = w.colorLight ?? cycle.colorLight;
-          const progress = w.targetAmount > 0 ? Math.min(1, (w.balance ?? 0) / w.targetAmount) : 0;
+          const wTarget = w.target ?? w.targetAmount ?? 0;
+          const progress = wTarget > 0 ? Math.min(1, (w.balance ?? 0) / wTarget) : 0;
           const contribution = w.monthlyContribution ?? 0;
-          const remaining = Math.max(0, (w.targetAmount ?? 0) - (w.balance ?? 0));
+          const remaining = Math.max(0, wTarget - (w.balance ?? 0));
           const eta = contribution > 0 ? Math.ceil(remaining / contribution) : null;
           const isEditing = editingGoal === w.id;
 
@@ -919,7 +1214,7 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
               </View>
 
               {/* Progress */}
-              {w.targetAmount > 0 && (
+              {wTarget > 0 && (
                 <View style={{ marginBottom: 10 }}>
                   <View style={{ height: 8, borderRadius: 4, backgroundColor: Colors.lightGray, overflow: 'hidden' }}>
                     <View style={{ height: 8, borderRadius: 4, backgroundColor: wColor, width: `${progress * 100}%` }} />
@@ -928,24 +1223,76 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
                     <Text style={{ fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted }}>
                       {Math.round(progress * 100)}% of target
                     </Text>
-                    <CoinAmount value={w.targetAmount} size={10} fontSize={11} color={Colors.textMuted} fontFamily={Fonts.regular} />
+                    <CoinAmount value={wTarget} size={10} fontSize={11} color={Colors.textMuted} fontFamily={Fonts.regular} />
                   </View>
                 </View>
               )}
 
-              {/* Contribution + ETA */}
-              <View style={{ flexDirection: 'row', gap: 12, marginBottom: 10 }}>
-                {contribution > 0 && (
-                  <View style={{ flex: 1, backgroundColor: Colors.lightGray, borderRadius: Radii.sm, padding: 8 }}>
-                    <Text style={{ fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted }}>Monthly</Text>
-                    <CoinAmount value={contribution} size={10} fontSize={12} fontFamily={Fonts.semiBold} />
-                  </View>
-                )}
-                {eta != null && (
-                  <View style={{ flex: 1, backgroundColor: Colors.lightGray, borderRadius: Radii.sm, padding: 8 }}>
-                    <Text style={{ fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted }}>ETA</Text>
-                    <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: Colors.textPrimary }}>~{eta} months</Text>
-                  </View>
+              {/* Automation section */}
+              <View style={b.automationSection}>
+                <Text style={b.automationTitle}>MONTHLY AUTOMATION</Text>
+
+                <View style={b.automationOptions}>
+                  {/* Manual option */}
+                  <TouchableOpacity
+                    style={[b.automationOption, (w.monthlyContribution ?? 0) === 0 && b.automationOptionActive]}
+                    onPress={() => {
+                      if ((w.monthlyContribution ?? 0) === 0) return;
+                      setConfirmDisableAuto(w.id);
+                    }}
+                    activeOpacity={0.85}
+                  >
+                    <View style={[b.automationRadio, (w.monthlyContribution ?? 0) === 0 && b.automationRadioActive]} />
+                    <View>
+                      <Text style={b.automationOptionLabel}>Manual</Text>
+                      <Text style={b.automationOptionSub}>Transfer yourself each month</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  {/* Automated option */}
+                  <TouchableOpacity
+                    style={[b.automationOption, (w.monthlyContribution ?? 0) > 0 && b.automationOptionActive]}
+                    onPress={() => setEditingAutoGoalId(w.id)}
+                    activeOpacity={0.85}
+                  >
+                    <View style={[b.automationRadio, (w.monthlyContribution ?? 0) > 0 && b.automationRadioActive]} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={b.automationOptionLabel}>Automated</Text>
+                      {(w.monthlyContribution ?? 0) > 0 ? (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                          <Image source={COIN} style={{ width: 11, height: 11 }} />
+                          <Text style={[b.automationOptionSub, { color: MODULE_COLORS['module-3'].color, fontFamily: Fonts.bold }]}>
+                            {Math.round(w.monthlyContribution).toLocaleString()}/month
+                          </Text>
+                        </View>
+                      ) : (
+                        <Text style={b.automationOptionSub}>Set a monthly amount</Text>
+                      )}
+                    </View>
+                    {(w.monthlyContribution ?? 0) > 0 && (
+                      <TouchableOpacity
+                        onPress={() => setEditingAutoGoalId(w.id)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      >
+                        <Text style={b.automationEditBtn}>Edit</Text>
+                      </TouchableOpacity>
+                    )}
+                  </TouchableOpacity>
+                </View>
+
+                {/* ETA if automated */}
+                {(w.monthlyContribution ?? 0) > 0 && (w.target ?? 0) > 0 && (
+                  (() => {
+                    const autoRemaining = Math.max(0, (w.target ?? 0) - (w.balance ?? 0));
+                    const autoMonths = autoRemaining > 0 ? Math.ceil(autoRemaining / w.monthlyContribution) : 0;
+                    return (
+                      <Text style={b.automationETA}>
+                        {autoMonths === 0
+                          ? '✓ Goal reached'
+                          : `On track to reach goal in ${autoMonths} month${autoMonths !== 1 ? 's' : ''}`}
+                      </Text>
+                    );
+                  })()
                 )}
               </View>
 
@@ -970,39 +1317,6 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
                     <TouchableOpacity
                       style={{ flex: 1, backgroundColor: wColor, borderRadius: Radii.sm, paddingVertical: 8, alignItems: 'center' }}
                       onPress={() => handleUpdateGoalTarget(w, editValue)}
-                    >
-                      <Text style={{ fontFamily: Fonts.bold, fontSize: 13, color: Colors.white }}>Save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{ flex: 1, backgroundColor: Colors.white, borderRadius: Radii.sm, paddingVertical: 8, alignItems: 'center', borderWidth: 1, borderColor: Colors.border }}
-                      onPress={() => { setEditingGoal(null); setEditField(null); }}
-                    >
-                      <Text style={{ fontFamily: Fonts.bold, fontSize: 13, color: Colors.textSecondary }}>Cancel</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-
-              {isEditing && editField === 'contribution' && (
-                <View style={{ backgroundColor: Colors.lightGray, borderRadius: Radii.sm, padding: 12, marginBottom: 8 }}>
-                  <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: Colors.textPrimary, marginBottom: 8 }}>Monthly Contribution</Text>
-                  <View style={{ alignItems: 'center', marginBottom: 4 }}>
-                    <CoinAmount value={editValue} size={16} fontSize={18} fontFamily={Fonts.bold} />
-                  </View>
-                  <Slider
-                    minimumValue={0}
-                    maximumValue={Math.min(income || 500, w.targetAmount ?? 1000)}
-                    step={10}
-                    value={editValue}
-                    onValueChange={setEditValue}
-                    minimumTrackTintColor={wColor}
-                    maximumTrackTintColor={Colors.border}
-                    thumbTintColor={wColor}
-                  />
-                  <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
-                    <TouchableOpacity
-                      style={{ flex: 1, backgroundColor: wColor, borderRadius: Radii.sm, paddingVertical: 8, alignItems: 'center' }}
-                      onPress={() => handleUpdateGoalContribution(w, editValue)}
                     >
                       <Text style={{ fontFamily: Fonts.bold, fontSize: 13, color: Colors.white }}>Save</Text>
                     </TouchableOpacity>
@@ -1042,15 +1356,9 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
                 <View style={{ flexDirection: 'row', gap: 8, marginTop: 4 }}>
                   <TouchableOpacity
                     style={{ flex: 1, backgroundColor: wColorLight, borderRadius: Radii.sm, paddingVertical: 8, alignItems: 'center' }}
-                    onPress={() => { setEditingGoal(w.id); setEditField('target'); setEditValue(w.targetAmount ?? 500); }}
+                    onPress={() => { setEditingGoal(w.id); setEditField('target'); setEditValue(wTarget || 500); }}
                   >
                     <Text style={{ fontFamily: Fonts.semiBold, fontSize: 11, color: wColor }}>Change Target</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ flex: 1, backgroundColor: wColorLight, borderRadius: Radii.sm, paddingVertical: 8, alignItems: 'center' }}
-                    onPress={() => { setEditingGoal(w.id); setEditField('contribution'); setEditValue(w.monthlyContribution ?? 50); }}
-                  >
-                    <Text style={{ fontFamily: Fonts.semiBold, fontSize: 11, color: wColor }}>Contribution</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{ flex: 1, backgroundColor: Colors.dangerLight, borderRadius: Radii.sm, paddingVertical: 8, alignItems: 'center' }}
@@ -1089,6 +1397,195 @@ export default function BankModal({ visible, onClose, sim, onSimUpdate }) {
         {activeTab === 'Salary' && renderSalary()}
         {activeTab === 'Goals' && renderGoals()}
       </View>
+
+      {/* Automation amount editor */}
+      {editingAutoGoalId && (() => {
+        const goalWallet = (sim?.wallets ?? []).find(w => w.id === editingAutoGoalId);
+        const currentContrib = goalWallet?.monthlyContribution ?? 0;
+        const maxAmt = Math.round((sim?.monthlyBudget?.savingsAmt ?? 0));
+
+        return (
+          <Modal transparent animationType="fade">
+            <View style={b.autoModalBackdrop}>
+              <View style={b.autoModalCard}>
+                <Text style={b.autoModalTitle}>Monthly automation</Text>
+                <Text style={b.autoModalSub}>{goalWallet?.label ?? 'Savings Goal'}</Text>
+
+                <View style={b.autoModalInput}>
+                  <Image source={COIN} style={{ width: 16, height: 16 }} />
+                  <TextInput
+                    style={b.autoModalInputText}
+                    value={autoAmount || (currentContrib > 0 ? String(currentContrib) : '')}
+                    onChangeText={setAutoAmount}
+                    placeholder={currentContrib > 0 ? String(currentContrib) : 'e.g. 500'}
+                    placeholderTextColor={Colors.textMuted}
+                    keyboardType="numeric"
+                    autoFocus
+                    maxLength={6}
+                  />
+                  <Text style={b.autoModalUnit}>/month</Text>
+                </View>
+
+                {maxAmt > 0 && (
+                  <Text style={b.autoModalHint}>
+                    Savings budget: {maxAmt.toLocaleString()} available
+                  </Text>
+                )}
+
+                {/* Quick amounts */}
+                <View style={b.autoQuickRow}>
+                  {[
+                    Math.round(maxAmt * 0.25),
+                    Math.round(maxAmt * 0.5),
+                    Math.round(maxAmt * 0.75),
+                    maxAmt,
+                  ].filter(v => v > 0).map(v => (
+                    <TouchableOpacity
+                      key={v}
+                      style={b.autoQuickChip}
+                      onPress={() => setAutoAmount(String(v))}
+                      activeOpacity={0.85}
+                    >
+                      <Text style={b.autoQuickChipText}>{v.toLocaleString()}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                <View style={b.autoModalBtns}>
+                  <TouchableOpacity
+                    style={b.autoModalCancel}
+                    onPress={() => { setEditingAutoGoalId(null); setAutoAmount(''); }}
+                    activeOpacity={0.85}
+                  >
+                    <Text style={b.autoModalCancelText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={b.autoModalConfirm}
+                    onPress={async () => {
+                      const val = parseInt(autoAmount, 10);
+                      if (!val || val <= 0) return;
+                      const uid = auth.currentUser?.uid;
+                      const updatedWallets = (sim?.wallets ?? []).map(w =>
+                        w.id === editingAutoGoalId
+                          ? { ...w, monthlyContribution: val }
+                          : w
+                      );
+                      await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), {
+                        wallets: updatedWallets,
+                        updatedAt: Date.now(),
+                      });
+                      setEditingAutoGoalId(null);
+                      setAutoAmount('');
+                      onSimUpdate();
+                    }}
+                    activeOpacity={0.88}
+                  >
+                    <Text style={b.autoModalConfirmText}>Save {'\u2192'}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        );
+      })()}
+
+      {/* Disable automation confirmation */}
+      {/* Investment DCA edit modal */}
+      {editingInvestAutoId && (
+        <Modal transparent animationType="fade">
+          <View style={b.autoModalBackdrop}>
+            <View style={b.autoModalCard}>
+              <Text style={b.autoModalTitle}>Monthly DCA</Text>
+              <Text style={b.autoModalSub}>{(sim?.wallets ?? []).find(w => w.id === editingInvestAutoId)?.label ?? 'Investment'}</Text>
+              <View style={b.autoModalInput}>
+                <Image source={COIN} style={{ width: 16, height: 16 }} />
+                <TextInput
+                  style={b.autoModalInputText}
+                  value={investAutoAmount}
+                  onChangeText={setInvestAutoAmount}
+                  placeholder="e.g. 500"
+                  placeholderTextColor={Colors.textMuted}
+                  keyboardType="numeric"
+                  autoFocus
+                  maxLength={6}
+                />
+                <Text style={b.autoModalUnit}>/month</Text>
+              </View>
+              <View style={b.autoModalBtns}>
+                <TouchableOpacity
+                  style={b.autoModalCancel}
+                  onPress={() => { setEditingInvestAutoId(null); setInvestAutoAmount(''); }}
+                  activeOpacity={0.85}
+                >
+                  <Text style={b.autoModalCancelText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={b.autoModalConfirm}
+                  onPress={async () => {
+                    const val = parseInt(investAutoAmount, 10);
+                    if (!val || val < 0) return;
+                    const uid = auth.currentUser?.uid;
+                    const updatedWallets = (sim?.wallets ?? []).map(w =>
+                      w.id === editingInvestAutoId ? { ...w, monthlyDCA: val } : w
+                    );
+                    await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), {
+                      wallets: updatedWallets, updatedAt: Date.now(),
+                    });
+                    setEditingInvestAutoId(null);
+                    setInvestAutoAmount('');
+                    onSimUpdate();
+                  }}
+                  activeOpacity={0.88}
+                >
+                  <Text style={b.autoModalConfirmText}>Save {'\u2192'}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {confirmDisableAuto && (
+        <Modal transparent animationType="fade">
+          <View style={b.autoModalBackdrop}>
+            <View style={b.autoModalCard}>
+              <Text style={b.autoModalTitle}>Turn off automation?</Text>
+              <Text style={b.autoModalSub}>
+                You'll need to transfer manually each month.
+              </Text>
+              <View style={b.autoModalBtns}>
+                <TouchableOpacity
+                  style={b.autoModalCancel}
+                  onPress={() => setConfirmDisableAuto(null)}
+                  activeOpacity={0.85}
+                >
+                  <Text style={b.autoModalCancelText}>Keep it</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[b.autoModalConfirm, { backgroundColor: '#FF4444' }]}
+                  onPress={async () => {
+                    const uid = auth.currentUser?.uid;
+                    const updatedWallets = (sim?.wallets ?? []).map(w =>
+                      w.id === confirmDisableAuto
+                        ? { ...w, monthlyContribution: 0 }
+                        : w
+                    );
+                    await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), {
+                      wallets: updatedWallets,
+                      updatedAt: Date.now(),
+                    });
+                    setConfirmDisableAuto(null);
+                    onSimUpdate();
+                  }}
+                  activeOpacity={0.88}
+                >
+                  <Text style={b.autoModalConfirmText}>Turn off</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
     </Modal>
   );
 }
@@ -1104,10 +1601,10 @@ const b = StyleSheet.create({
     paddingHorizontal: 16, paddingBottom: 12,
     borderBottomWidth: 1, borderBottomColor: Colors.border,
   },
-  closeBtn: {
-    width: 32, height: 32, borderRadius: 16,
-    backgroundColor: Colors.lightGray, alignItems: 'center', justifyContent: 'center',
-  },
+  closeBtn: { padding: 4 },
+  closeBtnText: { fontFamily: Fonts.bold, fontSize: 18, color: Colors.textMuted },
+  backBtn: { padding: 4 },
+  backBtnText: { fontFamily: Fonts.bold, fontSize: 18, color: Colors.textMuted },
   tabBar: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: Colors.border },
   tab: { flex: 1, paddingVertical: 12, alignItems: 'center' },
   tabActive: { borderBottomWidth: 2, borderBottomColor: Colors.primary },
@@ -1148,4 +1645,152 @@ const b = StyleSheet.create({
   finCardText: {
     fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, lineHeight: 22,
   },
+  // Transfer styles
+  transferSection: { marginBottom: 8 },
+  transferSectionLabel: { fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 1.2, color: Colors.textMuted, marginBottom: 6, textTransform: 'uppercase' },
+  transferWalletCard: { backgroundColor: Colors.white, borderRadius: 14, padding: 16, borderWidth: 1.5, borderColor: Colors.border },
+  transferWalletSelected: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  transferWalletDot: { width: 12, height: 12, borderRadius: 6 },
+  transferWalletName: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary, marginBottom: 2 },
+  transferWalletBalance: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  transferWalletPlaceholder: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textMuted },
+  transferChevron: { fontSize: 22, color: Colors.textMuted },
+  transferArrowRow: { flexDirection: 'row', alignItems: 'center', marginVertical: 8 },
+  transferArrowLine: { flex: 1, height: 1, backgroundColor: Colors.border },
+  transferArrowCircle: { width: 32, height: 32, borderRadius: 16, backgroundColor: Colors.primaryLight, alignItems: 'center', justifyContent: 'center', marginHorizontal: 12 },
+  transferArrowText: { fontFamily: Fonts.bold, fontSize: 16, color: Colors.primary },
+  pickerBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+  pickerSheet: { backgroundColor: Colors.white, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 24, paddingBottom: 40 },
+  pickerTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, marginBottom: 16 },
+  pickerRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: Colors.border },
+  pickerRowName: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary },
+  pickerRowBalance: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted },
+  // Account type card styles
+  accountTypeCard: { flex: 1, backgroundColor: Colors.white, borderRadius: 14, padding: 14, borderWidth: 1.5, borderColor: Colors.border, gap: 4 },
+  accountTypeLabel: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
+  accountTypeRate: { fontFamily: Fonts.extraBold, fontSize: 16, color: Colors.primary },
+  accountTypeDesc: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, lineHeight: 16 },
+  accountTypeHeldBadge: { backgroundColor: Colors.border, borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2, alignSelf: 'flex-start', marginTop: 4 },
+  accountTypeHeldText: { fontFamily: Fonts.bold, fontSize: 10, color: Colors.textMuted },
+  // Automation
+  automationSection: { marginTop: 14, paddingTop: 14, borderTopWidth: 1, borderTopColor: Colors.border },
+  automationTitle: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.2, color: Colors.textMuted, marginBottom: 10 },
+  automationOptions: { gap: 8 },
+  automationOption: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: 12, borderWidth: 1.5, borderColor: Colors.border, backgroundColor: Colors.white },
+  automationOptionActive: { borderColor: MODULE_COLORS['module-3'].color, backgroundColor: MODULE_COLORS['module-3'].colorLight },
+  automationRadio: { width: 18, height: 18, borderRadius: 9, borderWidth: 2, borderColor: Colors.border },
+  automationRadioActive: { borderColor: MODULE_COLORS['module-3'].color, backgroundColor: MODULE_COLORS['module-3'].color },
+  automationOptionLabel: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
+  automationOptionSub: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 1 },
+  automationEditBtn: { fontFamily: Fonts.bold, fontSize: 12, color: MODULE_COLORS['module-3'].color },
+  automationETA: { fontFamily: Fonts.regular, fontSize: 11, color: MODULE_COLORS['module-3'].color, marginTop: 8, fontStyle: 'italic' },
+  autoModalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 32 },
+  autoModalCard: { backgroundColor: Colors.white, borderRadius: 20, padding: 24, width: '100%', shadowColor: '#000', shadowOpacity: 0.15, shadowRadius: 20, elevation: 8 },
+  autoModalTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, marginBottom: 4 },
+  autoModalSub: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, marginBottom: 20 },
+  autoModalInput: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: Colors.background, borderRadius: 12, padding: 14, marginBottom: 8 },
+  autoModalInputText: { flex: 1, fontFamily: Fonts.extraBold, fontSize: 22, color: Colors.textPrimary, paddingVertical: 0 },
+  autoModalUnit: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted },
+  autoModalHint: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginBottom: 12 },
+  autoQuickRow: { flexDirection: 'row', gap: 8, marginBottom: 20, flexWrap: 'wrap' },
+  autoQuickChip: { backgroundColor: Colors.primaryLight, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 6 },
+  autoQuickChipText: { fontFamily: Fonts.bold, fontSize: 12, color: Colors.primary },
+  autoModalBtns: { flexDirection: 'row', gap: 10 },
+  autoModalCancel: { flex: 1, borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
+  autoModalCancelText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textSecondary },
+  autoModalConfirm: { flex: 2, backgroundColor: MODULE_COLORS['module-3'].color, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
+  autoModalConfirmText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white },
+  // Transfers tab — section eyebrow
+  sectionEyebrow: {
+    fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.2,
+    color: Colors.textMuted, marginBottom: 4,
+  },
+  // Automated transfers
+  autoTransferSection: {
+    marginTop: 24, paddingTop: 20,
+    borderTopWidth: 1, borderTopColor: Colors.border,
+  },
+  autoTransferHeader: { marginBottom: 16 },
+  autoTransferSub: {
+    fontFamily: Fonts.regular, fontSize: 12,
+    color: Colors.textMuted, marginTop: 3,
+  },
+  autoEmptyState: {
+    backgroundColor: Colors.background, borderRadius: 12, padding: 14,
+  },
+  autoEmptyText: {
+    fontFamily: Fonts.regular, fontSize: 13,
+    color: Colors.textMuted, lineHeight: 20,
+  },
+  automationList: { gap: 0 },
+  automationRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: Colors.border,
+  },
+  automationRowIcon: {
+    width: 40, height: 40, borderRadius: 20,
+    alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  },
+  automationRowLabel: {
+    fontFamily: Fonts.bold, fontSize: 13,
+    color: Colors.textPrimary, marginBottom: 2,
+  },
+  automationRowFrom: {
+    fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted,
+  },
+  automationRowAmt: { fontFamily: Fonts.extraBold, fontSize: 14 },
+  automationRowNotSet: {
+    fontFamily: Fonts.regular, fontSize: 12,
+    color: Colors.textMuted, fontStyle: 'italic',
+  },
+  automationRowEditBtn: { borderRadius: 8, paddingHorizontal: 12, paddingVertical: 5 },
+  automationRowEditText: { fontFamily: Fonts.bold, fontSize: 12 },
+  automationTotal: {
+    flexDirection: 'row', justifyContent: 'space-between',
+    alignItems: 'center', paddingTop: 12, marginTop: 4,
+  },
+  automationTotalLabel: {
+    fontFamily: Fonts.bold, fontSize: 12, color: Colors.textSecondary,
+  },
+  automationTotalAmt: {
+    fontFamily: Fonts.extraBold, fontSize: 16, color: Colors.textPrimary,
+  },
+  // Fin suggestion card
+  finSuggestionCard: {
+    backgroundColor: MODULE_COLORS['module-1'].colorLight,
+    borderRadius: 14, padding: 14, marginTop: 20,
+  },
+  finSuggestionTop: {
+    flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8,
+  },
+  finSuggestionLabel: {
+    fontFamily: Fonts.bold, fontSize: 10, letterSpacing: 1.1,
+    color: MODULE_COLORS['module-1'].color,
+    backgroundColor: MODULE_COLORS['module-1'].colorLight,
+    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: 'hidden',
+  },
+  finSuggestionText: {
+    fontFamily: Fonts.regular, fontSize: 13,
+    color: Colors.textSecondary, lineHeight: 20,
+  },
+  // Recent activity
+  recentSection: {
+    marginTop: 24, paddingTop: 20,
+    borderTopWidth: 1, borderTopColor: Colors.border,
+  },
+  recentRow: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: Colors.border,
+  },
+  recentIconCircle: {
+    width: 36, height: 36, borderRadius: 18,
+    backgroundColor: Colors.background,
+    alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  },
+  recentLabel: {
+    fontFamily: Fonts.bold, fontSize: 13,
+    color: Colors.textPrimary, marginBottom: 2,
+  },
+  recentMeta: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
+  recentAmt: { fontFamily: Fonts.bold, fontSize: 13 },
 });

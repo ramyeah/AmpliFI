@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, Modal, TouchableOpacity, ScrollView,
-  Animated, ActivityIndicator, Image,
+  Animated, ActivityIndicator, Image, TextInput,
   StyleSheet, Dimensions, Easing,
 } from 'react-native';
 import Svg, { Path, G } from 'react-native-svg';
@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { doc as firestoreDoc, updateDoc as firestoreUpdateDoc, increment } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import { Colors, Fonts, Radii, Shadows, Spacing, MODULE_COLORS } from '../../constants/theme';
+import { openInvestmentVehicle, lumpSumInvest } from '../../lib/lifeSim';
 
 const { width: SW, height: SH } = Dimensions.get('window');
 const COIN = require('../../assets/coin.png');
@@ -94,7 +95,7 @@ const formatCoin = (n) => (n ?? 0).toLocaleString();
 
 export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
   const insets = useSafeAreaInsets();
-  const [activeTab, setActiveTab] = useState('Overview');
+  const [activeTab, setActiveTab] = useState('Accounts');
 
   // Rebalance state
   const [rebalanceAllocations, setRebalanceAllocations] = useState({});
@@ -111,6 +112,13 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
   const [whatIfDCA, setWhatIfDCA] = useState(0);
   const [whatIfReturn, setWhatIfReturn] = useState(7);
 
+  // Accounts tab state
+  const [addingVehicle, setAddingVehicle] = useState(null);
+  const [addVehicleLoading, setAddVehicleLoading] = useState(false);
+  const [lumpSumWalletId, setLumpSumWalletId] = useState(null);
+  const [lumpSumAmount, setLumpSumAmount] = useState('');
+  const [vehicleError, setVehicleError] = useState('');
+
   // Animation
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -124,16 +132,27 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
   const monthlyDCA = sim?.monthlyDCA ?? 0;
   const vehicleId = sim?.investmentVehicle?.id ?? 'nestvault';
 
+  // ─── Normalise allocations to integer totalling 100 ─────────────────────
+
+  const buildCleanAllocations = (source) => {
+    const raw = {};
+    source.forEach(h => { raw[h.assetId] = Math.round(h.allocation ?? 0); });
+    const total = Object.values(raw).reduce((s, v) => s + v, 0);
+    if (total !== 100 && Object.keys(raw).length > 0) {
+      const diff = 100 - total;
+      const largest = Object.entries(raw).reduce((a, b) => a[1] >= b[1] ? a : b)[0];
+      raw[largest] = Math.max(0, raw[largest] + diff);
+    }
+    return raw;
+  };
+
   // ─── Effects ─────────────────────────────────────────────────────────────
 
   useEffect(() => {
     if (visible) {
       fadeAnim.setValue(0);
       Animated.timing(fadeAnim, { toValue: 1, duration: 350, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
-      // seed rebalance sliders
-      const seed = {};
-      holdings.forEach(h => { seed[h.assetId] = h.allocation ?? 0; });
-      setRebalanceAllocations(seed);
+      setRebalanceAllocations(buildCleanAllocations(holdings));
       setRebalanceDone(false);
     }
   }, [visible, sim]);
@@ -166,40 +185,39 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
   // ─── Rebalance handlers ──────────────────────────────────────────────────
 
   const handleSliderChange = (assetId, newVal) => {
-    const rounded = Math.round(newVal);
+    const newPct = Math.round(newVal / 5) * 5; // snap to nearest 5%
+
     setRebalanceAllocations(prev => {
-      const next = { ...prev, [assetId]: rounded };
-      const otherIds = Object.keys(next).filter(id => id !== assetId);
-      const diff = Object.values(next).reduce((s, v) => s + v, 0) - 100;
-      if (diff !== 0 && otherIds.length > 0) {
-        let bestId = otherIds[0];
-        let bestDrift = -Infinity;
-        otherIds.forEach(id => {
-          const drift = (next[id] ?? 0) - (targetAllocations[id] ?? 0);
-          if (drift > bestDrift) { bestDrift = drift; bestId = id; }
-        });
-        next[bestId] = Math.max(0, (next[bestId] ?? 0) - diff);
+      const updated = { ...prev, [assetId]: newPct };
+      const total = Object.values(updated).reduce((s, v) => s + v, 0);
+      if (total === 100) return updated;
+
+      // Give the entire adjustment to the largest other asset
+      const diff = 100 - total;
+      const others = Object.keys(updated).filter(id => id !== assetId);
+      if (others.length === 0) return updated;
+      const largest = others.reduce((a, c) => (updated[a] ?? 0) >= (updated[c] ?? 0) ? a : c);
+      const adjusted = { ...updated, [largest]: Math.max(0, (updated[largest] ?? 0) + diff) };
+
+      // Final safety — force to 100
+      const finalTotal = Object.values(adjusted).reduce((s, v) => s + v, 0);
+      if (finalTotal !== 100) {
+        adjusted[largest] = Math.max(0, (adjusted[largest] ?? 0) + (100 - finalTotal));
       }
-      return next;
+      return adjusted;
     });
   };
 
   const snapToTarget = () => {
-    const seed = {};
-    holdings.forEach(h => { seed[h.assetId] = targetAllocations[h.assetId] ?? h.allocation ?? 0; });
-    // normalise to 100
-    const total = Object.values(seed).reduce((s, v) => s + v, 0);
-    if (total > 0 && total !== 100) {
-      const scale = 100 / total;
-      Object.keys(seed).forEach(k => { seed[k] = Math.round(seed[k] * scale); });
-      // fix rounding
-      const diff = Object.values(seed).reduce((s, v) => s + v, 0) - 100;
-      if (diff !== 0) {
-        const first = Object.keys(seed)[0];
-        seed[first] = Math.max(0, seed[first] - diff);
-      }
+    const snapped = {};
+    holdings.forEach(h => { snapped[h.assetId] = Math.round(targetAllocations[h.assetId] ?? h.allocation ?? 0); });
+    const total = Object.values(snapped).reduce((s, v) => s + v, 0);
+    if (total !== 100 && Object.keys(snapped).length > 0) {
+      const diff = 100 - total;
+      const largest = Object.entries(snapped).reduce((a, b) => a[1] >= b[1] ? a : b)[0];
+      snapped[largest] = Math.max(0, snapped[largest] + diff);
     }
-    setRebalanceAllocations(seed);
+    setRebalanceAllocations(snapped);
   };
 
   const handleRebalance = async () => {
@@ -208,23 +226,27 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
     setRebalancing(true);
     const uid = auth.currentUser?.uid;
     const rebalanceFee = Math.round(portfolioBalance * 0.001);
+    // Round all allocations to clean integers before saving
+    const cleanAllocations = Object.fromEntries(
+      Object.entries(rebalanceAllocations).map(([k, v]) => [k, Math.round(v)])
+    );
     const updatedHoldings = holdings.map(h => ({
       ...h,
-      allocation: rebalanceAllocations[h.assetId] ?? h.allocation,
-      value: Math.round(portfolioBalance * (rebalanceAllocations[h.assetId] ?? h.allocation) / 100),
+      allocation: cleanAllocations[h.assetId] ?? Math.round(h.allocation),
+      value: Math.round(portfolioBalance * (cleanAllocations[h.assetId] ?? h.allocation) / 100),
     }));
     const newBalance = portfolioBalance - rebalanceFee;
     const updatedWallets = (sim?.wallets ?? []).map(w =>
       w.type === 'investment'
         ? { ...w, balance: newBalance, holdings: updatedHoldings,
-            riskScore: calculateRiskScore(rebalanceAllocations),
-            expectedReturn: calculateExpectedReturn(rebalanceAllocations) }
+            riskScore: calculateRiskScore(cleanAllocations),
+            expectedReturn: calculateExpectedReturn(cleanAllocations) }
         : w
     );
     await firestoreUpdateDoc(firestoreDoc(db, 'simProgress', uid), {
       wallets: updatedWallets,
-      portfolioAllocations: rebalanceAllocations,
-      portfolioRiskScore: calculateRiskScore(rebalanceAllocations),
+      portfolioAllocations: cleanAllocations,
+      portfolioRiskScore: calculateRiskScore(cleanAllocations),
       lastRebalancedMonth: sim?.currentMonth ?? 1,
       updatedAt: Date.now(),
     });
@@ -315,11 +337,13 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
 
   const Header = () => (
     <View style={[p.header, { paddingTop: insets.top + 8 }]}>
-      <TouchableOpacity onPress={onClose} activeOpacity={0.7}>
-        <Text style={p.headerBack}>← Back</Text>
+      <TouchableOpacity onPress={onClose} style={p.backBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+        <Text style={p.backBtnText}>←</Text>
       </TouchableOpacity>
       <Text style={p.headerTitle}>Portfolio</Text>
-      <View style={{ width: 60 }} />
+      <TouchableOpacity onPress={onClose} style={p.closeBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+        <Text style={p.closeBtnText}>✕</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -327,7 +351,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
   //  TAB BAR
   // ═══════════════════════════════════════════════════════════════════════════
 
-  const TABS = ['Overview', 'Rebalance', 'Assets', 'Projections'];
+  const TABS = ['Accounts', 'Overview', 'Rebalance', 'Assets', 'Projections'];
 
   const TabBar = () => (
     <View style={p.tabBar}>
@@ -346,6 +370,109 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
       })}
     </View>
   );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  TAB 0 — ACCOUNTS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  const ALL_VEHICLES = [
+    { id: 'nestvault', label: 'NestVault', type: 'Robo-Advisor', icon: '🤖', ter: 0.65, annualReturn: { min: 6, max: 7 }, desc: 'Fully automated. Low effort, solid returns.' },
+    { id: 'drakon-rss', label: 'Drakon RSS Plan', type: 'ETF RSS Plan', icon: '📊', ter: 0.30, annualReturn: { min: 5, max: 6 }, desc: 'Regular shares savings plan. Disciplined DCA.' },
+    { id: 'apextrade-diy', label: 'ApexTrade DIY', type: 'DIY Portfolio', icon: '📈', ter: 0.20, annualReturn: { min: 4, max: 8 }, desc: 'Full control. Higher potential, more effort.' },
+  ];
+
+  const renderAccountsTab = () => {
+    const invWallets = (sim?.wallets ?? []).filter(w => w.type === 'investment');
+    const existingVehicleIds = invWallets.map(w => w.vehicleId);
+    const canAddMore = invWallets.length < 3;
+
+    return (
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 40 }}>
+
+        {invWallets.map(w => (
+          <View key={w.id} style={pm.vehicleCard}>
+            <View style={pm.vehicleCardHeader}>
+              <View style={pm.vehicleIconCircle}>
+                <Text style={{ fontSize: 20 }}>{w.icon ?? '📈'}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={pm.vehicleCardName}>{w.label}</Text>
+                <Text style={pm.vehicleCardType}>
+                  {ALL_VEHICLES.find(v => v.id === w.vehicleId)?.type ?? 'Investment'}
+                  {' · '}{(w.ter ?? 0).toFixed(2)}% TER
+                </Text>
+              </View>
+              <View style={{ alignItems: 'flex-end' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                  <Image source={COIN} style={{ width: 14, height: 14 }} />
+                  <Text style={pm.vehicleBalance}>{Math.round(w.balance ?? 0).toLocaleString()}</Text>
+                </View>
+                <Text style={pm.vehicleReturn}>{(w.expectedReturn ?? 0).toFixed(1)}% p.a.</Text>
+              </View>
+            </View>
+
+            {/* DCA section — read only, edit in Bank */}
+            <View style={pm.vehicleDCARow}>
+              <View>
+                <Text style={pm.vehicleDCALabel}>MONTHLY DCA</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                  <Image source={COIN} style={{ width: 12, height: 12 }} />
+                  <Text style={pm.vehicleDCAAmount}>
+                    {Math.round(w.monthlyDCA ?? 0).toLocaleString()}
+                    <Text style={pm.vehicleDCAUnit}>/mo</Text>
+                  </Text>
+                </View>
+                <Text style={pm.vehicleDCAHint}>Manage in Bank → Transfers</Text>
+              </View>
+              <TouchableOpacity
+                style={[pm.vehicleActionBtn, { backgroundColor: MODULE_COLORS['module-3'].colorLight }]}
+                onPress={() => {
+                  setLumpSumWalletId(w.id);
+                  setLumpSumAmount('');
+                }}
+                activeOpacity={0.85}
+              >
+                <Text style={[pm.vehicleActionBtnText, { color: MODULE_COLORS['module-3'].color }]}>
+                  Top up
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {(w.holdings ?? []).length > 0 && (
+              <Text style={pm.vehicleHoldingsNote}>
+                {w.holdings.length} asset{w.holdings.length !== 1 ? 's' : ''} · {w.riskScore ?? 0} risk score
+              </Text>
+            )}
+          </View>
+        ))}
+
+        {canAddMore && (
+          <View style={pm.addVehicleSection}>
+            <Text style={pm.addVehicleTitle}>OPEN A NEW ACCOUNT</Text>
+            <Text style={pm.addVehicleSub}>You can hold up to 3 investment accounts simultaneously.</Text>
+            {ALL_VEHICLES.filter(v => !existingVehicleIds.includes(v.id)).map(v => (
+              <TouchableOpacity key={v.id} style={pm.addVehicleCard} onPress={() => setAddingVehicle(v.id)} activeOpacity={0.88}>
+                <Text style={{ fontSize: 24 }}>{v.icon}</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={pm.addVehicleCardName}>{v.label}</Text>
+                  <Text style={pm.addVehicleCardType}>{v.type} · {v.ter}% TER</Text>
+                  <Text style={pm.addVehicleCardDesc}>{v.desc}</Text>
+                  <Text style={pm.addVehicleCardReturn}>{v.annualReturn.min}–{v.annualReturn.max}% expected return</Text>
+                </View>
+                <Text style={{ fontSize: 20, color: Colors.textMuted }}>{'\u203A'}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        {!canAddMore && (
+          <View style={pm.maxVehiclesNote}>
+            <Text style={pm.maxVehiclesText}>{'\u2713'} Maximum 3 investment accounts reached</Text>
+          </View>
+        )}
+      </ScrollView>
+    );
+  };
 
   // ═══════════════════════════════════════════════════════════════════════════
   //  TAB 1 — OVERVIEW
@@ -388,11 +515,6 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                   ))}
                 </G>
               </Svg>
-              {/* Center label */}
-              <View style={{ position: 'absolute', top: pieSize / 2 - 18 + 12, alignSelf: 'center' }}>
-                <Text style={{ fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary, textAlign: 'center' }}>{holdings.length}</Text>
-                <Text style={{ fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted, textAlign: 'center' }}>Assets</Text>
-              </View>
             </View>
 
             {/* Legend */}
@@ -401,7 +523,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                 <View key={h.assetId} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                   <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: h.color ?? Colors.primary }} />
                   <Text style={{ fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary, flex: 1 }}>{h.name}</Text>
-                  <Text style={{ fontFamily: Fonts.bold, fontSize: 12, color: Colors.textPrimary }}>{h.allocation ?? 0}%</Text>
+                  <Text style={{ fontFamily: Fonts.bold, fontSize: 12, color: Colors.textPrimary }}>{Math.round(h.allocation ?? 0)}%</Text>
                 </View>
               ))}
             </View>
@@ -446,10 +568,10 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                   </View>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                  <Text style={[p.holdingPct, { color: h.color ?? Colors.primary }]}>{actual}%</Text>
-                  {drift !== 0 && (
+                  <Text style={[p.holdingPct, { color: h.color ?? Colors.primary }]}>{Math.round(actual)}%</Text>
+                  {Math.round(drift) !== 0 && (
                     <Text style={{ fontFamily: Fonts.semiBold, fontSize: 10, color: driftColor }}>
-                      {drift > 0 ? '+' : ''}{drift}% drift
+                      {drift > 0 ? '+' : ''}{Math.round(drift)}% drift
                     </Text>
                   )}
                 </View>
@@ -507,7 +629,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
   // ═══════════════════════════════════════════════════════════════════════════
 
   const renderRebalance = () => {
-    const totalAlloc = Object.values(rebalanceAllocations).reduce((s, v) => s + v, 0);
+    const totalAlloc = Object.values(rebalanceAllocations).reduce((s, v) => s + Math.round(v), 0);
     const isValid = totalAlloc === 100;
     const rebalanceFee = Math.round(portfolioBalance * 0.001);
     const newRisk = calculateRiskScore(rebalanceAllocations);
@@ -534,10 +656,10 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
             <View style={p.card}>
               <Text style={p.sectionTitle}>CURRENT VS NEW ALLOCATION</Text>
               <View style={{ flexDirection: 'row', marginBottom: 8 }}>
-                <Text style={[p.driftHeader, { flex: 1 }]}>Asset</Text>
-                <Text style={[p.driftHeader, { width: 50, textAlign: 'right' }]}>Current</Text>
-                <Text style={[p.driftHeader, { width: 50, textAlign: 'right' }]}>New</Text>
-                <Text style={[p.driftHeader, { width: 50, textAlign: 'right' }]}>Drift</Text>
+                <Text style={[p.driftHeader, { flex: 2 }]}>Asset</Text>
+                <Text style={[p.driftHeader, { minWidth: 44, textAlign: 'right' }]}>Now</Text>
+                <Text style={[p.driftHeader, { minWidth: 44, textAlign: 'right' }]}>New</Text>
+                <Text style={[p.driftHeader, { minWidth: 44, textAlign: 'right' }]}>Drift</Text>
               </View>
               {holdings.map(h => {
                 const current = h.allocation ?? 0;
@@ -546,14 +668,14 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                 const driftColor = drift > 0 ? Colors.successDark : drift < 0 ? Colors.danger : Colors.textMuted;
                 return (
                   <View key={h.assetId} style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: Colors.border + '60' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                       <Text style={{ fontSize: 14 }}>{h.icon}</Text>
-                      <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: Colors.textPrimary }} numberOfLines={1}>{h.name}</Text>
+                      <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: Colors.textPrimary, flexShrink: 1 }} numberOfLines={1}>{h.name}</Text>
                     </View>
-                    <Text style={{ width: 50, textAlign: 'right', fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary }}>{current}%</Text>
-                    <Text style={{ width: 50, textAlign: 'right', fontFamily: Fonts.bold, fontSize: 12, color: Colors.textPrimary }}>{newAlloc}%</Text>
-                    <Text style={{ width: 50, textAlign: 'right', fontFamily: Fonts.semiBold, fontSize: 12, color: driftColor }}>
-                      {drift > 0 ? '+' : ''}{drift}%
+                    <Text style={{ minWidth: 44, textAlign: 'right', fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary }}>{Math.round(current)}%</Text>
+                    <Text style={{ minWidth: 44, textAlign: 'right', fontFamily: Fonts.bold, fontSize: 12, color: Colors.textPrimary }}>{Math.round(newAlloc)}%</Text>
+                    <Text style={{ minWidth: 44, textAlign: 'right', fontFamily: Fonts.semiBold, fontSize: 12, color: driftColor }}>
+                      {drift > 0 ? '+' : ''}{Math.round(drift)}%
                     </Text>
                   </View>
                 );
@@ -569,13 +691,13 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                   <View key={h.assetId} style={{ marginBottom: 16 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
                       <Text style={{ fontFamily: Fonts.semiBold, fontSize: 13, color: Colors.textPrimary }}>{h.icon} {h.name}</Text>
-                      <Text style={{ fontFamily: Fonts.bold, fontSize: 13, color: h.color ?? Colors.primary }}>{val}%</Text>
+                      <Text style={{ fontFamily: Fonts.bold, fontSize: 13, color: h.color ?? Colors.primary }}>{Math.round(val)}%</Text>
                     </View>
                     <Slider
                       style={{ width: '100%', height: 36 }}
                       minimumValue={0}
                       maximumValue={100}
-                      step={1}
+                      step={5}
                       value={val}
                       onValueChange={(v) => handleSliderChange(h.assetId, v)}
                       minimumTrackTintColor={h.color ?? Colors.primary}
@@ -597,7 +719,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
               <Text style={p.sectionTitle}>REBALANCE SUMMARY</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 }}>
                 <Text style={p.metaText}>Total allocation</Text>
-                <Text style={[p.metaText, { fontFamily: Fonts.bold, color: isValid ? Colors.successDark : Colors.danger }]}>{totalAlloc}%</Text>
+                <Text style={[p.metaText, { fontFamily: Fonts.bold, color: isValid ? Colors.successDark : Colors.danger }]}>{Math.round(totalAlloc)}%</Text>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 }}>
                 <Text style={p.metaText}>New risk score</Text>
@@ -618,7 +740,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
 
               {!isValid && (
                 <Text style={{ fontFamily: Fonts.semiBold, fontSize: 12, color: Colors.danger, textAlign: 'center', marginTop: 8 }}>
-                  Total must equal 100% (currently {totalAlloc}%)
+                  Total must equal 100% (currently {Math.round(totalAlloc)}%)
                 </Text>
               )}
 
@@ -757,7 +879,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text style={p.assetName}>{h.name}</Text>
-                      <Text style={p.assetMeta}>{h.allocation}% allocation</Text>
+                      <Text style={p.assetMeta}>{Math.round(h.allocation ?? 0)}% allocation</Text>
                     </View>
                     <TouchableOpacity
                       style={[p.removeBtn, holdings.length <= 1 && { opacity: 0.3 }]}
@@ -775,7 +897,7 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
                         Remove {h.name}?
                       </Text>
                       <Text style={[p.metaText, { marginBottom: 12 }]}>
-                        Its {h.allocation}% allocation will be redistributed equally across remaining holdings.
+                        Its {Math.round(h.allocation ?? 0)}% allocation will be redistributed equally across remaining holdings.
                       </Text>
                       <TouchableOpacity
                         style={[p.ctaBtn, { backgroundColor: Colors.danger, height: 44 }]}
@@ -1009,11 +1131,84 @@ export default function PortfolioModal({ visible, onClose, sim, onSimUpdate }) {
       <View style={p.root}>
         <Header />
         <TabBar />
+        {activeTab === 'Accounts' && renderAccountsTab()}
         {activeTab === 'Overview' && renderOverview()}
         {activeTab === 'Rebalance' && renderRebalance()}
         {activeTab === 'Assets' && renderAssets()}
         {activeTab === 'Projections' && renderProjections()}
       </View>
+
+      {/* Lump sum modal */}
+      {lumpSumWalletId && (
+        <Modal transparent animationType="fade">
+          <View style={pm.modalBackdrop}>
+            <View style={pm.modalCard}>
+              <Text style={pm.modalTitle}>Top Up Investment</Text>
+              <Text style={pm.modalSub}>One-time transfer into {(sim?.wallets ?? []).find(w => w.id === lumpSumWalletId)?.label}. Distributed across your current holdings.</Text>
+              {(() => { const bankBal = Math.round((sim?.wallets ?? []).find(w => w.type === 'bank')?.balance ?? 0); return <Text style={pm.modalHint}>Available: {'\uD83E\uDE99'} {bankBal.toLocaleString()} in bank</Text>; })()}
+              <View style={pm.modalInput}>
+                <Image source={COIN} style={{ width: 16, height: 16 }} />
+                <TextInput style={pm.modalInputText} value={lumpSumAmount} onChangeText={setLumpSumAmount} keyboardType="numeric" autoFocus maxLength={7} placeholder="e.g. 1000" placeholderTextColor={Colors.textMuted} />
+              </View>
+              <View style={pm.modalBtns}>
+                <TouchableOpacity style={pm.modalCancel} onPress={() => { setLumpSumWalletId(null); setLumpSumAmount(''); }}>
+                  <Text style={pm.modalCancelText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={pm.modalConfirm} onPress={async () => {
+                  const val = parseInt(lumpSumAmount, 10);
+                  const bankBal = (sim?.wallets ?? []).find(w => w.type === 'bank')?.balance ?? 0;
+                  if (!val || val <= 0 || val > bankBal) return;
+                  const uid = auth.currentUser?.uid;
+                  await lumpSumInvest(uid, lumpSumWalletId, val);
+                  setLumpSumWalletId(null); setLumpSumAmount('');
+                  onSimUpdate();
+                }}>
+                  <Text style={pm.modalConfirmText}>Invest {'\u2192'}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
+
+      {/* Add vehicle confirm modal */}
+      {addingVehicle && (() => {
+        const v = ALL_VEHICLES.find(vv => vv.id === addingVehicle);
+        if (!v) return null;
+        return (
+          <Modal transparent animationType="fade">
+            <View style={pm.modalBackdrop}>
+              <View style={pm.modalCard}>
+                <Text style={{ fontSize: 40, textAlign: 'center', marginBottom: 8 }}>{v.icon}</Text>
+                <Text style={pm.modalTitle}>Open {v.label}?</Text>
+                <Text style={pm.modalSub}>{v.desc}</Text>
+                <View style={pm.vehicleStatRow}>
+                  <View style={pm.vehicleStat}><Text style={pm.vehicleStatLabel}>TER</Text><Text style={pm.vehicleStatValue}>{v.ter}%</Text></View>
+                  <View style={pm.vehicleStat}><Text style={pm.vehicleStatLabel}>RETURN</Text><Text style={pm.vehicleStatValue}>{v.annualReturn.min}–{v.annualReturn.max}%</Text></View>
+                  <View style={pm.vehicleStat}><Text style={pm.vehicleStatLabel}>TYPE</Text><Text style={pm.vehicleStatValue} numberOfLines={1}>{v.type}</Text></View>
+                </View>
+                {vehicleError ? <Text style={pm.vehicleError}>{vehicleError}</Text> : null}
+                <View style={pm.modalBtns}>
+                  <TouchableOpacity style={pm.modalCancel} onPress={() => { setAddingVehicle(null); setVehicleError(''); }}>
+                    <Text style={pm.modalCancelText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[pm.modalConfirm, addVehicleLoading && { opacity: 0.6 }]} disabled={addVehicleLoading} onPress={async () => {
+                    setAddVehicleLoading(true); setVehicleError('');
+                    try {
+                      const uid = auth.currentUser?.uid;
+                      await openInvestmentVehicle(uid, addingVehicle);
+                      setAddingVehicle(null); setAddVehicleLoading(false);
+                      onSimUpdate();
+                    } catch (e) { setVehicleError(e.message ?? 'Something went wrong'); setAddVehicleLoading(false); }
+                  }}>
+                    <Text style={pm.modalConfirmText}>{addVehicleLoading ? 'Opening...' : 'Open account \u2192'}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        );
+      })()}
     </Modal>
   );
 }
@@ -1035,6 +1230,10 @@ const p = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   headerBack: { fontFamily: Fonts.semiBold, fontSize: 14, color: Colors.primary },
+  closeBtn: { padding: 4 },
+  closeBtnText: { fontFamily: Fonts.bold, fontSize: 18, color: Colors.textMuted },
+  backBtn: { padding: 4 },
+  backBtnText: { fontFamily: Fonts.bold, fontSize: 18, color: Colors.textMuted },
   headerTitle: { fontFamily: Fonts.bold, fontSize: 17, color: Colors.textPrimary },
 
   // Tab bar
@@ -1170,4 +1369,51 @@ const p = StyleSheet.create({
     borderRadius: Radii.full, overflow: 'hidden',
   },
   finCardText: { fontFamily: Fonts.regular, fontSize: 14, color: Colors.textSecondary, lineHeight: 22 },
+});
+
+// ─── Accounts tab styles ─────────────────────────────────────────────────────
+const pm = StyleSheet.create({
+  vehicleCard: { backgroundColor: Colors.white, borderRadius: 16, padding: 16, marginBottom: 12, shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1 },
+  vehicleCardHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 12 },
+  vehicleIconCircle: { width: 44, height: 44, borderRadius: 22, backgroundColor: MODULE_COLORS['module-4'].colorLight, alignItems: 'center', justifyContent: 'center' },
+  vehicleCardName: { fontFamily: Fonts.bold, fontSize: 15, color: Colors.textPrimary },
+  vehicleCardType: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 2 },
+  vehicleBalance: { fontFamily: Fonts.extraBold, fontSize: 16, color: Colors.textPrimary },
+  vehicleReturn: { fontFamily: Fonts.regular, fontSize: 11, color: MODULE_COLORS['module-3'].color, marginTop: 2 },
+  vehicleDCARow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTopWidth: 1, borderTopColor: Colors.border },
+  vehicleDCALabel: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.1, color: Colors.textMuted, marginBottom: 3 },
+  vehicleDCAAmount: { fontFamily: Fonts.extraBold, fontSize: 16, color: Colors.textPrimary },
+  vehicleDCAUnit: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted },
+  vehicleDCAHint: { fontFamily: Fonts.regular, fontSize: 10, color: Colors.textMuted, marginTop: 2, fontStyle: 'italic' },
+  vehicleActionBtn: { backgroundColor: MODULE_COLORS['module-4'].colorLight, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 6 },
+  vehicleActionBtnText: { fontFamily: Fonts.bold, fontSize: 12, color: MODULE_COLORS['module-4'].color },
+  vehicleHoldingsNote: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginTop: 8 },
+  addVehicleSection: { marginTop: 8 },
+  addVehicleTitle: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1.2, color: Colors.textMuted, marginBottom: 6 },
+  addVehicleSub: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, marginBottom: 12 },
+  addVehicleCard: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: Colors.white, borderRadius: 14, padding: 14, marginBottom: 10, borderWidth: 1.5, borderColor: Colors.border, shadowColor: '#000', shadowOpacity: 0.03, shadowRadius: 4, elevation: 1 },
+  addVehicleCardName: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textPrimary, marginBottom: 2 },
+  addVehicleCardType: { fontFamily: Fonts.regular, fontSize: 11, color: Colors.textMuted, marginBottom: 3 },
+  addVehicleCardDesc: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textSecondary, lineHeight: 17, marginBottom: 3 },
+  addVehicleCardReturn: { fontFamily: Fonts.bold, fontSize: 11, color: MODULE_COLORS['module-3'].color },
+  maxVehiclesNote: { backgroundColor: MODULE_COLORS['module-3'].colorLight, borderRadius: 10, padding: 12, alignItems: 'center', marginTop: 8 },
+  maxVehiclesText: { fontFamily: Fonts.bold, fontSize: 13, color: MODULE_COLORS['module-3'].color },
+  vehicleStatRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
+  vehicleStat: { flex: 1, backgroundColor: Colors.background, borderRadius: 8, padding: 10, alignItems: 'center' },
+  vehicleStatLabel: { fontFamily: Fonts.bold, fontSize: 9, letterSpacing: 1, color: Colors.textMuted, marginBottom: 3 },
+  vehicleStatValue: { fontFamily: Fonts.bold, fontSize: 13, color: Colors.textPrimary },
+  vehicleError: { fontFamily: Fonts.regular, fontSize: 12, color: '#FF4444', textAlign: 'center', marginBottom: 12 },
+  modalBackdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'center', alignItems: 'center', padding: 32 },
+  modalCard: { backgroundColor: Colors.white, borderRadius: 20, padding: 24, width: '100%' },
+  modalTitle: { fontFamily: Fonts.extraBold, fontSize: 18, color: Colors.textPrimary, marginBottom: 4 },
+  modalSub: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted, marginBottom: 16, lineHeight: 20 },
+  modalHint: { fontFamily: Fonts.regular, fontSize: 12, color: Colors.textMuted, marginBottom: 8 },
+  modalInput: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: Colors.background, borderRadius: 12, padding: 14, marginBottom: 20 },
+  modalInputText: { flex: 1, fontFamily: Fonts.extraBold, fontSize: 22, color: Colors.textPrimary, paddingVertical: 0 },
+  modalUnit: { fontFamily: Fonts.regular, fontSize: 13, color: Colors.textMuted },
+  modalBtns: { flexDirection: 'row', gap: 10 },
+  modalCancel: { flex: 1, borderWidth: 1.5, borderColor: Colors.border, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
+  modalCancelText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.textSecondary },
+  modalConfirm: { flex: 2, backgroundColor: MODULE_COLORS['module-4'].color, borderRadius: 12, paddingVertical: 12, alignItems: 'center' },
+  modalConfirmText: { fontFamily: Fonts.bold, fontSize: 14, color: Colors.white },
 });
